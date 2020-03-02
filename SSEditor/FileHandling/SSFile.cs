@@ -46,6 +46,66 @@ namespace SSEditor.FileHandling
         }
         #endregion
 
+        public string ReadValue(List<string> JsonPath)
+        {
+            string result;
+
+            if (JsonContent == null)
+                return null;
+            JObject localDepth = JsonContent;
+            JToken FoundToken = new JValue(null as string);
+            foreach (string field in JsonPath)
+            {
+                if (localDepth.TryGetValue(field, out FoundToken))
+                {
+                    if (FoundToken.Type == JTokenType.Object)
+                    {
+                        localDepth = FoundToken as JObject;
+                    }
+                }
+            }
+            if (FoundToken==null || FoundToken.Type == JTokenType.Object)
+            {
+                result = null;
+            }
+            else
+            { 
+                result = FoundToken.Value<string>();
+            }
+            return result;
+        }
+
+        public List<string> ReadArray(List<string> JsonPath)
+        {
+            List<string> result;
+
+            if (JsonContent == null)
+                return null;
+            JObject localDepth = JsonContent;
+            JToken FoundToken = new JValue(null as string);
+            foreach (string field in JsonPath)
+            {
+                if (localDepth.TryGetValue(field, out FoundToken))
+                {
+                    if (FoundToken.Type == JTokenType.Object)
+                    {
+                        localDepth = FoundToken as JObject;
+                    }
+                }
+            }
+
+            if (FoundToken == null || !FoundToken.HasValues)
+            {
+                result = new List<string>();
+            }
+            else
+            {
+                result = FoundToken.Values<string>().ToList<string>();
+            }
+
+
+            return result;
+        }
 
         public void HandleDeserializationError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs errorArgs)
         {
