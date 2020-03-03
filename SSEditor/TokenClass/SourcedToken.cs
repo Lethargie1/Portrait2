@@ -9,15 +9,32 @@ namespace SSEditor.TokenClass
 {
     abstract class SourcedToken
     {
-        public string Value { get; set; }
-        public SSFile Source { get; set; } 
-        public abstract bool CheckValidity();
+        private string _Value;
+        public string Value
+        {
+            get
+            {
+                if (_Value==null || !this.IsValid)
+                {
+                    return this.DefaultValue;
+                }else
+                {
+                    return _Value;
+                }
+            }
+            protected set => _Value = value;
+        }
+        public SSFile Source { get; protected set; }
+        public abstract string DefaultValue { get; }
+        public abstract bool IsValid { get; }
+
 
         public SourcedToken() { }
         public SourcedToken(string value, SSFile file)
         {
-            Value = value;
+            _Value = value;
             Source = file;
         }
+        
     }
 }

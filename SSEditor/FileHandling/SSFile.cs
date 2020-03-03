@@ -25,11 +25,14 @@ namespace SSEditor.FileHandling
         JObject _JsonContent;
         public JObject JsonContent { get => _JsonContent; }
 
+        string _ModName;
+        public string ModName { get => _ModName; }
         #endregion
 
         #region Constructors
         public SSFile(URLRelative url)
         {
+            _ModName = url.LinkingUrl;
             _Url = url ?? throw new ArgumentNullException("The Url cannot be null.");
             if (!Url.IsComplete)
                 throw new ArgumentNullException("The Url must be complete.");
@@ -64,7 +67,7 @@ namespace SSEditor.FileHandling
                     }
                 }
             }
-            if (FoundToken==null || FoundToken.Type == JTokenType.Object)
+            if (FoundToken==null || FoundToken.Type == JTokenType.Object || FoundToken.Count()>1)
             {
                 result = null;
             }
@@ -96,7 +99,7 @@ namespace SSEditor.FileHandling
 
             if (FoundToken == null || !FoundToken.HasValues)
             {
-                result = new List<string>();
+                result = null;
             }
             else
             {
