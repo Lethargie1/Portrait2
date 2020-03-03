@@ -22,26 +22,19 @@ namespace SSEditor
             SSFile filetest = new SSFile(FileUrl);
             List<SSFile> ListTest = new List<SSFile> { new SSFile(FileUrl), new SSFile(FileUrl1), new SSFile(FileUrl2) };
 
-            List<string> TokenPath = new List<string> { "music", "theme" };
+            List<string> TokenPath = new List<string> { "knownShips", "hulls" };
             List<string> TokenPath2 = new List<string> { "music" };
             List<string> TokenPath3 = new List<string> { "color" };
             string value = filetest.ReadValue(TokenPath);
-            MonitoredValue<Text> Monitor = new MonitoredValue<Text>();
+            MonitoredArray<Text> Monitor = new MonitoredArray<Text>();
             Monitor.FieldPath = TokenPath;
             Monitor.Resolve(ListTest);
-
-            MonitoredArrayValue<Color> MonitorColor = new MonitoredArrayValue<Color>();
-            MonitorColor.FieldPath = TokenPath3;
-            MonitorColor.Resolve(filetest);
-            MonitorColor.FieldPath = TokenPath;
-            MonitorColor.Resolve(filetest);
 
             List<string> values = filetest.ReadArray(new List<string> { "priorityShips","hulls" });
 
             Console.WriteLine(value);
             Console.WriteLine(values.FirstOrDefault());
-            Console.WriteLine(Monitor.Value);
-            Console.WriteLine(MonitorColor.Value);
+
 
             Console.ReadKey();
         }
