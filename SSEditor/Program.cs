@@ -13,14 +13,18 @@ namespace SSEditor
     {
         static void Main()
         {
-            URLRelative ModUrl = new URLRelative("E:\\SS\\Starsector", "starsector-core", "");
-            URLRelative ModUrl1 = new URLRelative("E:\\SS\\Starsector", "mods\\tahlan", "");
-            URLRelative ModUrl2 = new URLRelative("E:\\SS\\Starsector", "mods\\Ship and Weapon Pack", "");
-            URLRelative FileUrl = ModUrl.CreateFromCommon("data\\world\\factions\\hegemony.faction");
-            URLRelative FileUrl1 = ModUrl1.CreateFromCommon("data\\world\\factions\\hegemony.faction");
-            URLRelative FileUrl2 = ModUrl2.CreateFromCommon("data\\world\\factions\\hegemony.faction");
-            SSFile filetest = new SSFile(FileUrl);
-            List<SSFile> ListTest = new List<SSFile> { new SSFile(FileUrl), new SSFile(FileUrl1), new SSFile(FileUrl2) };
+            SSBaseUrl SSUrl = new SSBaseUrl("E:\\SS\\Starsector");
+            SSLinkUrl CoreUrl = new SSLinkUrl("starsector-core");
+            SSLinkUrl TahlanUrl = new SSLinkUrl("mods\\tahlan");
+            SSLinkUrl SWPUrl = new SSLinkUrl("mods\\Ship and Weapon Pack");
+            SSRelativeUrl HegemonyUrl = new SSRelativeUrl("data\\world\\factions\\hegemony.faction");
+
+           
+            SSFile filetest = new SSFile(SSUrl + CoreUrl + HegemonyUrl);
+            List<SSFile> ListTest = new List<SSFile> {
+                new SSFile(SSUrl + CoreUrl + HegemonyUrl),
+                new SSFile(SSUrl + TahlanUrl + HegemonyUrl),
+                new SSFile(SSUrl + SWPUrl + HegemonyUrl) };
 
             List<string> TokenPath = new List<string> { "knownShips", "hulls" };
             List<string> TokenPath2 = new List<string> { "music" };

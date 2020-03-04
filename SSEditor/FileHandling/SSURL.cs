@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    abstract class SSUrl
+    public abstract class SSUrl
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public override abstract string ToString();
     }
 
-    class SSBaseUrl : SSUrl, ISSBase, IEquatable<SSBaseUrl>
+    public class SSBaseUrl : SSUrl, IEquatable<SSBaseUrl>
     {
         public string Base { get; set; }
 
@@ -51,7 +51,7 @@ namespace SSEditor.FileHandling
         }
     }
 
-    class SSLinkUrl : SSUrl, IEquatable<SSLinkUrl>
+    public class SSLinkUrl : SSUrl, IEquatable<SSLinkUrl>
     {
         public string Link { get; set; }
 
@@ -78,7 +78,7 @@ namespace SSEditor.FileHandling
             return LinkRela;
         }
     }
-    class SSRelativeUrl : SSUrl, IEquatable<SSRelativeUrl>
+    public class SSRelativeUrl : SSUrl, IEquatable<SSRelativeUrl>
     {
         public string Relative { get; set; }
 
@@ -98,10 +98,17 @@ namespace SSEditor.FileHandling
         }
     }
 
-    class SSLinkRelativeUrl : SSUrl
+    public class SSLinkRelativeUrl : SSUrl
     {
         public string Link { get; set; }
         public string Relative { get; set; }
+
+        public SSLinkRelativeUrl() { return; }
+        public SSLinkRelativeUrl(string link, string relative)
+        {
+            Link = link;
+            Relative = relative;
+        }
 
         public override string ToString()
         {
@@ -114,7 +121,7 @@ namespace SSEditor.FileHandling
         }
     }
 
-    class SSBaseLinkUrl : SSUrl
+    public class SSBaseLinkUrl : SSUrl
         {
         public string Base { get; set; }
         public string Link { get; set; }
@@ -139,7 +146,7 @@ namespace SSEditor.FileHandling
         }
     }
 
-    class SSFullUrl : SSUrl
+    public class SSFullUrl : SSUrl
     {
         public string Base { get; set; }
         public string Link { get; set; }

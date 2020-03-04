@@ -21,6 +21,7 @@ namespace SSEditor.FileHandling
 
         URLRelative _Url;
         public URLRelative Url { get => _Url; }
+        public SSLinkRelativeUrl RelativePath { get; private set; }
 
         JObject _JsonContent;
         public JObject JsonContent { get => _JsonContent; }
@@ -30,15 +31,21 @@ namespace SSEditor.FileHandling
         #endregion
 
         #region Constructors
-        public SSFile(URLRelative url)
+        public SSFile(SSFullUrl fullUrl)
         {
-            _ModName = url.LinkingUrl;
-            _Url = url ?? throw new ArgumentNullException("The Url cannot be null.");
-            if (!Url.IsComplete)
-                throw new ArgumentNullException("The Url must be complete.");
-            FileInfo info = new FileInfo(Url.FullUrl);
+            this.ExtractFile(fullUrl);
+        }
+        #endregion
+
+        public void ExtractFile(SSFullUrl fullUrl)
+        {
+            
+            RelativePath = new SSLinkRelativeUrl(fullUrl?.Link ?? throw new ArgumentNullException("The Url cannot be null."), fullUrl?.Relative ?? throw new ArgumentNullException("The Url cannot be null."));
+            _ModName = fullUrl.Link;
+
+            FileInfo info = new FileInfo(fullUrl.ToString());
             _FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
-            string ReadResult = File.ReadAllText(Url.FullUrl);
+            string ReadResult = File.ReadAllText(fullUrl.ToString());
             var result = Regex.Replace(ReadResult, "#.*", "");
             using (var jsonReader = new JsonTextReader(new StringReader(result)))
             {
@@ -47,7 +54,6 @@ namespace SSEditor.FileHandling
                 _JsonContent = value as JObject;
             }
         }
-        #endregion
 
         public string ReadValue(List<string> JsonPath)
         {

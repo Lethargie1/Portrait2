@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileHandling\ISSUrl.cs" />
     <Compile Include="FileHandling\SSFile.cs" />
     <Compile Include="FileHandling\SSURL.cs" />
     <Compile Include="FileHandling\URLRelative.cs" />
