@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileHandling\SSFile.cs" />
+    <Compile Include="FileHandling\SSFileGroup.cs" />
     <Compile Include="FileHandling\SSURL.cs" />
     <Compile Include="FileHandling\URLRelative.cs" />
     <Compile Include="JsonHandling\JsonExtension.cs" />

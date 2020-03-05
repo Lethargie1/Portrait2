@@ -38,19 +38,19 @@ namespace SSEditor
             
 
             foreach (Text t in Monitor.ContentArray)
-                Console.WriteLine(t.Value);
+                Console.WriteLine(t.Source);
 
             ExternalList.Add(CoreHeg);
             Console.WriteLine("====Heg====");
 
             foreach (Text t in Monitor.ContentArray)
-                Console.WriteLine(t.Value);
+                Console.WriteLine(t.Source);
 
             ExternalList.Remove(TahlanHeg);
             Console.WriteLine("====Heg====");
 
             foreach (Text t in Monitor.ContentArray)
-                Console.WriteLine(t.Value);
+                Console.WriteLine(t.Source);
 
             Console.ReadKey();
         }
