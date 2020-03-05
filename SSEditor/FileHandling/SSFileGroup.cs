@@ -1,4 +1,4 @@
-﻿using SSEditor.MonitoredTokenClass;
+﻿using SSEditor.MonitoringField;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,13 +10,13 @@ namespace SSEditor.FileHandling
 {
     class SSFileGroup
     {
-        public ObservableCollection<SSFile> Files { get;} = new ObservableCollection<SSFile>();
-        public List<MonitoredField> MonitoredFields { get; } = new List<MonitoredField>();
+        public ObservableCollection<SSFile> CommonFiles { get;} = new ObservableCollection<SSFile>();
+        protected List<MonitoredField> MonitoredFields { get; } = new List<MonitoredField>();
 
-        public SSFileGroup()
+        public void SynchroniseMonitored()
         {
             foreach (MonitoredField field in MonitoredFields)
-                field.ReplaceFiles(Files);
+                field.ReplaceFiles(CommonFiles);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using SSEditor.FileHandling;
-using SSEditor.MonitoredTokenClass;
+using SSEditor.MonitoringField;
 using SSEditor.TokenClass;
 using System;
 using System.Collections.Generic;
@@ -30,27 +30,23 @@ namespace SSEditor
             List<string> TokenPath3 = new List<string> { "color" };
             List<string> TokenPath4 = new List<string> { "priorityShips", "hulls" };
 
-            MonitoredArray<Text> Monitor = new MonitoredArray<Text>();
-            Monitor.FieldPath = TokenPath;
-            ObservableCollection<SSFile> ExternalList = new ObservableCollection<SSFile>();
-            ExternalList.Add(TahlanHeg);
-            Monitor.ReplaceFiles(ExternalList);
-            
+            SSFactionGroup HegemonyFaction = new SSFactionGroup();
+            HegemonyFaction.CommonFiles.Add(TahlanHeg);
 
-            foreach (Text t in Monitor.ContentArray)
-                Console.WriteLine(t.Source);
+            foreach (Text t in HegemonyFaction.KnownHull.ContentArray)
+                Console.WriteLine(t.Value + " " + t.Source);
 
-            ExternalList.Add(CoreHeg);
+            HegemonyFaction.CommonFiles.Add(CoreHeg);
             Console.WriteLine("====Heg====");
 
-            foreach (Text t in Monitor.ContentArray)
-                Console.WriteLine(t.Source);
+            foreach (Text t in HegemonyFaction.KnownHull.ContentArray)
+                Console.WriteLine(t.Value + " " + t.Source);
 
-            ExternalList.Remove(TahlanHeg);
+            HegemonyFaction.CommonFiles.Remove(TahlanHeg);
             Console.WriteLine("====Heg====");
 
-            foreach (Text t in Monitor.ContentArray)
-                Console.WriteLine(t.Source);
+            foreach (Text t in HegemonyFaction.KnownHull.ContentArray)
+                Console.WriteLine(t.Value + " " + t.Source);
 
             Console.ReadKey();
         }

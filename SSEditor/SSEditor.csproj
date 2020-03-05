@@ -46,15 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileHandling\SSFactionGroup.cs" />
     <Compile Include="FileHandling\SSFile.cs" />
     <Compile Include="FileHandling\SSFileGroup.cs" />
     <Compile Include="FileHandling\SSURL.cs" />
     <Compile Include="FileHandling\URLRelative.cs" />
     <Compile Include="JsonHandling\JsonExtension.cs" />
-    <Compile Include="MonitoredTokenClass\MonitoredArrayValue.cs" />
-    <Compile Include="MonitoredTokenClass\MonitoredField.cs" />
-    <Compile Include="MonitoredTokenClass\MonitoredArray.cs" />
-    <Compile Include="MonitoredTokenClass\MonitoredValue.cs" />
+    <Compile Include="MonitoredFieldClass\MonitoredArrayValue.cs" />
+    <Compile Include="MonitoredFieldClass\MonitoredField.cs" />
+    <Compile Include="MonitoredFieldClass\MonitoredArray.cs" />
+    <Compile Include="MonitoredFieldClass\MonitoredValue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TokenClass\Color.cs" />

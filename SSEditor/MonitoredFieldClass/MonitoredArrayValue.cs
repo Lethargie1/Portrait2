@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSEditor.MonitoredTokenClass
+namespace SSEditor.MonitoringField
 {
     class MonitoredArrayValue<Token> : MonitoredField where Token : ITokenAsArray, new()
     {
