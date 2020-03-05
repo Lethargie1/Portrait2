@@ -8,19 +8,17 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoredTokenClass
 {
-    class MonitoredArrayValue<Token> : MonitoredField, ITokenAsArray where Token : ITokenAsArray, new()
+    class MonitoredArrayValue<Token> : MonitoredField where Token : ITokenAsArray, new()
     {
-        private Token Content = new Token();
-
-        public string Value { get => Content.Value; }
-        public SSFile Source { get => Content.Source; }
+        public Token Content { get; } = new Token();
+        
         public List<string> ValueArray { get => Content.ValueArray; }
 
-        public override void Resolve(List<SSFile> fileList)
+        public override void Resolve()
         {
             if (FieldPath != null)
             {
-                var ModValuePair = from f in fileList
+                var ModValuePair = from f in Files
                                    where f.ReadArray(FieldPath) != null
                                    select new { modName = f.ModName, value = f.ReadArray(FieldPath), file = f };
                 var Ordered = from p in ModValuePair
@@ -33,9 +31,14 @@ namespace SSEditor.MonitoredTokenClass
             }
         }
 
-        public void SetContent(List<string> valueList, SSFile source)
+        protected override void ResolveAdd(SSFile file)
         {
-            Content.SetContent(valueList, source);
+            Resolve();
+        }
+
+        protected override void ResolveRemove(SSFile file)
+        {
+            Resolve();
         }
     }
 }

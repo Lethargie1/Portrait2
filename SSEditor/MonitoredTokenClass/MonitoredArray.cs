@@ -11,27 +11,37 @@ namespace SSEditor.MonitoredTokenClass
 {
     class MonitoredArray<Token> : MonitoredField where Token : ITokenValue, new()
     {
-        public ObservableCollection<Token> Array { get; } = new ObservableCollection<Token>();
+        public ObservableCollection<Token> ContentArray { get; } = new ObservableCollection<Token>();
 
-        public override void Resolve(List<SSFile> fileList)
+        public override void Resolve()
         {
             if (FieldPath != null)
             {
-                var fileArrayPair = from f in fileList
+                var fileArrayPair = from f in Files
                                    where f.ReadArray(FieldPath) != null
                                    select new { value = f.ReadArray(FieldPath), file = f };
-                Array.Clear();
+                ContentArray.Clear();
                 foreach (var pair in fileArrayPair)
                 {
                     foreach (string data in pair.value)
                     {
                         Token temp = new Token();
                         temp.SetContent(data, pair.file);
-                        Array.Add(temp);
+                        ContentArray.Add(temp);
                     }
                 }
                 
             }
+        }
+
+        protected override void ResolveAdd(SSFile file)
+        {
+            Resolve();
+        }
+
+        protected override void ResolveRemove(SSFile file)
+        {
+            Resolve();
         }
     }
 }

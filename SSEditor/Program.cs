@@ -3,6 +3,7 @@ using SSEditor.MonitoredTokenClass;
 using SSEditor.TokenClass;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,25 +21,36 @@ namespace SSEditor
             SSRelativeUrl HegemonyUrl = new SSRelativeUrl("data\\world\\factions\\hegemony.faction");
 
            
-            SSFile filetest = new SSFile(SSUrl + CoreUrl + HegemonyUrl);
-            List<SSFile> ListTest = new List<SSFile> {
-                new SSFile(SSUrl + CoreUrl + HegemonyUrl),
-                new SSFile(SSUrl + TahlanUrl + HegemonyUrl),
-                new SSFile(SSUrl + SWPUrl + HegemonyUrl) };
+            SSFile CoreHeg = new SSFile(SSUrl + CoreUrl + HegemonyUrl);
+            SSFile TahlanHeg = new SSFile(SSUrl + TahlanUrl + HegemonyUrl);
+            SSFile SWPHeg = new SSFile(SSUrl + SWPUrl + HegemonyUrl);
 
             List<string> TokenPath = new List<string> { "knownShips", "hulls" };
-            List<string> TokenPath2 = new List<string> { "music" };
+            List<string> TokenPath2 = new List<string> { "music", "theme" };
             List<string> TokenPath3 = new List<string> { "color" };
-            string value = filetest.ReadValue(TokenPath);
+            List<string> TokenPath4 = new List<string> { "priorityShips", "hulls" };
+
             MonitoredArray<Text> Monitor = new MonitoredArray<Text>();
             Monitor.FieldPath = TokenPath;
-            Monitor.Resolve(ListTest);
+            ObservableCollection<SSFile> ExternalList = new ObservableCollection<SSFile>();
+            ExternalList.Add(TahlanHeg);
+            Monitor.ReplaceFiles(ExternalList);
+            
 
-            List<string> values = filetest.ReadArray(new List<string> { "priorityShips","hulls" });
+            foreach (Text t in Monitor.ContentArray)
+                Console.WriteLine(t.Value);
 
-            Console.WriteLine(value);
-            Console.WriteLine(values.FirstOrDefault());
+            ExternalList.Add(CoreHeg);
+            Console.WriteLine("====Heg====");
 
+            foreach (Text t in Monitor.ContentArray)
+                Console.WriteLine(t.Value);
+
+            ExternalList.Remove(TahlanHeg);
+            Console.WriteLine("====Heg====");
+
+            foreach (Text t in Monitor.ContentArray)
+                Console.WriteLine(t.Value);
 
             Console.ReadKey();
         }
