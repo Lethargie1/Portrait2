@@ -10,8 +10,14 @@ namespace SSEditor.FileHandling
 {
     class SSFileGroup
     {
-        public ObservableCollection<SSFile> CommonFiles { get;} = new ObservableCollection<SSFile>();
+        public ReadOnlyObservableCollection<SSFile> CommonFilesReadOnly { get; private set; }
+        protected ObservableCollection<SSFile> CommonFiles { get;} = new ObservableCollection<SSFile>();
         protected List<MonitoredField> MonitoredFields { get; } = new List<MonitoredField>();
+
+        public SSFileGroup()
+        {
+            CommonFilesReadOnly = new ReadOnlyObservableCollection<SSFile>(CommonFiles);
+        }
 
         public void SynchroniseMonitored()
         {

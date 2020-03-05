@@ -14,7 +14,7 @@ namespace SSEditor.FileHandling
         public MonitoredArrayValue<Color> FactionColor { get; } = new MonitoredArrayValue<Color>() { FieldPath = new List<string> { "color" } };
         public MonitoredArray<Text> KnownHull { get; } = new MonitoredArray<Text>() { FieldPath = new List<string> { "knownShips", "hulls" } };
 
-        public SSFactionGroup()
+        public SSFactionGroup() : base ()
         {
             base.MonitoredFields.Add(DisplayName);
             base.MonitoredFields.Add(FactionColor);
