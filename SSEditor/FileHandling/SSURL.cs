@@ -49,6 +49,12 @@ namespace SSEditor.FileHandling
             full.Relative = linkRela.Relative;
             return full;
         }
+
+        public static SSBaseUrl operator +(SSBaseUrl left, string right)
+        {
+            SSBaseUrl newUrl = new SSBaseUrl(Path.Combine(left.Base, right));
+            return newUrl;
+        }
     }
 
     public class SSLinkUrl : SSUrl, IEquatable<SSLinkUrl>

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileHandling\SSDirectory.cs" />
     <Compile Include="FileHandling\SSFactionGroup.cs" />
     <Compile Include="FileHandling\SSFile.cs" />
     <Compile Include="FileHandling\SSFileGroup.cs" />

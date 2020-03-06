@@ -47,6 +47,8 @@ namespace SSEditor.FileHandling
 
         public void FindFiles()
         {
+            if (CurrentType == ModType.skip || CurrentType == ModType.Ressource)
+                return;
             SSFullUrl factionFolderUrl = ModUrl + new SSRelativeUrl("data\\world\\factions");
 
             DirectoryInfo FactionDirectory = new DirectoryInfo(factionFolderUrl.ToString());
@@ -78,7 +80,7 @@ namespace SSEditor.FileHandling
 
     public class SSModFactory
     {
-        public static SSLinkUrl CoreLink = new SSLinkUrl("starsector-Core");
+        public static SSLinkUrl CoreLink = new SSLinkUrl("starsector-core");
         public SSBaseUrl InstallationUrl { get; set; }
         public SSMod.ModType Type { get; set; } = SSMod.ModType.skip;
 
@@ -94,6 +96,7 @@ namespace SSEditor.FileHandling
                 newMod = new SSMod(InstallationUrl + link, SSMod.ModType.Core);
             else
                 newMod = new SSMod(InstallationUrl + link, Type);
+            newMod.FindFiles();
             return newMod;
         }
     }

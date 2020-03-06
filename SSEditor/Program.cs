@@ -20,7 +20,14 @@ namespace SSEditor
             SSLinkUrl SWPUrl = new SSLinkUrl("mods\\Ship and Weapon Pack");
             SSRelativeUrl HegemonyUrl = new SSRelativeUrl("data\\world\\factions\\hegemony.faction");
 
-           
+            SSDirectory test = new SSDirectory(SSUrl);
+            test.ReadMods();
+
+            SSModFactory factory = new SSModFactory(SSUrl);
+            factory.Type = SSMod.ModType.Mod;
+            SSMod CoreMod = factory.CreateMod(CoreUrl);
+            SSMod TahlanMod = factory.CreateMod(TahlanUrl);
+
             SSFile CoreHeg = new SSFile(SSUrl + CoreUrl + HegemonyUrl);
             SSFile TahlanHeg = new SSFile(SSUrl + TahlanUrl + HegemonyUrl);
             SSFile SWPHeg = new SSFile(SSUrl + SWPUrl + HegemonyUrl);
