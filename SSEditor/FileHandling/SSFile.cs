@@ -16,8 +16,7 @@ namespace SSEditor.FileHandling
 
 
         #region Properties
-        string _FileName;
-        public string FileName { get => _FileName; }
+        public string FileName { get; private set; }
 
         public SSLinkRelativeUrl RelativePath { get; private set; }
 
@@ -48,7 +47,7 @@ namespace SSEditor.FileHandling
             _ModName = fullUrl.Link;
 
             FileInfo info = new FileInfo(fullUrl.ToString());
-            _FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
+            FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
             string ReadResult = File.ReadAllText(fullUrl.ToString());
             var result = Regex.Replace(ReadResult, "#.*", "");
             using (var jsonReader = new JsonTextReader(new StringReader(result)))

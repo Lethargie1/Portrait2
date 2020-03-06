@@ -96,6 +96,18 @@ namespace SSEditor.FileHandling
             string result = this.Relative;
             return result;
         }
+
+        public static SSRelativeUrl operator +(SSRelativeUrl left, SSRelativeUrl right)
+        {
+            SSRelativeUrl newUrl = new SSRelativeUrl(Path.Combine(left.Relative, right.Relative));
+            return newUrl;
+        }
+
+        public static SSRelativeUrl operator +(SSRelativeUrl left, string right)
+        {
+            SSRelativeUrl newUrl = new SSRelativeUrl(Path.Combine(left.Relative, right));
+            return newUrl;
+        }
     }
 
     public class SSLinkRelativeUrl : SSUrl
@@ -165,6 +177,24 @@ namespace SSEditor.FileHandling
             if (this.Relative != null)
                 result = Path.Combine(result, this.Relative);
             return result;
+        }
+
+        public static SSFullUrl operator +(SSFullUrl left, SSRelativeUrl right)
+        {
+            SSFullUrl newUrl = new SSFullUrl();
+            newUrl.Base = left.Base;
+            newUrl.Link = left.Link;
+            newUrl.Relative = Path.Combine(left.Relative, right.Relative);
+            return newUrl;
+        }
+
+        public static SSFullUrl operator +(SSFullUrl left, string right)
+        {
+            SSFullUrl newUrl = new SSFullUrl();
+            newUrl.Base = left.Base;
+            newUrl.Link = left.Link;
+            newUrl.Relative = Path.Combine(left.Relative, right);
+            return newUrl;
         }
     }
 

@@ -49,8 +49,8 @@
     <Compile Include="FileHandling\SSFactionGroup.cs" />
     <Compile Include="FileHandling\SSFile.cs" />
     <Compile Include="FileHandling\SSFileGroup.cs" />
+    <Compile Include="FileHandling\SSMod.cs" />
     <Compile Include="FileHandling\SSURL.cs" />
-    <Compile Include="FileHandling\URLRelative.cs" />
     <Compile Include="JsonHandling\JsonExtension.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredArrayValue.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredField.cs" />
