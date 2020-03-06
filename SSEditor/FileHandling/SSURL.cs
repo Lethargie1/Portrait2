@@ -110,6 +110,9 @@ namespace SSEditor.FileHandling
             Relative = relative;
         }
 
+        public SSLinkUrl GetLink() => Link!=null ? new SSLinkUrl(Link) : null;
+        public SSRelativeUrl GetRelative() => Relative!=null ? new SSRelativeUrl(Relative) : null;
+
         public override string ToString()
         {
             if (this.Link == null)

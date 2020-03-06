@@ -19,8 +19,6 @@ namespace SSEditor.FileHandling
         string _FileName;
         public string FileName { get => _FileName; }
 
-        URLRelative _Url;
-        public URLRelative Url { get => _Url; }
         public SSLinkRelativeUrl RelativePath { get; private set; }
 
         JObject _JsonContent;

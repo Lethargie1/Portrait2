@@ -12,7 +12,8 @@ namespace SSEditor.FileHandling
     {
         public MonitoredValue<Text> DisplayName { get; } = new MonitoredValue<Text>() { FieldPath = new List<string> { "displayName" } };
         public MonitoredArrayValue<Color> FactionColor { get; } = new MonitoredArrayValue<Color>() { FieldPath = new List<string> { "color" } };
-        public MonitoredArray<Text> KnownHull { get; } = new MonitoredArray<Text>() { FieldPath = new List<string> { "knownShips", "hulls" } };
+        public MonitoredArray<Text> KnownHull { get; } = null;
+            //new MonitoredArray<Text>() { FieldPath = new List<string> { "knownShips", "hulls" } };
 
         public SSFactionGroup() : base ()
         {

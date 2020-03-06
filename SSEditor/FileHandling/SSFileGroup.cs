@@ -14,6 +14,8 @@ namespace SSEditor.FileHandling
         protected ObservableCollection<SSFile> CommonFiles { get;} = new ObservableCollection<SSFile>();
         protected List<MonitoredField> MonitoredFields { get; } = new List<MonitoredField>();
 
+        public SSRelativeUrl CommonRelativeUrl { get; private set; }
+
         public SSFileGroup()
         {
             CommonFilesReadOnly = new ReadOnlyObservableCollection<SSFile>(CommonFiles);
@@ -22,7 +24,30 @@ namespace SSEditor.FileHandling
         public void SynchroniseMonitored()
         {
             foreach (MonitoredField field in MonitoredFields)
-                field.ReplaceFiles(CommonFiles);
+                field?.ReplaceFiles(CommonFiles);
+        }
+
+        public void Add(SSFile file)
+        {
+            if (file.RelativePath == null || file.RelativePath.Link == null || file.RelativePath.Relative == null)
+                throw new ArgumentException("Cannot add file with no path to group");
+            if (CommonFiles.Count() == 0)
+            {
+                CommonRelativeUrl = file.RelativePath.GetRelative();
+                CommonFiles.Add(file);
+            } else
+            {
+                if (!file.RelativePath.GetRelative().Equals(CommonRelativeUrl))
+                    throw new ArgumentException("Cannot add file with unrelated path to group");
+                CommonFiles.Add(file);
+            }
+        }
+
+        public void Remove(SSFile file)
+        {
+            CommonFiles.Remove(file);
+            if (CommonFiles.Count() == 0)
+                CommonRelativeUrl = null;
         }
     }
 }

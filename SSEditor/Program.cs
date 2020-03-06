@@ -31,21 +31,21 @@ namespace SSEditor
             List<string> TokenPath4 = new List<string> { "priorityShips", "hulls" };
 
             SSFactionGroup HegemonyFaction = new SSFactionGroup();
-            HegemonyFaction.CommonFiles.Add(TahlanHeg);
+            HegemonyFaction.Add(TahlanHeg);
 
-            foreach (Text t in HegemonyFaction.KnownHull.ContentArray)
+            foreach (Text t in HegemonyFaction?.KnownHull?.ContentArray ?? new ObservableCollection<Text>())
                 Console.WriteLine(t.Value + " " + t.Source);
 
-            HegemonyFaction.CommonFiles.Add(CoreHeg);
+            HegemonyFaction.Add(CoreHeg);
             Console.WriteLine("====Heg====");
 
-            foreach (Text t in HegemonyFaction.KnownHull.ContentArray)
+            foreach (Text t in HegemonyFaction?.KnownHull?.ContentArray ?? new ObservableCollection<Text>())
                 Console.WriteLine(t.Value + " " + t.Source);
 
-            HegemonyFaction.CommonFiles.Remove(TahlanHeg);
+            HegemonyFaction.Remove(TahlanHeg);
             Console.WriteLine("====Heg====");
 
-            foreach (Text t in HegemonyFaction.KnownHull.ContentArray)
+            foreach (Text t in HegemonyFaction?.KnownHull?.ContentArray ?? new ObservableCollection<Text>())
                 Console.WriteLine(t.Value + " " + t.Source);
 
             Console.ReadKey();
