@@ -42,5 +42,10 @@ namespace SSEditor.FileHandling
             if (CommonFiles.Count() == 0)
                 CommonRelativeUrl = null;
         }
+
+        public override string ToString()
+        {
+            return "Group of (" + CommonFilesReadOnly.Count.ToString()+ ") " + (CommonRelativeUrl?.ToString() ?? "no file");
+        }
     }
 }

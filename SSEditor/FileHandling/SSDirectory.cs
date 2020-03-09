@@ -30,10 +30,29 @@ namespace SSEditor.FileHandling
             SSBaseUrl ModFolderPath = InstallationUrl + "mods";
             DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
             IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
+            ReadMod(new SSLinkUrl("starsector-core"));
             foreach (DirectoryInfo ModDirectory in ModsEnumerable)
             {
-                SSMod currentMod = modFactory.CreateMod(new SSLinkUrl(Path.Combine("mods", ModDirectory.Name)));
-                Mods.Add(currentMod);
+                ReadMod(new SSLinkUrl(Path.Combine("mods", ModDirectory.Name)));               
+            }
+        }
+
+        private void ReadMod(SSLinkUrl modLink)
+        {
+            SSMod exist = Mods.FirstOrDefault(M => M.ModUrl.Link.Equals(modLink.Link));
+            if (exist != null)
+                throw new ArgumentException("Cannot add existing mod to directory");
+            SSMod currentMod = modFactory.CreateMod(modLink);
+            Mods.Add(currentMod);
+            foreach (SSFile modFile in currentMod.FilesReadOnly)
+            {
+                SSFileGroup matchingGroup = GroupedFiles.SingleOrDefault(T => T.CommonRelativeUrl.Equals(modFile.RelativePath.GetRelative()));
+                if (matchingGroup == null)
+                {
+                    matchingGroup = new SSFileGroup();
+                    GroupedFiles.Add(matchingGroup);
+                }
+                matchingGroup.Add(modFile);
             }
         }
     }

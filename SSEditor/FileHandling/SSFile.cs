@@ -28,6 +28,7 @@ namespace SSEditor.FileHandling
         #endregion
 
         #region Constructors
+        public SSFile() { }
         public SSFile(SSFullUrl fullUrl)
         {
             this.ExtractFile(fullUrl);
@@ -47,7 +48,13 @@ namespace SSEditor.FileHandling
             _ModName = fullUrl.Link;
 
             FileInfo info = new FileInfo(fullUrl.ToString());
+            
             FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
+            if (!info.Exists)
+            {
+                _JsonContent = null;
+                return;
+            }
             string ReadResult = File.ReadAllText(fullUrl.ToString());
             var result = Regex.Replace(ReadResult, "#.*", "");
             using (var jsonReader = new JsonTextReader(new StringReader(result)))

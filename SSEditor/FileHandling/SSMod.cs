@@ -20,6 +20,11 @@ namespace SSEditor.FileHandling
         public SSFile ModInfo { get; private set; }
         public ModType CurrentType { get; private set; }
 
+        public override string ToString()
+        {
+            return "Mod: " + (ModInfo?.ReadValue(new List<string> { "name" }) ?? ("Unnamed " + ModUrl.Link));
+        }
+
         public ReadOnlyObservableCollection<SSFile> FilesReadOnly { get; private set; }
         protected ObservableCollection<SSFile> Files { get; } = new ObservableCollection<SSFile>();
 
@@ -28,6 +33,7 @@ namespace SSEditor.FileHandling
             ModUrl = fullModUrl ?? throw new ArgumentNullException("fullModUrl", "Mod Url cannot be null");
             CurrentType = type;
             FilesReadOnly = new ReadOnlyObservableCollection<SSFile>(Files);
+            ModInfo = new SSFile(fullModUrl + new SSRelativeUrl("mod_info.json"));
         }
 
         public void ChangeType(ModType newType)

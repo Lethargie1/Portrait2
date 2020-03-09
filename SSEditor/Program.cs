@@ -14,7 +14,7 @@ namespace SSEditor
     {
         static void Main()
         {
-            SSBaseUrl SSUrl = new SSBaseUrl("E:\\SS\\Starsector");
+            SSBaseUrl SSUrl = new SSBaseUrl("C:\\Program Files (x86)\\Fractal Softworks\\Starsector");
             SSLinkUrl CoreUrl = new SSLinkUrl("starsector-core");
             SSLinkUrl TahlanUrl = new SSLinkUrl("mods\\tahlan");
             SSLinkUrl SWPUrl = new SSLinkUrl("mods\\Ship and Weapon Pack");

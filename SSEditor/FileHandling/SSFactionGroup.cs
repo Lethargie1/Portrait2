@@ -20,6 +20,8 @@ namespace SSEditor.FileHandling
             FactionColor.ReplaceFiles(base.CommonFiles);
             KnownHull.ReplaceFiles(base.CommonFiles);
         }
+
+        
     }
     
 }
