@@ -46,10 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileHandling\Group\SSFileGroupFactory.cs" />
+    <Compile Include="FileHandling\SSFile\SSGenericFile.cs" />
     <Compile Include="FileHandling\SSDirectory.cs" />
-    <Compile Include="FileHandling\SSFactionGroup.cs" />
-    <Compile Include="FileHandling\SSFile.cs" />
-    <Compile Include="FileHandling\SSFileGroup.cs" />
+    <Compile Include="FileHandling\Group\SSFactionGroup.cs" />
+    <Compile Include="FileHandling\SSFile\SSFile.cs" />
+    <Compile Include="FileHandling\Group\SSFileGroup.cs" />
     <Compile Include="FileHandling\SSMod.cs" />
     <Compile Include="FileHandling\SSURL.cs" />
     <Compile Include="JsonHandling\JsonExtension.cs" />

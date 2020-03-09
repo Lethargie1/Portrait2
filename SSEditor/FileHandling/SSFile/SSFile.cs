@@ -11,14 +11,14 @@ using SSEditor.FileHandling;
 
 namespace SSEditor.FileHandling
 {
-    public class SSFile
+    public class SSFile :ISSGenericFile
     {
 
 
         #region Properties
         public string FileName { get; private set; }
-
-        public SSLinkRelativeUrl RelativePath { get; private set; }
+        public SSLinkRelativeUrl LinkRelativeUrl { get; private set; }
+        public SSMod SourceMod { get; private set; }
 
         JObject _JsonContent;
         public JObject JsonContent { get => _JsonContent; }
@@ -33,6 +33,10 @@ namespace SSEditor.FileHandling
         {
             this.ExtractFile(fullUrl);
         }
+        public SSFile(SSMod mod, SSFullUrl fullUrl) : this(fullUrl)
+        {
+            SourceMod = mod;
+        }
         #endregion
 
         public override string ToString()
@@ -44,7 +48,7 @@ namespace SSEditor.FileHandling
         public void ExtractFile(SSFullUrl fullUrl)
         {
             
-            RelativePath = new SSLinkRelativeUrl(fullUrl?.Link ?? throw new ArgumentNullException("The Url cannot be null."), fullUrl?.Relative ?? throw new ArgumentNullException("The Url cannot be null."));
+            LinkRelativeUrl = new SSLinkRelativeUrl(fullUrl?.Link ?? throw new ArgumentNullException("The Url cannot be null."), fullUrl?.Relative ?? throw new ArgumentNullException("The Url cannot be null."));
             _ModName = fullUrl.Link;
 
             FileInfo info = new FileInfo(fullUrl.ToString());
@@ -132,5 +136,10 @@ namespace SSEditor.FileHandling
             errorArgs.ErrorContext.Handled = true;
         }
 
+    }
+
+    public class SSFactionFile: SSFile
+    {
+        //nothing special, its just a marker of the type of file
     }
 }

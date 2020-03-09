@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SSEditor.FileHandling.Filing;
 
 namespace SSEditor.FileHandling
 {
@@ -22,15 +23,15 @@ namespace SSEditor.FileHandling
 
         public void Add(SSFile file)
         {
-            if (file.RelativePath == null || file.RelativePath.Link == null || file.RelativePath.Relative == null)
+            if (file.LinkRelativeUrl == null || file.LinkRelativeUrl.Link == null || file.LinkRelativeUrl.Relative == null)
                 throw new ArgumentException("Cannot add file with no path to group");
             if (CommonFiles.Count() == 0)
             {
-                CommonRelativeUrl = file.RelativePath.GetRelative();
+                CommonRelativeUrl = file.LinkRelativeUrl.GetRelative();
                 CommonFiles.Add(file);
             } else
             {
-                if (!file.RelativePath.GetRelative().Equals(CommonRelativeUrl))
+                if (!file.LinkRelativeUrl.GetRelative().Equals(CommonRelativeUrl))
                     throw new ArgumentException("Cannot add file with unrelated path to group");
                 CommonFiles.Add(file);
             }

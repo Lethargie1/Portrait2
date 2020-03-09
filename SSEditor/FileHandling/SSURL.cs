@@ -173,6 +173,10 @@ namespace SSEditor.FileHandling
         public string Link { get; set; }
         public string Relative { get; set; }
 
+
+        public SSLinkRelativeUrl LinkRelative { get => new SSLinkRelativeUrl(Link, Relative); }
+
+            
         public override string ToString()
         {
             if (this.Base == null)
