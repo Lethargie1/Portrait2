@@ -19,7 +19,7 @@ namespace SSEditor.MonitoringField
             {
                 var ModValuePair = from f in Files
                                    where f.ReadValue(FieldPath) != null
-                                   select new { modName = f.SourceMod , value = f.ReadValue(FieldPath), file = f};
+                                   select new { modName = f.SourceMod.ModName , value = f.ReadValue(FieldPath), file = f};
                 var Ordered = from p in ModValuePair
                               orderby p.modName
                               select new { p.value, p.file } ;
@@ -38,6 +38,11 @@ namespace SSEditor.MonitoringField
         protected override void ResolveRemove(T file)
         {
             Resolve();
+        }
+
+        public override string ToString()
+        {
+            return Content.ToString();
         }
     }
 }

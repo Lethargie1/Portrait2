@@ -35,6 +35,11 @@ namespace SSEditor.TokenClass
             _Value = value;
             Source = file;
         }
-        
+
+        public override string ToString()
+        {
+            return Value;
+        }
+
     }
 }

@@ -19,20 +19,23 @@ namespace SSEditor.FileHandling
         public SSBaseLinkUrl ModUrl { get; private set; }
         public SSFile ModInfo { get; private set; }
         public ModType CurrentType { get; private set; }
+        public string ModName { get; private set; }
 
         public override string ToString()
         {
             return "Mod: " + (ModInfo?.ReadValue(new List<string> { "name" }) ?? ("Unnamed " + ModUrl.Link));
         }
 
-        public ReadOnlyObservableCollection<SSFile> FilesReadOnly { get; private set; }
-        protected ObservableCollection<SSFile> Files { get; } = new ObservableCollection<SSFile>();
+        public ReadOnlyObservableCollection<ISSGenericFile> FilesReadOnly { get; private set; }
+        protected ObservableCollection<ISSGenericFile> Files { get; } = new ObservableCollection<ISSGenericFile>();
 
         public SSMod(SSBaseLinkUrl fullModUrl, ModType type)
         {
             ModUrl = fullModUrl ?? throw new ArgumentNullException("fullModUrl", "Mod Url cannot be null");
+            DirectoryInfo FactionDirectory = new DirectoryInfo(ModUrl.ToString());
+            ModName = FactionDirectory.Name;
             CurrentType = type;
-            FilesReadOnly = new ReadOnlyObservableCollection<SSFile>(Files);
+            FilesReadOnly = new ReadOnlyObservableCollection<ISSGenericFile>(Files);
             ModInfo = new SSFile(fullModUrl + new SSRelativeUrl("mod_info.json"));
         }
 
@@ -68,7 +71,7 @@ namespace SSEditor.FileHandling
 
             foreach (FileInfo file in Potential)
             {
-                Files.Add(new SSFile(factionFolderUrl + file.Name));
+                Files.Add(SSGenericFileFactory.BuildFile(this, factionFolderUrl + file.Name));
             }
         }
     }
