@@ -10,17 +10,17 @@ namespace SSEditor.TokenClass
     interface ISourcedToken
     {
         string Value { get; }
-        SSFile Source { get; }
+        ISSFile Source { get; }
     }
 
     interface ITokenValue : ISourcedToken
     {
-        void SetContent(string value, SSFile source);
+        void SetContent(string value, ISSFile source);
     }
     
     interface ITokenAsArray : ISourcedToken
     {
         List<string> ValueArray { get; }
-        void SetContent(List<string> valueList, SSFile source);
+        void SetContent(List<string> valueList, ISSFile source);
     }
 }

@@ -18,7 +18,7 @@ namespace SSEditor.FileHandling
             LinkRelativeUrl = url.LinkRelative;
         }
     }
-    interface ISSGenericFile
+    public interface ISSGenericFile
     {
         SSLinkRelativeUrl LinkRelativeUrl { get; }
         string FileName { get; }

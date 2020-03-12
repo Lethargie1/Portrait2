@@ -24,13 +24,13 @@ namespace SSEditor.TokenClass
             }
             protected set => _Value = value;
         }
-        public SSFile Source { get; protected set; }
+        public ISSFile Source { get; protected set; }
         public abstract string DefaultValue { get; }
         public abstract bool IsValid { get; }
 
 
         public SourcedToken() { }
-        public SourcedToken(string value, SSFile file)
+        public SourcedToken(string value, ISSFile file)
         {
             _Value = value;
             Source = file;

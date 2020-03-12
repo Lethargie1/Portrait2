@@ -28,9 +28,9 @@ namespace SSEditor
             SSMod CoreMod = factory.CreateMod(CoreUrl);
             SSMod TahlanMod = factory.CreateMod(TahlanUrl);
 
-            SSFile CoreHeg = new SSFile(SSUrl + CoreUrl + HegemonyUrl);
-            SSFile TahlanHeg = new SSFile(SSUrl + TahlanUrl + HegemonyUrl);
-            SSFile SWPHeg = new SSFile(SSUrl + SWPUrl + HegemonyUrl);
+            SSFactionFile CoreHeg = new SSFactionFile(CoreMod, SSUrl + CoreUrl + HegemonyUrl);
+            SSFactionFile TahlanHeg = new SSFactionFile(TahlanMod, SSUrl + TahlanUrl + HegemonyUrl);
+            SSFactionFile SWPHeg = new SSFactionFile(CoreMod, SSUrl + SWPUrl + HegemonyUrl);
 
             List<string> TokenPath = new List<string> { "knownShips", "hulls" };
             List<string> TokenPath2 = new List<string> { "music", "theme" };

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    class MonitoredValue<Token>: MonitoredField where Token:ITokenValue,new()
+    class MonitoredValue<Token,T>: MonitoredField<T> where T:SSFile where Token:ITokenValue, new()
     {
         public Token Content { get; } = new Token();
 
@@ -19,23 +19,23 @@ namespace SSEditor.MonitoringField
             {
                 var ModValuePair = from f in Files
                                    where f.ReadValue(FieldPath) != null
-                                   select new { modName = f.ModName , value = f.ReadValue(FieldPath), file = f};
+                                   select new { modName = f.SourceMod , value = f.ReadValue(FieldPath), file = f};
                 var Ordered = from p in ModValuePair
                               orderby p.modName
                               select new { p.value, p.file } ;
                 string ValueResult = Ordered.FirstOrDefault()?.value;
-                SSFile FileResult = Ordered.FirstOrDefault()?.file;
+                T FileResult = Ordered.FirstOrDefault()?.file;
                 
                 Content.SetContent(ValueResult, FileResult);
             }
         }
 
-        protected override void ResolveAdd(SSFile file)
+        protected override void ResolveAdd(T file)
         {
             Resolve();
         }
 
-        protected override void ResolveRemove(SSFile file)
+        protected override void ResolveRemove(T file)
         {
             Resolve();
         }

@@ -13,7 +13,7 @@ namespace SSEditor.FileHandling
 
         }
         
-        public SSFileGroup CreateGroupFromFile(ISSGenericFile file)
+        public ISSFileGroup CreateGroupFromFile(ISSGenericFile file)
         {
             if(file is SSFactionFile f)
             {
@@ -21,7 +21,13 @@ namespace SSEditor.FileHandling
                 newFGroup.Add(f);
                 return newFGroup;
             }
-            SSFileGroup newGroup = new SSFileGroup();
+            if(file is SSFile gf)
+            {
+                SSFileGroup<SSFile> newgfGroup = new SSFileGroup<SSFile>();
+                newgfGroup.Add(gf);
+                return newgfGroup;
+            }
+            SSFileGroup<ISSGenericFile> newGroup = new SSFileGroup<ISSGenericFile>();
             newGroup.Add(file);
             return newGroup;
         }

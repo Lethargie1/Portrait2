@@ -5,23 +5,22 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SSEditor.FileHandling.Filing;
 
 namespace SSEditor.FileHandling
 {
-    class SSFileGroup
+    public class SSFileGroup<T> : ISSFileGroup where T: ISSGenericFile
     {
-        public ReadOnlyObservableCollection<SSFile> CommonFilesReadOnly { get; private set; }
-        protected ObservableCollection<SSFile> CommonFiles { get;} = new ObservableCollection<SSFile>();
+        public ReadOnlyObservableCollection<T> CommonFilesReadOnly { get; private set; }
+        protected ObservableCollection<T> CommonFiles { get;} = new ObservableCollection<T>();
 
         public SSRelativeUrl CommonRelativeUrl { get; private set; }
 
         public SSFileGroup()
         {
-            CommonFilesReadOnly = new ReadOnlyObservableCollection<SSFile>(CommonFiles);
+            CommonFilesReadOnly = new ReadOnlyObservableCollection<T>(CommonFiles);
         }
 
-        public void Add(SSFile file)
+        public void Add(T file)
         {
             if (file.LinkRelativeUrl == null || file.LinkRelativeUrl.Link == null || file.LinkRelativeUrl.Relative == null)
                 throw new ArgumentException("Cannot add file with no path to group");
@@ -37,7 +36,7 @@ namespace SSEditor.FileHandling
             }
         }
 
-        public void Remove(SSFile file)
+        public void Remove(T file)
         {
             CommonFiles.Remove(file);
             if (CommonFiles.Count() == 0)
@@ -48,5 +47,10 @@ namespace SSEditor.FileHandling
         {
             return "Group of (" + CommonFilesReadOnly.Count.ToString()+ ") " + (CommonRelativeUrl?.ToString() ?? "no file");
         }
+    }
+
+    public interface ISSFileGroup
+    {
+        SSRelativeUrl CommonRelativeUrl { get; }
     }
 }

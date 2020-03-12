@@ -27,7 +27,7 @@ namespace SSEditor.TokenClass
 
         public List<string> ValueArray => throw new NotImplementedException();
 
-        public void SetContent(List<string> valueList, SSFile source)
+        public void SetContent(List<string> valueList, ISSFile source)
         {
             if (valueList==null)
             {

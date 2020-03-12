@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    class MonitoredArray<Token> : MonitoredField where Token : ITokenValue, new()
+    class MonitoredArray<Token,T> : MonitoredField<T> where Token : ITokenValue, new() where T:SSFile
     {
         public ObservableCollection<Token> ContentArray { get; } = new ObservableCollection<Token>();
 
@@ -34,12 +34,12 @@ namespace SSEditor.MonitoringField
             }
         }
 
-        protected override void ResolveAdd(SSFile file)
+        protected override void ResolveAdd(T file)
         {
             Resolve();
         }
 
-        protected override void ResolveRemove(SSFile file)
+        protected override void ResolveRemove(T file)
         {
             Resolve();
         }

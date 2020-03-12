@@ -11,7 +11,12 @@ using SSEditor.FileHandling;
 
 namespace SSEditor.FileHandling
 {
-    public class SSFile :ISSGenericFile
+    public interface ISSFile : ISSGenericFile
+    {
+        string ReadValue(List<string> JsonPath);
+        List<string> ReadArray(List<string> JsonPath);
+    }
+    public class SSFile :ISSFile
     {
 
 
@@ -138,8 +143,9 @@ namespace SSEditor.FileHandling
 
     }
 
-    public class SSFactionFile: SSFile
+    public class SSFactionFile: SSFile, ISSFile
     {
         //nothing special, its just a marker of the type of file
+        public SSFactionFile(SSMod mod, SSFullUrl url) : base (mod, url) { }
     }
 }
