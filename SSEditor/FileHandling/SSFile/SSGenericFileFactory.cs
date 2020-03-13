@@ -21,7 +21,7 @@ namespace SSEditor.FileHandling
                 case ".faction":
                     return new SSFactionFile(mod, fullUrl);
                 default:
-                    return new SSGenericFile(mod, fullUrl);
+                    return new SSNoMergeFile(mod, fullUrl);
             }
         }
 

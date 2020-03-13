@@ -4,6 +4,7 @@ using SSEditor.TokenClass;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,14 @@ namespace SSEditor
             SSLinkUrl SWPUrl = new SSLinkUrl("mods\\Ship and Weapon Pack");
             SSRelativeUrl HegemonyUrl = new SSRelativeUrl("data\\world\\factions\\hegemony.faction");
 
+            SSBaseUrl ModFolderPath = SSUrl + "mods";
+            DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
+            IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
+
+
             SSDirectory test = new SSDirectory(SSUrl);
             test.ReadMods();
-
+            test.PopulateMergedCollections();
             SSModFactory factory = new SSModFactory(SSUrl);
             factory.Type = SSMod.ModType.Mod;
             SSMod CoreMod = factory.CreateMod(CoreUrl);

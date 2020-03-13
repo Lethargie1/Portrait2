@@ -41,6 +41,10 @@ namespace SSEditor.FileHandling
 
         public void ChangeType(ModType newType)
         {
+            if (CurrentType == ModType.Core)
+            {
+                throw new InvalidOperationException("Cannot change type of the core startector");
+            }
             ModType OldType = CurrentType;
             CurrentType = newType;
             OnRaiseTypeChanged(new ModTypeChangeEventArgs(OldType, CurrentType));
@@ -58,21 +62,25 @@ namespace SSEditor.FileHandling
         {
             if (CurrentType == ModType.skip || CurrentType == ModType.Ressource)
                 return;
-            SSFullUrl factionFolderUrl = ModUrl + new SSRelativeUrl("data\\world\\factions");
+            DirectoryInfo root = new DirectoryInfo(ModUrl.ToString());
+            IEnumerable<FileInfo> AllFiles = root.EnumerateFiles(".", SearchOption.AllDirectories);
 
-            DirectoryInfo FactionDirectory = new DirectoryInfo(factionFolderUrl.ToString());
-            if (!FactionDirectory.Exists)
-                return;
-
-            IEnumerable<FileInfo> FileInfoList = FactionDirectory.EnumerateFiles();
-            var Potential = from file in FileInfoList
-                            where file.Extension == ".faction"
-                            select file;
-
-            foreach (FileInfo file in Potential)
+            DirectoryInfo upDirectory;
+            string relativePath;
+            foreach (FileInfo f in AllFiles)
             {
-                Files.Add(SSGenericFileFactory.BuildFile(this, factionFolderUrl + file.Name));
+                upDirectory = f.Directory;
+                relativePath = "";
+                while (upDirectory.FullName != root.FullName)
+                {
+                    relativePath = upDirectory.Name + "\\" + relativePath;
+                    upDirectory = upDirectory.Parent;
+                }
+                SSFullUrl fileUrl = ModUrl + new SSRelativeUrl(relativePath) + f.Name;
+                Files.Add(SSGenericFileFactory.BuildFile(this, fileUrl));
             }
+
+            
         }
     }
 
