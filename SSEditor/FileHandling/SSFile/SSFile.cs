@@ -16,14 +16,11 @@ namespace SSEditor.FileHandling
         string ReadValue(List<string> JsonPath);
         List<string> ReadArray(List<string> JsonPath);
     }
-    public class SSFile :ISSFile
+    public class SSFile :SSGenericFile, ISSFile
     {
 
 
         #region Properties
-        public string FileName { get; private set; }
-        public SSLinkRelativeUrl LinkRelativeUrl { get; private set; }
-        public SSMod SourceMod { get; private set; }
 
         JObject _JsonContent;
         public JObject JsonContent { get => _JsonContent; }
@@ -33,13 +30,9 @@ namespace SSEditor.FileHandling
         #endregion
 
         #region Constructors
-        public SSFile() { }
-        public SSFile(SSFullUrl fullUrl)
+        public SSFile(SSMod mod, SSFullUrl fullUrl) : base (mod, fullUrl)
         {
             this.ExtractFile(fullUrl);
-        }
-        public SSFile(SSMod mod, SSFullUrl fullUrl) : this(fullUrl)
-        {
             SourceMod = mod;
         }
         #endregion
@@ -53,7 +46,7 @@ namespace SSEditor.FileHandling
         public void ExtractFile(SSFullUrl fullUrl)
         {
             
-            LinkRelativeUrl = new SSLinkRelativeUrl(fullUrl?.Link ?? throw new ArgumentNullException("The Url cannot be null."), fullUrl?.Relative ?? throw new ArgumentNullException("The Url cannot be null."));
+            base.LinkRelativeUrl = new SSLinkRelativeUrl(fullUrl?.Link ?? throw new ArgumentNullException("The Url cannot be null."), fullUrl?.Relative ?? throw new ArgumentNullException("The Url cannot be null."));
             _ModName = fullUrl.Link;
 
             FileInfo info = new FileInfo(fullUrl.ToString());

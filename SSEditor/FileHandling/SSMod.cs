@@ -36,7 +36,7 @@ namespace SSEditor.FileHandling
             ModName = FactionDirectory.Name;
             CurrentType = type;
             FilesReadOnly = new ReadOnlyObservableCollection<ISSGenericFile>(Files);
-            ModInfo = new SSFile(fullModUrl + new SSRelativeUrl("mod_info.json"));
+            ModInfo = new SSFile(this, fullModUrl + new SSRelativeUrl("mod_info.json"));
         }
 
         public void ChangeType(ModType newType)

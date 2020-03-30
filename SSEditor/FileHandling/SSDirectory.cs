@@ -99,5 +99,21 @@ namespace SSEditor.FileHandling
                 }
             }
         }
+
+        public void MergeDirectory()
+        {
+            foreach (SSMod currentMod in Mods)
+            {
+                if (currentMod.CurrentType == SSMod.ModType.skip || currentMod.CurrentType == SSMod.ModType.Ressource)
+                    continue;
+                foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
+                {
+                    if (modFile is SSNoMergeFile)
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
     }
 }
