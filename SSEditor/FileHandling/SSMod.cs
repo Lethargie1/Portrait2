@@ -55,7 +55,7 @@ namespace SSEditor.FileHandling
             // a race condition if the last subscriber unsubscribes
             // immediately after the null check and before the event is raised.
             EventHandler<ModTypeChangeEventArgs> handler = TypeChanged;
-            handler.Invoke(this, e);            
+            handler?.Invoke(this, e);            
         }
 
         public void FindFiles()
@@ -71,6 +71,13 @@ namespace SSEditor.FileHandling
             {
                 upDirectory = f.Directory;
                 relativePath = "";
+                if (upDirectory.FullName == root.FullName)
+                {
+                    if (f.Extension == ".txt")
+                    {
+                        continue;
+                    }
+                }
                 while (upDirectory.FullName != root.FullName)
                 {
                     relativePath = upDirectory.Name + "\\" + relativePath;

@@ -28,6 +28,10 @@ namespace SSEditor.FileHandling
 
             FileInfo sourceInfo = new FileInfo(SourceUrl.ToString());
             FileInfo targetInfo = new FileInfo(TargetUrl.ToString());
+            if (targetInfo.Exists)
+            {
+                targetInfo = new FileInfo(TargetUrl.ToString()+SourceMod.ModName);
+            }
             DirectoryInfo targetDir = targetInfo.Directory;
             if (!targetDir.Exists)
             {

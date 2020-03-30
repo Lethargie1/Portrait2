@@ -41,6 +41,7 @@ namespace SSEditor.FileHandling
                 if (exist != null)
                     throw new ArgumentException("Cannot add existing mod to directory");
                 currentMod = modFactory.CreateMod(modLink);
+                currentMod.TypeChanged += ModTypeChangedHandler;
                 Mods.Add(currentMod);
             }
         }
@@ -100,19 +101,35 @@ namespace SSEditor.FileHandling
             }
         }
 
-        public void MergeDirectory()
+        public void MergeDirectory(SSLinkUrl newModLink)
         {
             foreach (SSMod currentMod in Mods)
             {
-                if (currentMod.CurrentType == SSMod.ModType.skip || currentMod.CurrentType == SSMod.ModType.Ressource)
+                if (currentMod.CurrentType == SSMod.ModType.skip || currentMod.CurrentType == SSMod.ModType.Ressource || currentMod.CurrentType == SSMod.ModType.Core)
                     continue;
                 foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
                 {
                     if (modFile is SSNoMergeFile)
                     {
-                        continue;
+                        modFile.CopyTo(InstallationUrl + newModLink);
                     }
                 }
+            }
+        }
+
+        private void ModTypeChangedHandler(Object sender, ModTypeChangeEventArgs e)
+        {
+            //empty for now
+            if (e.OldType == SSMod.ModType.Mod)
+            {
+                if (e.NewType == SSMod.ModType.Ressource || e.NewType == SSMod.ModType.skip)
+                {
+                    //we went from mod to skip, remove files from the merged list
+                }
+            }
+            else if (e.NewType == SSMod.ModType.Mod)
+            {
+                //we went from skip to mod, perhaps add file to list
             }
         }
     }
