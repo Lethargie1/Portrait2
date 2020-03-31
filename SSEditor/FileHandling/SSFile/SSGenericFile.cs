@@ -17,6 +17,8 @@ namespace SSEditor.FileHandling
         {
             SourceMod = mod;
             LinkRelativeUrl = url.LinkRelative;
+            FileInfo info = new FileInfo(url.ToString());
+            FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
         }
 
         public void CopyTo(SSBaseLinkUrl newPath)
@@ -38,6 +40,11 @@ namespace SSEditor.FileHandling
                 targetDir.Create();
             }
             sourceInfo.CopyTo(targetInfo.FullName);
+        }
+
+        public override string ToString()
+        {
+            return FileName + " from " + SourceMod.ModName;
         }
     }
     public interface ISSGenericFile

@@ -37,10 +37,7 @@ namespace SSEditor.FileHandling
         }
         #endregion
 
-        public override string ToString()
-        {
-            return FileName+" from "+ModName;
-        }
+        
 
 
         public void ExtractFile(SSFullUrl fullUrl)

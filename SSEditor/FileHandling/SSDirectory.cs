@@ -83,6 +83,10 @@ namespace SSEditor.FileHandling
                                     fileGroup.Add(file);
                                 }
                                 break;
+                            case SSFileCsv fileCsv:
+                                SSFileCsvGroup fcg = matchingGroup as SSFileCsvGroup;
+                                fcg.Add(fileCsv);
+                                break;
                             case SSGenericFile file:
                                 if (matchingGroup is SSFileGroup<SSGenericFile> genericGroup)
                                 {

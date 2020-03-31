@@ -20,6 +20,8 @@ namespace SSEditor.FileHandling
             {
                 case ".faction":
                     return new SSFactionFile(mod, fullUrl);
+                case ".csv":
+                    return new SSFileCsv(mod, fullUrl);
                 default:
                     return new SSNoMergeFile(mod, fullUrl);
             }

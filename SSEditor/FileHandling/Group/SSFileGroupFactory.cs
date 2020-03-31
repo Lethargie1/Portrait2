@@ -27,6 +27,12 @@ namespace SSEditor.FileHandling
                 newgfGroup.Add(gf);
                 return newgfGroup;
             }
+            if(file is SSFileCsv fc)
+            {
+                SSFileCsvGroup newCsvGroup = new SSFileCsvGroup();
+                newCsvGroup.Add(fc);
+                return newCsvGroup;
+            }
             SSFileGroup<ISSGenericFile> newGroup = new SSFileGroup<ISSGenericFile>();
             newGroup.Add(file);
             return newGroup;
