@@ -119,6 +119,13 @@ namespace SSEditor.FileHandling
                     }
                 }
             }
+            IEnumerable<SSFileCsvGroup> csvGroups = from ISSFileGroup fg in GroupedFiles
+                    where fg is SSFileCsvGroup
+                    select fg as SSFileCsvGroup;
+            foreach (SSFileCsvGroup csvGroup in csvGroups)
+            {
+                csvGroup.WriteMergeTo(InstallationUrl + newModLink);
+            }
         }
 
         private void ModTypeChangedHandler(Object sender, ModTypeChangeEventArgs e)

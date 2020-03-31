@@ -34,7 +34,7 @@ namespace SSEditor
             test.Mods[3].ChangeType(SSMod.ModType.skip);
             test.Mods[5].ChangeType(SSMod.ModType.skip);
             test.PopulateMergedCollections();
-            test.MergeDirectory(new SSLinkUrl("hyes"));
+            test.MergeDirectory(new SSLinkUrl("mods\\hyes"));
             SSModFactory factory = new SSModFactory(SSUrl);
             factory.Type = SSMod.ModType.Mod;
             SSMod CoreMod = factory.CreateMod(CoreUrl);
