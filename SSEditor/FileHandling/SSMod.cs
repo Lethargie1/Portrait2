@@ -23,7 +23,7 @@ namespace SSEditor.FileHandling
 
         public override string ToString()
         {
-            return "Mod: " + (ModInfo?.ReadValue(new List<string> { "name" }) ?? ("Unnamed " + ModUrl.Link));
+            return "Mod: " + (ModInfo?.ReadValue( "name") ?? ("Unnamed " + ModUrl.Link));
         }
 
         public ReadOnlyObservableCollection<ISSGenericFile> FilesReadOnly { get; private set; }

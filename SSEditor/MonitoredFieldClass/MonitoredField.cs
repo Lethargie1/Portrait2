@@ -12,7 +12,7 @@ namespace SSEditor.MonitoringField
 {
     abstract class MonitoredField<T> where T:SSFile
     {
-        public List<string> FieldPath { get; set; }
+        public string FieldPath { get; set; }
         public string FieldName { get; set; }
         private ObservableCollection<T> _Files;
         public ObservableCollection<T> Files

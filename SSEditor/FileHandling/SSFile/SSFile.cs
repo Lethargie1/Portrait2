@@ -13,8 +13,8 @@ namespace SSEditor.FileHandling
 {
     public interface ISSFile : ISSGenericFile
     {
-        string ReadValue(List<string> JsonPath);
-        List<string> ReadArray(List<string> JsonPath);
+        string ReadValue(string JsonPath);
+        List<string> ReadArray(string JsonPath);
     }
     public class SSFile :SSGenericFile, ISSFile
     {
@@ -64,24 +64,14 @@ namespace SSEditor.FileHandling
             }
         }
 
-        public string ReadValue(List<string> JsonPath)
+        public string ReadValue(string JsonPath)
         {
             string result;
 
             if (JsonContent == null)
                 return null;
-            JObject localDepth = JsonContent;
-            JToken FoundToken = new JValue(null as string);
-            foreach (string field in JsonPath)
-            {
-                if (localDepth.TryGetValue(field, out FoundToken))
-                {
-                    if (FoundToken.Type == JTokenType.Object)
-                    {
-                        localDepth = FoundToken as JObject;
-                    }
-                }
-            }
+            JToken FoundToken = JsonContent.SelectToken(JsonPath);
+
             if (FoundToken==null || FoundToken.Type == JTokenType.Object || FoundToken.Count()>1)
             {
                 result = null;
@@ -93,24 +83,14 @@ namespace SSEditor.FileHandling
             return result;
         }
 
-        public List<string> ReadArray(List<string> JsonPath)
+        public List<string> ReadArray(string JsonPath)
         {
             List<string> result;
 
             if (JsonContent == null)
                 return null;
-            JObject localDepth = JsonContent;
-            JToken FoundToken = new JValue(null as string);
-            foreach (string field in JsonPath)
-            {
-                if (localDepth.TryGetValue(field, out FoundToken))
-                {
-                    if (FoundToken.Type == JTokenType.Object)
-                    {
-                        localDepth = FoundToken as JObject;
-                    }
-                }
-            }
+            JToken FoundToken = JsonContent.SelectToken(JsonPath);
+
 
             if (FoundToken == null || !FoundToken.HasValues)
             {
