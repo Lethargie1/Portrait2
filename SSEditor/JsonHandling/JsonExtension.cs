@@ -55,6 +55,8 @@ namespace SSEditor.JsonHandling
                 { Modified.Add(x.Key, x.Value); }
             }
         }
+
+
     }
 
     public interface IJsonConvertable

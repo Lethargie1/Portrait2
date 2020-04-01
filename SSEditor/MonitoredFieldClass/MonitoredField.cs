@@ -1,4 +1,5 @@
-﻿using SSEditor.FileHandling;
+﻿using Newtonsoft.Json.Linq;
+using SSEditor.FileHandling;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -52,6 +53,29 @@ namespace SSEditor.MonitoringField
             {
                 this.Resolve();
             }
+        }
+
+        public static IEnumerable<MonitoredField<T>> ExtractFields(List<T> files)
+        {
+            List<MonitoredField<T>> result = new List<MonitoredField<T>>();
+            foreach (SSFile file in files)
+            {
+                List<String> possiblePath = RecursiveExtractPossibleFieldsPath(file.JsonContent);
+            }
+            return result;
+        }
+
+        private static List<string> RecursiveExtractPossibleFieldsPath(JObject JsonContent, string CommonBase = "")
+        {
+            List<string> result = new List<string>();
+            foreach (KeyValuePair<string, JToken> x in JsonContent)
+            {
+                if (x.Value.HasValues && x.Value.Type != JTokenType.Array)
+                    result.AddRange(RecursiveExtractPossibleFieldsPath(x.Value as JObject));
+                else
+                    result.Add(x.Value.Path);
+            }
+            return result;
         }
     }
 }

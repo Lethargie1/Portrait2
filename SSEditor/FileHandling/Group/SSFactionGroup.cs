@@ -1,11 +1,15 @@
-﻿using SSEditor.MonitoringField;
+﻿using Newtonsoft.Json.Linq;
+using SSEditor.MonitoringField;
 using SSEditor.TokenClass;
+using SSEditor.JsonHandling;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace SSEditor.FileHandling
 {
@@ -22,7 +26,23 @@ namespace SSEditor.FileHandling
             KnownHull.ReplaceFiles(base.CommonFiles);
         }
 
-        
+        public void WriteMergeTo(SSBaseLinkUrl newPath)
+        {
+            SSBaseUrl InstallationUrl = new SSBaseUrl(newPath.Base);
+            SSFullUrl TargetUrl = newPath + this.CommonRelativeUrl;
+
+            //we need to make sure the directory exist
+            FileInfo targetInfo = new FileInfo(TargetUrl.ToString());
+            DirectoryInfo targetDir = targetInfo.Directory;
+            if (!targetDir.Exists)
+            {
+                targetDir.Create();
+            }
+            JObject NewContent = new JObject();
+            IEnumerable<MonitoredField<SSFactionFile>> TempList = MonitoredField<SSFactionFile>.ExtractFields(base.CommonFiles.ToList());
+        }
+
+
     }
     
 }

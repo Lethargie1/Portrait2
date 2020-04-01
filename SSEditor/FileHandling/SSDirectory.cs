@@ -107,24 +107,31 @@ namespace SSEditor.FileHandling
 
         public void MergeDirectory(SSLinkUrl newModLink)
         {
-            foreach (SSMod currentMod in Mods)
-            {
-                if (currentMod.CurrentType == SSMod.ModType.skip || currentMod.CurrentType == SSMod.ModType.Ressource || currentMod.CurrentType == SSMod.ModType.Core)
-                    continue;
-                foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
-                {
-                    if (modFile is SSNoMergeFile)
-                    {
-                        modFile.CopyTo(InstallationUrl + newModLink);
-                    }
-                }
-            }
+            //foreach (SSMod currentMod in Mods)
+            //{
+            //    if (currentMod.CurrentType == SSMod.ModType.skip || currentMod.CurrentType == SSMod.ModType.Ressource || currentMod.CurrentType == SSMod.ModType.Core)
+            //        continue;
+            //    foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
+            //    {
+            //        if (modFile is SSNoMergeFile)
+            //        {
+            //            modFile.CopyTo(InstallationUrl + newModLink);
+            //        }
+            //    }
+            //}
             IEnumerable<SSFileCsvGroup> csvGroups = from ISSFileGroup fg in GroupedFiles
                     where fg is SSFileCsvGroup
                     select fg as SSFileCsvGroup;
-            foreach (SSFileCsvGroup csvGroup in csvGroups)
+            //foreach (SSFileCsvGroup csvGroup in csvGroups)
+            //{
+            //    csvGroup.WriteMergeTo(InstallationUrl + newModLink);
+            //}
+            IEnumerable<SSFactionGroup> fGroups = from ISSFileGroup fg in GroupedFiles
+                                                    where fg is SSFactionGroup
+                                                    select fg as SSFactionGroup;
+            foreach (SSFactionGroup fg in fGroups)
             {
-                csvGroup.WriteMergeTo(InstallationUrl + newModLink);
+                fg.WriteMergeTo(InstallationUrl + newModLink);
             }
         }
 
