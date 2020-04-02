@@ -40,7 +40,14 @@ namespace SSEditor.FileHandling
             }
             JObject NewContent = new JObject();
             IEnumerable<MonitoredField<SSFactionFile>> TempList = MonitoredField<SSFactionFile>.ExtractFields(base.CommonFiles);
-            
+
+            foreach (MonitoredField<SSFactionFile> mf in TempList)
+            {
+                JObject a = mf.GetJsonEquivalent();
+                NewContent.ConcatRecursive(a);
+            }
+
+
         }
 
 

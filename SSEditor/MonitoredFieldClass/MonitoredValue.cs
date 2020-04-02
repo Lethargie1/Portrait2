@@ -30,11 +30,22 @@ namespace SSEditor.MonitoringField
                 Content.SetContent(ValueResult, FileResult);
             }
         }
-        public override JToken GetJsonEquivalent()
+        public override JObject GetJsonEquivalent()
         {
-            JValue result = new JValue(Content.Value);
-            
-                return result;
+            JValue result1 = new JValue(Content.Value);
+            string[] fieldPart = base.FieldPath.Split('.');
+            int numPart = fieldPart.Count();
+            //JObject result = new JObject();
+            //result.Add(fieldPart.Last(), Content.Value);
+            JToken tempResult = result1;
+            for (int i = numPart-1; i>=0; i--)
+            {
+                JObject NextResult = new JObject();
+                NextResult.Add(fieldPart[i], tempResult);
+                tempResult = NextResult;
+            }
+
+                return tempResult as JObject;
         }
 
         protected override void ResolveAdd(T file)

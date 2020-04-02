@@ -13,7 +13,6 @@ namespace SSEditor.MonitoringField
     public abstract class MonitoredField<T> where T:SSFile
     {
         public string FieldPath { get; set; }
-        public string FieldName { get; set; }
         private ObservableCollection<T> _Files;
         public ObservableCollection<T> Files
         {
@@ -28,7 +27,7 @@ namespace SSEditor.MonitoringField
             }
         }
 
-        abstract public JToken GetJsonEquivalent();
+        abstract public JObject GetJsonEquivalent();
         abstract public void Resolve();
         abstract protected void ResolveAdd(T file);
         abstract protected void ResolveRemove(T file);

@@ -34,9 +34,23 @@ namespace SSEditor.MonitoringField
                 
             }
         }
-        public override JToken GetJsonEquivalent()
+        public override JObject GetJsonEquivalent()
         {
-            throw new NotImplementedException();
+            string[] JsonContentArray = (from Token token in ContentArray
+                                         select token.Value).ToArray();
+            JArray result1 = new JArray(JsonContentArray);
+            string[] fieldPart = base.FieldPath.Split('.');
+            int numPart = fieldPart.Count();
+
+            JToken tempResult = result1;
+            for (int i = numPart - 1; i >= 0; i--)
+            {
+                JObject NextResult = new JObject();
+                NextResult.Add(fieldPart[i], tempResult);
+                tempResult = NextResult;
+            }
+
+            return tempResult as JObject;
         }
 
         protected override void ResolveAdd(T file)
