@@ -1,4 +1,5 @@
-﻿using SSEditor.FileHandling;
+﻿using Newtonsoft.Json.Linq;
+using SSEditor.FileHandling;
 using SSEditor.TokenClass;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,10 @@ namespace SSEditor.MonitoringField
                 
             }
         }
+        public override JToken GetJsonEquivalent()
+        {
+            throw new NotImplementedException();
+        }
 
         protected override void ResolveAdd(T file)
         {
@@ -42,6 +47,10 @@ namespace SSEditor.MonitoringField
         protected override void ResolveRemove(T file)
         {
             Resolve();
+        }
+        public override string ToString()
+        {
+            return base.FieldPath + " Array: (" + this.ContentArray.Count.ToString() + ")value, first one: " + (this.ContentArray.FirstOrDefault()?.ToString() ?? "none") ;
         }
     }
 }

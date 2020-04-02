@@ -39,7 +39,8 @@ namespace SSEditor.FileHandling
                 targetDir.Create();
             }
             JObject NewContent = new JObject();
-            IEnumerable<MonitoredField<SSFactionFile>> TempList = MonitoredField<SSFactionFile>.ExtractFields(base.CommonFiles.ToList());
+            IEnumerable<MonitoredField<SSFactionFile>> TempList = MonitoredField<SSFactionFile>.ExtractFields(base.CommonFiles);
+            
         }
 
 
