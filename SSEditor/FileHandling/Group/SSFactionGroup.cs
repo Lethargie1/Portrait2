@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 
 namespace SSEditor.FileHandling
 {
@@ -46,7 +46,14 @@ namespace SSEditor.FileHandling
                 JObject a = mf.GetJsonEquivalent();
                 NewContent.ConcatRecursive(a);
             }
-
+            using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
+            {
+                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                {
+                    writer.Formatting = Formatting.Indented;
+                    NewContent.WriteTo(writer);
+                }
+            }
 
         }
 
