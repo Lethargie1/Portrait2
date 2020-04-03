@@ -17,11 +17,23 @@ namespace SSEditor.MonitoringField
             switch(token.Type)
             {
                 case JTokenType.Array:
+                    JToken TestChild = token.Values().FirstOrDefault();
                     //either a value as array, or an array
-                    if (token.Values().Count() == 4 && token.Values().FirstOrDefault().Type == JTokenType.Integer)
-                        result = new MonitoredArrayValue<Color, T>() { FieldPath = token.Path };
-                    else
-                        result = new MonitoredArray<Text, T>() { FieldPath = token.Path };
+                    switch (TestChild.Type)
+                    {
+                        case JTokenType.Property:
+                            result = new MonitoredObjectArray<T>() { FieldPath = token.Path };
+                            break;
+                        case JTokenType.Integer:
+                            if (token.Values().Count() == 4)
+                                result = new MonitoredArrayValue<Color, T>() { FieldPath = token.Path };
+                            else
+                                result = new MonitoredArray<Text, T>() { FieldPath = token.Path };
+                            break;
+                        default:
+                            result = new MonitoredArray<Text, T>() { FieldPath = token.Path };
+                            break;
+                    }
                     break;
                 case JTokenType.Object:
                     result = new MonitoredPropertyArray<T>() { FieldPath = token.Path };

@@ -63,6 +63,7 @@
     <Compile Include="MonitoredFieldClass\MonitoredField.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredArray.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredFieldFactory.cs" />
+    <Compile Include="MonitoredFieldClass\MonitoredObjectArray.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredPropertyArray.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredValue.cs" />
     <Compile Include="Program.cs" />
