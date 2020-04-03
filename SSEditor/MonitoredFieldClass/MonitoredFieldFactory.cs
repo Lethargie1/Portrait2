@@ -13,22 +13,25 @@ namespace SSEditor.MonitoringField
     {
         public static MonitoredField<T> CreateFieldFromExampleToken(JToken token)
         {
-            if (token.Type == JTokenType.Array)
+            MonitoredField<T> result = null;
+            switch(token.Type)
             {
-                //either a value as array, or an array
-                if (token.Values().Count() == 4 && token.Values().FirstOrDefault().Type == JTokenType.Integer)
-                {
-                    MonitoredArrayValue<Color, T> TempArrayValue = new MonitoredArrayValue<Color, T>() { FieldPath = token.Path};
-                    return TempArrayValue;
-                }
-                MonitoredArray<Text,T> TempArray = new MonitoredArray<Text, T>() { FieldPath = token.Path };
-                return TempArray;
+                case JTokenType.Array:
+                    //either a value as array, or an array
+                    if (token.Values().Count() == 4 && token.Values().FirstOrDefault().Type == JTokenType.Integer)
+                        result = new MonitoredArrayValue<Color, T>() { FieldPath = token.Path };
+                    else
+                        result = new MonitoredArray<Text, T>() { FieldPath = token.Path };
+                    break;
+                case JTokenType.Object:
+                    result = new MonitoredPropertyArray<T>() { FieldPath = token.Path };
+                    break;
+                default:
+                    result = new MonitoredValue<Text, T>() { FieldPath = token.Path };
+                    break;
             }
-            else
-            {
-                MonitoredValue<Text, T> TempValue = new MonitoredValue<Text, T>() { FieldPath = token.Path };
-                return TempValue;
-            }
+            return result;
+                
             
             
         }

@@ -38,20 +38,15 @@ namespace SSEditor.FileHandling
             {
                 targetDir.Create();
             }
-            JObject NewContent = new JObject();
-            IEnumerable<MonitoredField<SSFactionFile>> TempList = MonitoredField<SSFactionFile>.ExtractFields(base.CommonFiles);
+            MonitoredPropertyArray<SSFactionFile> TempList = new MonitoredPropertyArray<SSFactionFile>() { FieldPath = "" };
+            TempList.ReplaceFiles(base.CommonFiles);
 
-            foreach (MonitoredField<SSFactionFile> mf in TempList)
-            {
-                JObject a = mf.GetJsonEquivalent();
-                NewContent.ConcatRecursive(a);
-            }
             using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
             {
                 using (JsonTextWriter writer = new JsonTextWriter(sw))
                 {
                     writer.Formatting = Formatting.Indented;
-                    NewContent.WriteTo(writer);
+                    TempList.GetJsonEquivalent().WriteTo(writer);
                 }
             }
 

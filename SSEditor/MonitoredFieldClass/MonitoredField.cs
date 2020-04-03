@@ -55,38 +55,5 @@ namespace SSEditor.MonitoringField
             }
         }
 
-        public static IEnumerable<MonitoredField<T>> ExtractFields(ObservableCollection<T> files)
-        {
-            List<MonitoredField<T>> result = new List<MonitoredField<T>>();
-            foreach (SSFile file in files)
-            {
-                IEnumerable<string> foundPath = from MonitoredField<T> field in result
-                                                select field.FieldPath;
-                List < JToken > possiblePath = RecursiveExtractPossibleFieldsPath(file.JsonContent);
-                IEnumerable<JToken> NewTokens = from JToken token in possiblePath
-                                                where !foundPath.Contains(token.Path)
-                                                select token;
-                foreach (JToken token in NewTokens)
-                {
-                    MonitoredField<T> temp = MonitoredFieldFactory<T>.CreateFieldFromExampleToken(token);
-                    temp.ReplaceFiles(files);
-                    result.Add(temp);
-                }
-            }
-            return result;
-        }
-
-        private static List<JToken> RecursiveExtractPossibleFieldsPath(JObject JsonContent)
-        {
-            List<JToken> result = new List<JToken>();
-            foreach (KeyValuePair<string, JToken> x in JsonContent)
-            {
-                if (x.Value.HasValues && x.Value.Type != JTokenType.Array)
-                    result.AddRange(RecursiveExtractPossibleFieldsPath(x.Value as JObject));
-                else
-                    result.Add(x.Value);
-            }
-            return result;
-        }
     }
 }

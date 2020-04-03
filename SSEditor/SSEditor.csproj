@@ -63,6 +63,7 @@
     <Compile Include="MonitoredFieldClass\MonitoredField.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredArray.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredFieldFactory.cs" />
+    <Compile Include="MonitoredFieldClass\MonitoredPropertyArray.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredValue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="TokenClass\ITokenInterface.cs" />
     <Compile Include="TokenClass\SourcedToken.cs" />
     <Compile Include="TokenClass\Text.cs" />
+    <Compile Include="TokenClass\TokenInt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -34,11 +34,11 @@ namespace SSEditor.TokenClass
 
 
         public SourcedToken() { }
-        public SourcedToken(string value, ISSFile file)
-        {
-            _Value = value;
-            Source = file;
-        }
+        //public SourcedToken(string value, ISSFile file)
+        //{
+        //    _Value = value;
+        //    Source = file;
+        //}
 
         public override string ToString()
         {
