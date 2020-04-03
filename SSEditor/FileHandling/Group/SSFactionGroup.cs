@@ -19,6 +19,7 @@ namespace SSEditor.FileHandling
         public MonitoredArrayValue<Color, SSFactionFile> FactionColor { get; } = new MonitoredArrayValue<Color, SSFactionFile>() { FieldPath = "color" };
         public MonitoredArray<Text, SSFactionFile> KnownHull { get; } = new MonitoredArray<Text, SSFactionFile>() { FieldPath = "knownShips.hulls" };
 
+
         public SSFactionGroup() : base ()
         {
             DisplayName.ReplaceFiles(base.CommonFiles);
@@ -39,7 +40,15 @@ namespace SSEditor.FileHandling
                 targetDir.Create();
             }
             MonitoredPropertyArray<SSFactionFile> TempList = new MonitoredPropertyArray<SSFactionFile>() { FieldPath = "" };
-            TempList.ReplaceFiles(base.CommonFiles);
+            if (base.MustOverwrite)
+                TempList.ReplaceFiles(base.CommonFiles);
+            else
+            {
+                List<SSFactionFile> ModList = (from SSFactionFile file in base.CommonFiles
+                                               where file.SourceMod.CurrentType != SSMod.ModType.Core
+                                               select file).ToList();
+                TempList.ReplaceFiles(new ObservableCollection<SSFactionFile>(ModList));
+            }
 
             using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
             {
@@ -51,6 +60,7 @@ namespace SSEditor.FileHandling
             }
 
         }
+
 
 
     }

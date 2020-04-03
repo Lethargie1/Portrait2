@@ -131,6 +131,7 @@ namespace SSEditor.FileHandling
                                                     select fg as SSFactionGroup;
             foreach (SSFactionGroup fg in fGroups)
             {
+                fg.MustOverwrite = false;
                 fg.WriteMergeTo(InstallationUrl + newModLink);
             }
         }

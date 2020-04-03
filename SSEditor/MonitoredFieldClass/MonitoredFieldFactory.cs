@@ -26,6 +26,10 @@ namespace SSEditor.MonitoringField
                 case JTokenType.Object:
                     result = new MonitoredPropertyArray<T>() { FieldPath = token.Path };
                     break;
+                case JTokenType.Integer:
+                    result = new MonitoredValue<Text, T>() { FieldPath = token.Path, ValueType= JTokenType.Integer};
+                    
+                    break;
                 default:
                     result = new MonitoredValue<Text, T>() { FieldPath = token.Path };
                     break;

@@ -12,7 +12,7 @@ namespace SSEditor.MonitoringField
     class MonitoredValue<Token,T>: MonitoredField<T> where T:SSFile where Token:ITokenValue, new()
     {
         public Token Content { get; } = new Token();
-
+        public JTokenType ValueType { get; set; } = JTokenType.String;
 
         override public void Resolve()
         {
@@ -32,7 +32,18 @@ namespace SSEditor.MonitoringField
         }
         public override JObject GetJsonEquivalent()
         {
-            JValue result1 = new JValue(Content.Value);
+            JValue result1;
+            switch (ValueType)
+            {
+                case JTokenType.String:
+                    result1 = new JValue(Content.Value);
+                    break;
+                case JTokenType.Integer:
+                    result1 = new JValue(Convert.ToInt32(Content.Value));
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
             string[] fieldPart = base.FieldPath.Split('.');
             int numPart = fieldPart.Count();
             //JObject result = new JObject();
