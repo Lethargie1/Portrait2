@@ -20,7 +20,7 @@ namespace SSEditor.TokenClass
     
     interface ITokenAsArray : ISourcedToken
     {
-        List<string> ValueArray { get; }
+        List<int> ValueArray { get; }
         void SetContent(List<string> valueList, ISSFile source);
     }
 }

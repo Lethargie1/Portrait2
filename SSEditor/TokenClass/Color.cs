@@ -25,7 +25,7 @@ namespace SSEditor.TokenClass
             }
         }
 
-        public List<string> ValueArray
+        public List<int> ValueArray
         {
             get
             {
@@ -33,11 +33,11 @@ namespace SSEditor.TokenClass
                 string b = base.Value.Substring(3, 2);
                 string c = base.Value.Substring(5, 2);
                 string d = base.Value.Substring(7, 2);
-                List<String> result = new List<string>();
-                result.Add(Convert.ToInt32(a,16).ToString());
-                result.Add(Convert.ToInt32(b, 16).ToString());
-                result.Add(Convert.ToInt32(c, 16).ToString());
-                result.Add(Convert.ToInt32(d, 16).ToString());
+                List<int> result = new List<int>();
+                result.Add(Convert.ToInt32(a,16));
+                result.Add(Convert.ToInt32(b, 16));
+                result.Add(Convert.ToInt32(c, 16));
+                result.Add(Convert.ToInt32(d, 16));
                 return result;
             }
         }

@@ -13,7 +13,7 @@ namespace SSEditor.MonitoringField
     {
         public Token Content { get; } = new Token();
         
-        public List<string> ValueArray { get => Content.ValueArray; }
+        public List<int> ValueArray { get => Content.ValueArray; }
 
         public override void Resolve()
         {

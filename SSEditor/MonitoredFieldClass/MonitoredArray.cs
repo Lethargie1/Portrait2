@@ -13,6 +13,7 @@ namespace SSEditor.MonitoringField
     class MonitoredArray<Token,T> : MonitoredField<T> where Token : ITokenValue, new() where T:SSFile
     {
         public ObservableCollection<Token> ContentArray { get; } = new ObservableCollection<Token>();
+        public JTokenType ValueType { get; set; } = JTokenType.String;
 
         public override void Resolve()
         {
