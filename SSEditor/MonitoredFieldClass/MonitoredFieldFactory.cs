@@ -27,7 +27,7 @@ namespace SSEditor.MonitoringField
                             if (token.Values().Count() == 4)
                                 result = new MonitoredArrayValue<Color, T>() { FieldPath = token.Path };
                             else
-                                result = new MonitoredArray<Text, T>() { FieldPath = token.Path };
+                                result = new MonitoredArray<Text, T>() { FieldPath = token.Path , ValueType = JTokenType.Integer};
                             break;
                         default:
                             result = new MonitoredArray<Text, T>() { FieldPath = token.Path };
