@@ -14,13 +14,13 @@ namespace SSEditor.MonitoringField
         public List<MonitoredField<T>> JObjectArray { get; private set; } = new List<MonitoredField<T>>();
         public override JToken GetJsonEquivalent()
         {
-            JObject NewContent = new JObject();
-            //foreach (MonitoredField<T> mf in JObjectArray)
-            //{
-            //    JObject a = mf.GetJsonEquivalent();
-            //    NewContent.Merge(a);
-            //}
-            return new JValue(0);
+            JArray NewContent = new JArray();
+            foreach (MonitoredField<T> mf in JObjectArray)
+            {
+                JToken a = mf.GetJsonEquivalent();
+                NewContent.Add(a);
+            }
+            return NewContent;
         }
 
         public override void Resolve()

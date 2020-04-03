@@ -55,7 +55,6 @@ namespace SSEditor.MonitoringField
                 NextResult.Add(fieldPart[i], tempResult);
                 tempResult = NextResult;
             }
-
             return result1;
         }
 
