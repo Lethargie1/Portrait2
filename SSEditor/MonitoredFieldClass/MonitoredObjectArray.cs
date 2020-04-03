@@ -12,15 +12,15 @@ namespace SSEditor.MonitoringField
     public class MonitoredObjectArray<T> : MonitoredField<T> where T : SSFile
     {
         public List<MonitoredField<T>> JObjectArray { get; private set; } = new List<MonitoredField<T>>();
-        public override JObject GetJsonEquivalent()
+        public override JToken GetJsonEquivalent()
         {
             JObject NewContent = new JObject();
-            foreach (MonitoredField<T> mf in JObjectArray)
-            {
-                JObject a = mf.GetJsonEquivalent();
-                NewContent.Merge(a);
-            }
-            return NewContent;
+            //foreach (MonitoredField<T> mf in JObjectArray)
+            //{
+            //    JObject a = mf.GetJsonEquivalent();
+            //    NewContent.Merge(a);
+            //}
+            return new JValue(0);
         }
 
         public override void Resolve()

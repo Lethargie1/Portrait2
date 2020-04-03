@@ -30,7 +30,7 @@ namespace SSEditor.MonitoringField
                 Content.SetContent(ValueResult, FileResult);
             }
         }
-        public override JObject GetJsonEquivalent()
+        public override JToken GetJsonEquivalent()
         {
             JValue result1;
             switch (ValueType)
@@ -56,7 +56,7 @@ namespace SSEditor.MonitoringField
                 tempResult = NextResult;
             }
 
-                return tempResult as JObject;
+            return result1;
         }
 
         protected override void ResolveAdd(T file)

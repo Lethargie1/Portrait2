@@ -34,7 +34,7 @@ namespace SSEditor.MonitoringField
                 
             }
         }
-        public override JObject GetJsonEquivalent()
+        public override JToken GetJsonEquivalent()
         {
             string[] JsonContentArray = (from Token token in ContentArray
                                          select token.Value).ToArray();
@@ -50,7 +50,7 @@ namespace SSEditor.MonitoringField
                 tempResult = NextResult;
             }
 
-            return tempResult as JObject;
+            return result1;
         }
 
         protected override void ResolveAdd(T file)

@@ -13,13 +13,13 @@ namespace SSEditor.MonitoringField
     public class MonitoredPropertyArray<T> : MonitoredField<T> where T : SSFile
     {
         public ObservableCollection<MonitoredField<T>> MonitoredProperties { get; private set; } = new ObservableCollection<MonitoredField<T>>();
-        public override JObject GetJsonEquivalent()
+        public override JToken GetJsonEquivalent()
         {
             JObject NewContent = new JObject();
             foreach (MonitoredField<T> mf in MonitoredProperties)
             {
-                JObject a = mf.GetJsonEquivalent();
-                NewContent.ConcatRecursive(a);
+                JToken a = mf.GetJsonEquivalent();
+                NewContent.Add(mf.FieldPath.Split('.').Last(), a);
             }
             return NewContent;
         }
