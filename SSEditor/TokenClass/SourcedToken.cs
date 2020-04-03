@@ -10,7 +10,7 @@ namespace SSEditor.TokenClass
     abstract class SourcedToken
     {
         private string _Value;
-        public string Value
+        public string NoNullValue
         {
             get
             {
@@ -22,6 +22,10 @@ namespace SSEditor.TokenClass
                     return _Value;
                 }
             }
+        }
+        public string Value
+        {
+            get => _Value;
             protected set => _Value = value;
         }
         public ISSFile Source { get; protected set; }
@@ -38,7 +42,7 @@ namespace SSEditor.TokenClass
 
         public override string ToString()
         {
-            return Value;
+            return NoNullValue;
         }
 
     }
