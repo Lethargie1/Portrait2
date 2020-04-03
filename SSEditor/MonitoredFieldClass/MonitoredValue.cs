@@ -44,17 +44,6 @@ namespace SSEditor.MonitoringField
                 default:
                     throw new NotImplementedException();
             }
-            string[] fieldPart = base.FieldPath.Split('.');
-            int numPart = fieldPart.Count();
-            //JObject result = new JObject();
-            //result.Add(fieldPart.Last(), Content.Value);
-            JToken tempResult = result1;
-            for (int i = numPart-1; i>=0; i--)
-            {
-                JObject NextResult = new JObject();
-                NextResult.Add(fieldPart[i], tempResult);
-                tempResult = NextResult;
-            }
             return result1;
         }
 

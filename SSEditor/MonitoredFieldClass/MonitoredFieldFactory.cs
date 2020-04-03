@@ -18,7 +18,6 @@ namespace SSEditor.MonitoringField
             {
                 case JTokenType.Array:
                     JToken TestChild = token.Values().FirstOrDefault();
-                    //either a value as array, or an array
                     switch (TestChild?.Type ?? JTokenType.String)
                     {
                         case JTokenType.Property:

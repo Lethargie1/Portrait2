@@ -33,19 +33,7 @@ namespace SSEditor.MonitoringField
         }
         public override JToken GetJsonEquivalent()
         {
-            JArray result1 = new JArray(Content.ValueArray.ToArray());
-            string[] fieldPart = base.FieldPath.Split('.');
-            int numPart = fieldPart.Count();
-
-            JToken tempResult = result1;
-            for (int i = numPart - 1; i >= 0; i--)
-            {
-                JObject NextResult = new JObject();
-                NextResult.Add(fieldPart[i], tempResult);
-                tempResult = NextResult;
-            }
-
-            return result1;
+            return new JArray(Content.ValueArray.ToArray());
         }
 
         protected override void ResolveAdd(T file)
