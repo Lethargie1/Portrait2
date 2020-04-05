@@ -16,7 +16,7 @@ namespace SSEditor.FileHandling
         string ReadValue(string JsonPath);
         List<string> ReadArray(string JsonPath);
     }
-    public class SSFile :SSGenericFile, ISSFile
+    public class SSFile : SSGenericFile, ISSFile
     {
 
 
@@ -27,6 +27,10 @@ namespace SSEditor.FileHandling
 
         string _ModName;
         public string ModName { get => _ModName; }
+
+        public string JSonStatusError { get; private set; } = "";
+        public bool ExtractedProperly { get; private set; } = false;
+
         #endregion
 
         #region Constructors
@@ -59,6 +63,7 @@ namespace SSEditor.FileHandling
             using (var jsonReader = new JsonTextReader(new StringReader(result)))
             {
                 var serializer = JsonSerializer.Create(new JsonSerializerSettings { Error = HandleDeserializationError });
+                ExtractedProperly = true;
                 dynamic value = serializer.Deserialize(jsonReader);
                 _JsonContent = value as JObject;
             }
@@ -107,7 +112,8 @@ namespace SSEditor.FileHandling
 
         public void HandleDeserializationError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs errorArgs)
         {
-            var currentError = errorArgs.ErrorContext.Error.Message;
+            JSonStatusError = errorArgs.ErrorContext.Error.Message;
+            ExtractedProperly = false;
             errorArgs.ErrorContext.Handled = true;
         }
 

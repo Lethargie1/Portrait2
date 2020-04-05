@@ -29,7 +29,7 @@ namespace SSEditor.MonitoringField
             if (FieldPath != null)
             {
                 var childrens = from f in Files
-                                 where f.JsonContent.SelectToken(this.FieldPath) != null
+                                 where f.JsonContent?.SelectToken(this.FieldPath) != null
                                  select f.JsonContent.SelectToken(this.FieldPath).Children();
                 var GroupedChildrenExample = childrens.SelectMany(c => c).GroupBy(c => c.Path).SelectMany(c=>c.First());
                 MonitoredProperties.Clear();

@@ -119,9 +119,10 @@ namespace SSEditor.FileHandling
             //        }
             //    }
             //}
-            IEnumerable<SSFileCsvGroup> csvGroups = from ISSFileGroup fg in GroupedFiles
-                    where fg is SSFileCsvGroup
-                    select fg as SSFileCsvGroup;
+
+            IEnumerable < SSFileCsvGroup > csvGroups = from ISSFileGroup fg in GroupedFiles
+                                                       where fg is SSFileCsvGroup
+                                                       select fg as SSFileCsvGroup;
             //foreach (SSFileCsvGroup csvGroup in csvGroups)
             //{
             //    csvGroup.WriteMergeTo(InstallationUrl + newModLink);
@@ -129,6 +130,11 @@ namespace SSEditor.FileHandling
             IEnumerable<SSFactionGroup> fGroups = from ISSFileGroup fg in GroupedFiles
                                                     where fg is SSFactionGroup
                                                     select fg as SSFactionGroup;
+
+            var a = fGroups.SelectMany(fg => fg.CommonFilesReadOnly);
+            IEnumerable<SSFactionFile> failedExtractedFile = from SSFactionFile f in a
+                    where f.ExtractedProperly == false
+                    select f;
             foreach (SSFactionGroup fg in fGroups)
             {
                 fg.MustOverwrite = true;
