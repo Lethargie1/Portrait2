@@ -18,7 +18,7 @@ namespace SSEditor.FileHandling
             string Extension = info.Extension;
             switch (Extension)
             {
-                case ".Json":
+                case ".json":
                     return new SSJson(mod, fullUrl);
                 case ".faction":
                     return new SSFaction(mod, fullUrl);

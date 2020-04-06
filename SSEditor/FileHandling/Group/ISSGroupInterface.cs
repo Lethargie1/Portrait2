@@ -15,6 +15,6 @@ namespace SSEditor.FileHandling
     }
     public interface ISSJsonGroup : ISSGroup
     {
-
+        ReadOnlyObservableCollection<SSJson> GetJSonFiles();
     }
 }

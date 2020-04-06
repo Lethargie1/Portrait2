@@ -124,11 +124,13 @@ namespace SSEditor.FileHandling
             IEnumerable<ISSJsonGroup> fGroups = from ISSGroup fg in GroupedFiles
                                                     where fg is ISSJsonGroup
                                                     select fg as ISSJsonGroup;
-
-            //var a = fGroups.SelectMany(fg => fg.CommonFilesReadOnly);
-           // IEnumerable<ISSJson> failedExtractedFile = from ISSJson f in a
-             //       where f.ExtractedProperly == false
-              //      select f;
+            IEnumerable<SSJsonGroup<SSJson>> gGroups = from ISSGroup fg in GroupedFiles
+                                                where fg is SSJsonGroup<SSJson>
+                                                       select fg as SSJsonGroup<SSJson>;
+            var a = fGroups.SelectMany(fg => fg.GetJSonFiles());
+            IEnumerable<ISSJson> failedExtractedFile = from ISSJson f in a
+                                                       where f.ExtractedProperly == false
+                                                       select f;
             foreach (ISSGroup fg in GroupedFiles)
             {
                 fg.MustOverwrite = true;

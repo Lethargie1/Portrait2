@@ -50,5 +50,13 @@ namespace SSEditor.FileHandling
                 }
             }
         }
+
+        public ReadOnlyObservableCollection<SSJson> GetJSonFiles()
+        {
+            ObservableCollection<SSJson> BaseCollection = new ObservableCollection<SSJson>();
+            foreach (T file in base.CommonFiles)
+                BaseCollection.Add(file as SSJson);
+            return new ReadOnlyObservableCollection<SSJson>(BaseCollection);
+        }
     }
 }
