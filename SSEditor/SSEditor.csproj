@@ -49,7 +49,7 @@
     <Compile Include="FileHandling\Group\ISSGroupInterface.cs" />
     <Compile Include="FileHandling\Group\SSFileCsvGroup.cs" />
     <Compile Include="FileHandling\Group\SSFileGroupFactory.cs" />
-    <Compile Include="FileHandling\Group\SSFileJsonGroup.cs" />
+    <Compile Include="FileHandling\Group\SSJsonGroup.cs" />
     <Compile Include="FileHandling\SSFile\SSCsv.cs" />
     <Compile Include="FileHandling\SSFile\SSGeneric.cs" />
     <Compile Include="FileHandling\SSDirectory.cs" />

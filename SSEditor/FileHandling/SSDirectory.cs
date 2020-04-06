@@ -121,15 +121,15 @@ namespace SSEditor.FileHandling
             //{
             //    csvGroup.WriteMergeTo(InstallationUrl + newModLink);
             //}
-            IEnumerable<SSFactionGroup> fGroups = from ISSGroup fg in GroupedFiles
-                                                    where fg is SSFactionGroup
-                                                    select fg as SSFactionGroup;
+            IEnumerable<ISSJsonGroup> fGroups = from ISSGroup fg in GroupedFiles
+                                                    where fg is ISSJsonGroup
+                                                    select fg as ISSJsonGroup;
 
-            var a = fGroups.SelectMany(fg => fg.CommonFilesReadOnly);
-            IEnumerable<SSFaction> failedExtractedFile = from SSFaction f in a
-                    where f.ExtractedProperly == false
-                    select f;
-            foreach (SSFactionGroup fg in fGroups)
+            //var a = fGroups.SelectMany(fg => fg.CommonFilesReadOnly);
+           // IEnumerable<ISSJson> failedExtractedFile = from ISSJson f in a
+             //       where f.ExtractedProperly == false
+              //      select f;
+            foreach (ISSGroup fg in GroupedFiles)
             {
                 fg.MustOverwrite = true;
                 fg.WriteMergeTo(InstallationUrl + newModLink);

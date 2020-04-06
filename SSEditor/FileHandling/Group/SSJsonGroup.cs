@@ -14,7 +14,7 @@ namespace SSEditor.FileHandling
     {
 
     }
-    class SSJsonGroup<T> : SSGroup<T> where T: SSJson
+    class SSJsonGroup<T> : SSGroup<T>, ISSJsonGroup where T: SSJson
     {
         public SSJsonGroup() : base() { }
 

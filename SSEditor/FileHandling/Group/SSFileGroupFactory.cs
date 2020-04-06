@@ -19,19 +19,19 @@ namespace SSEditor.FileHandling
             {
                 SSFactionGroup newFGroup = new SSFactionGroup();
                 newFGroup.Add(f);
-                return newFGroup;
+                return newFGroup as ISSGroup;
             }
             if(file is SSJson gf)
             {
                 SSJsonGroup newgfGroup = new SSJsonGroup();
                 newgfGroup.Add(gf);
-                return newgfGroup;
+                return newgfGroup as ISSGroup;
             }
             if(file is SSCsv fc)
             {
                 SSCsvGroup newCsvGroup = new SSCsvGroup();
                 newCsvGroup.Add(fc);
-                return newCsvGroup;
+                return newCsvGroup as ISSGroup;
             }
 
             return null;

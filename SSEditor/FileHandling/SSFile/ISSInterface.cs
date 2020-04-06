@@ -18,6 +18,7 @@ namespace SSEditor.FileHandling
     public interface ISSJson : ISSMergable
     {
         //these contains json data, many type exist but the handling of the internal jsoncontent is the same
+        bool ExtractedProperly { get;}
         string ReadValue(string JsonPath);
         List<string> ReadArray(string JsonPath);
     }
