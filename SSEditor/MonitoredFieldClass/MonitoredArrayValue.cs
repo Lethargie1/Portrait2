@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    class MonitoredArrayValue<Token, T> : MonitoredField<T> where Token : ITokenAsArray, new() where T:SSFile
+    class MonitoredArrayValue<Token, T> : MonitoredField<T> where Token : ITokenAsArray, new() where T:SSJson
     {
         public Token Content { get; } = new Token();
         
@@ -26,7 +26,7 @@ namespace SSEditor.MonitoringField
                               orderby p.modName
                               select new { p.value, p.file };
                 List<string> ValueResult = Ordered.FirstOrDefault()?.value;
-                ISSFile FileResult = Ordered.FirstOrDefault()?.file;
+                ISSJson FileResult = Ordered.FirstOrDefault()?.file;
 
                 Content.SetContent(ValueResult, FileResult);
             }

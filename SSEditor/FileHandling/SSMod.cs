@@ -17,7 +17,7 @@ namespace SSEditor.FileHandling
 
 
         public SSBaseLinkUrl ModUrl { get; private set; }
-        public SSFile ModInfo { get; private set; }
+        public SSJson ModInfo { get; private set; }
         public ModType CurrentType { get; private set; }
         public string ModName { get; private set; }
 
@@ -36,7 +36,7 @@ namespace SSEditor.FileHandling
             ModName = FactionDirectory.Name;
             CurrentType = type;
             FilesReadOnly = new ReadOnlyObservableCollection<ISSGenericFile>(Files);
-            ModInfo = new SSFile(this, fullModUrl + new SSRelativeUrl("mod_info.json"));
+            ModInfo = new SSJson(this, fullModUrl + new SSRelativeUrl("mod_info.json"));
         }
 
         public void ChangeType(ModType newType)

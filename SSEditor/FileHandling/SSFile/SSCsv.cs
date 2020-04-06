@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    class SSFileCsv : SSGenericFile
+    class SSCsv : SSGeneric, ISSMergable
     {
-        public SSFileCsv(SSMod ssmod, SSFullUrl url) : base(ssmod, url) { }
+        public SSCsv(SSMod ssmod, SSFullUrl url) : base(ssmod, url) { }
         
     }
 }

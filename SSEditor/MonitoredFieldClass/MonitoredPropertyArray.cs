@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public class MonitoredPropertyArray<T> : MonitoredField<T> where T : SSFile
+    public class MonitoredPropertyArray<T> : MonitoredField<T> where T : SSJson
     {
         public ObservableCollection<MonitoredField<T>> MonitoredProperties { get; private set; } = new ObservableCollection<MonitoredField<T>>();
         public override JToken GetJsonEquivalent()

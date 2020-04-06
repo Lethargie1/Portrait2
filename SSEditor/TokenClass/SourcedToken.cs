@@ -28,7 +28,7 @@ namespace SSEditor.TokenClass
             get => _Value;
             protected set => _Value = value;
         }
-        public ISSFile Source { get; protected set; }
+        public ISSJson Source { get; protected set; }
         public abstract string DefaultValue { get; }
         public abstract bool IsValid { get; }
 

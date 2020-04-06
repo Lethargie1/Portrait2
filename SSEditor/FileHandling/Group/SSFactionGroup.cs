@@ -13,11 +13,11 @@ using Newtonsoft.Json;
 
 namespace SSEditor.FileHandling
 {
-    class SSFactionGroup : SSFileGroup<SSFactionFile>
+    class SSFactionGroup : SSJsonGroup<SSFaction>
     {
-        public MonitoredValue<Text,SSFactionFile> DisplayName { get; } = new MonitoredValue<Text, SSFactionFile>() { FieldPath = "displayName" };
-        public MonitoredArrayValue<Color, SSFactionFile> FactionColor { get; } = new MonitoredArrayValue<Color, SSFactionFile>() { FieldPath = "color" };
-        public MonitoredArray<Text, SSFactionFile> KnownHull { get; } = new MonitoredArray<Text, SSFactionFile>() { FieldPath = "knownShips.hulls" };
+        public MonitoredValue<Text,SSFaction> DisplayName { get; } = new MonitoredValue<Text, SSFaction>() { FieldPath = "displayName" };
+        public MonitoredArrayValue<Color, SSFaction> FactionColor { get; } = new MonitoredArrayValue<Color, SSFaction>() { FieldPath = "color" };
+        public MonitoredArray<Text, SSFaction> KnownHull { get; } = new MonitoredArray<Text, SSFaction>() { FieldPath = "knownShips.hulls" };
 
 
         public SSFactionGroup() : base ()
@@ -26,43 +26,6 @@ namespace SSEditor.FileHandling
             FactionColor.ReplaceFiles(base.CommonFiles);
             KnownHull.ReplaceFiles(base.CommonFiles);
         }
-
-        public void WriteMergeTo(SSBaseLinkUrl newPath)
-        {
-            SSBaseUrl InstallationUrl = new SSBaseUrl(newPath.Base);
-            SSFullUrl TargetUrl = newPath + this.CommonRelativeUrl;
-
-            //we need to make sure the directory exist
-            FileInfo targetInfo = new FileInfo(TargetUrl.ToString());
-            DirectoryInfo targetDir = targetInfo.Directory;
-            if (!targetDir.Exists)
-            {
-                targetDir.Create();
-            }
-            MonitoredPropertyArray<SSFactionFile> TempList = new MonitoredPropertyArray<SSFactionFile>() { FieldPath = "" };
-            if (base.MustOverwrite)
-                TempList.ReplaceFiles(base.CommonFiles);
-            else
-            {
-                List<SSFactionFile> ModList = (from SSFactionFile file in base.CommonFiles
-                                               where file.SourceMod.CurrentType != SSMod.ModType.Core
-                                               select file).ToList();
-                TempList.ReplaceFiles(new ObservableCollection<SSFactionFile>(ModList));
-            }
-
-            using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
-            {
-                using (JsonTextWriter writer = new JsonTextWriter(sw))
-                {
-                    writer.Formatting = Formatting.Indented;
-                    TempList.GetJsonEquivalent().WriteTo(writer);
-                }
-            }
-
-        }
-
-
-
     }
     
 }

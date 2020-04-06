@@ -11,12 +11,7 @@ using SSEditor.FileHandling;
 
 namespace SSEditor.FileHandling
 {
-    public interface ISSFile : ISSGenericFile
-    {
-        string ReadValue(string JsonPath);
-        List<string> ReadArray(string JsonPath);
-    }
-    public class SSFile : SSGenericFile, ISSFile
+    public class SSJson : SSGeneric, ISSJson, ISSMergable
     {
 
 
@@ -34,7 +29,7 @@ namespace SSEditor.FileHandling
         #endregion
 
         #region Constructors
-        public SSFile(SSMod mod, SSFullUrl fullUrl) : base (mod, fullUrl)
+        public SSJson(SSMod mod, SSFullUrl fullUrl) : base (mod, fullUrl)
         {
             this.ExtractFile(fullUrl);
             SourceMod = mod;
@@ -119,9 +114,9 @@ namespace SSEditor.FileHandling
 
     }
 
-    public class SSFactionFile: SSFile, ISSFile
+    public class SSFaction: SSJson, ISSJson
     {
         //nothing special, its just a marker of the type of file
-        public SSFactionFile(SSMod mod, SSFullUrl url) : base (mod, url) { }
+        public SSFaction(SSMod mod, SSFullUrl url) : base (mod, url) { }
     }
 }

@@ -15,7 +15,7 @@ namespace SSEditor
     {
         static void Main()
         {
-            SSBaseUrl SSUrl = new SSBaseUrl("C:\\Program Files (x86)\\Fractal Softworks\\Starsector");
+            SSBaseUrl SSUrl = new SSBaseUrl("E:\\SS\\Starsector");
             SSLinkUrl CoreUrl = new SSLinkUrl("starsector-core");
             SSLinkUrl TahlanUrl = new SSLinkUrl("mods\\tahlan");
             SSLinkUrl SWPUrl = new SSLinkUrl("mods\\Ship and Weapon Pack");
@@ -40,9 +40,9 @@ namespace SSEditor
             SSMod CoreMod = factory.CreateMod(CoreUrl);
             SSMod TahlanMod = factory.CreateMod(TahlanUrl);
 
-            SSFactionFile CoreHeg = new SSFactionFile(CoreMod, SSUrl + CoreUrl + HegemonyUrl);
-            SSFactionFile TahlanHeg = new SSFactionFile(TahlanMod, SSUrl + TahlanUrl + HegemonyUrl);
-            SSFactionFile SWPHeg = new SSFactionFile(CoreMod, SSUrl + SWPUrl + HegemonyUrl);
+            SSFaction CoreHeg = new SSFaction(CoreMod, SSUrl + CoreUrl + HegemonyUrl);
+            SSFaction TahlanHeg = new SSFaction(TahlanMod, SSUrl + TahlanUrl + HegemonyUrl);
+            SSFaction SWPHeg = new SSFaction(CoreMod, SSUrl + SWPUrl + HegemonyUrl);
 
             List<string> TokenPath = new List<string> { "knownShips", "hulls" };
             List<string> TokenPath2 = new List<string> { "music", "theme" };

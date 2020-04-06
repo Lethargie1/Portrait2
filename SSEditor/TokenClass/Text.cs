@@ -24,7 +24,7 @@ namespace SSEditor.TokenClass
             }
         }
 
-        public void SetContent(string value, ISSFile source)
+        public void SetContent(string value, ISSJson source)
         {
             base.Value = value;
             base.Source = source;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    public class SSFileGroup<T> : ISSFileGroup where T: ISSGenericFile
+    public abstract class SSGroup<T> : ISSGroup where T: ISSMergable
     {
         public ReadOnlyObservableCollection<T> CommonFilesReadOnly { get; private set; }
         protected ObservableCollection<T> CommonFiles { get;} = new ObservableCollection<T>();
@@ -17,7 +17,7 @@ namespace SSEditor.FileHandling
 
         public bool MustOverwrite = true;
 
-        public SSFileGroup()
+        public SSGroup()
         {
             CommonFilesReadOnly = new ReadOnlyObservableCollection<T>(CommonFiles);
         }
@@ -45,14 +45,13 @@ namespace SSEditor.FileHandling
                 CommonRelativeUrl = null;
         }
 
+        public abstract void WriteMergeTo(SSBaseLinkUrl newPath);
+
         public override string ToString()
         {
             return "Group of (" + CommonFilesReadOnly.Count.ToString()+ ") " + (CommonRelativeUrl?.ToString() ?? "no file");
         }
     }
 
-    public interface ISSFileGroup
-    {
-        SSRelativeUrl CommonRelativeUrl { get; }
-    }
+    
 }

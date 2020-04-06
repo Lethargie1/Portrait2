@@ -42,7 +42,7 @@ namespace SSEditor.TokenClass
             }
         }
 
-        public void SetContent(List<string> valueList, ISSFile source)
+        public void SetContent(List<string> valueList, ISSJson source)
         {
             if (valueList==null)
             {

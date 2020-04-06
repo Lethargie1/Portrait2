@@ -11,7 +11,7 @@ namespace SSEditor.FileHandling
     class SSDirectory
     {
 
-        public ObservableCollection<ISSFileGroup> GroupedFiles { get; private set; } = new ObservableCollection<ISSFileGroup>();
+        public ObservableCollection<ISSGroup> GroupedFiles { get; private set; } = new ObservableCollection<ISSGroup>();
         public ObservableCollection<SSMod> Mods { get; private set; } = new ObservableCollection<SSMod>();
         public SSBaseUrl InstallationUrl { get; set; }
 
@@ -55,43 +55,37 @@ namespace SSEditor.FileHandling
                     continue;
                 foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
                 {
-                    if (modFile is SSNoMergeFile)
+                    if (!(modFile is ISSMergable MergableModFile))
                     { continue; }
 
-                    ISSFileGroup matchingGroup = GroupedFiles.SingleOrDefault(T =>
+                    ISSGroup matchingGroup = GroupedFiles.SingleOrDefault(T =>
                     {
-                        return T.CommonRelativeUrl.Equals(modFile.LinkRelativeUrl.GetRelative());
+                        return T.CommonRelativeUrl.Equals(MergableModFile.LinkRelativeUrl.GetRelative());
                     });
                     if (matchingGroup == null)
                     {
-                        matchingGroup = groupFactory.CreateGroupFromFile(modFile);
+                        matchingGroup = groupFactory.CreateGroupFromFile(MergableModFile);
                         GroupedFiles.Add(matchingGroup);
                     }
                     else
                     {
-                        switch (modFile)
+                        switch (MergableModFile)
                         {
-                            case SSFactionFile factionfile:
+                            case SSFaction factionfile:
                                 if (matchingGroup is SSFactionGroup factionGroup)
                                 {
                                     factionGroup.Add(factionfile);
                                 }
                                 break;
-                            case SSFile file:
-                                if (matchingGroup is SSFileGroup<SSFile> fileGroup)
+                            case SSJson file:
+                                if (matchingGroup is SSGroup<SSJson> fileGroup)
                                 {
                                     fileGroup.Add(file);
                                 }
                                 break;
-                            case SSFileCsv fileCsv:
-                                SSFileCsvGroup fcg = matchingGroup as SSFileCsvGroup;
+                            case SSCsv fileCsv:
+                                SSCsvGroup fcg = matchingGroup as SSCsvGroup;
                                 fcg.Add(fileCsv);
-                                break;
-                            case SSGenericFile file:
-                                if (matchingGroup is SSFileGroup<SSGenericFile> genericGroup)
-                                {
-                                    genericGroup.Add(file);
-                                }
                                 break;
                             default:
                                 throw new NotImplementedException("Could not add a file in the directory to a known group");
@@ -120,19 +114,19 @@ namespace SSEditor.FileHandling
             //    }
             //}
 
-            IEnumerable < SSFileCsvGroup > csvGroups = from ISSFileGroup fg in GroupedFiles
-                                                       where fg is SSFileCsvGroup
-                                                       select fg as SSFileCsvGroup;
+            IEnumerable < SSCsvGroup > csvGroups = from ISSGroup fg in GroupedFiles
+                                                       where fg is SSCsvGroup
+                                                       select fg as SSCsvGroup;
             //foreach (SSFileCsvGroup csvGroup in csvGroups)
             //{
             //    csvGroup.WriteMergeTo(InstallationUrl + newModLink);
             //}
-            IEnumerable<SSFactionGroup> fGroups = from ISSFileGroup fg in GroupedFiles
+            IEnumerable<SSFactionGroup> fGroups = from ISSGroup fg in GroupedFiles
                                                     where fg is SSFactionGroup
                                                     select fg as SSFactionGroup;
 
             var a = fGroups.SelectMany(fg => fg.CommonFilesReadOnly);
-            IEnumerable<SSFactionFile> failedExtractedFile = from SSFactionFile f in a
+            IEnumerable<SSFaction> failedExtractedFile = from SSFaction f in a
                     where f.ExtractedProperly == false
                     select f;
             foreach (SSFactionGroup fg in fGroups)

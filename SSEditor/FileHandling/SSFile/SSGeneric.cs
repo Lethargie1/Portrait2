@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    public class SSGenericFile : ISSGenericFile
+    public abstract class SSGeneric : ISSGenericFile
     {
         public SSLinkRelativeUrl LinkRelativeUrl { get; protected set; }
         public string FileName { get; protected set; }
         public SSMod SourceMod { get; protected set; }
 
-        public SSGenericFile(SSMod mod, SSFullUrl url)
+        public SSGeneric(SSMod mod, SSFullUrl url)
         {
             SourceMod = mod;
             LinkRelativeUrl = url.LinkRelative;
@@ -47,11 +47,5 @@ namespace SSEditor.FileHandling
             return FileName + " from " + SourceMod.ModName;
         }
     }
-    public interface ISSGenericFile
-    {
-        SSLinkRelativeUrl LinkRelativeUrl { get; }
-        string FileName { get; }
-        SSMod SourceMod { get; }
-        void CopyTo(SSBaseLinkUrl NewPath);
-    }
+    
 }

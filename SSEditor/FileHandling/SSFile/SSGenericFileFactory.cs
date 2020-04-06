@@ -19,11 +19,11 @@ namespace SSEditor.FileHandling
             switch (Extension)
             {
                 case ".faction":
-                    return new SSFactionFile(mod, fullUrl);
+                    return new SSFaction(mod, fullUrl);
                 case ".csv":
-                    return new SSFileCsv(mod, fullUrl);
+                    return new SSCsv(mod, fullUrl);
                 default:
-                    return new SSNoMergeFile(mod, fullUrl);
+                    return new SSNoMerge(mod, fullUrl);
             }
         }
 

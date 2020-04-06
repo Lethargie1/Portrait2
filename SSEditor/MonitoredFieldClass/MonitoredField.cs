@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public abstract class MonitoredField<T> where T:SSFile
+    public abstract class MonitoredField<T> where T:SSJson
     {
         public string FieldPath { get; set; }
         private ObservableCollection<T> _Files;

@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    class SSFileCsvGroup : SSFileGroup<SSFileCsv>
+    class SSCsvGroup : SSGroup<SSCsv>
     {
-        public void WriteMergeTo(SSBaseLinkUrl newPath)
+        public override void WriteMergeTo(SSBaseLinkUrl newPath)
         {
             SSBaseUrl InstallationUrl = new SSBaseUrl(newPath.Base);
             SSFullUrl TargetUrl = newPath + this.CommonRelativeUrl;
             //we do not merge core csv on the patch, it would be pointless
-            IEnumerable<SSFileCsv> NonCoreFile = from SSFileCsv file in this.CommonFiles
+            IEnumerable<SSCsv> NonCoreFile = from SSCsv file in this.CommonFiles
                                                  where file.SourceMod.CurrentType != SSMod.ModType.Core
                                                  select file;
             if (NonCoreFile.Count() == 0)
@@ -32,7 +32,7 @@ namespace SSEditor.FileHandling
             using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
             {
                 bool columnNameCopied = false;
-                foreach (SSFileCsv file in this.CommonFiles)
+                foreach (SSCsv file in this.CommonFiles)
                 {
                     SSFullUrl SourceUrl = InstallationUrl + file.LinkRelativeUrl;
                     using (StreamReader sr = File.OpenText(SourceUrl.ToString()))

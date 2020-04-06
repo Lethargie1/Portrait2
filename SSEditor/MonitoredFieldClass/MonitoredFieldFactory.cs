@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public static class MonitoredFieldFactory<T> where T:SSFile
+    public static class MonitoredFieldFactory<T> where T:SSJson
     {
         public static MonitoredField<T> CreateFieldFromExampleToken(JToken token)
         {

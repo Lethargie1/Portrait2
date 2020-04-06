@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    class MonitoredArray<Token,T> : MonitoredField<T> where Token : ITokenValue, new() where T:SSFile
+    class MonitoredArray<Token,T> : MonitoredField<T> where Token : ITokenValue, new() where T:SSJson
     {
         public ObservableCollection<Token> ContentArray { get; } = new ObservableCollection<Token>();
         public JTokenType ValueType { get; set; } = JTokenType.String;

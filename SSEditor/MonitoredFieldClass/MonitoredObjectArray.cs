@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public class MonitoredObjectArray<T> : MonitoredField<T> where T : SSFile
+    public class MonitoredObjectArray<T> : MonitoredField<T> where T : SSJson
     {
         public List<MonitoredField<T>> JObjectArray { get; private set; } = new List<MonitoredField<T>>();
         public override JToken GetJsonEquivalent()
