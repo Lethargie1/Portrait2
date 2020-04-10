@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FVJson
 {
-    public class JsonValue : JsonToken
+    public class JsonValue : JsonToken, IEquatable<JsonValue>
     {
         public object Content { get; private set; }
         public void SetContent(bool value)
@@ -121,6 +121,28 @@ namespace FVJson
                 return this;
             else
                 throw new ArgumentOutOfRangeException();
+        }
+
+        public override bool Equals(Object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                return this.Equals(obj as JsonValue);
+            }
+        }
+        public override int GetHashCode()
+        {
+            int hash = Content.ToString().GetHashCode() + Type.GetHashCode();
+            return hash;
+        }
+        bool IEquatable<JsonValue>.Equals(JsonValue other)
+        {
+            return (this.Type == other.Type && this.Content == other.Content) ? true : false;
         }
     }
 }

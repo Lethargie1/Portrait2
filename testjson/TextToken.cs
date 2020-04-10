@@ -82,6 +82,8 @@ namespace FVJson
                                         throw new FormatException();
                                     case ']':
                                     case ',':
+                                    case ':':
+                                    case '}':
                                         result.type = TextTokenType.Reference;
                                         if (Regex.IsMatch(result.content, @"^[0-9]+$"))
                                             result.type = TextTokenType.Integer;

@@ -81,5 +81,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\testjson\FVJson.csproj">
+      <Project>{d603dce7-1a69-47b4-99d0-8bf10af49641}</Project>
+      <Name>FVJson</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

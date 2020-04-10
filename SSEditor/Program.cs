@@ -7,7 +7,9 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using FVJson;
 
 namespace SSEditor
 {
@@ -15,11 +17,24 @@ namespace SSEditor
     {
         static void Main()
         {
+            
             SSBaseUrl SSUrl = new SSBaseUrl("E:\\SS\\Starsector");
             SSLinkUrl CoreUrl = new SSLinkUrl("starsector-core");
             SSLinkUrl TahlanUrl = new SSLinkUrl("mods\\tahlan");
             SSLinkUrl SWPUrl = new SSLinkUrl("mods\\Ship and Weapon Pack");
             SSRelativeUrl HegemonyUrl = new SSRelativeUrl("data\\world\\factions\\hegemony.faction");
+
+            string url = (SSUrl + CoreUrl + HegemonyUrl).ToString();
+            string ReadResult = File.ReadAllText(url);
+            var result = Regex.Replace(ReadResult, "#.*", "");
+            using (var reader = new StringReader(result))
+            {
+                JsonReader jreader = new JsonReader(reader);
+                JsonToken a = jreader.UnJson();
+                string path = "distress_call.sounds[2";
+                bool c = a.ExistPath(path);
+                string b = a.ToJsonString();
+            }
 
             SSBaseUrl ModFolderPath = SSUrl + "mods";
             DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
