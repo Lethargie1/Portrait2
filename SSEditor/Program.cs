@@ -1,6 +1,5 @@
 ﻿using SSEditor.FileHandling;
 using SSEditor.MonitoringField;
-using SSEditor.TokenClass;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,18 +23,7 @@ namespace SSEditor
             SSLinkUrl SWPUrl = new SSLinkUrl("mods\\Ship and Weapon Pack");
             SSRelativeUrl HegemonyUrl = new SSRelativeUrl("data\\world\\factions\\hegemony.faction");
 
-            string url = (SSUrl + CoreUrl + HegemonyUrl).ToString();
-            string ReadResult = File.ReadAllText(url);
-            var result = Regex.Replace(ReadResult, "#.*", "");
-            using (var reader = new StringReader(result))
-            {
-                JsonReader jreader = new JsonReader(reader);
-                JsonToken a = jreader.UnJson();
-                string path = "id";
-                bool c = a.ExistPath(path);
-                JsonToken yes = a.SelectToken(path);
-                string b = a.ToJsonString();
-            }
+           
 
             SSBaseUrl ModFolderPath = SSUrl + "mods";
             DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
@@ -68,22 +56,19 @@ namespace SSEditor
             SSFactionGroup HegemonyFaction = new SSFactionGroup();
             HegemonyFaction.Add(TahlanHeg);
 
-            foreach (Text t in HegemonyFaction?.KnownHull?.ContentArray ?? new ObservableCollection<Text>())
-                Console.WriteLine(t.Value + " " + t.Source);
+            foreach (JsonValue t in HegemonyFaction?.KnownHull?.ContentArray)
+                Console.WriteLine(t.ToString());
 
             HegemonyFaction.Add(CoreHeg);
             Console.WriteLine("====Heg====");
 
-            foreach (Text t in HegemonyFaction?.KnownHull?.ContentArray ?? new ObservableCollection<Text>())
-                Console.WriteLine(t.Value + " " + t.Source);
+            foreach (JsonValue t in HegemonyFaction?.KnownHull?.ContentArray ?? new ObservableCollection<JsonToken>())
+                Console.WriteLine(t.ToString());
 
             HegemonyFaction.Remove(TahlanHeg);
             Console.WriteLine("====Heg====");
 
-            foreach (Text t in HegemonyFaction?.KnownHull?.ContentArray ?? new ObservableCollection<Text>())
-                Console.WriteLine(t.Value + " " + t.Source);
-
-            Console.ReadKey();
+           
         }
     }
 }

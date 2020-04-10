@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using SSEditor.MonitoringField;
+﻿using SSEditor.MonitoringField;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,11 +42,8 @@ namespace SSEditor.FileHandling
 
             using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
             {
-                using (JsonTextWriter writer = new JsonTextWriter(sw))
-                {
-                    writer.Formatting = Formatting.Indented;
-                    TempList.GetJsonEquivalent().WriteTo(writer);
-                }
+                string result = TempList.GetJsonEquivalent().ToJsonString();
+                sw.Write(result);
             }
         }
 

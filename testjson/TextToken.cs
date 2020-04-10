@@ -45,6 +45,7 @@ namespace FVJson
                         case ':':
                             result.type = TextTokenType.NameSeparator;
                             break;
+                        case ';':
                         case ',':
                             result.type = TextTokenType.ValueSeparator;
                             break;
@@ -55,9 +56,12 @@ namespace FVJson
                             {
                                 switch (nextPeekResult)
                                 {
+                                    case '\\':
+                                        //next character was escaped
+                                        result.content = result.content + ((char)reader.Read()).ToString();
+                                        result.content = result.content + ((char)reader.Read()).ToString();
+                                        break;
                                     case -1:
-                                    case ',':
-                                        throw new FormatException();
                                     case '\"':
                                         result.content = result.content + ((char)reader.Read()).ToString();
                                         if (result.content.Length == 2)
@@ -82,6 +86,7 @@ namespace FVJson
                                         throw new FormatException();
                                     case ']':
                                     case ',':
+                                    case ';':
                                     case ':':
                                     case '}':
                                         result.type = TextTokenType.Reference;

@@ -13,7 +13,7 @@ namespace TestJson
     {
         static void Main(string[] args)
         {
-            string url = "E:\\SS\\Starsector\\starsector-core\\data\\campaign\\pings.json";
+            string url = "E:\\SS\\Starsector\\starsector-core\\data\\campaign\\econ\\askonia.json";
             string ReadResult = File.ReadAllText(url);
             var result = Regex.Replace(ReadResult, "#.*", "");
             using (var reader = new StringReader(result))

@@ -31,14 +31,16 @@ namespace FVJson
                     case TextToken.TextTokenType.Reference:
                     case TextToken.TextTokenType.True:
                     case TextToken.TextTokenType.String:
+                    case TextToken.TextTokenType.BeginArray:
+                    case TextToken.TextTokenType.BeginObject:
                         JsonToken value = JsonReader.ReadNext(textQueue);
-                        if (value.Type == JsonToken.TokenType.Array)
-                            throw new FormatException("Cant have array in array)");
+                        //if (value.Type == JsonToken.TokenType.Array)
+                        //    throw new FormatException("Cant have array in array)");
                         Values.Add(value);
                         break;
                     case TextToken.TextTokenType.ValueSeparator:
                         textQueue.Dequeue();
-                        break;
+                        break;                   
                     case TextToken.TextTokenType.EndArray:
                         textQueue.Dequeue();
                         return;

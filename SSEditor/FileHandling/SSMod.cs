@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FVJson;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -23,7 +24,7 @@ namespace SSEditor.FileHandling
 
         public override string ToString()
         {
-            return "Mod: " + (ModInfo?.ReadValue( "name") ?? ("Unnamed " + ModUrl.Link));
+            return "Mod: " + ((ModInfo?.ReadToken( "name") as JsonValue).ToString() ?? ("Unnamed " + ModUrl.Link));
         }
 
         public ReadOnlyObservableCollection<ISSGenericFile> FilesReadOnly { get; private set; }
