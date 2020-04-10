@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿
+using FVJson;
 using SSEditor.FileHandling;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace SSEditor.MonitoringField
             }
         }
 
-        abstract public JToken GetJsonEquivalent();
+        abstract public JsonToken GetJsonEquivalent();
         abstract public void Resolve();
         abstract protected void ResolveAdd(T file);
         abstract protected void ResolveRemove(T file);

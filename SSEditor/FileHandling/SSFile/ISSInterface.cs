@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FVJson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,8 +20,7 @@ namespace SSEditor.FileHandling
     {
         //these contains json data, many type exist but the handling of the internal jsoncontent is the same
         bool ExtractedProperly { get;}
-        string ReadValue(string JsonPath);
-        List<string> ReadArray(string JsonPath);
+        JsonToken ReadToken(string path);
     }
 
     public interface ISSMergable : ISSGenericFile

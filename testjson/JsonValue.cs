@@ -34,6 +34,28 @@ namespace FVJson
                 throw new ArgumentException("Worng type of JsonValue");
             Content = value;
         }
+        public void SetContent(object obj)
+        {
+            switch (obj)
+            {
+
+                case string str:
+                    this.SetContent(str);
+                    break;
+                case bool b:
+                    this.SetContent(b);
+                    break;
+                case double d:
+                    this.SetContent(d);
+                    break;
+                case int i:
+                    this.SetContent(i);
+                    break;
+                default:
+                    throw new ArgumentException("wrong type of content for this JsonValue");
+            }
+        }
+
 
         public JsonValue(bool value)
         {
@@ -55,6 +77,7 @@ namespace FVJson
             this.Type = TokenType.Integer;
             Content = value;
         }
+        
         public JsonValue(string str, TokenType t)
         {
             Type = t;

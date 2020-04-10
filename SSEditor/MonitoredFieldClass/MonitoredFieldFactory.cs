@@ -1,54 +1,42 @@
-﻿using Newtonsoft.Json.Linq;
+﻿
+using FVJson;
 using SSEditor.FileHandling;
-using SSEditor.TokenClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
     public static class MonitoredFieldFactory<T> where T:SSJson
     {
-        public static MonitoredField<T> CreateFieldFromExampleToken(JToken token)
+        public static MonitoredField<T> CreateFieldFromExampleToken(JsonToken token, string fieldpath)
         {
             MonitoredField<T> result = null;
-            switch(token.Type)
+
+            bool isValueArray = Regex.Match(fieldpath.Split('.').Last(), @"color|button|^music_").Success; ;
+            switch (token)
             {
-                case JTokenType.Array:
-                    JToken TestChild = token.Values().FirstOrDefault();
-                    switch (TestChild?.Type ?? JTokenType.String)
+                case JsonArray jArray:
+                    if (isValueArray)
+                        return new MonitoredArrayValue<T>() {FieldPath = fieldpath };
+                    JsonToken TestChild = jArray.Values.FirstOrDefault();
+                    switch (TestChild)
                     {
-                        case JTokenType.Property:
-                            result = new MonitoredObjectArray<T>() { FieldPath = token.Path };
-                            break;
-                        case JTokenType.Integer:
-                            if (token.Values().Count() == 4)
-                                result = new MonitoredArrayValue<Color, T>() { FieldPath = token.Path };
-                            else
-                                result = new MonitoredArray<Text, T>() { FieldPath = token.Path , ValueType = JTokenType.Integer};
-                            break;
+                        case JsonObject jObject:
+                            return new MonitoredArrayObject<T>() { FieldPath = fieldpath };
                         default:
-                            result = new MonitoredArray<Text, T>() { FieldPath = token.Path };
-                            break;
+                            return new MonitoredArray<T>() { FieldPath = fieldpath };
                     }
-                    break;
-                case JTokenType.Object:
-                    result = new MonitoredPropertyArray<T>() { FieldPath = token.Path };
-                    break;
-                case JTokenType.Integer:
-                    result = new MonitoredValue<Text, T>() { FieldPath = token.Path, ValueType= JTokenType.Integer};
-                    
-                    break;
+                case JsonObject jObject:
+                    return new MonitoredObject<T>() { FieldPath = fieldpath };
+                case JsonValue jValue:
+                    return new MonitoredValue<T>(jValue) { FieldPath = fieldpath };
                 default:
-                    result = new MonitoredValue<Text, T>() { FieldPath = token.Path };
-                    break;
+                    throw new ArgumentException();
             }
-            return result;
-                
-            
-            
         }
     }
 }

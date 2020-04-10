@@ -8,7 +8,7 @@ namespace FVJson
 {
     public class JsonArray : JsonToken
     {
-        List<JsonToken> Values { get; } = new List<JsonToken>();
+        public List<JsonToken> Values { get; } = new List<JsonToken>();
 
         public JsonArray() { }
         public JsonArray(Queue<TextToken> textQueue)

@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using FVJson;
+
 using SSEditor.FileHandling;
-using SSEditor.TokenClass;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,48 +11,41 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    class MonitoredArray<Token,T> : MonitoredField<T> where Token : ITokenValue, new() where T:SSJson
+    class MonitoredArray<T> : MonitoredField<T>  where T:SSJson
     {
-        public ObservableCollection<Token> ContentArray { get; } = new ObservableCollection<Token>();
-        public JTokenType ValueType { get; set; } = JTokenType.String;
+        public ObservableCollection<JsonToken> ContentArray { get; } = new ObservableCollection<JsonToken>();
 
         public override void Resolve()
         {
             if (FieldPath != null)
             {
                 var fileArrayPair = from f in Files
-                                   where f.ReadArray(FieldPath) != null
-                                   select new { value = f.ReadArray(FieldPath), file = f };
+                                   where f.ReadToken(FieldPath) != null
+                                   select new { value = f.ReadToken(FieldPath), file = f };
                 ContentArray.Clear();
                 foreach (var pair in fileArrayPair)
                 {
-                    foreach (string data in pair.value)
+                    if (pair.value is JsonArray jArray)
                     {
-                        Token temp = new Token();
-                        temp.SetContent(data, pair.file);
-                        ContentArray.Add(temp);
+                        foreach (JsonToken data in jArray.Values)
+                        {
+                            ContentArray.Add(data);
+                        }
                     }
+                    else
+                        throw new ArgumentException("Path leads to non array token");
                 }
                 
             }
         }
-        public override JToken GetJsonEquivalent()
+        public override JsonToken GetJsonEquivalent()
         {
-            Object JsonContentArray;
-            switch (ValueType)
+            JsonArray jArray = new JsonArray();
+            foreach (JsonToken data in ContentArray)
             {
-                case JTokenType.String:
-                     JsonContentArray = (from Token token in ContentArray
-                            select token.Value).ToArray();
-                    break;
-                case JTokenType.Integer:
-                    JsonContentArray = (from Token token in ContentArray
-                                              select Convert.ToInt32(token.Value)).ToArray();
-                    break;
-                default:
-                    throw new NotImplementedException();
+                jArray.Values.Add(data);
             }
-            return new JArray(JsonContentArray); 
+            return jArray; 
         }
 
         protected override void ResolveAdd(T file)

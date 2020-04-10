@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿
+using FVJson;
 using SSEditor.FileHandling;
 using SSEditor.JsonHandling;
 using System;
@@ -9,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public class MonitoredObjectArray<T> : MonitoredField<T> where T : SSJson
+    public class MonitoredArrayObject<T> : MonitoredField<T> where T : SSJson
     {
         public List<MonitoredField<T>> JObjectArray { get; private set; } = new List<MonitoredField<T>>();
-        public override JToken GetJsonEquivalent()
+        public override JsonToken GetJsonEquivalent()
         {
-            JArray NewContent = new JArray();
+            JsonArray NewContent = new JsonArray();
             foreach (MonitoredField<T> mf in JObjectArray)
             {
-                JToken a = mf.GetJsonEquivalent();
-                NewContent.Add(a);
+                JsonToken a = mf.GetJsonEquivalent();
+                NewContent.Values.Add(a);
             }
             return NewContent;
         }
@@ -27,14 +28,16 @@ namespace SSEditor.MonitoringField
         {
             if (FieldPath != null)
             {
-                var childrens = from f in Files
+                var parents = from f in Files
                                 where f.JsonContent.SelectToken(this.FieldPath) != null
-                                select f.JsonContent.SelectToken(this.FieldPath).Children();
-                var ChildrenExample = childrens.SelectMany(c => c);
+                                select f.JsonContent.SelectToken(this.FieldPath);
+                var ChildrenExample = parents.Cast<JsonArray>().SelectMany(c => c.Values);
                 JObjectArray.Clear();
+                int counter = 0;
                 foreach (var child in ChildrenExample)
                 {
-                    MonitoredField<T> tempchildfield = MonitoredFieldFactory<T>.CreateFieldFromExampleToken(child);
+                    MonitoredField<T> tempchildfield = MonitoredFieldFactory<T>.CreateFieldFromExampleToken(child, this.FieldPath + "[" + counter + "]");
+                    counter++;
                     tempchildfield.ReplaceFiles(base.Files);
                     JObjectArray.Add(tempchildfield);
                 }

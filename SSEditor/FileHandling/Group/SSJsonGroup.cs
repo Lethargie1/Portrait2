@@ -30,7 +30,7 @@ namespace SSEditor.FileHandling
             {
                 targetDir.Create();
             }
-            MonitoredPropertyArray<T> TempList = new MonitoredPropertyArray<T>() { FieldPath = "" };
+            MonitoredObject<T> TempList = new MonitoredObject<T>() { FieldPath = "" };
             if (base.MustOverwrite)
                 TempList.ReplaceFiles(base.CommonFiles);
             else
