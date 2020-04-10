@@ -9,7 +9,7 @@ namespace FVJson
 {
     public class JsonObject : JsonToken
     {
-        public Dictionary<string, JsonToken> Values = new Dictionary<string, JsonToken>();
+        public Dictionary<JsonValue, JsonToken> Values = new Dictionary<JsonValue, JsonToken>();
 
         public JsonObject() { }
         public JsonObject(Queue<TextToken> textQueue)
@@ -22,15 +22,26 @@ namespace FVJson
             while (textQueue.Count != 0)
             {
                 current = textQueue.Dequeue();
+                string propertyName;
+                JsonToken value;
                 switch (current.type)
                 {
+                    case TextToken.TextTokenType.Reference:
                     case TextToken.TextTokenType.String:
-                        string propertyName = current.content;
+                        propertyName = current.content;
+                        TextToken.TextTokenType CurType = current.type;
                         current = textQueue.Dequeue();
                         if (current.type != TextToken.TextTokenType.NameSeparator)
                             throw new FormatException("No name separator");
-                        JsonToken value = JsonReader.ReadNext(textQueue);
-                        Values.Add(propertyName, value);
+                        value = JsonReader.ReadNext(textQueue);
+                        JsonValue keyAsStr = new JsonValue(propertyName, TokenType.String);
+                        JsonValue keyAsRef = new JsonValue(propertyName, TokenType.Reference);
+                        if (Values.ContainsKey(keyAsRef) || Values.ContainsKey(keyAsStr))
+                            throw new ArgumentException("Cant add existing key");
+                        if (CurType == TextToken.TextTokenType.Reference)
+                            Values.Add(keyAsRef, value);
+                        else if (CurType == TextToken.TextTokenType.String)
+                            Values.Add(keyAsStr, value);
                         break;
                     case TextToken.TextTokenType.ValueSeparator:
                         break;
@@ -54,9 +65,9 @@ namespace FVJson
                 AddTab = AddTab + "\t";
             string result;
             result = "{\r";
-            foreach (KeyValuePair<string, JsonToken> kp in Values)
+            foreach (KeyValuePair<JsonValue, JsonToken> kp in Values)
             {
-                result = result + "\t" +AddTab + "\""+ kp.Key+ "\"" + ":" + kp.Value.ToJsonString(tab+1) + ",\r";
+                result = result + "\t" +AddTab + kp.Key.ToJsonString() + ":" + kp.Value.ToJsonString(tab+1) + ",\r";
             }
             result = result + AddTab+ "}";
             return result;
@@ -66,8 +77,12 @@ namespace FVJson
             if (path.Count == 0)
                 return this;
             string part = path.Dequeue();
-            if (Values.ContainsKey(part))
-                return Values[part].SelectFromQueuePath(path);
+            JsonValue asRef = new JsonValue(part, TokenType.Reference);
+            JsonValue asStr = new JsonValue(part, TokenType.String);
+            if (Values.ContainsKey(asStr))
+                return Values[asStr].SelectFromQueuePath(path);
+            else if(Values.ContainsKey(asRef))
+                return Values[asRef].SelectFromQueuePath(path);
             else
                 throw new ArgumentOutOfRangeException();
         }

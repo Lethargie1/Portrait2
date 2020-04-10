@@ -55,6 +55,11 @@ namespace FVJson
             this.Type = TokenType.Integer;
             Content = value;
         }
+        public JsonValue(string str, TokenType t)
+        {
+            Type = t;
+            Content = str;
+        }
         public JsonValue(Queue<TextToken> textQueue)
         {
             TextToken current = textQueue.Dequeue();
@@ -142,7 +147,8 @@ namespace FVJson
         }
         bool IEquatable<JsonValue>.Equals(JsonValue other)
         {
-            return (this.Type == other.Type && this.Content == other.Content) ? true : false;
+            bool test = (this.Type.Equals(other.Type) && this.Content.Equals(other.Content));
+            return test;
         }
     }
 }

@@ -31,8 +31,9 @@ namespace SSEditor
             {
                 JsonReader jreader = new JsonReader(reader);
                 JsonToken a = jreader.UnJson();
-                string path = "distress_call.sounds[2";
+                string path = "id";
                 bool c = a.ExistPath(path);
+                JsonToken yes = a.SelectToken(path);
                 string b = a.ToJsonString();
             }
 

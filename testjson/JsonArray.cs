@@ -60,6 +60,8 @@ namespace FVJson
             for (int i = 0; i < tab; i++)
                 AddTab = AddTab + "\t";
             string result;
+            if (Values.Count == 0)
+                return "[]";
             if (Values[0].Type == TokenType.Integer)
                 result = "[";
             else
