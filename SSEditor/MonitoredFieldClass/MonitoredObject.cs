@@ -36,6 +36,11 @@ namespace SSEditor.MonitoringField
                 MonitoredProperties.Clear();
                 foreach (var KeyValue in OneKeyValuePerKey)
                 {
+                    JsonValue KeyAsStr = new JsonValue(KeyValue.Key.ToString(),JsonToken.TokenType.String);
+                    JsonValue KeyAsRef = new JsonValue(KeyValue.Key.ToString(), JsonToken.TokenType.Reference);
+                    //this is in case someone suround a field name with "" and someone else dosn't
+                    if (MonitoredProperties.ContainsKey(KeyAsStr) || MonitoredProperties.ContainsKey(KeyAsRef))
+                        continue;
                     MonitoredField<T> tempchildfield;
                     if (FieldPath=="")
                         tempchildfield = MonitoredFieldFactory<T>.CreateFieldFromExampleToken(KeyValue.Value,  KeyValue.Key.ToString());

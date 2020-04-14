@@ -23,7 +23,7 @@ namespace SSEditor.FileHandling
             InstallationUrl = url;  
         }
 
-        public void ReadMods()
+        public void ReadMods(string targetFolder)
         {
             Mods.Clear();
             modFactory = new SSModFactory(InstallationUrl);
@@ -41,6 +41,8 @@ namespace SSEditor.FileHandling
                 if (exist != null)
                     throw new ArgumentException("Cannot add existing mod to directory");
                 currentMod = modFactory.CreateMod(modLink);
+                if (ModDirectory.Name == targetFolder)
+                    currentMod.ChangeType(SSMod.ModType.skip);
                 currentMod.TypeChanged += ModTypeChangedHandler;
                 Mods.Add(currentMod);
             }

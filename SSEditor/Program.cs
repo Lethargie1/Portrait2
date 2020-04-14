@@ -32,7 +32,7 @@ namespace SSEditor
 
             SSDirectory test = new SSDirectory(SSUrl);
             
-            test.ReadMods();
+            test.ReadMods("hyes");
             test.PopulateMergedCollections();
             test.MergeDirectory(new SSLinkUrl("mods\\hyes"));
             SSModFactory factory = new SSModFactory(SSUrl);
