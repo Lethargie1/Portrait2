@@ -101,22 +101,22 @@ namespace SSEditor.FileHandling
 
         public void MergeDirectory(SSLinkUrl newModLink)
         {
-            //foreach (SSMod currentMod in Mods)
-            //{
-            //    if (currentMod.CurrentType == SSMod.ModType.skip || currentMod.CurrentType == SSMod.ModType.Ressource || currentMod.CurrentType == SSMod.ModType.Core)
-            //        continue;
-            //    foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
-            //    {
-            //        if (modFile is SSNoMergeFile)
-            //        {
-            //            modFile.CopyTo(InstallationUrl + newModLink);
-            //        }
-            //    }
-            //}
+            foreach (SSMod currentMod in Mods)
+            {
+                if (currentMod.CurrentType == SSMod.ModType.skip || currentMod.CurrentType == SSMod.ModType.Ressource || currentMod.CurrentType == SSMod.ModType.Core)
+                    continue;
+                foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
+                {
+                    if (modFile is SSNoMerge)
+                    {
+                        modFile.CopyTo(InstallationUrl + newModLink);
+                    }
+                }
+            }
 
-            IEnumerable < SSCsvGroup > csvGroups = from ISSGroup fg in GroupedFiles
-                                                       where fg is SSCsvGroup
-                                                       select fg as SSCsvGroup;
+            //IEnumerable < SSCsvGroup > csvGroups = from ISSGroup fg in GroupedFiles
+            //                                           where fg is SSCsvGroup
+            //                                           select fg as SSCsvGroup;
             //foreach (SSFileCsvGroup csvGroup in csvGroups)
             //{
             //    csvGroup.WriteMergeTo(InstallationUrl + newModLink);
@@ -124,9 +124,9 @@ namespace SSEditor.FileHandling
             IEnumerable<ISSJsonGroup> fGroups = from ISSGroup fg in GroupedFiles
                                                     where fg is ISSJsonGroup
                                                     select fg as ISSJsonGroup;
-            IEnumerable<SSJsonGroup<SSJson>> gGroups = from ISSGroup fg in GroupedFiles
-                                                where fg is SSJsonGroup<SSJson>
-                                                       select fg as SSJsonGroup<SSJson>;
+            //IEnumerable<SSJsonGroup<SSJson>> gGroups = from ISSGroup fg in GroupedFiles
+            //                                    where fg is SSJsonGroup<SSJson>
+            //                                           select fg as SSJsonGroup<SSJson>;
             var a = fGroups.SelectMany(fg => fg.GetJSonFiles());
             IEnumerable<ISSJson> failedExtractedFile = from ISSJson f in a
                                                        where f.ExtractedProperly == false

@@ -32,7 +32,7 @@ namespace SSEditor.FileHandling
             FileInfo targetInfo = new FileInfo(TargetUrl.ToString());
             if (targetInfo.Exists)
             {
-                targetInfo = new FileInfo(TargetUrl.ToString()+SourceMod.ModName);
+              targetInfo = new FileInfo(TargetUrl.ToString()+SourceMod.ModName);
             }
             DirectoryInfo targetDir = targetInfo.Directory;
             if (!targetDir.Exists)
