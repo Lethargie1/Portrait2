@@ -105,7 +105,7 @@ namespace SSEditor.FileHandling
             }
         }
 
-        public void MergeDirectory(SSLinkUrl newModLink)
+        public void CopyUnmergable(SSLinkUrl newModLink)
         {
             foreach (SSMod currentMod in Mods)
             {
@@ -119,29 +119,28 @@ namespace SSEditor.FileHandling
                     }
                 }
             }
+        }
 
-            //IEnumerable < SSCsvGroup > csvGroups = from ISSGroup fg in GroupedFiles
-            //                                           where fg is SSCsvGroup
-            //                                           select fg as SSCsvGroup;
-            //foreach (SSFileCsvGroup csvGroup in csvGroups)
-            //{
-            //    csvGroup.WriteMergeTo(InstallationUrl + newModLink);
-            //}
-            IEnumerable<ISSJsonGroup> fGroups = from ISSGroup fg in GroupedFiles
-                                                    where fg is ISSJsonGroup
-                                                    select fg as ISSJsonGroup;
-            //IEnumerable<SSJsonGroup<SSJson>> gGroups = from ISSGroup fg in GroupedFiles
-            //                                    where fg is SSJsonGroup<SSJson>
-            //                                           select fg as SSJsonGroup<SSJson>;
-            var a = fGroups.SelectMany(fg => fg.GetJSonFiles());
-            IEnumerable<ISSJson> failedExtractedFile = from ISSJson f in a
-                                                       where f.ExtractedProperly == false
-                                                       select f;
+        public void CopyMergable(SSLinkUrl newModLink)
+        {
             foreach (ISSGroup fg in GroupedFiles)
             {
                 fg.MustOverwrite = true;
                 fg.WriteMergeTo(InstallationUrl + newModLink);
             }
+        }
+        public void MergeDirectory(SSLinkUrl newModLink)
+        {
+            CopyUnmergable(newModLink);
+
+            IEnumerable<ISSJsonGroup> fGroups = from ISSGroup fg in GroupedFiles
+                                                    where fg is ISSJsonGroup
+                                                    select fg as ISSJsonGroup;
+            var a = fGroups.SelectMany(fg => fg.GetJSonFiles());
+            IEnumerable<ISSJson> failedExtractedFile = from ISSJson f in a
+                                                       where f.ExtractedProperly == false
+                                                       select f;
+            CopyMergable(newModLink);
         }
 
         private void ModTypeChangedHandler(Object sender, ModTypeChangeEventArgs e)
