@@ -24,7 +24,7 @@ namespace SSEditor.FileHandling
 
         public override string ToString()
         {
-            return "Mod: " + ((ModInfo?.ReadToken( "name") as JsonValue).ToString() ?? ("Unnamed " + ModUrl.Link));
+            return "Mod: " + ((ModInfo?.ReadToken( "name") as JsonValue)?.ToString() ?? ("Unnamed " + ModUrl.Link));
         }
 
         public ReadOnlyObservableCollection<ISSGenericFile> FilesReadOnly { get; private set; }
@@ -121,7 +121,7 @@ namespace SSEditor.FileHandling
                 newMod = new SSMod(InstallationUrl + link, SSMod.ModType.Core);
             else
                 newMod = new SSMod(InstallationUrl + link, Type);
-            newMod.FindFiles();
+            
             return newMod;
         }
     }

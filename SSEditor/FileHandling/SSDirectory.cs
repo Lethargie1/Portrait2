@@ -33,6 +33,7 @@ namespace SSEditor.FileHandling
             IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
 
             SSMod currentMod = modFactory.CreateMod(new SSLinkUrl("starsector-core"));
+            currentMod.FindFiles();
             Mods.Add(currentMod);
             foreach (DirectoryInfo ModDirectory in ModsEnumerable)
             {
@@ -43,7 +44,10 @@ namespace SSEditor.FileHandling
                 currentMod = modFactory.CreateMod(modLink);
                 if (ModDirectory.Name == targetFolder)
                     currentMod.ChangeType(SSMod.ModType.skip);
+                else
+                    currentMod.FindFiles();
                 currentMod.TypeChanged += ModTypeChangedHandler;
+                
                 Mods.Add(currentMod);
             }
         }
