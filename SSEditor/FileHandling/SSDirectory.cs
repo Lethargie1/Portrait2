@@ -11,7 +11,7 @@ namespace SSEditor.FileHandling
     class SSDirectory
     {
 
-        public ObservableCollection<ISSGroup> GroupedFiles { get; private set; } = new ObservableCollection<ISSGroup>();
+        public Dictionary<string,ISSGroup> GroupedFiles { get; private set; } = new Dictionary<string,ISSGroup>();
         public ObservableCollection<SSMod> Mods { get; private set; } = new ObservableCollection<SSMod>();
         public SSBaseUrl InstallationUrl { get; set; }
 
@@ -64,17 +64,14 @@ namespace SSEditor.FileHandling
                     if (!(modFile is ISSMergable MergableModFile))
                     { continue; }
 
-                    ISSGroup matchingGroup = GroupedFiles.SingleOrDefault(T =>
+                    if (!GroupedFiles.ContainsKey(MergableModFile.LinkRelativeUrl.GetRelative().ToString()))
                     {
-                        return T.CommonRelativeUrl.Equals(MergableModFile.LinkRelativeUrl.GetRelative());
-                    });
-                    if (matchingGroup == null)
-                    {
-                        matchingGroup = groupFactory.CreateGroupFromFile(MergableModFile);
-                        GroupedFiles.Add(matchingGroup);
+                        ISSGroup matchingGroup = groupFactory.CreateGroupFromFile(MergableModFile);
+                        GroupedFiles.Add(matchingGroup.CommonRelativeUrl.ToString(), matchingGroup);
                     }
                     else
                     {
+                        ISSGroup matchingGroup = GroupedFiles[MergableModFile.LinkRelativeUrl.GetRelative().ToString()];
                         switch (MergableModFile)
                         {
                             case SSFaction factionfile:
@@ -123,11 +120,12 @@ namespace SSEditor.FileHandling
 
         public void CopyMergable(SSLinkUrl newModLink)
         {
-            foreach (ISSGroup fg in GroupedFiles)
+            foreach (KeyValuePair<string, ISSGroup> kvG in GroupedFiles)
             {
-                fg.MustOverwrite = false;
-                fg.WriteMergeTo(InstallationUrl + newModLink);
+                kvG.Value.MustOverwrite = false;
+                kvG.Value.WriteMergeTo(InstallationUrl + newModLink);
             }
+            SSJsonGroup mod = GroupedFiles["mod_info.json"] as SSJsonGroup;
             //IEnumerable<SSCsvGroup> CGroups = from ISSGroup fg in GroupedFiles
             //                                    where fg is SSCsvGroup
             //                                    select fg as SSCsvGroup;

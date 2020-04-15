@@ -25,15 +25,20 @@ namespace SSEditor.MonitoringField
                 ContentArray.Clear();
                 foreach (var pair in fileArrayPair)
                 {
-                    if (pair.value is JsonArray jArray)
+                    switch (pair.value)
                     {
-                        foreach (JsonToken data in jArray.Values)
-                        {
-                            ContentArray.Add(data);
-                        }
+                        case JsonArray jArray:
+                            foreach (JsonToken data in jArray.Values)
+                            {
+                                ContentArray.Add(data);
+                            }
+                            break;
+                        case JsonValue jValue:
+                            ContentArray.Add(jValue);
+                            break;
+                        default:
+                            throw new ArgumentException("Path leads to non array token");
                     }
-                    else
-                        throw new ArgumentException("Path leads to non array token");
                 }
                 
             }
