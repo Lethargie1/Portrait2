@@ -125,9 +125,17 @@ namespace SSEditor.FileHandling
         {
             foreach (ISSGroup fg in GroupedFiles)
             {
-                fg.MustOverwrite = true;
+                fg.MustOverwrite = false;
                 fg.WriteMergeTo(InstallationUrl + newModLink);
             }
+            //IEnumerable<SSCsvGroup> CGroups = from ISSGroup fg in GroupedFiles
+            //                                    where fg is SSCsvGroup
+            //                                    select fg as SSCsvGroup;
+            //foreach (SSCsvGroup fg in CGroups)
+            //{
+            //    fg.MustOverwrite = false;
+            //    fg.WriteMergeTo(InstallationUrl + newModLink);
+            //}
         }
         public void MergeDirectory(SSLinkUrl newModLink)
         {
