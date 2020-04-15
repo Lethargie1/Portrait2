@@ -29,8 +29,8 @@ namespace SSEditor.MonitoringField
             if (FieldPath != null)
             {
                 var parents = from f in Files
-                                 where f.JsonContent?.ExistPath(this.FieldPath)== true
-                                 select f.JsonContent.SelectToken(this.FieldPath);
+                                 where f.Fields.ContainsKey(this.FieldPath)== true
+                                 select f.Fields[this.FieldPath];
                 var OneKeyValuePerKey = parents.Cast<JsonObject>().SelectMany(c => c.Values).GroupBy(c => c.Key).Select(d => d.First());
                 MonitoredProperties.Clear();
                 foreach (var KeyValue in OneKeyValuePerKey)
@@ -42,7 +42,7 @@ namespace SSEditor.MonitoringField
                         continue;
                     MonitoredField<T> tempchildfield;
                     if (FieldPath=="")
-                        tempchildfield = MonitoredFieldFactory<T>.CreateFieldFromExampleToken(KeyValue.Value,  KeyValue.Key.ToString());
+                        tempchildfield = MonitoredFieldFactory<T>.CreateFieldFromExampleToken(KeyValue.Value,  "." + KeyValue.Key.ToString());
                     else
                         tempchildfield = MonitoredFieldFactory<T>.CreateFieldFromExampleToken(KeyValue.Value,this.FieldPath + "." + KeyValue.Key.ToString());
 

@@ -98,5 +98,19 @@ namespace FVJson
             else
                 throw new ArgumentOutOfRangeException();
         }
+
+        public override Dictionary<string, JsonToken> GetPathedChildrens()
+        {
+            Dictionary<string, JsonToken> result = new Dictionary<String, JsonToken>() { { "", this } };
+            for (int valueCounter = 0; valueCounter < Values.Count(); valueCounter++)
+            {
+                Dictionary<string, JsonToken> subResult = Values[valueCounter].GetPathedChildrens();
+                foreach (KeyValuePair<string, JsonToken> subkv in subResult)
+                {
+                    result.Add("[" + valueCounter + "]" +subkv.Key, subkv.Value);
+                }
+            }
+            return result;
+        }
     }
 }

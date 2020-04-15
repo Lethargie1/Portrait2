@@ -50,7 +50,7 @@ namespace FVJson
         public abstract string ToJsonString(int tab);
         public abstract JsonToken SelectFromQueuePath(Queue<string> path);
 
-
+        public abstract Dictionary<string, JsonToken> GetPathedChildrens();
         
 
 

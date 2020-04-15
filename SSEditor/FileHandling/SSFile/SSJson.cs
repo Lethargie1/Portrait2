@@ -25,7 +25,7 @@ namespace SSEditor.FileHandling
 
         public string JSonStatusError { get; private set; } = "";
         public bool ExtractedProperly { get; private set; } = false;
-
+        public Dictionary<string,JsonToken> Fields { get; private set; }
         #endregion
 
         #region Constructors
@@ -61,6 +61,7 @@ namespace SSEditor.FileHandling
                 JsonToken read = jreader.UnJson();
                 _JsonContent = read as JsonObject;
             }
+            Fields = _JsonContent.GetPathedChildrens();
         }
 
         public JsonToken ReadToken(string JsonPath)

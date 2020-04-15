@@ -28,8 +28,8 @@ namespace SSEditor.MonitoringField
             if (FieldPath != null)
             {
                 var parents = from f in Files
-                                where f.ReadToken(this.FieldPath) != null
-                                select f.JsonContent.SelectToken(this.FieldPath);
+                                where f.Fields.ContainsKey(this.FieldPath) == true
+                                select f.Fields[this.FieldPath];
                 var ChildrenExample = parents.Cast<JsonArray>().SelectMany(c => c.Values);
                 JObjectArray.Clear();
                 int counter = 0;

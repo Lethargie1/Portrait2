@@ -150,6 +150,12 @@ namespace FVJson
             else
                 throw new ArgumentOutOfRangeException();
         }
+        public override Dictionary<string, JsonToken> GetPathedChildrens()
+        {
+            return new Dictionary<String, JsonToken>() { { "", this } };
+        }
+
+
 
         public override bool Equals(Object obj)
         {

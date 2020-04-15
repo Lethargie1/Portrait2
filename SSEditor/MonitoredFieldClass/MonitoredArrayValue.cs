@@ -21,8 +21,8 @@ namespace SSEditor.MonitoringField
             if (FieldPath != null)
             {
                 var ModValuePair = from f in Files
-                                   where f.ReadToken(FieldPath) != null
-                                   select new { modName = f.SourceMod.ModName, value = f.ReadToken(FieldPath), file = f };
+                                   where f.Fields.ContainsKey(FieldPath) == true
+                                   select new { modName = f.SourceMod.ModName, value = f.Fields[FieldPath], file = f };
                 var Ordered = from p in ModValuePair
                               orderby p.modName
                               select new { p.value, p.file };

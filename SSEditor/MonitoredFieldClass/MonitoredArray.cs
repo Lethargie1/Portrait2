@@ -20,8 +20,8 @@ namespace SSEditor.MonitoringField
             if (FieldPath != null)
             {
                 var fileArrayPair = from f in Files
-                                   where f.ReadToken(FieldPath) != null
-                                   select new { value = f.ReadToken(FieldPath), file = f };
+                                   where f.Fields.ContainsKey(FieldPath) == true
+                                   select new { value = f.Fields[FieldPath], file = f };
                 ContentArray.Clear();
                 foreach (var pair in fileArrayPair)
                 {

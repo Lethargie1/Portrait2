@@ -17,8 +17,8 @@ namespace SSEditor.FileHandling
             SSFullUrl TargetUrl = newPath + this.CommonRelativeUrl;
             //we do not merge core csv on the patch, it would be pointless
             IEnumerable<SSCsv> NonCoreFile = from SSCsv file in this.CommonFiles
-                                                 where file.SourceMod.CurrentType != SSMod.ModType.Core
-                                                 select file;
+                                             where file.SourceMod.CurrentType != SSMod.ModType.Core
+                                             select file;
             if (NonCoreFile.Count() == 0)
                 return;
 
@@ -38,11 +38,11 @@ namespace SSEditor.FileHandling
                 foreach (SSCsv file in this.CommonFiles)
                 {
                     SSFullUrl SourceUrl = InstallationUrl + file.LinkRelativeUrl;
-                    
+
                     using (StreamReader sr = File.OpenText(SourceUrl.ToString()))
-                    {   
+                    {
                         IParser parser = csvFactory.CreateParser(sr, CultureInfo.InvariantCulture);
-                        allHeaders.Add(parser.Read().ToList<string>());                       
+                        allHeaders.Add(parser.Read().ToList<string>());
                     }
                 }
                 List<string> finalHeaders = allHeaders.SelectMany(c => c).Distinct().ToList<string>();
@@ -63,7 +63,7 @@ namespace SSEditor.FileHandling
 
                         string[] line = parser.Read(); //skip first line that contain headers
                         line = parser.Read();
-                        while(line != null)
+                        while (line != null)
                         {
                             if (line.Count() != localHeaders.Count)
                             {
@@ -83,8 +83,9 @@ namespace SSEditor.FileHandling
 
                     }
                 }
-                
+
             }
         }
     }
+}
 
