@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSEditor.MonitoringField;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -120,12 +121,18 @@ namespace SSEditor.FileHandling
 
         public void CopyMergable(SSLinkUrl newModLink)
         {
+            SSJsonGroup mod = GroupedFiles["mod_info.json"] as SSJsonGroup;
+            mod.ExtractMonitoredContent();
+            MonitoredArray<SSJson> modplugin = new MonitoredArray<SSJson>() { FieldPath = ".modPlugin" };
+            mod.CopyFilesToMonitored(modplugin);
+            mod.MonitoredContent.MonitoredProperties[new FVJson.JsonValue("modPlugin")] = modplugin;
+
             foreach (KeyValuePair<string, ISSGroup> kvG in GroupedFiles)
             {
                 kvG.Value.MustOverwrite = false;
                 kvG.Value.WriteMergeTo(InstallationUrl + newModLink);
             }
-            SSJsonGroup mod = GroupedFiles["mod_info.json"] as SSJsonGroup;
+            
             //IEnumerable<SSCsvGroup> CGroups = from ISSGroup fg in GroupedFiles
             //                                    where fg is SSCsvGroup
             //                                    select fg as SSCsvGroup;

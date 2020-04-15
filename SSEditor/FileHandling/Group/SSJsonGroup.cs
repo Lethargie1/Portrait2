@@ -15,7 +15,24 @@ namespace SSEditor.FileHandling
     }
     class SSJsonGroup<T> : SSGroup<T>, ISSJsonGroup where T: SSJson
     {
+        public MonitoredObject<T> MonitoredContent { get; set; } = null;
+
         public SSJsonGroup() : base() { }
+
+        public void ExtractMonitoredContent()
+        {
+            MonitoredObject<T> TempList = new MonitoredObject<T>() { FieldPath = "" };
+            if (base.MustOverwrite)
+                TempList.ReplaceFiles(base.CommonFiles);
+            else
+            {
+                List<T> ModList = (from T file in base.CommonFiles
+                                   where file.SourceMod.CurrentType != SSMod.ModType.Core
+                                   select file).ToList();
+                TempList.ReplaceFiles(new ObservableCollection<T>(ModList));
+            }
+            MonitoredContent = TempList;
+        }
 
         public override void WriteMergeTo(SSBaseLinkUrl newPath)
         {
@@ -29,20 +46,13 @@ namespace SSEditor.FileHandling
             {
                 targetDir.Create();
             }
-            MonitoredObject<T> TempList = new MonitoredObject<T>() { FieldPath = "" };
-            if (base.MustOverwrite)
-                TempList.ReplaceFiles(base.CommonFiles);
-            else
-            {
-                List<T> ModList = (from T file in base.CommonFiles
-                                               where file.SourceMod.CurrentType != SSMod.ModType.Core
-                                               select file).ToList();
-                TempList.ReplaceFiles(new ObservableCollection<T>(ModList));
-            }
+
+            if (MonitoredContent == null)
+                this.ExtractMonitoredContent();
 
             using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
             {
-                string result = TempList.GetJsonEquivalent().ToJsonString();
+                string result = MonitoredContent.GetJsonEquivalent().ToJsonString();
                 sw.Write(result);
             }
         }
@@ -53,6 +63,11 @@ namespace SSEditor.FileHandling
             foreach (T file in base.CommonFiles)
                 BaseCollection.Add(file as SSJson);
             return new ReadOnlyObservableCollection<SSJson>(BaseCollection);
+        }
+
+        public void CopyFilesToMonitored( MonitoredField<T> monitor)
+        {
+            monitor.ReplaceFiles(base.CommonFiles);
         }
     }
 }
