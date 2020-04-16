@@ -167,12 +167,34 @@ namespace SSEditor.FileHandling
                 
             }
             var IndPortrait = TotalPortraits.Values.Distinct();
-            JsonArray FinalPortraits = new JsonArray();
+            JsonObject finalPortraits = new JsonObject();
+            int counter = 0;
             foreach (JsonToken token in IndPortrait)
             {
-                FinalPortraits.Values.Add(token);
+                finalPortraits.Values.Add(new JsonValue("portrait" + counter), token);
+                counter++;
             }
-            GenerateModInfo(newModLink, copyedFaction);
+            JsonObject graphicsfield = new JsonObject();
+            graphicsfield.Values.Add(new JsonValue("portraits"), finalPortraits);
+            JsonObject settingContent = new JsonObject();
+            settingContent.Values.Add(new JsonValue("graphics"), graphicsfield);
+
+            SSRelativeUrl configrela = new SSRelativeUrl("data\\config\\settings.json");
+            SSFullUrl configUrl = InstallationUrl + newModLink + configrela;
+
+            FileInfo targetInfo = new FileInfo(configUrl.ToString());
+            DirectoryInfo targetDir = targetInfo.Directory;
+            if (!targetDir.Exists)
+            {
+                targetDir.Create();
+            }
+
+            using (StreamWriter sw = File.CreateText(configUrl.ToString()))
+            {
+                string result = settingContent.ToJsonString();
+                sw.Write(result);
+            }
+                GenerateModInfo(newModLink, copyedFaction);
             //IEnumerable<SSCsvGroup> CGroups = from ISSGroup fg in GroupedFiles
             //                                    where fg is SSCsvGroup
             //                                    select fg as SSCsvGroup;
