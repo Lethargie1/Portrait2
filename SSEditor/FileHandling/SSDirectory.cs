@@ -17,6 +17,8 @@ namespace SSEditor.FileHandling
         public Dictionary<string,ISSGroup> GroupedFiles { get; private set; } = new Dictionary<string,ISSGroup>();
         public ObservableCollection<SSMod> Mods { get; private set; } = new ObservableCollection<SSMod>();
         public SSBaseUrl InstallationUrl { get; set; }
+        public List<ISSGroup> factions { get; set; } = null;
+        public List<JsonToken> Portraits { get; set; }
 
         SSModFactory modFactory;
         private SSFileGroupFactory groupFactory = new SSFileGroupFactory();
@@ -122,63 +124,43 @@ namespace SSEditor.FileHandling
         }
         public List<ISSGroup> GetMergedFaction()
         {
-            List<ISSGroup> result = (from KeyValuePair<string, ISSGroup> kv in GroupedFiles
+            factions = (from KeyValuePair<string, ISSGroup> kv in GroupedFiles
                                      where kv.Value is SSFactionGroup
                                      select kv.Value).Select(g => {
                                          g.MustOverwrite = true;
                                          (g as SSFactionGroup).ExtractMonitoredContent();
                                          return g;
                                      }).ToList();
-            return result;
-        }
-        public void CopyMergable(SSLinkUrl newModLink)
-        {
-            List<ISSGroup> faction = GetMergedFaction();
-            List<ISSGroup> copyedFaction = new List<ISSGroup>();
-            JsonArray TotalPortraits = new JsonArray();
-            foreach (KeyValuePair<string, ISSGroup> kvG in GroupedFiles)
+            Portraits = factions.Cast<SSFactionGroup>().SelectMany(g =>
             {
-                switch (kvG.Value)
-                {
-                    case SSFactionGroup fg:
-                        fg.MustOverwrite = true;
-                        fg.ExtractMonitoredContent();
-                        MonitoredField<SSFaction> got;
-                        if (fg.PathedContent.TryGetValue(".portraits.standard_male", out got))
-                        {
-                            if (got is MonitoredArray<SSFaction> males)
-                            {
-                                TotalPortraits.Values.AddRange(males.ContentArray);
-                                males.ContentArray.Clear();
-                                males.ContentArray.Add(new JsonValue("graphics/portraits/portrait_hegemony01.png"));
-                            }
-                        }
-                        if (fg.PathedContent.TryGetValue(".portraits.standard_female", out got))
-                        {
-                            if (got is MonitoredArray<SSFaction> females)
-                            {
-                                TotalPortraits.Values.AddRange(females.ContentArray);
-                                females.ContentArray.Clear();
-                                females.ContentArray.Add(new JsonValue("graphics/portraits/portrait_hegemony01.png"));
-                            }
-                        }
-                        fg.WriteMergeTo(InstallationUrl + newModLink);
-                        copyedFaction.Add(fg);
-                        break;
-                    default:
-                        break;
-                }
-                
-            }
-            var IndPortrait = TotalPortraits.Values.Distinct();
-            JsonObject finalPortraits = new JsonObject(IndPortrait, "portraits");
+                List<JsonToken> result = new List<JsonToken>();
+                if (g.MalePortraits != null)
+                    result.AddRange(g.MalePortraits.ContentArray);
+                if (g.FemalePortraits != null)
+                    result.AddRange(g.FemalePortraits?.ContentArray);
+                return result;
+            }).Distinct().ToList();
+            return factions;
+        }
+
+        public void CopyFactions(SSLinkUrl newModLink)
+        {
+            if (factions == null)
+                throw new InvalidOperationException("no factions merged");
             
+            JsonObject finalPortraits = new JsonObject(Portraits, "portraits");
             JsonObject settingContent = new JsonObject();
             settingContent.AddSubField(".graphics.portraits", finalPortraits);
 
+            foreach (ISSGroup f in factions)
+            {
+                if (f is SSFactionGroup g)
+                {
+                    g.WriteMergeTo(InstallationUrl + newModLink);
+                }
+            }
             SSJsonGroup.WriteJsonTo(InstallationUrl + newModLink + new SSRelativeUrl("data\\config\\settings.json"), settingContent);
-
-            GenerateModInfo(newModLink, copyedFaction);
+            GenerateModInfo(newModLink, factions);
 
 
         }
@@ -231,19 +213,19 @@ namespace SSEditor.FileHandling
 
         }
 
-        public void MergeDirectory(SSLinkUrl newModLink)
-        {
-            CopyUnmergable(newModLink);
+        //public void MergeDirectory(SSLinkUrl newModLink)
+        //{
+        //    CopyUnmergable(newModLink);
 
-            IEnumerable<ISSJsonGroup> fGroups = from ISSGroup fg in GroupedFiles
-                                                    where fg is ISSJsonGroup
-                                                    select fg as ISSJsonGroup;
-            var a = fGroups.SelectMany(fg => fg.GetJSonFiles());
-            IEnumerable<ISSJson> failedExtractedFile = from ISSJson f in a
-                                                       where f.ExtractedProperly == false
-                                                       select f;
-            CopyMergable(newModLink);
-        }
+        //    IEnumerable<ISSJsonGroup> fGroups = from ISSGroup fg in GroupedFiles
+        //                                            where fg is ISSJsonGroup
+        //                                            select fg as ISSJsonGroup;
+        //    var a = fGroups.SelectMany(fg => fg.GetJSonFiles());
+        //    IEnumerable<ISSJson> failedExtractedFile = from ISSJson f in a
+        //                                               where f.ExtractedProperly == false
+        //                                               select f;
+        //    CopyMergable(newModLink);
+        //}
 
         private void ModTypeChangedHandler(Object sender, ModTypeChangeEventArgs e)
         {

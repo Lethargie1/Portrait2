@@ -33,14 +33,22 @@ namespace SSEditor
             SSDirectory test = new SSDirectory(SSUrl);
             
             test.ReadMods("hyes");
+            //this is where we can modify the mods we wanna use
             test.PopulateMergedCollections();
-            test.CopyMergable(new SSLinkUrl("mods\\hyes"));
-            //test.CopyUnmergable(new SSLinkUrl("mods\\hyes"));
-            //test.MergeDirectory(new SSLinkUrl("mods\\hyes"));
-            SSModFactory factory = new SSModFactory(SSUrl);
-
-
-           
+            List<ISSGroup> factions = test.GetMergedFaction();
+            //this is where we can do some stuff in the faction themselves
+            foreach (ISSGroup f in factions)
+            {
+                if (f is SSFactionGroup g)
+                {
+                    g.MalePortraits?.ContentArray.Clear();
+                    g.MalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai1.png"));
+                    g.FemalePortraits?.ContentArray.Clear();
+                    g.FemalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai2.png"));
+                }
+            }
+            test.CopyFactions(new SSLinkUrl("mods\\hyes"));
+  
         }
     }
 }
