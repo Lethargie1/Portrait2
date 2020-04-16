@@ -120,16 +120,20 @@ namespace SSEditor.FileHandling
                 }
             }
         }
-
+        public List<ISSGroup> GetMergedFaction()
+        {
+            List<ISSGroup> result = (from KeyValuePair<string, ISSGroup> kv in GroupedFiles
+                                     where kv.Value is SSFactionGroup
+                                     select kv.Value).Select(g => {
+                                         g.MustOverwrite = true;
+                                         (g as SSFactionGroup).ExtractMonitoredContent();
+                                         return g;
+                                     }).ToList();
+            return result;
+        }
         public void CopyMergable(SSLinkUrl newModLink)
         {
-            SSJsonGroup mod = GroupedFiles["mod_info.json"] as SSJsonGroup;
-            GroupedFiles.Remove("mod_info.json");
-
-
-            //SSJsonGroup test = GroupedFiles["data\\missions\\afistfulofcredits\\descriptor.json"] as SSJsonGroup;
-            //test.MustOverwrite = false;
-            //test.WriteMergeTo(InstallationUrl + newModLink);
+            List<ISSGroup> faction = GetMergedFaction();
             List<ISSGroup> copyedFaction = new List<ISSGroup>();
             JsonArray TotalPortraits = new JsonArray();
             foreach (KeyValuePair<string, ISSGroup> kvG in GroupedFiles)
@@ -167,43 +171,19 @@ namespace SSEditor.FileHandling
                 
             }
             var IndPortrait = TotalPortraits.Values.Distinct();
-            JsonObject finalPortraits = new JsonObject();
-            int counter = 0;
-            foreach (JsonToken token in IndPortrait)
-            {
-                finalPortraits.Values.Add(new JsonValue("portrait" + counter), token);
-                counter++;
-            }
-            JsonObject graphicsfield = new JsonObject();
-            graphicsfield.Values.Add(new JsonValue("portraits"), finalPortraits);
+            JsonObject finalPortraits = new JsonObject(IndPortrait, "portraits");
+            
             JsonObject settingContent = new JsonObject();
-            settingContent.Values.Add(new JsonValue("graphics"), graphicsfield);
+            settingContent.AddSubField(".graphics.portraits", finalPortraits);
 
-            SSRelativeUrl configrela = new SSRelativeUrl("data\\config\\settings.json");
-            SSFullUrl configUrl = InstallationUrl + newModLink + configrela;
+            SSJsonGroup.WriteJsonTo(InstallationUrl + newModLink + new SSRelativeUrl("data\\config\\settings.json"), settingContent);
 
-            FileInfo targetInfo = new FileInfo(configUrl.ToString());
-            DirectoryInfo targetDir = targetInfo.Directory;
-            if (!targetDir.Exists)
-            {
-                targetDir.Create();
-            }
+            GenerateModInfo(newModLink, copyedFaction);
 
-            using (StreamWriter sw = File.CreateText(configUrl.ToString()))
-            {
-                string result = settingContent.ToJsonString();
-                sw.Write(result);
-            }
-                GenerateModInfo(newModLink, copyedFaction);
-            //IEnumerable<SSCsvGroup> CGroups = from ISSGroup fg in GroupedFiles
-            //                                    where fg is SSCsvGroup
-            //                                    select fg as SSCsvGroup;
-            //foreach (SSCsvGroup fg in CGroups)
-            //{
-            //    fg.MustOverwrite = false;
-            //    fg.WriteMergeTo(InstallationUrl + newModLink);
-            //}
+
         }
+
+
         public void GenerateModInfo(SSLinkUrl newModLink, List<ISSGroup> mergedGroup = null)
         {
             JsonObject root = new JsonObject();

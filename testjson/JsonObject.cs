@@ -52,6 +52,63 @@ namespace FVJson
                 }
             }
         }
+        public JsonObject(IEnumerable<JsonToken> enumerable, string fieldRootName)
+        {
+            int counter = 0;
+            foreach (JsonToken token in enumerable)
+            {
+                Values.Add(new JsonValue(fieldRootName + counter), token);
+                counter++;
+            }
+        }
+
+        public void AddSubField(string path, JsonToken content)
+        {
+            if (path == "")
+                throw new FormatException("path cannot be empty");
+            string[] parts = path.Split('.');
+            if (parts[0] != "")
+                throw new FormatException("path must start with .");
+            int count = parts.Count();
+            if (count < 2)
+                throw new FormatException("path muts contains .");
+            JsonValue partKey = new JsonValue(parts[1]);
+            if (count == 2)
+            {
+                if (Values.ContainsKey(partKey))
+                    throw new FormatException("Cant add existing field");
+                else
+                {
+                    Values.Add(partKey, content);
+                    return;
+                }
+            }
+            else
+            {
+                string[] remain = new string[count-2];
+                Array.Copy(parts, 2, remain,0,count-2);
+                string newPath = "." + string.Join(".", remain);
+                if (Values.ContainsKey(partKey))
+                {
+                    if (Values[partKey] is JsonObject jObject)
+                    {
+                        jObject.AddSubField(newPath, content);
+                    }
+                    else
+                    {
+                        throw new FormatException("Cannot add subfield to non object field");
+                    }
+                }
+                else
+                {
+                    JsonObject newJobject = new JsonObject();
+                    newJobject.AddSubField(newPath, content);
+                    Values.Add(partKey, newJobject);
+                    return;
+                }
+            }
+        }
+
 
         public override string ToJsonString()
         {

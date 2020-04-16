@@ -38,33 +38,7 @@ namespace SSEditor
             //test.CopyUnmergable(new SSLinkUrl("mods\\hyes"));
             //test.MergeDirectory(new SSLinkUrl("mods\\hyes"));
             SSModFactory factory = new SSModFactory(SSUrl);
-            factory.Type = SSMod.ModType.Mod;
-            SSMod CoreMod = factory.CreateMod(CoreUrl);
-            SSMod TahlanMod = factory.CreateMod(TahlanUrl);
 
-            SSFaction CoreHeg = new SSFaction(CoreMod, SSUrl + CoreUrl + HegemonyUrl);
-            SSFaction TahlanHeg = new SSFaction(TahlanMod, SSUrl + TahlanUrl + HegemonyUrl);
-            SSFaction SWPHeg = new SSFaction(CoreMod, SSUrl + SWPUrl + HegemonyUrl);
-
-            List<string> TokenPath = new List<string> { "knownShips", "hulls" };
-            List<string> TokenPath2 = new List<string> { "music", "theme" };
-            List<string> TokenPath3 = new List<string> { "color" };
-            List<string> TokenPath4 = new List<string> { "priorityShips", "hulls" };
-
-            SSFactionGroup HegemonyFaction = new SSFactionGroup();
-            HegemonyFaction.Add(TahlanHeg);
-
-            foreach (JsonValue t in HegemonyFaction?.KnownHull?.ContentArray)
-                Console.WriteLine(t.ToString());
-
-            HegemonyFaction.Add(CoreHeg);
-            Console.WriteLine("====Heg====");
-
-            foreach (JsonValue t in HegemonyFaction?.KnownHull?.ContentArray ?? new ObservableCollection<JsonToken>())
-                Console.WriteLine(t.ToString());
-
-            HegemonyFaction.Remove(TahlanHeg);
-            Console.WriteLine("====Heg====");
 
            
         }

@@ -1,4 +1,5 @@
-﻿using SSEditor.MonitoringField;
+﻿using FVJson;
+using SSEditor.MonitoringField;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,7 +35,11 @@ namespace SSEditor.FileHandling
             }
             MonitoredContent = TempList;
             PopulatePathedContent();
+            AttachDefinedAttribute();
         }
+        protected virtual void AttachDefinedAttribute()
+        { }
+
         public void PopulatePathedContent()
         {
             Dictionary<string, MonitoredField<T>> temp = MonitoredContent?.GetPathedChildrens();
@@ -71,6 +76,22 @@ namespace SSEditor.FileHandling
                 sw.Write(result);
             }
         }
+        public static void WriteJsonTo(SSFullUrl targetUrl, JsonObject content)
+        {
+            FileInfo targetInfo = new FileInfo(targetUrl.ToString());
+            DirectoryInfo targetDir = targetInfo.Directory;
+            if (!targetDir.Exists)
+            {
+                targetDir.Create();
+            }
+            using (StreamWriter sw = File.CreateText(targetUrl.ToString()))
+            {
+                string result = content.ToJsonString();
+                sw.Write(result);
+            }
+        }
+
+
 
         public ReadOnlyObservableCollection<SSJson> GetJSonFiles()
         {

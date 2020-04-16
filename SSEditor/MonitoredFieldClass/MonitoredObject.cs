@@ -13,6 +13,13 @@ namespace SSEditor.MonitoringField
     public class MonitoredObject<T> : MonitoredField<T> where T : SSJson
     {
         public Dictionary<JsonValue,MonitoredField<T>> MonitoredProperties { get; private set; } = new Dictionary<JsonValue, MonitoredField<T>>();
+
+        public void Add(string field, MonitoredField<T> fieldMonitor)
+        {
+            MonitoredProperties.Add(new JsonValue(field), fieldMonitor);
+        }
+
+
         public override JsonToken GetJsonEquivalent()
         {
             JsonObject NewContent = new JsonObject();
