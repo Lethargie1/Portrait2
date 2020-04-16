@@ -62,5 +62,19 @@ namespace SSEditor.MonitoringField
         {
             Resolve();
         }
+
+        public override Dictionary<string, MonitoredField<T>> GetPathedChildrens()
+        {
+            Dictionary<string, MonitoredField<T>> result = new Dictionary<String, MonitoredField<T>>() { { "", this } };
+            foreach (KeyValuePair<JsonValue, MonitoredField<T>> kv in MonitoredProperties)
+            {
+                Dictionary<string, MonitoredField<T>> subResult = kv.Value.GetPathedChildrens();
+                foreach (KeyValuePair<string, MonitoredField<T>> subkv in subResult)
+                {
+                    result.Add("." + kv.Key.ToString() + subkv.Key, subkv.Value);
+                }
+            }
+            return result;
+        }
     }
 }

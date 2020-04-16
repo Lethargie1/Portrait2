@@ -174,7 +174,7 @@ namespace FVJson
             int hash = Content.ToString().GetHashCode() + Type.GetHashCode();
             return hash;
         }
-        bool IEquatable<JsonValue>.Equals(JsonValue other)
+        public bool Equals(JsonValue other)
         {
             bool test = (this.Type.Equals(other.Type) && this.Content.Equals(other.Content));
             return test;

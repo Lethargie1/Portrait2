@@ -53,5 +53,19 @@ namespace SSEditor.MonitoringField
         {
             Resolve();
         }
+
+        public override Dictionary<string, MonitoredField<T>> GetPathedChildrens()
+        {
+            Dictionary<string, MonitoredField<T>> result = new Dictionary<String, MonitoredField<T>>() { { "", this } };
+            for (int valueCounter = 0; valueCounter < JObjectArray.Count(); valueCounter++)
+            {
+                Dictionary<string, MonitoredField<T>> subResult = JObjectArray[valueCounter].GetPathedChildrens();
+                foreach (KeyValuePair<string, MonitoredField<T>> subkv in subResult)
+                {
+                    result.Add("[" + valueCounter + "]" + subkv.Key, subkv.Value);
+                }
+            }
+            return result;
+        }
     }
 }

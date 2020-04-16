@@ -57,5 +57,10 @@ namespace SSEditor.MonitoringField
         {
             return base.FieldPath+": "+ Content.ToString();
         }
+
+        public override Dictionary<string, MonitoredField<T>> GetPathedChildrens()
+        {
+            return new Dictionary<String, MonitoredField<T>>() { { "", this } };
+        }
     }
 }

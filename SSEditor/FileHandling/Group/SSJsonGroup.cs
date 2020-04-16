@@ -16,6 +16,7 @@ namespace SSEditor.FileHandling
     class SSJsonGroup<T> : SSGroup<T>, ISSJsonGroup where T: SSJson
     {
         public MonitoredObject<T> MonitoredContent { get; set; } = null;
+        public Dictionary<string, MonitoredField<T>> PathedContent { get; private set; } = new Dictionary<string, MonitoredField<T>>();
 
         public SSJsonGroup() : base() { }
 
@@ -32,6 +33,19 @@ namespace SSEditor.FileHandling
                 TempList.ReplaceFiles(new ObservableCollection<T>(ModList));
             }
             MonitoredContent = TempList;
+            PopulatePathedContent();
+        }
+        public void PopulatePathedContent()
+        {
+            Dictionary<string, MonitoredField<T>> temp = MonitoredContent?.GetPathedChildrens();
+            PathedContent.Clear();
+            if (temp !=null)
+            {
+                foreach (KeyValuePair<string, MonitoredField<T>> kv in temp)
+                {
+                    PathedContent.Add(kv.Key, kv.Value);
+                }
+            }
         }
 
         public override void WriteMergeTo(SSBaseLinkUrl newPath)
@@ -49,7 +63,8 @@ namespace SSEditor.FileHandling
 
             if (MonitoredContent == null)
                 this.ExtractMonitoredContent();
-
+            if (MonitoredContent.Files.Count == 0)
+                return;
             using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
             {
                 string result = MonitoredContent.GetJsonEquivalent().ToJsonString();

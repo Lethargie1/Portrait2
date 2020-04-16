@@ -1,10 +1,12 @@
-﻿using SSEditor.MonitoringField;
+﻿using FVJson;
+using SSEditor.MonitoringField;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
@@ -122,17 +124,55 @@ namespace SSEditor.FileHandling
         public void CopyMergable(SSLinkUrl newModLink)
         {
             SSJsonGroup mod = GroupedFiles["mod_info.json"] as SSJsonGroup;
-            mod.ExtractMonitoredContent();
-            MonitoredArray<SSJson> modplugin = new MonitoredArray<SSJson>() { FieldPath = ".modPlugin" };
-            mod.CopyFilesToMonitored(modplugin);
-            mod.MonitoredContent.MonitoredProperties[new FVJson.JsonValue("modPlugin")] = modplugin;
+            GroupedFiles.Remove("mod_info.json");
 
+
+            //SSJsonGroup test = GroupedFiles["data\\missions\\afistfulofcredits\\descriptor.json"] as SSJsonGroup;
+            //test.MustOverwrite = false;
+            //test.WriteMergeTo(InstallationUrl + newModLink);
+            List<ISSGroup> copyedFaction = new List<ISSGroup>();
+            JsonArray TotalPortraits = new JsonArray();
             foreach (KeyValuePair<string, ISSGroup> kvG in GroupedFiles)
             {
-                kvG.Value.MustOverwrite = false;
-                kvG.Value.WriteMergeTo(InstallationUrl + newModLink);
+                switch (kvG.Value)
+                {
+                    case SSFactionGroup fg:
+                        fg.MustOverwrite = true;
+                        fg.ExtractMonitoredContent();
+                        MonitoredField<SSFaction> got;
+                        if (fg.PathedContent.TryGetValue(".portraits.standard_male", out got))
+                        {
+                            if (got is MonitoredArray<SSFaction> males)
+                            {
+                                TotalPortraits.Values.AddRange(males.ContentArray);
+                                males.ContentArray.Clear();
+                                males.ContentArray.Add(new JsonValue("graphics/portraits/portrait_hegemony01.png"));
+                            }
+                        }
+                        if (fg.PathedContent.TryGetValue(".portraits.standard_female", out got))
+                        {
+                            if (got is MonitoredArray<SSFaction> females)
+                            {
+                                TotalPortraits.Values.AddRange(females.ContentArray);
+                                females.ContentArray.Clear();
+                                females.ContentArray.Add(new JsonValue("graphics/portraits/portrait_hegemony01.png"));
+                            }
+                        }
+                        fg.WriteMergeTo(InstallationUrl + newModLink);
+                        copyedFaction.Add(fg);
+                        break;
+                    default:
+                        break;
+                }
+                
             }
-            
+            var IndPortrait = TotalPortraits.Values.Distinct();
+            JsonArray FinalPortraits = new JsonArray();
+            foreach (JsonToken token in IndPortrait)
+            {
+                FinalPortraits.Values.Add(token);
+            }
+            GenerateModInfo(newModLink, copyedFaction);
             //IEnumerable<SSCsvGroup> CGroups = from ISSGroup fg in GroupedFiles
             //                                    where fg is SSCsvGroup
             //                                    select fg as SSCsvGroup;
@@ -142,6 +182,53 @@ namespace SSEditor.FileHandling
             //    fg.WriteMergeTo(InstallationUrl + newModLink);
             //}
         }
+        public void GenerateModInfo(SSLinkUrl newModLink, List<ISSGroup> mergedGroup = null)
+        {
+            JsonObject root = new JsonObject();
+            root.Values.Add(new JsonValue("id"), new JsonValue("testlfe"));
+            root.Values.Add(new JsonValue("name"), new JsonValue("Lethargie metafaction editor"));
+            root.Values.Add(new JsonValue("author"), new JsonValue("Lethargie"));
+            root.Values.Add(new JsonValue("version"), new JsonValue("1.0"));
+            root.Values.Add(new JsonValue("gameVersion"), new JsonValue("0.9.1a"));
+            if (mergedGroup == null || mergedGroup.Count == 0)
+                root.Values.Add(new JsonValue("description"), new JsonValue("merged  patch automagicaly generated from no source mod"));
+            else
+            {
+                IEnumerable<ISSJsonGroup> fGroups = from ISSGroup fg in mergedGroup
+                                                     where fg is ISSJsonGroup
+                                                     select fg as ISSJsonGroup;
+                var a = fGroups.SelectMany(fg => fg.GetJSonFiles()).Select(f => f.SourceMod.ModName).Distinct();
+                string modlist = string.Join(", ", a);
+                root.Values.Add(new JsonValue("description"), new JsonValue("merged  patch automagicaly generated from: " + modlist));
+                var b = fGroups.Select(f => f.CommonRelativeUrl.ToString());
+                JsonArray replaceList = new JsonArray();
+                foreach (string replace in b)
+                {
+                    string cleaned = Regex.Replace(replace, @"\\", @"\\");
+                    replaceList.Values.Add(new JsonValue(cleaned));
+                }
+                root.Values.Add(new JsonValue("replace"), replaceList);
+            }
+
+
+            SSFullUrl TargetUrl = InstallationUrl + newModLink + new SSRelativeUrl("mod_info.json");
+
+            //we need to make sure the directory exist
+            FileInfo targetInfo = new FileInfo(TargetUrl.ToString());
+            DirectoryInfo targetDir = targetInfo.Directory;
+            if (!targetDir.Exists)
+            {
+                targetDir.Create();
+            }
+            using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
+            {
+                string result = root.ToJsonString();
+                sw.Write(result);
+            }
+
+
+        }
+
         public void MergeDirectory(SSLinkUrl newModLink)
         {
             CopyUnmergable(newModLink);

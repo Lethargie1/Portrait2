@@ -32,7 +32,7 @@ namespace SSEditor.MonitoringField
         abstract public void Resolve();
         abstract protected void ResolveAdd(T file);
         abstract protected void ResolveRemove(T file);
-
+        public abstract Dictionary<string, MonitoredField<T>> GetPathedChildrens();
 
         public void ReplaceFiles(ObservableCollection<T> newFiles)
         {

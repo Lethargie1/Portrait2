@@ -13,12 +13,13 @@ namespace SSEditor.FileHandling
     {
         public override void WriteMergeTo(SSBaseLinkUrl newPath)
         {
+
             SSBaseUrl InstallationUrl = new SSBaseUrl(newPath.Base);
             SSFullUrl TargetUrl = newPath + this.CommonRelativeUrl;
             //we do not merge core csv on the patch, it would be pointless
-            IEnumerable<SSCsv> NonCoreFile = from SSCsv file in this.CommonFiles
+            List<SSCsv> NonCoreFile = (from SSCsv file in this.CommonFiles
                                              where file.SourceMod.CurrentType != SSMod.ModType.Core
-                                             select file;
+                                             select file).ToList<SSCsv>();
             if (NonCoreFile.Count() == 0)
                 return;
 
@@ -35,7 +36,7 @@ namespace SSEditor.FileHandling
             {
                 CsvWriter csvWriter = new CsvWriter(sw, CultureInfo.InvariantCulture);
                 List<List<String>> allHeaders = new List<List<string>>();
-                foreach (SSCsv file in this.CommonFiles)
+                foreach (SSCsv file in NonCoreFile)
                 {
                     SSFullUrl SourceUrl = InstallationUrl + file.LinkRelativeUrl;
 
@@ -46,9 +47,16 @@ namespace SSEditor.FileHandling
                     }
                 }
                 List<string> finalHeaders = allHeaders.SelectMany(c => c).Distinct().ToList<string>();
-                for (int fileIndex = 0; fileIndex < base.CommonFiles.Count; fileIndex++)
+                //lets write column title once
+                foreach (string head in finalHeaders)
                 {
-                    SSFullUrl SourceUrl = InstallationUrl + base.CommonFiles[fileIndex].LinkRelativeUrl;
+                        csvWriter.WriteField(head);
+                }
+                csvWriter.NextRecord();
+
+                for (int fileIndex = 0; fileIndex < NonCoreFile.Count; fileIndex++)
+                {
+                    SSFullUrl SourceUrl = InstallationUrl + NonCoreFile[fileIndex].LinkRelativeUrl;
                     List<string> localHeaders = allHeaders[fileIndex];
                     int[] finalSourceFromLocal = new int[finalHeaders.Count];
                     for (int finalIndex = 0; finalIndex < finalHeaders.Count; finalIndex++)

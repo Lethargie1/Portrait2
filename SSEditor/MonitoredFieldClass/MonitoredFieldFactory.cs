@@ -22,14 +22,15 @@ namespace SSEditor.MonitoringField
                 case JsonArray jArray:
                     if (isValueArray)
                         return new MonitoredArrayValue<T>() {FieldPath = fieldpath };
-                    JsonToken TestChild = jArray.Values.FirstOrDefault();
-                    switch (TestChild)
-                    {
-                        case JsonObject jObject:
-                            return new MonitoredArrayObject<T>() { FieldPath = fieldpath };
-                        default:
-                            return new MonitoredArray<T>() { FieldPath = fieldpath };
-                    }
+                    return new MonitoredArray<T>() { FieldPath = fieldpath };
+                    //JsonToken TestChild = jArray.Values.FirstOrDefault();
+                    //switch (TestChild)
+                    //{
+                    //    case JsonObject jObject:
+                    //        return new MonitoredArrayObject<T>() { FieldPath = fieldpath };
+                    //    default:
+                    //        return new MonitoredArray<T>() { FieldPath = fieldpath };
+                    //}
                 case JsonObject jObject:
                     return new MonitoredObject<T>() { FieldPath = fieldpath };
                 case JsonValue jValue:

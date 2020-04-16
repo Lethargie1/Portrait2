@@ -66,5 +66,10 @@ namespace SSEditor.MonitoringField
         {
             return base.FieldPath + " Array: (" + this.ContentArray.Count.ToString() + ")value, first one: " + (this.ContentArray.FirstOrDefault()?.ToString() ?? "none") ;
         }
+
+        public override Dictionary<string, MonitoredField<T>> GetPathedChildrens()
+        {
+            return new Dictionary<String, MonitoredField<T>>() { { "", this } };
+        }
     }
 }
