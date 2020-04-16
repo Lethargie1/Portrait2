@@ -74,7 +74,6 @@
     <Compile Include="MonitoredFieldClass\MonitoredField.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredArray.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredFieldFactory.cs" />
-    <Compile Include="MonitoredFieldClass\MonitoredArrayObject.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredObject.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredValue.cs" />
     <Compile Include="Program.cs" />
