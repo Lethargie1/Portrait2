@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    public class SSModWritable
+    public class SSModWritable: ISSMod
     {
         public SSBaseLinkUrl ModUrl { get; private set; }
         public SSJson ModInfo { get; private set; }
         public string ModName { get; private set; }
-
+        public ModType CurrentType { get; } = ModType.Mod;
 
         public ObservableCollection<ISSWritable> FileList { get; set; } = new ObservableCollection<ISSWritable>();
         

@@ -18,7 +18,7 @@ namespace SSEditor.FileHandling
             SSFullUrl TargetUrl = newPath + this.RelativeUrl;
             //we do not merge core csv on the patch, it would be pointless
             List<SSCsv> NonCoreFile = (from SSCsv file in this.CommonFiles
-                                             where file.SourceMod.CurrentType != SSMod.ModType.Core
+                                             where file.SourceMod.CurrentType != ModType.Core
                                              select file).ToList<SSCsv>();
             if (NonCoreFile.Count() == 0)
                 return;
@@ -38,7 +38,7 @@ namespace SSEditor.FileHandling
                 List<List<String>> allHeaders = new List<List<string>>();
                 foreach (SSCsv file in NonCoreFile)
                 {
-                    SSFullUrl SourceUrl = InstallationUrl + file.LinkRelativeUrl;
+                    SSFullUrl SourceUrl = InstallationUrl + file.SourceMod.ModUrl.GetLink() + file.RelativeUrl;
 
                     using (StreamReader sr = File.OpenText(SourceUrl.ToString()))
                     {
@@ -56,7 +56,7 @@ namespace SSEditor.FileHandling
 
                 for (int fileIndex = 0; fileIndex < NonCoreFile.Count; fileIndex++)
                 {
-                    SSFullUrl SourceUrl = InstallationUrl + NonCoreFile[fileIndex].LinkRelativeUrl;
+                    SSFullUrl SourceUrl = InstallationUrl + NonCoreFile[fileIndex].SourceMod.ModUrl.GetLink() +NonCoreFile[fileIndex].RelativeUrl;
                     List<string> localHeaders = allHeaders[fileIndex];
                     int[] finalSourceFromLocal = new int[finalHeaders.Count];
                     for (int finalIndex = 0; finalIndex < finalHeaders.Count; finalIndex++)

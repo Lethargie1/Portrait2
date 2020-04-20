@@ -29,7 +29,7 @@ namespace SSEditor.FileHandling
             else
             {
                 List<T> ModList = (from T file in base.CommonFiles
-                                   where file.SourceMod.CurrentType != SSMod.ModType.Core
+                                   where file.SourceMod.CurrentType != ModType.Core
                                    select file).ToList();
                 TempList.ReplaceFiles(new ObservableCollection<T>(ModList));
             }

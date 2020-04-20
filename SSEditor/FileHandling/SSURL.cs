@@ -157,6 +157,7 @@ namespace SSEditor.FileHandling
             return result;
         }
 
+        public SSLinkUrl GetLink() => Link != null ? new SSLinkUrl(Link) : null;
         public static SSFullUrl operator +(SSBaseLinkUrl baseLink, SSRelativeUrl rela)
         {
             SSFullUrl full = new SSFullUrl();

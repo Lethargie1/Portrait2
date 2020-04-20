@@ -10,10 +10,9 @@ namespace SSEditor.FileHandling
     public interface ISSGenericFile
     {
         //all possible file should fit in a generic
-        SSLinkRelativeUrl LinkRelativeUrl { get; }
         SSRelativeUrl RelativeUrl { get; }
         string FileName { get; }
-        SSMod SourceMod { get; }
+        ISSMod SourceMod { get; }
         void CopyTo(SSBaseLinkUrl NewPath);
     }
 

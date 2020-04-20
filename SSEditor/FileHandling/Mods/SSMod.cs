@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    
-    public class SSMod
+
+    public class SSMod : ISSMod
     {
-        public enum ModType {Core, Mod, Ressource, skip};
+       
 
         public event EventHandler<ModTypeChangeEventArgs> TypeChanged;
 
@@ -94,20 +94,20 @@ namespace SSEditor.FileHandling
 
     public class ModTypeChangeEventArgs : EventArgs
     {
-        public ModTypeChangeEventArgs(SSMod.ModType oldType, SSMod.ModType newType)
+        public ModTypeChangeEventArgs(ModType oldType, ModType newType)
         {
             OldType = oldType;
             NewType = newType;
         }
-        public SSMod.ModType OldType { get; private set; }
-        public SSMod.ModType NewType { get; private set; }
+        public ModType OldType { get; private set; }
+        public ModType NewType { get; private set; }
     }
 
     public class SSModFactory
     {
         public static SSLinkUrl CoreLink = new SSLinkUrl("starsector-core");
         public SSBaseUrl InstallationUrl { get; set; }
-        public SSMod.ModType Type { get; set; } = SSMod.ModType.skip;
+        public ModType Type { get; set; } = ModType.skip;
 
         public SSModFactory (SSBaseUrl installation)
         {
@@ -118,7 +118,7 @@ namespace SSEditor.FileHandling
         {
             SSMod newMod;
             if (link.Equals(CoreLink))
-                newMod = new SSMod(InstallationUrl + link, SSMod.ModType.Core);
+                newMod = new SSMod(InstallationUrl + link, ModType.Core);
             else
                 newMod = new SSMod(InstallationUrl + link, Type);
             

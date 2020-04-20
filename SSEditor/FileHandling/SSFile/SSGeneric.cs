@@ -9,17 +9,14 @@ namespace SSEditor.FileHandling
 {
     public abstract class SSGeneric : ISSGenericFile
     {
-        public SSLinkRelativeUrl LinkRelativeUrl { get; protected set; }
-        public SSRelativeUrl RelativeUrl { get => LinkRelativeUrl?.GetRelative(); }
-        public SSBaseUrl BaseUrl { get; protected set; }
+        public SSRelativeUrl RelativeUrl { get; set; }
         public string FileName { get; protected set; }
-        public SSMod SourceMod { get; protected set; }
+        public ISSMod SourceMod { get; protected set; }
 
-        public SSGeneric(SSMod mod, SSFullUrl url)
+        public SSGeneric(ISSMod mod, SSFullUrl url)
         {
             SourceMod = mod;
-            LinkRelativeUrl = url.LinkRelative;
-            BaseUrl = new SSBaseUrl(url.Base);
+            RelativeUrl = new SSRelativeUrl(url.Relative);
             FileInfo info = new FileInfo(url.ToString());
             FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
         }
@@ -27,9 +24,9 @@ namespace SSEditor.FileHandling
         public void CopyTo(SSBaseLinkUrl newPath)
         {
             SSBaseUrl InstallationUrl = new SSBaseUrl(newPath.Base);
-            SSFullUrl SourceUrl = InstallationUrl + this.LinkRelativeUrl;
+            SSFullUrl SourceUrl = InstallationUrl + this.SourceMod.ModUrl.GetLink() +this.RelativeUrl;
 
-            SSFullUrl TargetUrl = newPath + this.LinkRelativeUrl.GetRelative();
+            SSFullUrl TargetUrl = newPath + this.RelativeUrl;
 
             FileInfo sourceInfo = new FileInfo(SourceUrl.ToString());
             FileInfo targetInfo = new FileInfo(TargetUrl.ToString());

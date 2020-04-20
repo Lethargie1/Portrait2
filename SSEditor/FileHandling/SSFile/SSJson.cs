@@ -72,8 +72,7 @@ namespace SSEditor.FileHandling
 
         public void ExtractFile()
         {
-            SSFullUrl fullUrl = base.BaseUrl + base.LinkRelativeUrl;
-            base.LinkRelativeUrl = new SSLinkRelativeUrl(fullUrl?.Link ?? throw new ArgumentNullException("The Url cannot be null."), fullUrl?.Relative ?? throw new ArgumentNullException("The Url cannot be null."));
+            SSFullUrl fullUrl = base.SourceMod.ModUrl + this.RelativeUrl;
             _ModName = base.SourceMod.ModName;
 
             FileInfo info = new FileInfo(fullUrl.ToString());

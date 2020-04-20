@@ -32,7 +32,7 @@ namespace SSEditor.FileHandling
         {
             Mods.Clear();
             modFactory = new SSModFactory(InstallationUrl);
-            modFactory.Type = SSMod.ModType.Mod;
+            modFactory.Type = ModType.Mod;
             SSBaseUrl ModFolderPath = InstallationUrl + "mods";
             DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
             IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
@@ -48,7 +48,7 @@ namespace SSEditor.FileHandling
                     throw new ArgumentException("Cannot add existing mod to directory");
                 currentMod = modFactory.CreateMod(modLink);
                 if (ModDirectory.Name == targetFolder)
-                    currentMod.ChangeType(SSMod.ModType.skip);
+                    currentMod.ChangeType(ModType.skip);
                 else
                     currentMod.FindFiles();
                 currentMod.TypeChanged += ModTypeChangedHandler;
@@ -62,7 +62,7 @@ namespace SSEditor.FileHandling
             GroupedFiles.Clear();
             foreach (SSMod currentMod in Mods)
             {
-                if (currentMod.CurrentType == SSMod.ModType.skip || currentMod.CurrentType == SSMod.ModType.Ressource)
+                if (currentMod.CurrentType == ModType.skip || currentMod.CurrentType == ModType.Ressource)
                     continue;
                 foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
                 {
@@ -111,7 +111,7 @@ namespace SSEditor.FileHandling
         {
             foreach (SSMod currentMod in Mods)
             {
-                if (currentMod.CurrentType == SSMod.ModType.skip || currentMod.CurrentType == SSMod.ModType.Ressource || currentMod.CurrentType == SSMod.ModType.Core)
+                if (currentMod.CurrentType == ModType.skip || currentMod.CurrentType == ModType.Ressource || currentMod.CurrentType == ModType.Core)
                     continue;
                 foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
                 {
@@ -230,14 +230,14 @@ namespace SSEditor.FileHandling
         private void ModTypeChangedHandler(Object sender, ModTypeChangeEventArgs e)
         {
             //empty for now
-            if (e.OldType == SSMod.ModType.Mod)
+            if (e.OldType == ModType.Mod)
             {
-                if (e.NewType == SSMod.ModType.Ressource || e.NewType == SSMod.ModType.skip)
+                if (e.NewType == ModType.Ressource || e.NewType == ModType.skip)
                 {
                     //we went from mod to skip, remove files from the merged list
                 }
             }
-            else if (e.NewType == SSMod.ModType.Mod)
+            else if (e.NewType == ModType.Mod)
             {
                 //we went from skip to mod, perhaps add file to list
             }

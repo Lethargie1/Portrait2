@@ -60,6 +60,7 @@
     <Compile Include="FileHandling\Group\SSFileGroupFactory.cs" />
     <Compile Include="FileHandling\Group\SSJsonGroup.cs" />
     <Compile Include="FileHandling\ISSWritable.cs" />
+    <Compile Include="FileHandling\Mods\ISSMod.cs" />
     <Compile Include="FileHandling\Mods\SSModWritable.cs" />
     <Compile Include="FileHandling\SSFile\SSCsv.cs" />
     <Compile Include="FileHandling\SSFile\SSGeneric.cs" />

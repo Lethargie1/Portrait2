@@ -24,15 +24,15 @@ namespace SSEditor.FileHandling
 
         public void Add(T file)
         {
-            if (file.LinkRelativeUrl == null || file.LinkRelativeUrl.Link == null || file.LinkRelativeUrl.Relative == null)
+            if (file.RelativeUrl == null )
                 throw new ArgumentException("Cannot add file with no path to group");
             if (CommonFiles.Count() == 0)
             {
-                RelativeUrl = file.LinkRelativeUrl.GetRelative();
+                RelativeUrl = file.RelativeUrl;
                 CommonFiles.Add(file);
             } else
             {
-                if (!file.LinkRelativeUrl.GetRelative().Equals(RelativeUrl))
+                if (!file.RelativeUrl.Equals(RelativeUrl))
                     throw new ArgumentException("Cannot add file with unrelated path to group");
                 CommonFiles.Add(file);
             }
