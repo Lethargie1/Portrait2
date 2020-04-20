@@ -18,20 +18,51 @@ namespace SSEditor.FileHandling
         #region Properties
 
         JsonObject _JsonContent;
-        public JsonObject JsonContent { get => _JsonContent; }
+        public JsonObject JsonContent
+        {
+            get
+            {
+                if (_JsonContent == null)
+                {
+                    this.ExtractFile();
+                    this.RefreshFields();
+                }
+                return _JsonContent;
+            }
+            set
+            {
+                _JsonContent = value;
+                this.RefreshFields();
+            }
+        }
+        Dictionary<string, JsonToken> _Fields;
+        public Dictionary<string,JsonToken> Fields
+        {
+            get
+            {
+                if (_Fields == null)
+                {
+                    this.ExtractFile();
+                    this.RefreshFields();
+                }
+                return _Fields;
+            }
+            private set { _Fields = value; }
+        }
+
 
         string _ModName;
         public string ModName { get => _ModName; }
 
         public string JSonStatusError { get; private set; } = "";
         public bool ExtractedProperly { get; private set; } = false;
-        public Dictionary<string,JsonToken> Fields { get; private set; }
+        
         #endregion
 
         #region Constructors
         public SSJson(SSMod mod, SSFullUrl fullUrl) : base(mod, fullUrl)
         {
-            this.ExtractFile(fullUrl);
+            //this.ExtractFile(fullUrl);
             SourceMod = mod;
         }
         #endregion
@@ -39,11 +70,11 @@ namespace SSEditor.FileHandling
 
 
 
-        public void ExtractFile(SSFullUrl fullUrl)
+        public void ExtractFile()
         {
-
+            SSFullUrl fullUrl = base.BaseUrl + base.LinkRelativeUrl;
             base.LinkRelativeUrl = new SSLinkRelativeUrl(fullUrl?.Link ?? throw new ArgumentNullException("The Url cannot be null."), fullUrl?.Relative ?? throw new ArgumentNullException("The Url cannot be null."));
-            _ModName = fullUrl.Link;
+            _ModName = base.SourceMod.ModName;
 
             FileInfo info = new FileInfo(fullUrl.ToString());
 
@@ -61,7 +92,11 @@ namespace SSEditor.FileHandling
                 JsonToken read = jreader.UnJson();
                 _JsonContent = read as JsonObject;
             }
-            Fields = _JsonContent.GetPathedChildrens();
+            
+        }
+        public void RefreshFields()
+        {
+            Fields = _JsonContent?.GetPathedChildrens() ?? new Dictionary<string, JsonToken>();
         }
 
         public JsonToken ReadToken(string JsonPath)

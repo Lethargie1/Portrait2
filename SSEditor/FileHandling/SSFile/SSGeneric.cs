@@ -10,6 +10,7 @@ namespace SSEditor.FileHandling
     public abstract class SSGeneric : ISSGenericFile
     {
         public SSLinkRelativeUrl LinkRelativeUrl { get; protected set; }
+        public SSBaseUrl BaseUrl { get; protected set; }
         public string FileName { get; protected set; }
         public SSMod SourceMod { get; protected set; }
 
@@ -17,6 +18,7 @@ namespace SSEditor.FileHandling
         {
             SourceMod = mod;
             LinkRelativeUrl = url.LinkRelative;
+            BaseUrl = new SSBaseUrl(url.Base);
             FileInfo info = new FileInfo(url.ToString());
             FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
         }
