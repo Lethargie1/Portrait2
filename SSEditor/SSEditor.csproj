@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileHandling\Editors\FactionEditor.cs" />
     <Compile Include="FileHandling\Group\ISSGroupInterface.cs" />
     <Compile Include="FileHandling\Group\SSCsvGroup.cs" />
     <Compile Include="FileHandling\Group\SSFileGroupFactory.cs" />

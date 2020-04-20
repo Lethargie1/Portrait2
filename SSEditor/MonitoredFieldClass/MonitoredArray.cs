@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    class MonitoredArray<T> : MonitoredField<T>  where T:SSJson
+    public class MonitoredArray<T> : MonitoredField<T>  where T:SSJson
     {
         public ObservableCollection<JsonToken> ContentArray { get; } = new ObservableCollection<JsonToken>();
 

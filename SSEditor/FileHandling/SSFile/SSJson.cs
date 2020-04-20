@@ -13,10 +13,10 @@ namespace SSEditor.FileHandling
 {
     public class SSJson : SSGeneric, ISSJson, ISSMergable
     {
-
+        public bool MustOverwrite { get; set; } = false;
         public enum JsonFileType { Extracted, NotExtrated};
         #region Properties
-        JsonFileType JsonType { get; set; } = JsonFileType.Extracted;
+        public JsonFileType JsonType { get; set; } = JsonFileType.Extracted;
         JsonObject _JsonContent;
         public JsonObject JsonContent
         {
@@ -60,7 +60,7 @@ namespace SSEditor.FileHandling
         #endregion
 
         #region Constructors
-        public SSJson(SSMod mod, SSFullUrl fullUrl) : base(mod, fullUrl)
+        public SSJson(ISSMod mod, SSFullUrl fullUrl) : base(mod, fullUrl)
         {
             //this.ExtractFile(fullUrl);
             SourceMod = mod;

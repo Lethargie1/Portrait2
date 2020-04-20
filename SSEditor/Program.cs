@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FVJson;
+using SSEditor.FileHandling.Editors;
 
 namespace SSEditor
 {
@@ -29,26 +30,24 @@ namespace SSEditor
             DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
             IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
 
-
-            SSDirectory test = new SSDirectory(SSUrl);
             
-            test.ReadMods("hyes");
-            //this is where we can modify the mods we wanna use
+            SSDirectory test = new SSDirectory(SSUrl);
+            SSModWritable target = new SSModWritable(SSUrl + new SSLinkUrl("mods\\lepg"));
+            test.ReadMods("lepg");
             test.PopulateMergedCollections();
-            List<ISSGroup> factions = test.GetMergedFaction();
-            //this is where we can do some stuff in the faction themselves
-            foreach (ISSGroup f in factions)
+
+            FactionEditor factionEditor = new FactionEditor(test, target);
+            List<SSFactionGroup> factions = factionEditor.GetFaction();
+            foreach (SSFactionGroup f in factions)
             {
-                if (f is SSFactionGroup g)
-                {
-                    g.MalePortraits?.ContentArray.Clear();
-                    g.MalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai1.png"));
-                    g.FemalePortraits?.ContentArray.Clear();
-                    g.FemalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai2.png"));
-                }
+                    f.MalePortraits?.ContentArray.Clear();
+                    f.MalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai1.png"));
+                    f.FemalePortraits?.ContentArray.Clear();
+                    f.FemalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai2.png"));
+                f.MustOverwrite = true;
             }
-            test.CopyFactions(new SSLinkUrl("mods\\hyes"));
-  
+            factionEditor.ReplaceFactionToWrite();
+            target.WriteMod();
         }
     }
 }

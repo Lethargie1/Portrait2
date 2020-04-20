@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    class MonitoredArrayValue<T> : MonitoredField<T> where T:SSJson
+    public class MonitoredArrayValue<T> : MonitoredField<T> where T:SSJson
     {
         public JsonArray ContentArray { get; } = new JsonArray();
 

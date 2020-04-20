@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    class SSDirectory
+    public class SSDirectory
     {
 
         public Dictionary<string,ISSGroup> GroupedFiles { get; private set; } = new Dictionary<string,ISSGroup>();

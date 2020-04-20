@@ -10,12 +10,12 @@ using FVJson;
 
 namespace SSEditor.FileHandling
 {
-    class SSFactionGroup : SSJsonGroup<SSFaction>
+    public class SSFactionGroup : SSJsonGroup<SSFaction>
     {
         public MonitoredValue<SSFaction> DisplayName { get; private set; } = null;
         public MonitoredArray<SSFaction> MalePortraits { get; private set; } = null;
         public MonitoredArray<SSFaction> FemalePortraits { get; private set; } = null;
-        public MonitoredArrayValue<SSFaction> FactionColor { get; private set; } = new MonitoredArrayValue<SSFaction>() { FieldPath = "color" };
+        public MonitoredArrayValue<SSFaction> FactionColor { get; private set; } = null;
         protected override void AttachDefinedAttribute()
         {
             DisplayName = AttachOneAttribute<MonitoredValue<SSFaction>>(".displayName");

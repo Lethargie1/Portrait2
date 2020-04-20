@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    class MonitoredValue<T>: MonitoredField<T> where T:SSJson 
+    public class MonitoredValue<T>: MonitoredField<T> where T:SSJson 
     {
         public JsonValue Content { get; private set; }
 

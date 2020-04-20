@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    class SSJsonGroup : SSJsonGroup<SSJson>
+    public class SSJsonGroup : SSJsonGroup<SSJson>
     {
 
     }
-    class SSJsonGroup<T> : SSGroup<T>, ISSJsonGroup where T: SSJson
+    public class SSJsonGroup<T> : SSGroup<T>, ISSJsonGroup where T: SSJson
     {
         public MonitoredObject<T> MonitoredContent { get; set; } = null;
         public Dictionary<string, MonitoredField<T>> PathedContent { get; private set; } = new Dictionary<string, MonitoredField<T>>();
