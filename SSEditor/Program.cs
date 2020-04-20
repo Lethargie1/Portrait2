@@ -44,7 +44,7 @@ namespace SSEditor
                     f.MalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai1.png"));
                     f.FemalePortraits?.ContentArray.Clear();
                     f.FemalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai2.png"));
-                f.MustOverwrite = true;
+                    f.MustOverwrite = true;
             }
             factionEditor.ReplaceFactionToWrite();
             target.WriteMod();

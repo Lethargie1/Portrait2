@@ -121,6 +121,10 @@
       <Project>{f56779bd-f395-44f6-bdb8-3ecab7bdbe39}</Project>
       <Name>SSEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\testjson\FVJson.csproj">
+      <Project>{d603dce7-1a69-47b4-99d0-8bf10af49641}</Project>
+      <Name>FVJson</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -27,6 +27,6 @@
                 </StackPanel>
             </StackPanel>
         </Border>
-        <Button Content="Explore Folder" Width="100" Command="{Binding ExploreSSCommand}" Grid.Column="1"/>
+        <Button Content="Explore Folder" Width="100" Command="{Binding ReplacePortraitsCommand}" Grid.Column="1"/>
     </Grid>
 </Window>

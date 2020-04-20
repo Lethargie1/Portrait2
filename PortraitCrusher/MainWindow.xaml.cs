@@ -1,4 +1,5 @@
-﻿using SSEditor.FileHandling;
+﻿using FVJson;
+using SSEditor.FileHandling;
 using SSEditor.FileHandling.Editors;
 using System;
 using System.Collections.Generic;
@@ -97,6 +98,38 @@ namespace PortraitCrusher
                 }
                 return _ExploreSSCommand;
             }
+        }
+        RelayCommand<object> _ReplacePortraitsCommand;
+        public ICommand ReplacePortraitsCommand
+        {
+            get
+            {
+                if (_ReplacePortraitsCommand == null)
+                {
+                    _ReplacePortraitsCommand = new RelayCommand<object>(param => this.ReplacePortraits_Execute());
+                }
+                return _ReplacePortraitsCommand;
+            }
+        }
+
+        private void ReplacePortraits_Execute()
+        {
+            directory.PopulateMergedCollections();
+            target = new SSModWritable(directory.InstallationUrl + new SSLinkUrl("mods\\lepg"));
+            factionEditor = new FactionEditor(directory, target);
+            List<SSFactionGroup> factions = factionEditor.GetFaction();
+            foreach (SSFactionGroup f in factions)
+            {
+                f.MustOverwrite = true;
+                f.ExtractMonitoredContent();
+                f.MalePortraits?.ContentArray.Clear();
+                f.MalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai1.png"));
+                f.FemalePortraits?.ContentArray.Clear();
+                f.FemalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai2.png"));
+                
+            }
+            factionEditor.ReplaceFactionToWrite();
+            target.WriteMod();
         }
 
         private void ExploreSS_Execute()
