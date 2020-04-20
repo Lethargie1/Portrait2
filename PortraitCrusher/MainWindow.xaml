@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Border  Height="100" BorderThickness="0" BorderBrush="Black">
+            <StackPanel>
+                <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
+                <ContentControl  Content="{Binding Path=TargetModUrl}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

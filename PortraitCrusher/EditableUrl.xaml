@@ -30,7 +30,7 @@
         </Grid.ColumnDefinitions>
         <Button Command="{Binding Path=SelectNewUrlCommand}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Content="{Binding Path=ButtonName}" />
         <TextBlock Grid.Column="1"  Text="{Binding Path=DisplayName}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=DisplayUrl, Mode=OneWay }" IsReadOnly="True" Style="{StaticResource TextBoxStyle}">
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Url, Mode=OneWay }" IsReadOnly="True" Style="{StaticResource TextBoxStyle}">
         </TextBox>
     </Grid>
 </UserControl>

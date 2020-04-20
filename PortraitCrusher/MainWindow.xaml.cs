@@ -30,44 +30,49 @@ namespace PortraitCrusher
                 if (_StarsectorFolderUrl == null)
                 {
                     _StarsectorFolderUrl = new EditableURLViewModel("Starsector folder", "Select path");
-                    _StarsectorFolderUrl.ValidityChecker = CheckSSFolderValidity;
+                    _StarsectorFolderUrl.ValidityChecker = StarsectorValidityChecker.CheckSSFolderValidity;
                     if (Properties.Settings.Default.StarsectorUrl != "")
-                        _StarsectorFolderUrl.CommonUrl = Properties.Settings.Default.StarsectorUrl;
+                        _StarsectorFolderUrl.Url = Properties.Settings.Default.StarsectorUrl;
                 }
                 return _StarsectorFolderUrl;
             }
         }
 
+        EditableURLViewModel _TargetModUrl;
+        public EditableURLViewModel TargetModUrl
+        {
+            get
+            {
+                if (_TargetModUrl == null)
+                {
+                    _TargetModUrl = new EditableURLViewModel("New Mod target folder", "Select path");
+                    StarsectorFolderUrl.PropertyChanged += StarsectorFolderUrl_PropertyChanged;
+                    if (StarsectorFolderUrl.UrlState == URLstate.Acceptable)
+                        _TargetModUrl.Url = StarsectorFolderUrl.Url + "\\mods\\LMPC";
+                }
+                return _TargetModUrl;
+            }
+        }
+
+        private void StarsectorFolderUrl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "UrlState")
+            {
+                if (((EditableURLViewModel)sender).UrlState == (URLstate.Acceptable))
+                {
+                    TargetModUrl.ValidityChecker = StarsectorValidityChecker.GetCheckModFolderValidity(StarsectorFolderUrl.Url);
+                    TargetModUrl.Url = StarsectorFolderUrl.Url + "\\mods\\LMPC";
+                }
+            }
+        }
 
         public MainWindow()
         {
+            DataContext = this;
             InitializeComponent();
         }
 
 
-        public bool CheckSSFolderValidity(SSFullUrl url)
-        {
-            if (url == null)
-                return false;
-                
-            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(url.ToString());
-            if (!CoreFactionDirectory.Exists)
-            {
-                return false;
-            }
-            IEnumerable<DirectoryInfo> DirList = CoreFactionDirectory.EnumerateDirectories();
-            List<DirectoryInfo> SSCoreFolder = (from dir in DirList
-                                                where dir.Name == "starsector-core"
-                                                select dir).ToList();
-            IEnumerable<FileInfo> FileList = CoreFactionDirectory.EnumerateFiles();
-            List<FileInfo> SSExecutable = (from file in FileList
-                                           where file.Name == "starsector.exe"
-                                           select file).ToList();
-            if (SSCoreFolder.Count == 1 && SSExecutable.Count == 1)
-                return true;
-            else
-                return false;
 
-
-        }
     }
+}
