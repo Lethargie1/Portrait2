@@ -4,8 +4,6 @@
              xmlns:local="clr-namespace:PortraitCrusher"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <DataTemplate DataType="{x:Type local:EditableURLViewModel}">
-            <local:EditableUrl />
-        </DataTemplate>
+        <ResourceDictionary Source="ApplicationDictionary.xaml"/>
     </Application.Resources>
 </Application>

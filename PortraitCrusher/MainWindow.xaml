@@ -7,11 +7,26 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Border  Height="100" BorderThickness="0" BorderBrush="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
             <StackPanel>
                 <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
                 <ContentControl  Content="{Binding Path=TargetModUrl}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
+                <Button Content="Explore Folder" Width="100" Command="{Binding ExploreSSCommand}"/>
+                <StackPanel Margin="0" Orientation="Vertical">
+                    <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mods action</Label>
+                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsIgnore}" Width="60">Ignore</RadioButton>
+                        <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsUse}" Width="60">Use</RadioButton>
+                    </StackPanel>
+                    <ListView x:Name="listview" ItemsSource="{Binding Path=Mods}"  Margin="7,7,7,7" SelectedIndex="0">
+                    </ListView>
+                </StackPanel>
             </StackPanel>
         </Border>
+        <Button Content="Explore Folder" Width="100" Command="{Binding ExploreSSCommand}" Grid.Column="1"/>
     </Grid>
 </Window>

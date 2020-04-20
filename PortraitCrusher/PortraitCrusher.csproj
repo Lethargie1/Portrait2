@@ -68,6 +68,10 @@
     <Compile Include="Settings.cs" />
     <Compile Include="UrlViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Page Include="ApplicationDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="EditableUrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

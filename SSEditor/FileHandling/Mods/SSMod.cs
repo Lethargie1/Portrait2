@@ -24,7 +24,7 @@ namespace SSEditor.FileHandling
 
         public override string ToString()
         {
-            return "Mod: " + ((ModInfo?.ReadToken( "name") as JsonValue)?.ToString() ?? ("Unnamed " + ModUrl.Link));
+            return "Mod: " + ((ModInfo?.Fields[".name"] as JsonValue)?.ToString() ?? ("Unnamed " + ModUrl.Link));
         }
 
         public ReadOnlyObservableCollection<ISSGenericFile> FilesReadOnly { get; private set; }
@@ -37,9 +37,32 @@ namespace SSEditor.FileHandling
             ModName = FactionDirectory.Name;
             CurrentType = type;
             FilesReadOnly = new ReadOnlyObservableCollection<ISSGenericFile>(Files);
-            ModInfo = new SSJson(this, fullModUrl + new SSRelativeUrl("mod_info.json"));
-        }
 
+            GenerateModInfo();
+            //ModInfo = new SSJson(this, fullModUrl + new SSRelativeUrl("mod_info.json"));
+        }
+        private void GenerateModInfo()
+        {
+            if (CurrentType== ModType.Core)
+            {
+                JsonObject root = new JsonObject();
+                root.Values.Add(new JsonValue("id"), new JsonValue("starsector-core"));
+                root.Values.Add(new JsonValue("name"), new JsonValue("Vanilla starsector"));
+                SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
+                ModInfo = new SSJson(this, TargetUrl);
+                ModInfo.JsonType = SSJson.JsonFileType.NotExtrated;
+                ModInfo.JsonContent = root;
+            }
+            else
+            {
+                SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
+                FileInfo test = new FileInfo(TargetUrl.ToString());
+                if (test.Exists)
+                    ModInfo = new SSJson(this, TargetUrl);
+                else
+                    throw new FileNotFoundException("Mod_info was not found");
+            }
+        }
         public void ChangeType(ModType newType)
         {
             if (CurrentType == ModType.Core)

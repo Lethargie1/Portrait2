@@ -1,8 +1,12 @@
 ﻿using SSEditor.FileHandling;
+using SSEditor.FileHandling.Editors;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,8 +24,24 @@ namespace PortraitCrusher
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            //this.VerifyPropertyName(propertyName);
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
+        }
+        #endregion
+
         EditableURLViewModel _StarsectorFolderUrl;
         public EditableURLViewModel StarsectorFolderUrl
         {
@@ -54,6 +74,39 @@ namespace PortraitCrusher
             }
         }
 
+        public ObservableCollection<SSMod> Mods { get; set; }
+        SSDirectory directory = new SSDirectory();
+        SSModWritable target;
+        FactionEditor factionEditor;
+
+        public MainWindow()
+        {
+            Mods = directory.Mods;
+            DataContext = this;
+            InitializeComponent();
+        }
+
+        RelayCommand<object> _ExploreSSCommand;
+        public ICommand ExploreSSCommand
+        {
+            get
+            {
+                if (_ExploreSSCommand == null)
+                {
+                    _ExploreSSCommand = new RelayCommand<object>(param => this.ExploreSS_Execute());
+                }
+                return _ExploreSSCommand;
+            }
+        }
+
+        private void ExploreSS_Execute()
+        {
+            if (!(StarsectorFolderUrl.UrlState == URLstate.Acceptable))
+                return;
+            directory.InstallationUrl = new SSBaseUrl(StarsectorFolderUrl.Url);
+            directory.ReadMods();
+        }
+
         private void StarsectorFolderUrl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "UrlState")
@@ -66,13 +119,29 @@ namespace PortraitCrusher
             }
         }
 
-        public MainWindow()
+
+        public enum SSModFolderActions { Ignore, Use }
+        SSModFolderActions _ModAction = (SSModFolderActions)Properties.Settings.Default.ModFoldAction;
+        public SSModFolderActions ModAction
         {
-            DataContext = this;
-            InitializeComponent();
+            get => _ModAction;
+            set
+            {
+                _ModAction = value;
+                NotifyPropertyChanged("ModFolderRadioAsIgnore");
+                NotifyPropertyChanged("ModFolderRadioAsUse");
+            }
+
         }
-
-
-
+        public bool ModFolderRadioAsIgnore
+        {
+            get => ModAction.Equals(SSModFolderActions.Ignore);
+            set => ModAction = SSModFolderActions.Ignore;
+        }
+        public bool ModFolderRadioAsUse
+        {
+            get => ModAction.Equals(SSModFolderActions.Use);
+            set => ModAction = SSModFolderActions.Use;
+        }
     }
 }

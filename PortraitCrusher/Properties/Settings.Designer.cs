@@ -34,5 +34,17 @@ namespace PortraitCrusher.Properties {
                 this["StarsectorUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int ModFoldAction {
+            get {
+                return ((int)(this["ModFoldAction"]));
+            }
+            set {
+                this["ModFoldAction"] = value;
+            }
+        }
     }
 }

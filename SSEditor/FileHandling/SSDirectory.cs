@@ -16,19 +16,20 @@ namespace SSEditor.FileHandling
 
         public Dictionary<string,ISSGroup> GroupedFiles { get; private set; } = new Dictionary<string,ISSGroup>();
         public ObservableCollection<SSMod> Mods { get; private set; } = new ObservableCollection<SSMod>();
-        public SSBaseUrl InstallationUrl { get; set; }
+        public SSBaseUrl InstallationUrl { get; set; } = null;
         public List<ISSGroup> factions { get; set; } = null;
         public List<JsonToken> Portraits { get; set; }
 
         SSModFactory modFactory;
         private SSFileGroupFactory groupFactory = new SSFileGroupFactory();
 
+        public SSDirectory() { }
         public SSDirectory(SSBaseUrl url)
         {
             InstallationUrl = url;  
         }
 
-        public void ReadMods(string targetFolder)
+        public void ReadMods(string targetFolder= null)
         {
             Mods.Clear();
             modFactory = new SSModFactory(InstallationUrl);
@@ -36,6 +37,7 @@ namespace SSEditor.FileHandling
             SSBaseUrl ModFolderPath = InstallationUrl + "mods";
             DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
             IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
+
 
             SSMod currentMod = modFactory.CreateMod(new SSLinkUrl("starsector-core"));
             currentMod.FindFiles();
@@ -46,14 +48,21 @@ namespace SSEditor.FileHandling
                 SSMod exist = Mods.FirstOrDefault(M => M.ModUrl.Link.Equals(modLink.Link));
                 if (exist != null)
                     throw new ArgumentException("Cannot add existing mod to directory");
-                currentMod = modFactory.CreateMod(modLink);
-                if (ModDirectory.Name == targetFolder)
-                    currentMod.ChangeType(ModType.skip);
-                else
-                    currentMod.FindFiles();
-                currentMod.TypeChanged += ModTypeChangedHandler;
-                
-                Mods.Add(currentMod);
+                try
+                {
+                    currentMod = modFactory.CreateMod(modLink);
+                    if (ModDirectory.Name == targetFolder)
+                        currentMod.ChangeType(ModType.skip);
+                    else
+                        currentMod.FindFiles();
+                    currentMod.TypeChanged += ModTypeChangedHandler;
+
+                    Mods.Add(currentMod);
+                }
+                catch(FileNotFoundException)
+                {
+                    //incomplete mod, lets just not add it
+                }
             }
         }
 
