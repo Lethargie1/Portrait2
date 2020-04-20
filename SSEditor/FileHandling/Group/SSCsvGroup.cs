@@ -11,11 +11,11 @@ namespace SSEditor.FileHandling
 {
     class SSCsvGroup : SSGroup<SSCsv>
     {
-        public override void WriteMergeTo(SSBaseLinkUrl newPath)
+        public override void WriteTo(SSBaseLinkUrl newPath)
         {
 
             SSBaseUrl InstallationUrl = new SSBaseUrl(newPath.Base);
-            SSFullUrl TargetUrl = newPath + this.CommonRelativeUrl;
+            SSFullUrl TargetUrl = newPath + this.RelativeUrl;
             //we do not merge core csv on the patch, it would be pointless
             List<SSCsv> NonCoreFile = (from SSCsv file in this.CommonFiles
                                              where file.SourceMod.CurrentType != SSMod.ModType.Core

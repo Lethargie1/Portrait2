@@ -69,14 +69,14 @@ namespace SSEditor.FileHandling
                     if (!(modFile is ISSMergable MergableModFile))
                     { continue; }
 
-                    if (!GroupedFiles.ContainsKey(MergableModFile.LinkRelativeUrl.GetRelative().ToString()))
+                    if (!GroupedFiles.ContainsKey(MergableModFile.RelativeUrl.ToString()))
                     {
                         ISSGroup matchingGroup = groupFactory.CreateGroupFromFile(MergableModFile);
-                        GroupedFiles.Add(matchingGroup.CommonRelativeUrl.ToString(), matchingGroup);
+                        GroupedFiles.Add(matchingGroup.RelativeUrl.ToString(), matchingGroup);
                     }
                     else
                     {
-                        ISSGroup matchingGroup = GroupedFiles[MergableModFile.LinkRelativeUrl.GetRelative().ToString()];
+                        ISSGroup matchingGroup = GroupedFiles[MergableModFile.RelativeUrl.ToString()];
                         switch (MergableModFile)
                         {
                             case SSFaction factionfile:
@@ -156,7 +156,7 @@ namespace SSEditor.FileHandling
             {
                 if (f is SSFactionGroup g)
                 {
-                    g.WriteMergeTo(InstallationUrl + newModLink);
+                    g.WriteTo(InstallationUrl + newModLink);
                 }
             }
             SSJsonGroup.WriteJsonTo(InstallationUrl + newModLink + new SSRelativeUrl("data\\config\\settings.json"), settingContent);
@@ -184,7 +184,7 @@ namespace SSEditor.FileHandling
                 var a = fGroups.SelectMany(fg => fg.GetJSonFiles()).Select(f => f.SourceMod.ModName).Distinct();
                 string modlist = string.Join(", ", a);
                 root.Values.Add(new JsonValue("description"), new JsonValue("merged  patch automagicaly generated from: " + modlist));
-                var b = fGroups.Select(f => f.CommonRelativeUrl.ToString());
+                var b = fGroups.Select(f => f.RelativeUrl.ToString());
                 JsonArray replaceList = new JsonArray();
                 foreach (string replace in b)
                 {

@@ -9,8 +9,8 @@ namespace SSEditor.FileHandling
 {
     public interface ISSGroup
     {
-        void WriteMergeTo(SSBaseLinkUrl newPath);
-        SSRelativeUrl CommonRelativeUrl { get; }
+        void WriteTo(SSBaseLinkUrl newPath);
+        SSRelativeUrl RelativeUrl { get; }
         bool MustOverwrite { get; set; }
     }
     public interface ISSJsonGroup : ISSGroup

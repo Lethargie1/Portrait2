@@ -10,6 +10,7 @@ namespace SSEditor.FileHandling
     public abstract class SSGeneric : ISSGenericFile
     {
         public SSLinkRelativeUrl LinkRelativeUrl { get; protected set; }
+        public SSRelativeUrl RelativeUrl { get => LinkRelativeUrl?.GetRelative(); }
         public SSBaseUrl BaseUrl { get; protected set; }
         public string FileName { get; protected set; }
         public SSMod SourceMod { get; protected set; }

@@ -53,10 +53,10 @@ namespace SSEditor.FileHandling
             }
         }
 
-        public override void WriteMergeTo(SSBaseLinkUrl newPath)
+        public override void WriteTo(SSBaseLinkUrl newPath)
         {
             SSBaseUrl InstallationUrl = new SSBaseUrl(newPath.Base);
-            SSFullUrl TargetUrl = newPath + this.CommonRelativeUrl;
+            SSFullUrl TargetUrl = newPath + this.RelativeUrl;
 
             //we need to make sure the directory exist
             FileInfo targetInfo = new FileInfo(TargetUrl.ToString());

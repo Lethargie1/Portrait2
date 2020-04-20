@@ -11,12 +11,13 @@ namespace SSEditor.FileHandling
     {
         //all possible file should fit in a generic
         SSLinkRelativeUrl LinkRelativeUrl { get; }
+        SSRelativeUrl RelativeUrl { get; }
         string FileName { get; }
         SSMod SourceMod { get; }
         void CopyTo(SSBaseLinkUrl NewPath);
     }
 
-    public interface ISSJson : ISSMergable
+    public interface ISSJson : ISSMergable, ISSWritable
     {
         //these contains json data, many type exist but the handling of the internal jsoncontent is the same
         bool ExtractedProperly { get;}

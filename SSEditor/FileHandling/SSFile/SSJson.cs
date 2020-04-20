@@ -14,15 +14,15 @@ namespace SSEditor.FileHandling
     public class SSJson : SSGeneric, ISSJson, ISSMergable
     {
 
-
+        public enum JsonFileType { Extracted, NotExtrated};
         #region Properties
-
+        JsonFileType JsonType { get; set; } = JsonFileType.Extracted;
         JsonObject _JsonContent;
         public JsonObject JsonContent
         {
             get
             {
-                if (_JsonContent == null)
+                if (_JsonContent == null && this.JsonType == JsonFileType.Extracted)
                 {
                     this.ExtractFile();
                     this.RefreshFields();
@@ -42,7 +42,7 @@ namespace SSEditor.FileHandling
             {
                 if (_Fields == null)
                 {
-                    this.ExtractFile();
+                    JsonObject test = this.JsonContent;
                     this.RefreshFields();
                 }
                 return _Fields;
@@ -92,11 +92,13 @@ namespace SSEditor.FileHandling
                 JsonToken read = jreader.UnJson();
                 _JsonContent = read as JsonObject;
             }
+            if (_JsonContent == null)
+            { throw new ArgumentException("file contains nothing"); }
             
         }
         public void RefreshFields()
         {
-            Fields = _JsonContent?.GetPathedChildrens() ?? new Dictionary<string, JsonToken>();
+            Fields = _JsonContent?.GetPathedChildrens() ?? throw new InvalidOperationException("Attempt to get field of empty SSJson File");
         }
 
         public JsonToken ReadToken(string JsonPath)
@@ -110,6 +112,29 @@ namespace SSEditor.FileHandling
             else
                 return null;
             return result;
+        }
+
+        public void WriteTo(SSBaseLinkUrl newPath)
+        {
+            SSBaseUrl InstallationUrl = new SSBaseUrl(newPath.Base);
+
+            SSFullUrl targetUrl = newPath + this.RelativeUrl;
+
+            FileInfo targetInfo = new FileInfo(targetUrl.ToString());
+            if (targetInfo.Exists)
+            {
+                targetInfo = new FileInfo(targetUrl.ToString() + SourceMod.ModName);
+            }
+            DirectoryInfo targetDir = targetInfo.Directory;
+            if (!targetDir.Exists)
+            {
+                targetDir.Create();
+            }
+            using (StreamWriter sw = File.CreateText(targetUrl.ToString()))
+            {
+                string result = JsonContent.ToJsonString();
+                sw.Write(result);
+            }
         }
     }
 
