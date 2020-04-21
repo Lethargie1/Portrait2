@@ -35,15 +35,7 @@ namespace SSEditor.FileHandling.Editors
                             (g as SSFactionGroup).ExtractMonitoredContent();
                             return g as SSFactionGroup;
                         }).ToList();
-            Portraits = Factions.SelectMany(g =>
-            {
-                List<JsonToken> result = new List<JsonToken>();
-                if (g.MalePortraits != null)
-                    result.AddRange(g.MalePortraits.ContentArray);
-                if (g.FemalePortraits != null)
-                    result.AddRange(g.FemalePortraits?.ContentArray);
-                return result;
-            }).Distinct().ToList();
+            
             return Factions;
         }
 
@@ -52,7 +44,15 @@ namespace SSEditor.FileHandling.Editors
         {
             if (Factions == null)
                 throw new InvalidOperationException("no factions merged");
-
+            Portraits = Factions.SelectMany(g =>
+            {
+                List<JsonToken> result = new List<JsonToken>();
+                if (g.MalePortraits != null)
+                    result.AddRange(g.MalePortraits.GetOriginalContent());
+                if (g.FemalePortraits != null)
+                    result.AddRange(g.FemalePortraits?.GetOriginalContent());
+                return result;
+            }).Distinct().ToList();
             IEnumerable<SSFactionGroup> OldFactions = from ISSWritable w in receiver.FileList
                                                       where w is SSFactionGroup
                                                       select w as SSFactionGroup;

@@ -43,7 +43,7 @@ namespace SSEditor.FileHandling
                                 where file.SourceMod.CurrentType == ModType.Mod
                                 select file).ToList();
             ObservableCollection<T> fileUsed = new ObservableCollection<T>(modAdded);
-            if (base.MustOverwrite && core != null)
+            if (MustOverwrite && core != null)
                 fileUsed.Add(core);
 
 

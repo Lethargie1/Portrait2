@@ -14,6 +14,37 @@ namespace SSEditor.MonitoringField
     public class MonitoredArray<T> : MonitoredField<T>  where T:SSJson
     {
         public ObservableCollection<JsonToken> ContentArray { get; } = new ObservableCollection<JsonToken>();
+        public ObservableCollection<JsonToken> GetOriginalContent()
+        {
+            ObservableCollection<JsonToken> result = new ObservableCollection<JsonToken>();
+            if (FieldPath != null)
+            {
+                var fileArrayPair = from f in Files
+                                    where f.Fields.ContainsKey(FieldPath) == true
+                                    select new { value = f.Fields[FieldPath], file = f };
+                result.Clear();
+                foreach (var pair in fileArrayPair)
+                {
+                    switch (pair.value)
+                    {
+                        case JsonArray jArray:
+                            foreach (JsonToken data in jArray.Values)
+                            {
+                                result.Add(data);
+                            }
+                            break;
+                        case JsonValue jValue:
+                            result.Add(jValue);
+                            break;
+                        default:
+                            throw new ArgumentException("Path leads to non array token");
+                    }
+                }
+
+            }
+            return result;
+        }
+
 
         public override void Resolve()
         {

@@ -131,7 +131,6 @@ namespace PortraitCrusher
             foreach (SSFactionGroup f in factions)
             {
                 f.MustOverwrite = true;
-                f.ExtractMonitoredContent();
                 f.MalePortraits?.ContentArray.Clear();
                 f.MalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai1.png"));
                 f.FemalePortraits?.ContentArray.Clear();
