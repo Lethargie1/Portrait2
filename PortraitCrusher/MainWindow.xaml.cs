@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -69,7 +70,10 @@ namespace PortraitCrusher
                     _TargetModUrl = new EditableURLViewModel("New Mod target folder", "Select path");
                     StarsectorFolderUrl.PropertyChanged += StarsectorFolderUrl_PropertyChanged;
                     if (StarsectorFolderUrl.UrlState == URLstate.Acceptable)
+                    {
+                        _TargetModUrl.ValidityChecker = StarsectorValidityChecker.GetCheckModFolderValidity(StarsectorFolderUrl.Url);
                         _TargetModUrl.Url = StarsectorFolderUrl.Url + "\\mods\\LMPC";
+                    }
                 }
                 return _TargetModUrl;
             }
@@ -87,6 +91,7 @@ namespace PortraitCrusher
             InitializeComponent();
         }
 
+        #region command
         RelayCommand<object> _ExploreSSCommand;
         public ICommand ExploreSSCommand
         {
@@ -114,19 +119,31 @@ namespace PortraitCrusher
 
         private void ReplacePortraits_Execute()
         {
-            directory.PopulateMergedCollections();
             target = new SSModWritable(directory.InstallationUrl + new SSLinkUrl("mods\\lepg"));
             factionEditor = new FactionEditor(directory, target);
             IEnumerable<SSMod> modused = from SSMod m in directory.Mods
                                          where m.CurrentType == ModType.Mod
                                          select m;
+            IEnumerable<SSMod> modskip = from SSMod m in directory.Mods
+                                         where m.CurrentType == ModType.Skip
+                                         select m;
             if (ModAction == SSModFolderActions.Ignore)
             {
                 foreach (SSMod m in modused)
                 {
-                    m.ChangeType(ModType.skip);
+                    m.ChangeType(ModType.Skip);
                 }
             }
+            else
+            {
+                foreach (SSMod m in modskip)
+                {
+                    m.ChangeType(ModType.Mod);
+                }
+            }
+            
+
+
             List < SSFactionGroup > factions = factionEditor.GetFaction();
             foreach (SSFactionGroup f in factions)
             {
@@ -148,8 +165,16 @@ namespace PortraitCrusher
             Properties.Settings.Default.StarsectorUrl = StarsectorFolderUrl.Url;
             Properties.Settings.Default.Save();
             directory.InstallationUrl = new SSBaseUrl(StarsectorFolderUrl.Url);
-            directory.ReadMods();
+            if (TargetModUrl.UrlState == URLstate.Acceptable)
+            {
+                var targetFolder = new DirectoryInfo(TargetModUrl.Url);
+                directory.ReadMods(targetFolder.Name);
+            }
+            else
+                directory.ReadMods();
+            directory.PopulateMergedCollections();
         }
+        #endregion
 
         private void StarsectorFolderUrl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -159,11 +184,12 @@ namespace PortraitCrusher
                 {
                     TargetModUrl.ValidityChecker = StarsectorValidityChecker.GetCheckModFolderValidity(StarsectorFolderUrl.Url);
                     TargetModUrl.Url = StarsectorFolderUrl.Url + "\\mods\\LMPC";
+                    NotifyPropertyChanged("StarsectorFolderUrl");
                 }
             }
         }
 
-
+        #region radio button
         public enum SSModFolderActions { Ignore, Use }
         SSModFolderActions _ModAction = (SSModFolderActions)Properties.Settings.Default.ModFoldAction;
         public SSModFolderActions ModAction
@@ -187,5 +213,6 @@ namespace PortraitCrusher
             get => ModAction.Equals(SSModFolderActions.Use);
             set => ModAction = SSModFolderActions.Use;
         }
+        #endregion
     }
 }

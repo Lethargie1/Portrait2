@@ -11,6 +11,8 @@ namespace SSEditor.FileHandling
 {
     public class SSModWritable: ISSMod
     {
+        public static string ID { get; } = "lepg";
+
         public SSBaseLinkUrl ModUrl { get; private set; }
         public SSJson ModInfo { get; private set; }
         public string ModName { get; private set; }

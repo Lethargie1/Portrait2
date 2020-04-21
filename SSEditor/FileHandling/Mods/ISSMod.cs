@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    public enum ModType { Core, Mod, Ressource, skip };
+    public enum ModType { Core, Mod, Ressource, Skip, Patch };
 
     public interface ISSMod
     {

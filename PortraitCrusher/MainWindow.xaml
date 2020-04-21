@@ -15,7 +15,7 @@
             <StackPanel>
                 <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
                 <ContentControl  Content="{Binding Path=TargetModUrl}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
-                <Button Content="Explore Folder" Width="100" Command="{Binding ExploreSSCommand}"/>
+                <Button Content="Explore Starsector directory" Width="170" Command="{Binding ExploreSSCommand}"/>
                 <StackPanel Margin="0" Orientation="Vertical">
                     <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mods action</Label>
                     <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -27,6 +27,14 @@
                 </StackPanel>
             </StackPanel>
         </Border>
-        <Button Content="Explore Folder" Width="100" Command="{Binding ReplacePortraitsCommand}" Grid.Column="1"/>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="1">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Content="Write to new folder" Width="150" Command="{Binding ReplacePortraitsCommand}" Grid.Row="1"/>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

@@ -84,7 +84,7 @@ namespace SSEditor.FileHandling
 
         public void FindFiles()
         {
-            if (CurrentType == ModType.skip || CurrentType == ModType.Ressource)
+            if (CurrentType == ModType.Skip || CurrentType == ModType.Ressource)
                 return;
             DirectoryInfo root = new DirectoryInfo(ModUrl.ToString());
             IEnumerable<FileInfo> AllFiles = root.EnumerateFiles(".", SearchOption.AllDirectories);
@@ -130,7 +130,7 @@ namespace SSEditor.FileHandling
     {
         public static SSLinkUrl CoreLink = new SSLinkUrl("starsector-core");
         public SSBaseUrl InstallationUrl { get; set; }
-        public ModType Type { get; set; } = ModType.skip;
+        public ModType Type { get; set; } = ModType.Skip;
 
         public SSModFactory (SSBaseUrl installation)
         {

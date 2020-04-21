@@ -52,7 +52,7 @@ namespace SSEditor.FileHandling
                 {
                     currentMod = modFactory.CreateMod(modLink);
                     if (ModDirectory.Name == targetFolder)
-                        currentMod.ChangeType(ModType.skip);
+                        currentMod.ChangeType(ModType.Skip);
                     else
                         currentMod.FindFiles();
                     currentMod.TypeChanged += ModTypeChangedHandler;
@@ -71,7 +71,7 @@ namespace SSEditor.FileHandling
             GroupedFiles.Clear();
             foreach (SSMod currentMod in Mods)
             {
-                if (currentMod.CurrentType == ModType.skip || currentMod.CurrentType == ModType.Ressource)
+                if (currentMod.CurrentType == ModType.Skip || currentMod.CurrentType == ModType.Ressource)
                     continue;
                 foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
                 {
@@ -120,7 +120,7 @@ namespace SSEditor.FileHandling
         {
             foreach (SSMod currentMod in Mods)
             {
-                if (currentMod.CurrentType == ModType.skip || currentMod.CurrentType == ModType.Ressource || currentMod.CurrentType == ModType.Core)
+                if (currentMod.CurrentType == ModType.Skip || currentMod.CurrentType == ModType.Ressource || currentMod.CurrentType == ModType.Core)
                     continue;
                 foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
                 {
@@ -241,7 +241,7 @@ namespace SSEditor.FileHandling
             //empty for now
             if (e.OldType == ModType.Mod)
             {
-                if (e.NewType == ModType.Ressource || e.NewType == ModType.skip)
+                if (e.NewType == ModType.Ressource || e.NewType == ModType.Skip)
                 {
                     //we went from mod to skip, remove files from the merged list
                 }
