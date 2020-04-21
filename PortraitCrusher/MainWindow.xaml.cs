@@ -140,7 +140,20 @@ namespace PortraitCrusher
                 
             }
             factionEditor.ReplaceFactionToWrite();
-            target.WriteMod();
+            try
+            {
+                target.WriteMod();
+            }
+            catch(IOException)
+            {
+                MessageBoxButton Button = MessageBoxButton.OK;
+                MessageBox.Show(this, "Target directory is not accesibles (Is it open in the Windows explorer?)", "Access error", Button);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                MessageBoxButton Button = MessageBoxButton.OK;
+                MessageBox.Show(this, "Target directory are not accesibles (Is it open in the Windows explorer?)","Access error", Button);
+            }
         }
 
         private void ExploreSS_Execute()

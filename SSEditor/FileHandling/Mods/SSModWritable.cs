@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -45,7 +46,10 @@ namespace SSEditor.FileHandling
 
         public void WriteMod()
         {
-            
+            var targetdir = new DirectoryInfo(ModUrl.ToString());
+            if (targetdir.Exists)
+                targetdir.Delete(true);
+
             JsonArray replaceList = ModInfo.Fields[".replace"] as JsonArray;
             IEnumerable<ISSWritable> replaceFiles = from ISSWritable f in FileList
                                                     where f.MustOverwrite == true && f.WillCreateFile ==true

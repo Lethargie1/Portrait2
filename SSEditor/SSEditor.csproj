@@ -82,6 +82,7 @@
     <Compile Include="MonitoredFieldClass\MonitoredValue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SSRessources\Portraits.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

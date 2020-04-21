@@ -13,7 +13,7 @@ namespace SSEditor.FileHandling.Editors
         SSModWritable receiver;
 
         public List<SSFactionGroup> Factions { get; set; } = null;
-        public List<JsonToken> Portraits { get; set; }
+        public List<JsonValue> Portraits { get; set; }
 
         /// <summary>Constructor for an editor modifying faction files of the directory</summary>
         /// <param name="directory">list of all groups made by currents mods</param>
@@ -44,15 +44,7 @@ namespace SSEditor.FileHandling.Editors
         {
             if (Factions == null)
                 throw new InvalidOperationException("no factions merged");
-            Portraits = Factions.SelectMany(g =>
-            {
-                List<JsonToken> result = new List<JsonToken>();
-                if (g.MalePortraits != null)
-                    result.AddRange(g.MalePortraits.GetOriginalContent());
-                if (g.FemalePortraits != null)
-                    result.AddRange(g.FemalePortraits?.GetOriginalContent());
-                return result;
-            }).Distinct().ToList();
+            Portraits = new List<JsonValue>(SSRessources.Portraits.GetOriginalPortraits(Factions));
             IEnumerable<SSFactionGroup> OldFactions = from ISSWritable w in receiver.FileList
                                                       where w is SSFactionGroup
                                                       select w as SSFactionGroup;
