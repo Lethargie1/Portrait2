@@ -10,6 +10,7 @@ namespace SSEditor.FileHandling
     {
         bool MustOverwrite { get; }
         SSRelativeUrl RelativeUrl { get; }
+        bool WillCreateFile { get; }
         void WriteTo(SSBaseLinkUrl baseLinkUrl);
     }
 }

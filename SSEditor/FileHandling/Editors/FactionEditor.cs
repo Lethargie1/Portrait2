@@ -74,6 +74,13 @@ namespace SSEditor.FileHandling.Editors
             JsonObject finalPortraits = new JsonObject(Portraits, "portraits");
             SettingFile.JsonContent.AddSubField(".graphics.portraits", finalPortraits);
 
+            IEnumerable<SSFactionGroup> writed = from SSFactionGroup f in Factions
+                                                 where f.WillCreateFile == true
+                                                 select f;
+            IEnumerable<string> UsedMod = writed.Select(f => f.MonitoredContent).SelectMany(m => m.Files).Select(f => f.SourceMod).Distinct().Select(mod => mod.ModName);
+            JsonValue OldDesc = receiver.ModInfo.Fields[".description"] as JsonValue;
+            string old = OldDesc.ToString();
+            OldDesc.SetContent(old + " Faction were modified using mods: " + string.Join(", ", UsedMod));
         }
     }
 }

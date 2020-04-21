@@ -29,6 +29,13 @@ namespace SSEditor.FileHandling
         }
         public MonitoredObject<T> MonitoredContent { get; set; } = null;
         public Dictionary<string, MonitoredField<T>> PathedContent { get; private set; } = new Dictionary<string, MonitoredField<T>>();
+        public override bool WillCreateFile
+        {
+            get
+            {
+                return !(MonitoredContent.Files.Count == 0);
+            }
+        }
 
         public SSJsonGroup() : base() { }
 
@@ -116,9 +123,9 @@ namespace SSEditor.FileHandling
             return new ReadOnlyObservableCollection<SSJson>(BaseCollection);
         }
 
-        public void CopyFilesToMonitored( MonitoredField<T> monitor)
-        {
-            monitor.ReplaceFiles(base.CommonFiles);
-        }
+        //public void CopyFilesToMonitored( MonitoredField<T> monitor)
+        //{
+        //    monitor.ReplaceFiles(base.CommonFiles);
+        //}
     }
 }

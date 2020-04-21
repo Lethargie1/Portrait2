@@ -16,7 +16,7 @@ namespace SSEditor.FileHandling
         public SSRelativeUrl RelativeUrl { get; private set; }
 
         public virtual bool MustOverwrite { get; set; } = false;
-
+        public virtual bool WillCreateFile { get; } = true;
         public SSGroup()
         {
             CommonFilesReadOnly = new ReadOnlyObservableCollection<T>(CommonFiles);

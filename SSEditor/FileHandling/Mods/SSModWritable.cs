@@ -16,7 +16,8 @@ namespace SSEditor.FileHandling
         public string ModName { get; private set; }
         public ModType CurrentType { get; } = ModType.Mod;
 
-        public ObservableCollection<ISSWritable> FileList { get; set; } = new ObservableCollection<ISSWritable>();
+        public ObservableCollection<ISSWritable> FileList { get; } = new ObservableCollection<ISSWritable>();
+        public ObservableCollection<ISSMod> ModRequired { get; } = new ObservableCollection<ISSMod>();
         
         public SSModWritable(SSBaseLinkUrl modUrl)
         {
@@ -45,7 +46,7 @@ namespace SSEditor.FileHandling
             
             JsonArray replaceList = ModInfo.Fields[".replace"] as JsonArray;
             IEnumerable<ISSWritable> replaceFiles = from ISSWritable f in FileList
-                                                    where f.MustOverwrite == true
+                                                    where f.MustOverwrite == true && f.WillCreateFile ==true
                                                     select f;
             foreach (ISSWritable f in replaceFiles)
             {

@@ -15,6 +15,7 @@ namespace SSEditor.FileHandling
     {
         public bool MustOverwrite { get; set; } = false;
         public enum JsonFileType { Extracted, NotExtrated};
+        public bool WillCreateFile { get; } = true;
         #region Properties
         public JsonFileType JsonType { get; set; } = JsonFileType.Extracted;
         JsonObject _JsonContent;
