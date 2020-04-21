@@ -58,5 +58,17 @@ namespace PortraitCrusher.Properties {
                 this["ReceiverUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int ModAction {
+            get {
+                return ((int)(this["ModAction"]));
+            }
+            set {
+                this["ModAction"] = value;
+            }
+        }
     }
 }

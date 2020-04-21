@@ -121,26 +121,7 @@ namespace PortraitCrusher
         {
             target = new SSModWritable(directory.InstallationUrl + new SSLinkUrl("mods\\lepg"));
             factionEditor = new FactionEditor(directory, target);
-            IEnumerable<SSMod> modused = from SSMod m in directory.Mods
-                                         where m.CurrentType == ModType.Mod
-                                         select m;
-            IEnumerable<SSMod> modskip = from SSMod m in directory.Mods
-                                         where m.CurrentType == ModType.Skip
-                                         select m;
-            if (ModAction == SSModFolderActions.Ignore)
-            {
-                foreach (SSMod m in modused)
-                {
-                    m.ChangeType(ModType.Skip);
-                }
-            }
-            else
-            {
-                foreach (SSMod m in modskip)
-                {
-                    m.ChangeType(ModType.Mod);
-                }
-            }
+            
             
 
 
@@ -173,6 +154,7 @@ namespace PortraitCrusher
             else
                 directory.ReadMods();
             directory.PopulateMergedCollections();
+            ModAction = (SSModFolderActions)Properties.Settings.Default.ModAction;
         }
         #endregion
 
@@ -191,15 +173,40 @@ namespace PortraitCrusher
 
         #region radio button
         public enum SSModFolderActions { Ignore, Use }
-        SSModFolderActions _ModAction = (SSModFolderActions)Properties.Settings.Default.ModFoldAction;
+        SSModFolderActions _ModAction = (SSModFolderActions)Properties.Settings.Default.ModAction;
         public SSModFolderActions ModAction
         {
             get => _ModAction;
             set
             {
                 _ModAction = value;
+                Properties.Settings.Default.ModAction = (int)value;
+                Properties.Settings.Default.Save();
                 NotifyPropertyChanged("ModFolderRadioAsIgnore");
                 NotifyPropertyChanged("ModFolderRadioAsUse");
+                if (directory != null)
+                {
+                    IEnumerable<SSMod> modused = from SSMod m in directory.Mods
+                                                 where m.CurrentType == ModType.Mod
+                                                 select m;
+                    IEnumerable<SSMod> modskip = from SSMod m in directory.Mods
+                                                 where m.CurrentType == ModType.Skip
+                                                 select m;
+                    if (ModAction == SSModFolderActions.Ignore)
+                    {
+                        foreach (SSMod m in modused)
+                        {
+                            m.ChangeType(ModType.Skip);
+                        }
+                    }
+                    else
+                    {
+                        foreach (SSMod m in modskip)
+                        {
+                            m.ChangeType(ModType.Mod);
+                        }
+                    }
+                }
             }
 
         }
