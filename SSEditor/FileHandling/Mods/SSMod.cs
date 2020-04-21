@@ -128,7 +128,7 @@ namespace SSEditor.FileHandling
 
     public class SSModFactory
     {
-        public static SSLinkUrl CoreLink = new SSLinkUrl("starsector-core");
+        public const string CoreLink = "starsector-core";
         public SSBaseUrl InstallationUrl { get; set; }
         public ModType Type { get; set; } = ModType.Skip;
 
@@ -140,10 +140,20 @@ namespace SSEditor.FileHandling
         public SSMod CreateMod(SSLinkUrl link)
         {
             SSMod newMod;
-            if (link.Equals(CoreLink))
-                newMod = new SSMod(InstallationUrl + link, ModType.Core);
-            else
-                newMod = new SSMod(InstallationUrl + link, Type);
+            switch (link.Link)
+            {
+                case CoreLink:
+                    newMod = new SSMod(InstallationUrl + link, ModType.Core);
+                    break;
+                default:
+                    newMod = new SSMod(InstallationUrl + link, Type);
+                    string modId = ((JsonValue)newMod.ModInfo.Fields[".id"]).ToString();
+                    if (modId == SSModWritable.ID)
+                        newMod.ChangeType(ModType.Patch);
+                    break;
+            }
+
+                
             
             return newMod;
         }
