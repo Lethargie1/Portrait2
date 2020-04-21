@@ -49,7 +49,7 @@ namespace PortraitCrusher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"\\\\mods\\\\LMPC\"")]
         public string ReceiverUrl {
             get {
                 return ((string)(this["ReceiverUrl"]));

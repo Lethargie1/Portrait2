@@ -119,7 +119,11 @@ namespace PortraitCrusher
 
         private void ReplacePortraits_Execute()
         {
-            target = new SSModWritable(directory.InstallationUrl + new SSLinkUrl("mods\\lepg"));
+            var match = Regex.Match(TargetModUrl.Url, @"(?:" + StarsectorFolderUrl.Url.Replace(@"\", @"\\") + @"\\)(.*)");
+            string linkPart = match.Groups[1].ToString();
+            target = new SSModWritable(directory.InstallationUrl + new SSLinkUrl(linkPart));
+            Properties.Settings.Default.ReceiverUrl = linkPart;
+            Properties.Settings.Default.Save();
             factionEditor = new FactionEditor(directory, target);
             
             
@@ -165,7 +169,7 @@ namespace PortraitCrusher
                 if (((EditableURLViewModel)sender).UrlState == (URLstate.Acceptable))
                 {
                     TargetModUrl.ValidityChecker = StarsectorValidityChecker.GetCheckModFolderValidity(StarsectorFolderUrl.Url);
-                    TargetModUrl.Url = StarsectorFolderUrl.Url + "\\mods\\LMPC";
+                    TargetModUrl.Url = StarsectorFolderUrl.Url + Properties.Settings.Default.ReceiverUrl;
                     NotifyPropertyChanged("StarsectorFolderUrl");
                 }
             }
