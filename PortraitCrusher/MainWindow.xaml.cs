@@ -117,7 +117,17 @@ namespace PortraitCrusher
             directory.PopulateMergedCollections();
             target = new SSModWritable(directory.InstallationUrl + new SSLinkUrl("mods\\lepg"));
             factionEditor = new FactionEditor(directory, target);
-            List<SSFactionGroup> factions = factionEditor.GetFaction();
+            IEnumerable<SSMod> modused = from SSMod m in directory.Mods
+                                         where m.CurrentType == ModType.Mod
+                                         select m;
+            if (ModAction == SSModFolderActions.Ignore)
+            {
+                foreach (SSMod m in modused)
+                {
+                    m.ChangeType(ModType.skip);
+                }
+            }
+            List < SSFactionGroup > factions = factionEditor.GetFaction();
             foreach (SSFactionGroup f in factions)
             {
                 f.MustOverwrite = true;
@@ -136,6 +146,8 @@ namespace PortraitCrusher
         {
             if (!(StarsectorFolderUrl.UrlState == URLstate.Acceptable))
                 return;
+            Properties.Settings.Default.StarsectorUrl = StarsectorFolderUrl.Url;
+            Properties.Settings.Default.Save();
             directory.InstallationUrl = new SSBaseUrl(StarsectorFolderUrl.Url);
             directory.ReadMods();
         }

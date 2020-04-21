@@ -15,7 +15,7 @@ namespace SSEditor.FileHandling
 
         public SSRelativeUrl RelativeUrl { get; private set; }
 
-        public bool MustOverwrite { get; set; } = false;
+        public virtual bool MustOverwrite { get; set; } = false;
 
         public SSGroup()
         {

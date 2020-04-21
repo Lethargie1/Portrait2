@@ -1,4 +1,5 @@
 ﻿using FVJson;
+using SSEditor.FileHandling;
 using SSEditor.MonitoringField;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,16 @@ namespace SSEditor.FileHandling
     }
     public class SSJsonGroup<T> : SSGroup<T>, ISSJsonGroup where T: SSJson
     {
+        bool _MustOverwrite = false;
+        public override bool MustOverwrite
+        {
+            get => _MustOverwrite;
+            set
+            {
+                _MustOverwrite = value;
+                ExtractMonitoredContent();
+            }
+        }
         public MonitoredObject<T> MonitoredContent { get; set; } = null;
         public Dictionary<string, MonitoredField<T>> PathedContent { get; private set; } = new Dictionary<string, MonitoredField<T>>();
 
@@ -23,17 +34,21 @@ namespace SSEditor.FileHandling
 
         public void ExtractMonitoredContent()
         {
-            MonitoredObject<T> TempList = new MonitoredObject<T>() { FieldPath = "" };
-            if (base.MustOverwrite)
-                TempList.ReplaceFiles(base.CommonFiles);
-            else
-            {
-                List<T> ModList = (from T file in base.CommonFiles
-                                   where file.SourceMod.CurrentType != ModType.Core
-                                   select file).ToList();
-                TempList.ReplaceFiles(new ObservableCollection<T>(ModList));
-            }
-            MonitoredContent = TempList;
+            MonitoredObject<T> rootMonitoredObject = new MonitoredObject<T>() { FieldPath = "" };
+            
+            T core = (from T file in base.CommonFiles
+                      where file.SourceMod.CurrentType == ModType.Core
+                      select file).SingleOrDefault();
+            List<T> modAdded = (from T file in base.CommonFiles
+                                where file.SourceMod.CurrentType == ModType.Mod
+                                select file).ToList();
+            ObservableCollection<T> fileUsed = new ObservableCollection<T>(modAdded);
+            if (base.MustOverwrite && core != null)
+                fileUsed.Add(core);
+
+
+            rootMonitoredObject.ReplaceFiles(fileUsed);
+            MonitoredContent = rootMonitoredObject;
             PopulatePathedContent();
             AttachDefinedAttribute();
         }
