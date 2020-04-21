@@ -1,4 +1,5 @@
 ﻿using FVJson;
+using SSEditor.SSRessources;
 using SSEditor.FileHandling;
 using SSEditor.FileHandling.Editors;
 using System;
@@ -80,13 +81,15 @@ namespace PortraitCrusher
         }
 
         public ObservableCollection<SSMod> Mods { get; set; }
+        public ObservableCollection<JsonValue> Portraits { get; } = new ObservableCollection<JsonValue>();
         SSDirectory directory = new SSDirectory();
         SSModWritable target;
-        FactionEditor factionEditor;
+        FactionEditor factionEditor = new FactionEditor();
 
         public MainWindow()
         {
             Mods = directory.Mods;
+            factionEditor.Directory = directory;
             DataContext = this;
             InitializeComponent();
         }
@@ -122,14 +125,15 @@ namespace PortraitCrusher
             var match = Regex.Match(TargetModUrl.Url, @"(?:" + StarsectorFolderUrl.Url.Replace(@"\", @"\\") + @"\\)(.*)");
             string linkPart = match.Groups[1].ToString();
             target = new SSModWritable(directory.InstallationUrl + new SSLinkUrl(linkPart));
+            factionEditor.Receiver = target;
             Properties.Settings.Default.ReceiverUrl = linkPart;
             Properties.Settings.Default.Save();
-            factionEditor = new FactionEditor(directory, target);
-            
-            
 
 
-            List < SSFactionGroup > factions = factionEditor.GetFaction();
+
+
+
+            List<SSFactionGroup> factions = factionEditor.GetFaction();
             foreach (SSFactionGroup f in factions)
             {
                 f.MustOverwrite = true;
@@ -171,6 +175,7 @@ namespace PortraitCrusher
             else
                 directory.ReadMods();
             directory.PopulateMergedCollections();
+            
             ModAction = (SSModFolderActions)Properties.Settings.Default.ModAction;
         }
         #endregion
@@ -201,7 +206,7 @@ namespace PortraitCrusher
                 Properties.Settings.Default.Save();
                 NotifyPropertyChanged("ModFolderRadioAsIgnore");
                 NotifyPropertyChanged("ModFolderRadioAsUse");
-                if (directory != null)
+                if (directory.Mods.Count>0)
                 {
                     IEnumerable<SSMod> modused = from SSMod m in directory.Mods
                                                  where m.CurrentType == ModType.Mod
@@ -223,7 +228,16 @@ namespace PortraitCrusher
                             m.ChangeType(ModType.Mod);
                         }
                     }
+                    factionEditor.GetFaction();
+                    if ((factionEditor?.Factions?.Count ?? 0) > 0)
+                    {
+                        IEnumerable<JsonValue> portraits = SSEditor.SSRessources.Portraits.GetOriginalPortraits(factionEditor.Factions);
+                        Portraits.Clear();
+                        foreach (JsonValue j in portraits)
+                            Portraits.Add(j);
+                    }
                 }
+                
             }
 
         }

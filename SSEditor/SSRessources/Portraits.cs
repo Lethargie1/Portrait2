@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.SSRessources
 {
-    class Portraits
+    public class Portraits
     {
         public static IEnumerable<JsonValue> GetOriginalPortraits(IEnumerable<SSFactionGroup> factionGroups)
         {

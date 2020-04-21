@@ -11,7 +11,7 @@
     </DataTemplate>
     <DataTemplate x:Key="PortraitTemplate">
         <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
-            <Image Source="{Binding ImageUrl.FullUrl}" Height="60"/>
+            <Image Source="{Binding Content}" Height="60"/>
         </StackPanel>
     </DataTemplate >
 

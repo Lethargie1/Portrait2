@@ -17,7 +17,7 @@ namespace SSEditor.FileHandling
     }
     public class SSJsonGroup<T> : SSGroup<T>, ISSJsonGroup where T: SSJson
     {
-        bool _MustOverwrite = false;
+        bool _MustOverwrite = true;
         public override bool MustOverwrite
         {
             get => _MustOverwrite;

@@ -33,6 +33,8 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+                <ListView x:Name="listview2" ItemsSource="{Binding Path=Portraits}"  Margin="7,7,7,7" SelectedIndex="0" Style="{StaticResource PortraitListviewStyle}">
+                </ListView>
                 <Button Content="Write to new folder" Width="150" Command="{Binding ReplacePortraitsCommand}" Grid.Row="1"/>
             </Grid>
         </Border>
