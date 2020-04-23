@@ -156,16 +156,17 @@ namespace PortraitCrusher
 
 
 
-
+            SSBinaryGroup MaleSelected = MaleView.CurrentItem as SSBinaryGroup;
+            SSBinaryGroup FemaleSelected = FemaleView.CurrentItem as SSBinaryGroup;
 
             List<SSFactionGroup> factions = factionEditor.GetFaction();
             foreach (SSFactionGroup f in factions)
             {
                 f.MustOverwrite = true;
                 f.MalePortraits?.ContentArray.Clear();
-                f.MalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai1.png"));
+                f.MalePortraits?.ContentArray.Add(new JsonValue(MaleSelected.RelativeUrl.ToSSStyleString()));
                 f.FemalePortraits?.ContentArray.Clear();
-                f.FemalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai2.png"));
+                f.FemalePortraits?.ContentArray.Add(new JsonValue(FemaleSelected.RelativeUrl.ToSSStyleString()));
                 
             }
             factionEditor.ReplaceFactionToWrite();
@@ -221,6 +222,7 @@ namespace PortraitCrusher
         #region radio button
         public enum SSModFolderActions { Ignore, Use }
         SSModFolderActions _ModAction = (SSModFolderActions)Properties.Settings.Default.ModAction;
+
         public SSModFolderActions ModAction
         {
             get => _ModAction;
@@ -289,6 +291,7 @@ namespace PortraitCrusher
             }
 
         }
+
         public bool ModFolderRadioAsIgnore
         {
             get => ModAction.Equals(SSModFolderActions.Ignore);

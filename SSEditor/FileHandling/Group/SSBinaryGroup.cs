@@ -9,6 +9,7 @@ namespace SSEditor.FileHandling
     public class SSBinaryGroup : SSGroup<SSBinary>
     {
         public string FinalSourcePath { get; private set; }
+        public SSFullUrl FinalPath { get; private set; }
 
         public void RecalculateFinal()
         {
@@ -16,7 +17,7 @@ namespace SSEditor.FileHandling
                                orderby f.SourceMod.ModName
                                select  f.SourceMod.ModUrl + f.RelativeUrl;
 
-            SSFullUrl FinalPath = OrderedPath.FirstOrDefault();
+            FinalPath = OrderedPath.FirstOrDefault();
             FinalSourcePath = FinalPath.ToString().Replace('/', '\\');
         }
         public SSBinaryGroup():base()

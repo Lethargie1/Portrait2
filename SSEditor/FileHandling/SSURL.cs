@@ -12,6 +12,10 @@ namespace SSEditor.FileHandling
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public override abstract string ToString();
+        public string ToSSStyleString()
+        {
+            return this.ToString().Replace('\\', '/');
+        }
     }
 
     public class SSBaseUrl : SSUrl, IEquatable<SSBaseUrl>
