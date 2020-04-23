@@ -11,6 +11,11 @@ namespace SSEditor.FileHandling
 {
     class SSCsvGroup : SSGroup<SSCsv>
     {
+        public SSCsvGroup(SSCsv firstfile) : base()
+        {
+            this.Add(firstfile);
+        }
+
         public override void WriteTo(SSBaseLinkUrl newPath)
         {
 

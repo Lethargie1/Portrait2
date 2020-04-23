@@ -9,6 +9,13 @@ namespace SSEditor.FileHandling
 {
     public abstract class SSGeneric : ISSGenericFile
     {
+        public SSFullUrl FullUrl
+        {
+            get
+            {
+                return SourceMod.ModUrl + RelativeUrl;
+            }
+        }
         public SSRelativeUrl RelativeUrl { get; set; }
         public string FileName { get; protected set; }
         public ISSMod SourceMod { get; protected set; }

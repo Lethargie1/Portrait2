@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    public abstract class SSGroup<T> : ISSGroup, ISSWritable where T: ISSMergable
+    public abstract class SSGroup<T> : ISSGroup, ISSWritable where T: ISSGenericFile
     {
         public ReadOnlyObservableCollection<T> CommonFilesReadOnly { get; private set; }
         protected ObservableCollection<T> CommonFiles { get;} = new ObservableCollection<T>();
@@ -21,8 +21,9 @@ namespace SSEditor.FileHandling
         {
             CommonFilesReadOnly = new ReadOnlyObservableCollection<T>(CommonFiles);
         }
+        
 
-        public void Add(T file)
+        public virtual void Add(T file)
         {
             if (file.RelativeUrl == null )
                 throw new ArgumentException("Cannot add file with no path to group");
@@ -38,7 +39,7 @@ namespace SSEditor.FileHandling
             }
         }
 
-        public void Remove(T file)
+        public virtual void Remove(T file)
         {
             CommonFiles.Remove(file);
             if (CommonFiles.Count() == 0)

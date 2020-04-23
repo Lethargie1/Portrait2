@@ -74,18 +74,17 @@ namespace SSEditor.FileHandling
                     continue;
                 foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
                 {
-                    if (!(modFile is ISSMergable MergableModFile))
-                    { continue; }
-
-                    if (!GroupedFiles.ContainsKey(MergableModFile.RelativeUrl.ToString()))
+                    if (modFile is SSNoMerge)
+                        continue;
+                    if (!GroupedFiles.ContainsKey(modFile.RelativeUrl.ToString()))
                     {
-                        ISSGroup matchingGroup = groupFactory.CreateGroupFromFile(MergableModFile);
+                        ISSGroup matchingGroup = groupFactory.CreateGroupFromFile(modFile);
                         GroupedFiles.Add(matchingGroup.RelativeUrl.ToString(), matchingGroup);
                     }
                     else
                     {
-                        ISSGroup matchingGroup = GroupedFiles[MergableModFile.RelativeUrl.ToString()];
-                        switch (MergableModFile)
+                        ISSGroup matchingGroup = GroupedFiles[modFile.RelativeUrl.ToString()];
+                        switch (modFile)
                         {
                             case SSFaction factionfile:
                                 if (matchingGroup is SSFactionGroup factionGroup)
@@ -102,6 +101,9 @@ namespace SSEditor.FileHandling
                             case SSCsv fileCsv:
                                 SSCsvGroup fcg = matchingGroup as SSCsvGroup;
                                 fcg.Add(fileCsv);
+                                break;
+                            case SSBinary binaryFile:
+                                ((SSBinaryGroup)matchingGroup).Add(binaryFile);
                                 break;
                             default:
                                 throw new NotImplementedException("Could not add a file in the directory to a known group");

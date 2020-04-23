@@ -81,7 +81,32 @@ namespace PortraitCrusher
         }
 
         public ObservableCollection<SSMod> Mods { get; set; }
-        public ObservableCollection<JsonValue> Portraits { get; } = new ObservableCollection<JsonValue>();
+        public ObservableCollection<SSBinaryGroup> AvailablePortraits { get; } = new ObservableCollection<SSBinaryGroup>();
+        ListCollectionView _MaleView;
+        public ListCollectionView MaleView
+        {
+            get
+            {
+                if (_MaleView == null)
+                {
+                    _MaleView = new ListCollectionView(AvailablePortraits);
+                }
+                return _MaleView;
+            }
+        }
+        ListCollectionView _FemaleView;
+        public ListCollectionView FemaleView
+        {
+            get
+            {
+                if (_FemaleView == null)
+                {
+                    _FemaleView = new ListCollectionView(AvailablePortraits);
+                }
+                return _FemaleView;
+            }
+        }
+
         SSDirectory directory = new SSDirectory();
         SSModWritable target;
         FactionEditor factionEditor = new FactionEditor();
@@ -231,10 +256,33 @@ namespace PortraitCrusher
                     factionEditor.GetFaction();
                     if ((factionEditor?.Factions?.Count ?? 0) > 0)
                     {
+                        SSBinaryGroup oldMale = MaleView.CurrentItem as SSBinaryGroup;
+                        SSBinaryGroup oldFemale = FemaleView.CurrentItem as SSBinaryGroup;
                         IEnumerable<JsonValue> portraits = SSEditor.Ressources.Portraits.GetOriginalPortraits(factionEditor.Factions);
-                        Portraits.Clear();
+                        AvailablePortraits.Clear();
                         foreach (JsonValue j in portraits)
-                            Portraits.Add(j);
+                        {
+                            ISSGroup source;
+                            directory.GroupedFiles.TryGetValue(j.ToString().Replace('/','\\'), out source);
+                            if (source is SSBinaryGroup group)
+                            {
+                                group.RecalculateFinal();
+                                AvailablePortraits.Add(group);
+                            }
+                        }
+                        if (AvailablePortraits.Contains(oldMale))
+                        {
+                            MaleView.MoveCurrentTo(oldMale);
+                        }
+                        else
+                            MaleView.MoveCurrentToFirst();
+                        if (AvailablePortraits.Contains(oldFemale))
+                        {
+                            FemaleView.MoveCurrentTo(oldFemale);
+                        }
+                        else
+                            FemaleView.MoveCurrentToFirst();
+                            
                     }
                 }
                 
@@ -251,6 +299,28 @@ namespace PortraitCrusher
             get => ModAction.Equals(SSModFolderActions.Use);
             set => ModAction = SSModFolderActions.Use;
         }
+        #endregion
+    }
+
+    public class BoolToOppositeBoolConverter : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            if (targetType != typeof(bool))
+                throw new InvalidOperationException("The target must be a boolean");
+
+            return !(bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+
         #endregion
     }
 }

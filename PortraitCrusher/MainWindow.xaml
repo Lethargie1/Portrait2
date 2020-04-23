@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortraitCrusher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <local:BoolToOppositeBoolConverter x:Key="oppositeConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="500"/>
         </Grid.ColumnDefinitions>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
             <StackPanel>
@@ -32,10 +35,55 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
-                <ListView x:Name="listview2" ItemsSource="{Binding Path=Portraits}"  Margin="7,7,7,7" SelectedIndex="0" Style="{StaticResource PortraitListviewStyle}">
-                </ListView>
-                <Button Content="Write to new folder" Width="150" Command="{Binding ReplacePortraitsCommand}" Grid.Row="1"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"> Select portraits for Male </TextBlock>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"> Select portraits for Female</TextBlock>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70" Grid.Column="1">
+                    <Image Source="{Binding ElementName=listviewA, Path=SelectedItem.FinalSourcePath}" Height="60">
+                        <Image.Triggers>
+                            <EventTrigger RoutedEvent="Image.MouseLeftButtonDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="myPopupA" Storyboard.TargetProperty="(Popup.IsOpen)">
+                                            <DiscreteBooleanKeyFrame KeyTime="00:00:00.1" Value="{Binding ElementName=myPopupA,Converter={StaticResource oppositeConverter},Path=IsOpen}" />
+                                        </BooleanAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Image.Triggers>
+                    </Image>
+                    <Popup Name="myPopupA">
+                        <ListView x:Name="listviewA" ItemsSource="{Binding Path=MaleView}"  Margin="7,7,7,7" SelectedIndex="0" Style="{StaticResource PortraitListviewStyle}">
+                        </ListView>
+                    </Popup>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70" Grid.Row="1" Grid.Column="1">
+                    <Image Source="{Binding FemaleView.CurrentItem.FinalSourcePath}" Height="60">
+                        <Image.Triggers>
+                            <EventTrigger RoutedEvent="Image.MouseLeftButtonDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="myPopupB" Storyboard.TargetProperty="(Popup.IsOpen)">
+                                            <DiscreteBooleanKeyFrame KeyTime="00:00:00.1" Value="{Binding ElementName=myPopupB,Converter={StaticResource oppositeConverter},Path=IsOpen}" />
+                                        </BooleanAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Image.Triggers>
+                    </Image>
+                    <Popup Name="myPopupB">
+                        <ListView x:Name="listviewB" ItemsSource="{Binding Path=FemaleView}"  Margin="7,7,7,7" SelectedIndex="0" Style="{StaticResource PortraitListviewStyle}">
+                        </ListView>
+                    </Popup>
+                </StackPanel>
+                
+                <Button Content="Write to new folder" Width="150" Command="{Binding ReplacePortraitsCommand}" Grid.Row="2"/>
             </Grid>
         </Border>
     </Grid>

@@ -12,28 +12,24 @@ namespace SSEditor.FileHandling
         {
 
         }
-        
-        public ISSGroup CreateGroupFromFile(ISSMergable file)
-        {
-            if(file is SSFaction f)
-            {
-                SSFactionGroup newFGroup = new SSFactionGroup();
-                newFGroup.Add(f);
-                return newFGroup as ISSGroup;
-            }
-            if(file is SSJson gf)
-            {
-                SSJsonGroup newgfGroup = new SSJsonGroup();
-                newgfGroup.Add(gf);
-                return newgfGroup as ISSGroup;
-            }
-            if(file is SSCsv fc)
-            {
-                SSCsvGroup newCsvGroup = new SSCsvGroup();
-                newCsvGroup.Add(fc);
-                return newCsvGroup as ISSGroup;
-            }
 
+        public ISSGroup CreateGroupFromFile(ISSGenericFile file)
+        {
+            switch (file)
+            {
+                case SSFaction f:
+                    SSFactionGroup newFGroup = new SSFactionGroup();
+                    newFGroup.Add(f);
+                    return newFGroup;
+                case SSJson gf:
+                    SSJsonGroup newgfGroup = new SSJsonGroup();
+                    newgfGroup.Add(gf);
+                    return newgfGroup;
+                case SSCsv fc:
+                    return new SSCsvGroup(fc);
+                case SSBinary b:
+                    return new SSBinaryGroup(b);
+            }
             return null;
         }
     }

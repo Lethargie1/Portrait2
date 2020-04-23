@@ -24,8 +24,11 @@ namespace SSEditor.FileHandling
                     return new SSFaction(mod, fullUrl);
                 case ".csv":
                     return new SSCsv(mod, fullUrl);
-                default:
+                case ".jar":
+                case ".java":
                     return new SSNoMerge(mod, fullUrl);
+                default:
+                    return new SSBinary(mod, fullUrl);
             }
         }
 

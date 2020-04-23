@@ -57,12 +57,14 @@
   <ItemGroup>
     <Compile Include="FileHandling\Editors\FactionEditor.cs" />
     <Compile Include="FileHandling\Group\ISSGroupInterface.cs" />
+    <Compile Include="FileHandling\Group\SSBinaryGroup.cs" />
     <Compile Include="FileHandling\Group\SSCsvGroup.cs" />
     <Compile Include="FileHandling\Group\SSFileGroupFactory.cs" />
     <Compile Include="FileHandling\Group\SSJsonGroup.cs" />
     <Compile Include="FileHandling\ISSWritable.cs" />
     <Compile Include="FileHandling\Mods\ISSMod.cs" />
     <Compile Include="FileHandling\Mods\SSModWritable.cs" />
+    <Compile Include="FileHandling\SSFile\SSBinary.cs" />
     <Compile Include="FileHandling\SSFile\SSCsv.cs" />
     <Compile Include="FileHandling\SSFile\SSGeneric.cs" />
     <Compile Include="FileHandling\SSDirectory.cs" />
