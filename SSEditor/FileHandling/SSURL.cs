@@ -12,9 +12,12 @@ namespace SSEditor.FileHandling
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public override abstract string ToString();
-        public string ToSSStyleString()
+        public string SSStyleString
         {
-            return this.ToString().Replace('\\', '/');
+            get
+            {
+                return this.ToString().Replace('\\', '/');
+            }
         }
     }
 

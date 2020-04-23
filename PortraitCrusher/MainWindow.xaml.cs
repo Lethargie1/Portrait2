@@ -164,24 +164,24 @@ namespace PortraitCrusher
             {
                 f.MustOverwrite = true;
                 f.MalePortraits?.ContentArray.Clear();
-                f.MalePortraits?.ContentArray.Add(new JsonValue(MaleSelected.RelativeUrl.ToSSStyleString()));
+                f.MalePortraits?.ContentArray.Add(new JsonValue(MaleSelected.RelativeUrl.SSStyleString));
                 f.FemalePortraits?.ContentArray.Clear();
-                f.FemalePortraits?.ContentArray.Add(new JsonValue(FemaleSelected.RelativeUrl.ToSSStyleString()));
+                f.FemalePortraits?.ContentArray.Add(new JsonValue(FemaleSelected.RelativeUrl.SSStyleString));
                 
             }
             factionEditor.ReplaceFactionToWrite();
+            MessageBoxButton Button = MessageBoxButton.OK;
             try
             {
                 target.WriteMod();
+                MessageBox.Show(this, "Patch created successfully, do not forget to activate it before starting a new game", "success", Button);
             }
             catch(IOException)
-            {
-                MessageBoxButton Button = MessageBoxButton.OK;
+            {  
                 MessageBox.Show(this, "Target directory is not accesibles (Is it open in the Windows explorer?)", "Access error", Button);
             }
             catch (System.UnauthorizedAccessException)
             {
-                MessageBoxButton Button = MessageBoxButton.OK;
                 MessageBox.Show(this, "Target directory are not accesibles (Is it open in the Windows explorer?)","Access error", Button);
             }
         }

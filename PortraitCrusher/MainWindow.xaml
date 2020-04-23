@@ -38,12 +38,35 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0.25*"/>
+                    <ColumnDefinition Width="0.25*"/>
+                    <ColumnDefinition Width="0.5*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"> Select portraits for Male </TextBlock>
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"> Select portraits for Female</TextBlock>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Run Text="Select portrait"/>
+                     <LineBreak/>
+                    <Run Text="for Male"/>
+                </TextBlock>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"> 
+                    <Run Text="Select portrait"/>
+                     <LineBreak/>
+                    <Run Text="for Female"/>
+                </TextBlock>
+                
+                <StackPanel Orientation="Vertical" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding MaleView.CurrentItem.RelativeUrl.SSStyleString}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="From: "/>
+                        <TextBlock Text="{Binding MaleView.CurrentItem.FinalFile.SourceMod.ModName}"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding FemaleView.CurrentItem.RelativeUrl.SSStyleString}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="From: "/>
+                        <TextBlock Text="{Binding FemaleView.CurrentItem.FinalFile.SourceMod.ModName}"/>
+                    </StackPanel>
+                </StackPanel>
                 <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70" Grid.Column="1">
                     <Image Source="{Binding ElementName=listviewA, Path=SelectedItem.FinalSourcePath}" Height="60">
                         <Image.Triggers>
@@ -83,7 +106,7 @@
                     </Popup>
                 </StackPanel>
                 
-                <Button Content="Write to new folder" Width="150" Command="{Binding ReplacePortraitsCommand}" Grid.Row="2"/>
+                <Button Content="Write to new folder" Width="150" Command="{Binding ReplacePortraitsCommand}" Grid.Row="2" Grid.ColumnSpan="3" Margin="3,3,3,3"/>
             </Grid>
         </Border>
     </Grid>

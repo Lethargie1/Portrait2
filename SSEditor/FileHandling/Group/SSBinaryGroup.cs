@@ -10,14 +10,14 @@ namespace SSEditor.FileHandling
     {
         public string FinalSourcePath { get; private set; }
         public SSFullUrl FinalPath { get; private set; }
-
+        public SSBinary FinalFile { get; private set; }
         public void RecalculateFinal()
         {
-            var OrderedPath = from f in base.CommonFiles
-                               orderby f.SourceMod.ModName
-                               select  f.SourceMod.ModUrl + f.RelativeUrl;
-
-            FinalPath = OrderedPath.FirstOrDefault();
+            var OrderedFile = from f in base.CommonFiles
+                              orderby f.SourceMod.ModName
+                              select f;
+            FinalFile = OrderedFile.FirstOrDefault();
+            FinalPath = FinalFile.SourceMod.ModUrl + FinalFile.RelativeUrl; ;
             FinalSourcePath = FinalPath.ToString().Replace('/', '\\');
         }
         public SSBinaryGroup():base()
