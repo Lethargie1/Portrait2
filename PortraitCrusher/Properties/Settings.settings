@@ -9,7 +9,7 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="ReceiverUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">"\\mods\\LMPC"</Value>
+      <Value Profile="(Default)">\mods\LEPG</Value>
     </Setting>
     <Setting Name="ModAction" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>

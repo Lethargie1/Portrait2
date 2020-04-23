@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.757
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSEditor", "SSEditor\SSEditor.csproj", "{F56779BD-F395-44F6-BDB8-3ECAB7BDBE39}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FVJson", "testjson\FVJson.csproj", "{D603DCE7-1A69-47B4-99D0-8BF10AF49641}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortraitCrusher", "PortraitCrusher\PortraitCrusher.csproj", "{741D64C9-5EFA-4F83-A72C-85FFA16D5FE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LEPG", "PortraitCrusher\LEPG.csproj", "{741D64C9-5EFA-4F83-A72C-85FFA16D5FE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

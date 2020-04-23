@@ -73,7 +73,7 @@ namespace PortraitCrusher
                     if (StarsectorFolderUrl.UrlState == URLstate.Acceptable)
                     {
                         _TargetModUrl.ValidityChecker = StarsectorValidityChecker.GetCheckModFolderValidity(StarsectorFolderUrl.Url);
-                        _TargetModUrl.Url = StarsectorFolderUrl.Url + "\\mods\\LMPC";
+                        _TargetModUrl.Url = StarsectorFolderUrl.Url + "\\mods\\LEPG";
                     }
                 }
                 return _TargetModUrl;
