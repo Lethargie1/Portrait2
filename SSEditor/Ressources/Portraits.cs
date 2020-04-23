@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSEditor.SSRessources
+namespace SSEditor.Ressources
 {
     public class Portraits
     {

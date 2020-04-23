@@ -1,5 +1,5 @@
 ﻿using FVJson;
-using SSEditor.SSRessources;
+using SSEditor.Ressources;
 using SSEditor.FileHandling;
 using SSEditor.FileHandling.Editors;
 using System;
@@ -231,7 +231,7 @@ namespace PortraitCrusher
                     factionEditor.GetFaction();
                     if ((factionEditor?.Factions?.Count ?? 0) > 0)
                     {
-                        IEnumerable<JsonValue> portraits = SSEditor.SSRessources.Portraits.GetOriginalPortraits(factionEditor.Factions);
+                        IEnumerable<JsonValue> portraits = SSEditor.Ressources.Portraits.GetOriginalPortraits(factionEditor.Factions);
                         Portraits.Clear();
                         foreach (JsonValue j in portraits)
                             Portraits.Add(j);

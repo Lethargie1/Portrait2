@@ -66,7 +66,7 @@ namespace SSEditor.FileHandling.Editors
             }
 
 
-            Portraits = new List<JsonValue>(SSRessources.Portraits.GetOriginalPortraits(Factions));
+            Portraits = new List<JsonValue>(Ressources.Portraits.GetOriginalPortraits(Factions));
             JsonObject finalPortraits = new JsonObject(Portraits, "portraits");
             SettingFile.JsonContent.AddSubField(".graphics.portraits", finalPortraits);
 
