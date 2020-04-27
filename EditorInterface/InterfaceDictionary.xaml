@@ -321,6 +321,55 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="ToggleButtonActivated" TargetType="ToggleButton">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="17"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="17"/>
+                        </Grid.RowDefinitions>
+                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                            <BulletDecorator.Bullet>
+                                <Border x:Name="Border" Background="Transparent" BorderBrush="Gainsboro" BorderThickness="3" CornerRadius="4" >
+                                    <Grid Margin="2,2,2,2" >
+                                        <Rectangle  Fill="Transparent" StrokeThickness="0" Stroke="Black" Stretch="UniformToFill"/>
+                                    </Grid>
+                                </Border>
+                            </BulletDecorator.Bullet>
+                        </BulletDecorator>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource UiOutline}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="LightGray" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Border" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="true">
+                            <Setter TargetName="Border" Property="Opacity" Value="1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <Style TargetType="TextBox">
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
         <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>

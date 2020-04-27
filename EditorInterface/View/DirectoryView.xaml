@@ -34,7 +34,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel LastChildFill="False">
-                            <CheckBox DockPanel.Dock="Left"  Content="Edit " Style="{StaticResource ToggleButtonBadGood}" 
+                            <CheckBox DockPanel.Dock="Left"  Content="Edit " Style="{StaticResource ToggleButtonActivated}" 
                                       IsChecked="{Binding Path=CurrentType, Converter={StaticResource ModToActivatedConverter}, Mode=OneWay}" 
                                       IsEnabled="{Binding Path=CurrentType, Converter={StaticResource ModToEnabledConverter}, Mode=OneWay}"
                                       Command="{s:Action HandleModChecking}" CommandParameter="{Binding}" />
