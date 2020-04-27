@@ -34,5 +34,17 @@ namespace EditorInterface.Properties {
                 this["PatchTarget"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string StarsectorUrl {
+            get {
+                return ((string)(this["StarsectorUrl"]));
+            }
+            set {
+                this["StarsectorUrl"] = value;
+            }
+        }
     }
 }

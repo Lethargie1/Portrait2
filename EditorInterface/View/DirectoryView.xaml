@@ -13,12 +13,18 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
-            <StackPanel Orientation="Vertical">
-                <ContentControl s:View.Model="{Binding StarsectorUrl}" Margin="3,3,3,3" />
-                <ContentControl s:View.Model="{Binding TargetModFolderUrl}"  Margin="3,3,3,3"/>
-                <Button Content="we must go back" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
-            </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
+                <StackPanel Orientation="Vertical">
+                    <ContentControl s:View.Model="{Binding StarsectorUrl}" Margin="3,3,3,3" />
+                    <ContentControl s:View.Model="{Binding TargetModFolderUrl}"  Margin="3,3,3,3"/>
+                    <Button Content="ExploreDirectory" Command="{s:Action ExploreDirectory}" Margin="3,3,3,3"></Button>
+                </StackPanel>
+            </Border>
+            <Button Content="we must go back" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
+        </StackPanel>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="1">
+            <ListView x:Name="listview" ItemsSource="{Binding Path=Directory.Mods}"  SelectedIndex="0" Margin="7,7,7,7"/>
         </Border>
     </Grid>
 </UserControl>

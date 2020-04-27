@@ -134,6 +134,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SSEditor\SSEditor.csproj">
+      <Project>{F56779BD-F395-44F6-BDB8-3ECAB7BDBE39}</Project>
+      <Name>SSEditor</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

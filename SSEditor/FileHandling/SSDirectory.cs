@@ -29,6 +29,10 @@ namespace SSEditor.FileHandling
             InstallationUrl = url;
         }
 
+        public void SetUrl(string directoryUrl)
+        {
+            InstallationUrl = new SSBaseUrl(directoryUrl);
+        }
         public void ReadMods(string targetFolder = null)
         {
             Mods.Clear();
