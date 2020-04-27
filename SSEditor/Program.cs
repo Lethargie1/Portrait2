@@ -32,7 +32,8 @@ namespace SSEditor
 
             
             SSDirectory test = new SSDirectory(SSUrl);
-            SSModWritable target = new SSModWritable(SSUrl + new SSLinkUrl("mods\\lepg"));
+            SSModWritable target = new SSModWritable();
+            target.ModUrl = SSUrl + new SSLinkUrl("mods\\lepg");
             test.ReadMods("lepg");
             test.PopulateMergedCollections();
 

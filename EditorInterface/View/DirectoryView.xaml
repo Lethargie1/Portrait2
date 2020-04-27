@@ -27,7 +27,7 @@
                     <Button Content="ExploreDirectory" Command="{s:Action ExploreDirectory}" Margin="3,3,3,3"></Button>
                 </StackPanel>
             </Border>
-            <Button Content="we must go back" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
+            <Button Content="Directory setup complete" Command="{s:Action DirectoryExploreComplete}" Margin="3,3,3,3"></Button>
         </StackPanel>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="1">
             <ListBox  ItemsSource="{Binding Directory.Mods}" SelectedItem="{Binding SelectedMod}" HorizontalContentAlignment="Stretch" Background="Transparent">
@@ -44,6 +44,9 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+        </Border>
+        <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="2">
+            
         </Border>
     </Grid>
 </UserControl>

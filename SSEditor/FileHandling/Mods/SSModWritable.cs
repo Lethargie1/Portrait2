@@ -14,7 +14,16 @@ namespace SSEditor.FileHandling
     {
         public const string ID = "lepg";
 
-        public SSBaseLinkUrl ModUrl { get; private set; }
+        private SSBaseLinkUrl _ModUrl;
+        public SSBaseLinkUrl ModUrl 
+        { 
+            get => _ModUrl;
+            set 
+            {
+                _ModUrl = value;
+                this.MakeModInfoBase();
+            } 
+        }
         public SSJson ModInfo { get; private set; }
         public string ModName { get; private set; }
         public ModType CurrentType { get; } = ModType.Mod;
@@ -22,9 +31,13 @@ namespace SSEditor.FileHandling
         public ObservableCollection<ISSWritable> FileList { get; } = new ObservableCollection<ISSWritable>();
         public ObservableCollection<ISSMod> ModRequired { get; } = new ObservableCollection<ISSMod>();
         
-        public SSModWritable(SSBaseLinkUrl modUrl)
+        public SSModWritable()
         {
-            ModUrl = modUrl;
+        }
+        public void MakeModInfoBase()
+        {
+            if (ModUrl == null)
+                throw new InvalidOperationException();
             JsonObject root = new JsonObject();
             root.Values.Add(new JsonValue("id"), new JsonValue("lepg"));
             root.Values.Add(new JsonValue("name"), new JsonValue("Lethargie's editable patch generator"));
@@ -33,17 +46,14 @@ namespace SSEditor.FileHandling
             root.Values.Add(new JsonValue("gameVersion"), new JsonValue("0.9.1a"));
             root.Values.Add(new JsonValue("description"), new JsonValue("Lethargie editable patch is a mod created by Lethargie's editable patcher. It is able to take in account your personal modlist if you so desire "));
             root.Values.Add(new JsonValue("replace"), new JsonArray());
-            
-            
-
-
             SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
+            if (ModInfo != null)
+                FileList.Remove(ModInfo);
             ModInfo = new SSJson(this, TargetUrl);
             ModInfo.JsonType = SSJson.JsonFileType.NotExtrated;
             ModInfo.JsonContent = root;
             FileList.Add(ModInfo);
         }
-
         public void WriteMod()
         {
             var targetdir = new DirectoryInfo(ModUrl.ToString());

@@ -149,7 +149,8 @@ namespace PortraitCrusher
         {
             var match = Regex.Match(TargetModUrl.Url, @"(?:" + StarsectorFolderUrl.Url.Replace(@"\", @"\\") + @"\\)(.*)");
             string linkPart = match.Groups[1].ToString();
-            target = new SSModWritable(directory.InstallationUrl + new SSLinkUrl(linkPart));
+            target = new SSModWritable();
+            target.ModUrl = directory.InstallationUrl + new SSLinkUrl(linkPart);
             factionEditor.Receiver = target;
             Properties.Settings.Default.ReceiverUrl = linkPart;
             Properties.Settings.Default.Save();

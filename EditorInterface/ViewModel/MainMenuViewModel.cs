@@ -10,15 +10,18 @@ namespace EditorInterface.ViewModel
     public class MainMenuViewModel: Screen
     {
         public DirectoryViewModel Directory { get; private set; }
+        public FactionEditorViewModel FactionEditor { get; private set; }
 
-        public MainMenuViewModel( DirectoryViewModel directoryvm)
+        public MainMenuViewModel( DirectoryViewModel directoryvm, FactionEditorViewModel factionEditor)
         {
             Directory = directoryvm;
+            FactionEditor = factionEditor;
         }
         public void Activate(IScreen toActivate)
         {
             var a = this.Parent as IConductor<IScreen>;
             a.ActivateItem(toActivate);
         }
+
     }
 }

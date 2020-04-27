@@ -71,6 +71,11 @@ namespace EditorInterface.ViewModel
                     sender.ChangeType(ModType.Skip);
             }
         }
+        public void DirectoryExploreComplete()
+        {
+            Directory.PopulateMergedCollections();
+            this.RequestClose();
+        }
 
 
         
