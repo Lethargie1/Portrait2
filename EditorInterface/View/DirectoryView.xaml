@@ -4,9 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EditorInterface.View"
+             xmlns:vm="clr-namespace:EditorInterface.ViewModel"
              mc:Ignorable="d" 
              xmlns:s="https://github.com/canton7/Stylet"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <vm:ModTypeToActivatedConverter x:Key="ModToActivatedConverter" />
+        <vm:ModTypeToEnabledConverter x:Key="ModToEnabledConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -24,7 +30,20 @@
             <Button Content="we must go back" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
         </StackPanel>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="1">
-            <ListView x:Name="listview" ItemsSource="{Binding Path=Directory.Mods}"  SelectedIndex="0" Margin="7,7,7,7"/>
+            <ListBox  ItemsSource="{Binding Directory.Mods}" SelectedItem="{Binding SelectedMod}" HorizontalContentAlignment="Stretch" Background="Transparent">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel LastChildFill="False">
+                            <CheckBox DockPanel.Dock="Left"  Content="Edit " Style="{StaticResource ToggleButtonBadGood}" 
+                                      IsChecked="{Binding Path=CurrentType, Converter={StaticResource ModToActivatedConverter}, Mode=OneWay}" 
+                                      IsEnabled="{Binding Path=CurrentType, Converter={StaticResource ModToEnabledConverter}, Mode=OneWay}"
+                                      Command="{s:Action HandleModChecking}" CommandParameter="{Binding}" />
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding}"/>
+                            
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Border>
     </Grid>
 </UserControl>

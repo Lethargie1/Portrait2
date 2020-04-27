@@ -37,14 +37,13 @@ namespace SSEditor.FileHandling
         {
             Mods.Clear();
             modFactory = new SSModFactory(InstallationUrl);
-            modFactory.Type = ModType.Mod;
             SSBaseUrl ModFolderPath = InstallationUrl + "mods";
             DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
             IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
 
 
             SSMod currentMod = modFactory.CreateMod(new SSLinkUrl("starsector-core"));
-            currentMod.FindFiles();
+            //currentMod.FindFiles();
             Mods.Add(currentMod);
             foreach (DirectoryInfo ModDirectory in ModsEnumerable)
             {
@@ -55,10 +54,10 @@ namespace SSEditor.FileHandling
                 try
                 {
                     currentMod = modFactory.CreateMod(modLink);
-                    if (ModDirectory.Name == targetFolder)
-                        currentMod.ChangeType(ModType.Skip);
-                    else
-                        currentMod.FindFiles();
+                    //if (ModDirectory.Name == targetFolder)
+                        //currentMod.ChangeType(ModType.Skip);
+                    //else
+                        //currentMod.FindFiles();
 
                     Mods.Add(currentMod);
                 }
@@ -74,7 +73,7 @@ namespace SSEditor.FileHandling
             GroupedFiles.Clear();
             foreach (SSMod currentMod in Mods)
             {
-                if (currentMod.CurrentType == ModType.Skip || currentMod.CurrentType == ModType.Ressource)
+                if (currentMod.CurrentType == ModType.Skip || currentMod.CurrentType == ModType.Ressource || currentMod.CurrentType == ModType.Patch || currentMod.CurrentType == ModType.Other)
                     continue;
                 foreach (ISSGenericFile modFile in currentMod.FilesReadOnly)
                 {

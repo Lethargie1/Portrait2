@@ -12,8 +12,11 @@ namespace SSEditor.FileHandling
 
     public class SSMod : ISSMod
     {
-       
 
+        public static List<ModType> Switchable = new List<ModType> { ModType.Mod, ModType.Ressource, ModType.Skip };
+        public static List<ModType> Unactivated = new List<ModType> { ModType.Skip, ModType.Ressource };
+        public static List<ModType> AlwaysFalse = new List<ModType> { ModType.Other, ModType.Patch };
+        public static List<ModType> AlwaysTrue = new List<ModType> { ModType.Core};
         public event EventHandler<ModTypeChangeEventArgs> TypeChanged;
 
 
@@ -24,22 +27,74 @@ namespace SSEditor.FileHandling
 
         public override string ToString()
         {
-            return "Mod: " + ((ModInfo?.Fields[".name"] as JsonValue)?.ToString() ?? ("Unnamed " + ModUrl.Link));
+            return  CurrentType.ToString() + ": " + ((ModInfo?.Fields[".name"] as JsonValue)?.ToString() ?? ("Unnamed " + ModUrl.Link));
         }
 
-        public ReadOnlyObservableCollection<ISSGenericFile> FilesReadOnly { get; private set; }
-        protected ObservableCollection<ISSGenericFile> Files { get; } = new ObservableCollection<ISSGenericFile>();
+        private ReadOnlyObservableCollection<ISSGenericFile> _FilesReadOnly;
+        public ReadOnlyObservableCollection<ISSGenericFile> FilesReadOnly 
+        {
+            get 
+            {
+                if  (_FilesReadOnly == null)
+                    _FilesReadOnly = new ReadOnlyObservableCollection<ISSGenericFile>(Files);
+                return _FilesReadOnly;
+            } 
+        }
 
-        public SSMod(SSBaseLinkUrl fullModUrl, ModType type)
+        private ObservableCollection<ISSGenericFile> _Files;
+        protected ObservableCollection<ISSGenericFile> Files
+        {
+            get
+            {
+                if (_Files == null)
+                {
+                    _Files = new ObservableCollection<ISSGenericFile>();
+                    this.FindFiles();
+                }
+                return _Files;
+            }
+        }
+
+        public SSMod(SSBaseLinkUrl fullModUrl)
         {
             ModUrl = fullModUrl ?? throw new ArgumentNullException("fullModUrl", "Mod Url cannot be null");
             DirectoryInfo FactionDirectory = new DirectoryInfo(ModUrl.ToString());
             ModName = FactionDirectory.Name;
-            CurrentType = type;
-            FilesReadOnly = new ReadOnlyObservableCollection<ISSGenericFile>(Files);
+            //CurrentType = type;
+            
 
-            GenerateModInfo();
+            FindModInfo();
             //ModInfo = new SSJson(this, fullModUrl + new SSRelativeUrl("mod_info.json"));
+        }
+        private void FindModInfo()
+        {
+            SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
+            FileInfo test = new FileInfo(TargetUrl.ToString());
+            if (test.Exists)
+            {
+                this.CurrentType = ModType.Mod;
+                ModInfo = new SSJson(this, TargetUrl);
+                ModName = ((JsonValue)ModInfo.Fields[".name"]).ToString();
+            }
+            else
+            {
+                this.CurrentType = ModType.Other;
+                ModName = TargetUrl.Link;
+            }
+        }
+
+        public void MakeItCore()
+        {
+            if (ModInfo != null)
+                throw new InvalidOperationException("cannot make Core, Mod_info exist");
+            JsonObject root = new JsonObject();
+            root.Values.Add(new JsonValue("id"), new JsonValue("starsector-core"));
+            root.Values.Add(new JsonValue("name"), new JsonValue("Vanilla starsector"));
+            SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
+            ModInfo = new SSJson(this, TargetUrl);
+            ModInfo.JsonType = SSJson.JsonFileType.NotExtrated;
+            ModInfo.JsonContent = root;
+            this.CurrentType = ModType.Core;
         }
         private void GenerateModInfo()
         {
@@ -84,6 +139,7 @@ namespace SSEditor.FileHandling
 
         public void FindFiles()
         {
+            Files.Clear();
             if (CurrentType == ModType.Skip || CurrentType == ModType.Ressource)
                 return;
             DirectoryInfo root = new DirectoryInfo(ModUrl.ToString());
@@ -130,7 +186,6 @@ namespace SSEditor.FileHandling
     {
         public const string CoreLink = "starsector-core";
         public SSBaseUrl InstallationUrl { get; set; }
-        public ModType Type { get; set; } = ModType.Skip;
 
         public SSModFactory (SSBaseUrl installation)
         {
@@ -143,13 +198,17 @@ namespace SSEditor.FileHandling
             switch (link.Link)
             {
                 case CoreLink:
-                    newMod = new SSMod(InstallationUrl + link, ModType.Core);
+                    newMod = new SSMod(InstallationUrl + link);
+                    newMod.MakeItCore();
                     break;
                 default:
-                    newMod = new SSMod(InstallationUrl + link, Type);
-                    string modId = ((JsonValue)newMod.ModInfo.Fields[".id"]).ToString();
-                    if (modId == SSModWritable.ID)
-                        newMod.ChangeType(ModType.Patch);
+                    newMod = new SSMod(InstallationUrl + link);
+                    if (newMod.CurrentType != ModType.Other)
+                    {
+                        string modId = ((JsonValue)newMod.ModInfo.Fields[".id"]).ToString();
+                        if (modId == SSModWritable.ID)
+                            newMod.ChangeType(ModType.Patch);
+                    }
                     break;
             }
 

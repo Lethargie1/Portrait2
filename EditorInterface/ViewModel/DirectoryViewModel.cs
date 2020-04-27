@@ -2,10 +2,13 @@
 using Stylet;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace EditorInterface.ViewModel
 {
@@ -56,6 +59,71 @@ namespace EditorInterface.ViewModel
 
         }
 
+        public void HandleModChecking(SSMod sender) 
+        {
+            
 
+            if (SSMod.Switchable.Contains(sender.CurrentType))
+            {
+                if (SSMod.Unactivated.Contains(sender.CurrentType))
+                    sender.ChangeType(ModType.Mod);
+                else
+                    sender.ChangeType(ModType.Skip);
+            }
+        }
+
+
+        
+    }
+
+    [ValueConversion(typeof(ModType), typeof(bool))]
+    public class ModTypeToActivatedConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            ModType source = (ModType)value;
+            if (SSMod.Switchable.Contains(source))
+            {
+                if (SSMod.Unactivated.Contains(source))
+                    return false;
+                else
+                    return true;
+            }
+            else
+            {
+                if (SSMod.AlwaysFalse.Contains(source))
+                    return false;
+                if (SSMod.AlwaysTrue.Contains(source))
+                    return true;
+                return null;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(ModType), typeof(bool))]
+    public class ModTypeToEnabledConverter: IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            ModType source = (ModType)value;
+            if (SSMod.Switchable.Contains(source))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
