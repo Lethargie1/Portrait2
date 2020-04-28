@@ -70,6 +70,7 @@
     <Compile Include="ViewModel\EditableUrlViewModel.cs" />
     <Compile Include="ViewModel\FactionEditorViewModel.cs" />
     <Compile Include="ViewModel\MainMenuViewModel.cs" />
+    <Compile Include="ViewModel\ModDetailedViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="View\DirectoryView.xaml.cs">
       <DependentUpon>DirectoryView.xaml</DependentUpon>
@@ -146,6 +147,10 @@
     <ProjectReference Include="..\SSEditor\SSEditor.csproj">
       <Project>{F56779BD-F395-44F6-BDB8-3ECAB7BDBE39}</Project>
       <Name>SSEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\testjson\FVJson.csproj">
+      <Project>{D603DCE7-1A69-47B4-99D0-8BF10AF49641}</Project>
+      <Name>FVJson</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
