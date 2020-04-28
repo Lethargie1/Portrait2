@@ -5,8 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EditorInterface.View"
              xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:vm="clr-namespace:EditorInterface.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <vm:FactionToFactionVMConverter x:Key="FactionToFactionVMConverter" />
+    </UserControl.Resources>
+
+    
     <Grid Background="{StaticResource GeneralBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -18,9 +24,10 @@
                 <ListBox  ItemsSource="{Binding Factions}" HorizontalContentAlignment="Stretch" Background="Transparent">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <DockPanel LastChildFill="False">
+                            <!--<DockPanel LastChildFill="False">
                                 <TextBlock DockPanel.Dock="Left" Text="{Binding}"/>
-                            </DockPanel>
+                            </DockPanel>-->
+                            <ContentControl s:View.Model="{Binding Converter={StaticResource FactionToFactionVMConverter}}" Margin="7" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
