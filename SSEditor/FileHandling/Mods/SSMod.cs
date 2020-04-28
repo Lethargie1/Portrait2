@@ -90,6 +90,8 @@ namespace SSEditor.FileHandling
             JsonObject root = new JsonObject();
             root.Values.Add(new JsonValue("id"), new JsonValue("starsector-core"));
             root.Values.Add(new JsonValue("name"), new JsonValue("Vanilla starsector"));
+            root.Values.Add(new JsonValue("version"), new JsonValue("9.1a"));
+            root.Values.Add(new JsonValue("description"), new JsonValue("It's the best"));
             SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
             ModInfo = new SSJson(this, TargetUrl);
             ModInfo.JsonType = SSJson.JsonFileType.NotExtrated;

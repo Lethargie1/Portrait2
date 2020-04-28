@@ -19,34 +19,38 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical">
-            <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch">
                 <StackPanel Orientation="Vertical">
-                    <ContentControl s:View.Model="{Binding StarsectorUrl}" Margin="3,3,3,3" />
-                    <ContentControl s:View.Model="{Binding TargetModFolderUrl}"  Margin="3,3,3,3"/>
-                    <Button Content="ExploreDirectory" Command="{s:Action ExploreDirectory}" Margin="3,3,3,3"></Button>
+                    <ContentControl s:View.Model="{Binding StarsectorUrl}" Margin="7" />
+                    <ContentControl s:View.Model="{Binding TargetModFolderUrl}"  Margin="7"/>
+                    <Button Content="ExploreDirectory" Command="{s:Action ExploreDirectory}" Margin="7"></Button>
                 </StackPanel>
             </Border>
-            <Button Content="Directory setup complete" Command="{s:Action DirectoryExploreComplete}" Margin="3,3,3,3"></Button>
-        </StackPanel>
-        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="1">
-            <ListBox  ItemsSource="{Binding Directory.Mods}" SelectedItem="{Binding SelectedMod}" HorizontalContentAlignment="Stretch" Background="Transparent">
+        
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Column="1">
+            <ListBox  ItemsSource="{Binding Directory.Mods}" SelectedItem="{Binding SelectedMod}" HorizontalContentAlignment="Stretch" Background="Transparent" Margin="7" BorderBrush="Transparent">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel LastChildFill="False">
-                            <CheckBox DockPanel.Dock="Left"  Content="Edit " Style="{StaticResource ToggleButtonActivated}" 
+                            <CheckBox DockPanel.Dock="Left"  Style="{StaticResource ToggleButtonActivated}" Margin="0,0,5,0"
                                       IsChecked="{Binding Path=CurrentType, Converter={StaticResource ModToActivatedConverter}, Mode=OneWay}" 
                                       IsEnabled="{Binding Path=CurrentType, Converter={StaticResource ModToEnabledConverter}, Mode=OneWay}"
                                       Command="{s:Action HandleModChecking}" CommandParameter="{Binding}" />
                             <TextBlock DockPanel.Dock="Left" Text="{Binding}"/>
-                            
+
                         </DockPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Border>
-        <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="2">
-            
+        <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Column="2">
+            <ContentControl s:View.Model="{Binding SelectedModViewModel}" Margin="7" />
         </Border>
+        <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.ColumnSpan="3" Grid.Row="1"/>
+        <Button Content="Directory setup complete" Command="{s:Action DirectoryExploreComplete}" Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>

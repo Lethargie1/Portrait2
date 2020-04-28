@@ -48,9 +48,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="TextElement" TargetType="TextBlock">
-        <Setter Property="Margin" Value="5,5,3,3"/>
-    </Style>
+   
 
     <!--application wide styleing yes-->
     <SolidColorBrush x:Key="TextBrush" Color="Azure" />
@@ -223,9 +221,18 @@
 
     <!--style for all generic text-->
     <Style TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18"/>
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
     </Style>
 
+    <Style x:Key="TextElement" TargetType="TextBlock">
+        <Setter Property="Margin" Value="5,5,3,3"/>
+    </Style>
+    <Style TargetType="TextBox">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
+    </Style>
     <!--style for all generic controls-->
     <Style x:Key="ToggleButton" TargetType="ToggleButton">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -331,12 +338,12 @@
                 <ControlTemplate TargetType="ToggleButton">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="17"/>
+                            <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="17"/>
+                            <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
-                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch" >
                             <BulletDecorator.Bullet>
                                 <Border x:Name="Border" Background="Transparent" BorderBrush="Gainsboro" BorderThickness="3" CornerRadius="4" >
                                     <Grid Margin="2,2,2,2" >
@@ -344,6 +351,10 @@
                                     </Grid>
                                 </Border>
                             </BulletDecorator.Bullet>
+                            <ContentPresenter Margin="4,0,0,0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            RecognizesAccessKey="True" />
                         </BulletDecorator>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -370,10 +381,7 @@
     </Style>
 
 
-    <Style TargetType="TextBox">
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-        <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
-    </Style>
+    
     <Style TargetType="Button">
         <Setter Property="Background" Value="{StaticResource ButtonSolid}"/>
         <Setter Property="Template">

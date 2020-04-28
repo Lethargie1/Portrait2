@@ -20,7 +20,7 @@ namespace EditorInterface.ViewModel
         { 
             get 
             {
-                if (Mod.ModInfo == null)
+                if (Mod?.ModInfo == null)
                     return "no ID";
                 else
                 {
@@ -34,8 +34,8 @@ namespace EditorInterface.ViewModel
             get 
             {
 
-                if (Mod.ModInfo == null)
-                    return Mod.ModName;
+                if (Mod?.ModInfo == null)
+                    return Mod?.ModName;
                 else
                 {
                     return Mod.ModName + " " + ((JsonValue)Mod.ModInfo.Fields[".version"]).ToString();
@@ -47,7 +47,7 @@ namespace EditorInterface.ViewModel
         {
             get
             {
-                if (Mod.ModInfo == null)
+                if (Mod?.ModInfo == null)
                     return "This folder does not have a mod-info and cannot be handled as a mod";
                 else
                 {

@@ -21,8 +21,17 @@ namespace EditorInterface.ViewModel
         public SSMod SelectedMod 
         {
             get => this._SelectedMod;
-            set => this._SelectedMod = value;
-                }
+            set
+            {
+                this._SelectedMod = value;
+                NotifyOfPropertyChange(nameof(SelectedModViewModel));
+            }
+        }
+
+        public ModDetailedViewModel SelectedModViewModel
+        {
+            get => new ModDetailedViewModel(SelectedMod);
+        }
         public SSDirectory Directory { get; private set; }
 
         public DirectoryViewModel(SSDirectory directory)

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EditorInterface.View"
         mc:Ignorable="d"
         xmlns:s="https://github.com/canton7/Stylet"
-        Title="Shell" Height="450" Width="800">
+        Title="Shell" Height="800" Width="1400">
         
     <Grid>
         <Grid Background="{StaticResource GeneralBackgroundBrush}">
