@@ -17,15 +17,10 @@ namespace SSEditor.FileHandling
     }
     public class SSJsonGroup<T> : SSGroup<T>, ISSJsonGroup where T: SSJson
     {
-        bool _MustOverwrite = true;
+
         public override bool MustOverwrite
         {
-            get => _MustOverwrite;
-            set
-            {
-                _MustOverwrite = value;
-                ExtractMonitoredContent();
-            }
+            get => MonitoredContent.RequiresOverwrite();      
         }
         public MonitoredObject<T> MonitoredContent { get; set; } = null;
         public Dictionary<string, MonitoredField<T>> PathedContent { get; private set; } = new Dictionary<string, MonitoredField<T>>();
@@ -33,7 +28,11 @@ namespace SSEditor.FileHandling
         {
             get
             {
-                return !(MonitoredContent.Files.Count == 0);
+                if (MonitoredContent.Files.Count == 0)
+                    return false;
+                if (MonitoredContent.IsModified() == true)
+                    return true;
+                return false;
             }
         }
 
@@ -50,7 +49,7 @@ namespace SSEditor.FileHandling
                                 where file.SourceMod.CurrentType == ModType.Mod
                                 select file).ToList();
             ObservableCollection<T> fileUsed = new ObservableCollection<T>(modAdded);
-            if (MustOverwrite && core != null)
+            if ( core != null)
                 fileUsed.Add(core);
 
 
@@ -92,12 +91,21 @@ namespace SSEditor.FileHandling
                 this.ExtractMonitoredContent();
             if (MonitoredContent.Files.Count == 0)
                 return;
-            using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
+
+            string result;
+            if (this.MustOverwrite == true)
+                result = MonitoredContent.GetJsonEquivalent()?.ToJsonString();
+            else
+                result = MonitoredContent.GetJsonEquivalentNoOverwrite()?.ToJsonString();
+            if (result != null)
             {
-                string result = MonitoredContent.GetJsonEquivalent().ToJsonString();
-                sw.Write(result);
+                using (StreamWriter sw = File.CreateText(TargetUrl.ToString()))
+                {
+                    sw.Write(result);
+                }
             }
         }
+        
         public static void WriteJsonTo(SSFullUrl targetUrl, JsonObject content)
         {
             FileInfo targetInfo = new FileInfo(targetUrl.ToString());

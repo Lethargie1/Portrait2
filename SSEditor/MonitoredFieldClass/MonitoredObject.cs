@@ -31,6 +31,37 @@ namespace SSEditor.MonitoringField
             return NewContent;
         }
 
+        public override JsonToken GetJsonEquivalentNoOverwrite()
+        {
+            JsonObject NewContent = new JsonObject();
+            foreach (KeyValuePair<JsonValue, MonitoredField<T>> kv in MonitoredProperties)
+            {
+                JsonToken a = kv.Value.GetJsonEquivalentNoOverwrite();
+                if (a == null)
+                    continue;
+                NewContent.Values.Add(kv.Key, a);
+            }
+            if (NewContent.Values.Count == 0)
+                return null;
+            return NewContent;
+        }
+
+        public override bool IsModified()
+        {
+            var test = (from KeyValuePair<JsonValue, MonitoredField<T>> kv in MonitoredProperties
+                        where kv.Value.IsModified() == true
+                        select kv.Value).FirstOrDefault();
+            return test == null ? false : true;
+        }
+
+        public override bool RequiresOverwrite()
+        {
+            var test = (from KeyValuePair<JsonValue, MonitoredField<T>> kv in MonitoredProperties
+                        where kv.Value.RequiresOverwrite() == true
+                        select kv.Value).FirstOrDefault();
+            return test == null ? false : true;
+        }
+
         public override void Resolve()
         {
             if (FieldPath != null)

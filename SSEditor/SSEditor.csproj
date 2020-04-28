@@ -79,6 +79,7 @@
     <Compile Include="FileHandling\SSFile\SSNoMerge.cs" />
     <Compile Include="FileHandling\Mods\SSMod.cs" />
     <Compile Include="FileHandling\SSURL.cs" />
+    <Compile Include="MonitoredFieldClass\MonitoredArrayModification.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredArrayValue.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredField.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredArray.cs" />

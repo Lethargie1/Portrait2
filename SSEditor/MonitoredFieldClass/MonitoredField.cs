@@ -29,6 +29,9 @@ namespace SSEditor.MonitoringField
         }
 
         abstract public JsonToken GetJsonEquivalent();
+        abstract public JsonToken GetJsonEquivalentNoOverwrite();
+        abstract public bool RequiresOverwrite();
+        abstract public bool IsModified();
         abstract public void Resolve();
         abstract protected void ResolveAdd(T file);
         abstract protected void ResolveRemove(T file);

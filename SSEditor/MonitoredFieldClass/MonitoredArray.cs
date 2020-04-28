@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public class MonitoredArray<T> : MonitoredField<T>  where T:SSJson
+    public class MonitoredArray<T> : MonitoredField<T> where T : SSJson
     {
         public ObservableCollection<JsonToken> ContentArray { get; } = new ObservableCollection<JsonToken>();
         public ObservableCollection<JsonToken> GetOriginalContent()
@@ -19,41 +19,32 @@ namespace SSEditor.MonitoringField
             ObservableCollection<JsonToken> result = new ObservableCollection<JsonToken>();
             if (FieldPath != null)
             {
-                var fileArrayPair = from f in Files
-                                    where f.Fields.ContainsKey(FieldPath) == true
-                                    select new { value = f.Fields[FieldPath], file = f };
-                result.Clear();
-                foreach (var pair in fileArrayPair)
-                {
-                    switch (pair.value)
-                    {
-                        case JsonArray jArray:
-                            foreach (JsonToken data in jArray.Values)
-                            {
-                                result.Add(data);
-                            }
-                            break;
-                        case JsonValue jValue:
-                            result.Add(jValue);
-                            break;
-                        default:
-                            throw new ArgumentException("Path leads to non array token");
-                    }
-                }
-
+                ResolveBase(result);
             }
             return result;
         }
 
+        private ObservableCollection<MonitoredArrayModification> ModificationCollection {get;} = new ObservableCollection<MonitoredArrayModification>();
 
-        public override void Resolve()
+        public void Modify(MonitoredArrayModification mod)
+        {
+            ContentArray.ApplyModification(mod);
+            ModificationCollection.AddArrayMod(mod);
+        }
+
+        public void Reset()
+        {
+            ModificationCollection.Clear();
+            this.Resolve();
+        }
+        private void ResolveBase(ObservableCollection<JsonToken> modified)
         {
             if (FieldPath != null)
             {
                 var fileArrayPair = from f in Files
-                                   where f.Fields.ContainsKey(FieldPath) == true
-                                   select new { value = f.Fields[FieldPath], file = f };
-                ContentArray.Clear();
+                                    where f.Fields.ContainsKey(FieldPath) == true
+                                    select new { value = f.Fields[FieldPath], file = f };
+                modified.Clear();
                 foreach (var pair in fileArrayPair)
                 {
                     switch (pair.value)
@@ -61,18 +52,27 @@ namespace SSEditor.MonitoringField
                         case JsonArray jArray:
                             foreach (JsonToken data in jArray.Values)
                             {
-                                ContentArray.Add(data);
+                                modified.Add(data);
                             }
                             break;
                         case JsonValue jValue:
-                            ContentArray.Add(jValue);
+                            modified.Add(jValue);
                             break;
                         default:
                             throw new ArgumentException("Path leads to non array token");
                     }
                 }
-                
             }
+        }
+        public override void Resolve()
+        {
+            if (FieldPath != null)
+            {
+                ResolveBase(ContentArray);
+                foreach (var mod in ModificationCollection)
+                    ContentArray.ApplyModification(mod);
+            }
+            
         }
         public override JsonToken GetJsonEquivalent()
         {
@@ -82,6 +82,36 @@ namespace SSEditor.MonitoringField
                 jArray.Values.Add(data);
             }
             return jArray; 
+        }
+        public override JsonToken GetJsonEquivalentNoOverwrite()
+        {
+            ObservableCollection<JsonToken> NoOverwriteContentArray = new ObservableCollection<JsonToken>();
+            var AddMod = from MonitoredArrayModification m in ModificationCollection
+                         where m.ModType == MonitoredArrayModification.ModificationType.Add
+                         select m;
+            foreach (MonitoredArrayModification m in AddMod)
+                NoOverwriteContentArray.ApplyModification(m);
+            JsonArray jArray = new JsonArray();
+            foreach (JsonToken data in NoOverwriteContentArray)
+            {
+                jArray.Values.Add(data);
+            }
+            if (jArray.Values.Count == 0)
+                return null;
+            return jArray;
+        }
+
+        public override bool IsModified()
+        {
+            return ModificationCollection.Count() > 0 ? true : false;
+        }
+
+        public override bool RequiresOverwrite()
+        {
+            var test = (from MonitoredArrayModification m in ModificationCollection
+                        where m.ModType != MonitoredArrayModification.ModificationType.Add
+                        select m).FirstOrDefault();
+            return test == null ? false : true;
         }
 
         protected override void ResolveAdd(T file)

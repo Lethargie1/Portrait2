@@ -42,6 +42,19 @@ namespace SSEditor.MonitoringField
         {
             return Content;
         }
+        public override JsonToken GetJsonEquivalentNoOverwrite()
+        {
+            return null;
+        }
+
+        public override bool IsModified()
+        {
+            return false;
+        }
+        public override bool RequiresOverwrite()
+        {
+            return false;
+        }
 
         protected override void ResolveAdd(T file)
         {

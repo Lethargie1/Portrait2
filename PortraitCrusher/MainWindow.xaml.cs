@@ -21,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SSEditor.MonitoringField;
 
 namespace PortraitCrusher
 {
@@ -163,11 +164,21 @@ namespace PortraitCrusher
             List<SSFactionGroup> factions = factionEditor.GetFaction();
             foreach (SSFactionGroup f in factions)
             {
-                f.MustOverwrite = true;
-                f.MalePortraits?.ContentArray.Clear();
-                f.MalePortraits?.ContentArray.Add(new JsonValue(MaleSelected.RelativeUrl.SSStyleString));
-                f.FemalePortraits?.ContentArray.Clear();
-                f.FemalePortraits?.ContentArray.Add(new JsonValue(FemaleSelected.RelativeUrl.SSStyleString));
+                
+                if (f.MalePortraits != null)
+                {
+                    //f.MustOverwrite = true;
+                    //f.MalePortraits.Modify(MonitoredArrayModification.GetClearModification());
+                    f.MalePortraits.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(MaleSelected.RelativeUrl.SSStyleString)));
+                }
+                //f.MalePortraits?.ContentArray.Clear();
+                //f.MalePortraits?.ContentArray.Add(new JsonValue(MaleSelected.RelativeUrl.SSStyleString));
+                if (f.FemalePortraits != null)
+                {
+                    //f.MustOverwrite = true;
+                    //f.FemalePortraits?.Modify(MonitoredArrayModification.GetClearModification());
+                    f.FemalePortraits?.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(FemaleSelected.RelativeUrl.SSStyleString)));
+                }
                 
             }
             factionEditor.ReplaceFactionToWrite();
