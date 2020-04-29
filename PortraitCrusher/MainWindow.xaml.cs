@@ -181,7 +181,7 @@ namespace PortraitCrusher
                 }
                 
             }
-            factionEditor.ReplaceFactionToWrite();
+            factionEditor.ReplaceFactionToWrite(target);
             MessageBoxButton Button = MessageBoxButton.OK;
             try
             {

@@ -37,7 +37,7 @@ namespace SSEditor
             test.ReadMods("lepg");
             test.PopulateMergedCollections();
 
-            FactionEditor factionEditor = new FactionEditor(test, target);
+            FactionEditor factionEditor = new FactionEditor(test);
             List<SSFactionGroup> factions = factionEditor.GetFaction();
             foreach (SSFactionGroup f in factions)
             {
@@ -47,7 +47,7 @@ namespace SSEditor
                     f.FemalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai2.png"));
                     f.MustOverwrite = true;
             }
-            factionEditor.ReplaceFactionToWrite();
+            factionEditor.ReplaceFactionToWrite(target);
             target.WriteMod();
         }
     }

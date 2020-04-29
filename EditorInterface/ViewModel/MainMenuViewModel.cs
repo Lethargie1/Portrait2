@@ -11,11 +11,13 @@ namespace EditorInterface.ViewModel
     {
         public DirectoryViewModel Directory { get; private set; }
         public FactionEditorViewModel FactionEditor { get; private set; }
+        public WriterViewModel WriterViewModel { get; private set; }
 
-        public MainMenuViewModel( DirectoryViewModel directoryvm, FactionEditorViewModel factionEditor)
+        public MainMenuViewModel( DirectoryViewModel directoryvm, FactionEditorViewModel factionEditor, WriterViewModel writerViewModel)
         {
             Directory = directoryvm;
             FactionEditor = factionEditor;
+            WriterViewModel = writerViewModel;
         }
         public void Activate(IScreen toActivate)
         {

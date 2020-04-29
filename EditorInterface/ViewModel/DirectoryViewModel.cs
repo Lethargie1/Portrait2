@@ -39,7 +39,7 @@ namespace EditorInterface.ViewModel
             Directory = directory;
             StarsectorUrl.ValidityChecker = StarsectorValidityChecker.CheckSSFolderValidity;
             
-            StarsectorUrl.Bind(x => x.UrlState, StarsectorUrl_StateChanged);
+            //StarsectorUrl.Bind(x => x.UrlState, StarsectorUrl_StateChanged);
             StarsectorUrl.Url = Properties.Settings.Default.StarsectorUrl;
         }
 
@@ -61,15 +61,15 @@ namespace EditorInterface.ViewModel
             Directory.ReadMods();
         }
 
-        private void StarsectorUrl_StateChanged(object sender, Stylet.PropertyChangedExtendedEventArgs<URLstate> e)
-        {
-                if (e.NewValue == URLstate.Acceptable)
-                {
-                    TargetModFolderUrl.ValidityChecker = StarsectorValidityChecker.GetCheckModFolderValidity(StarsectorUrl.Url);
-                    TargetModFolderUrl.Url = StarsectorUrl.Url + Properties.Settings.Default.PatchTarget;
-                }
+        //private void StarsectorUrl_StateChanged(object sender, Stylet.PropertyChangedExtendedEventArgs<URLstate> e)
+        //{
+        //        if (e.NewValue == URLstate.Acceptable)
+        //        {
+        //            TargetModFolderUrl.ValidityChecker = StarsectorValidityChecker.GetCheckModFolderValidity(StarsectorUrl.Url);
+        //            TargetModFolderUrl.Url = StarsectorUrl.Url + Properties.Settings.Default.PatchTarget;
+        //        }
 
-        }
+        //}
 
         public void HandleModChecking(SSMod sender) 
         {

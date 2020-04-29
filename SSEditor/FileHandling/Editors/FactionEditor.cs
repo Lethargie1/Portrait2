@@ -11,7 +11,6 @@ namespace SSEditor.FileHandling.Editors
     public class FactionEditor
     {
         public SSDirectory Directory { get; set; }
-        public SSModWritable Receiver { get; set; }
 
         public PortraitsRessources PortraitsRessource { get; set; }
         public List<SSFactionGroup> Factions { get; set; } = null;
@@ -21,10 +20,9 @@ namespace SSEditor.FileHandling.Editors
         /// <summary>Constructor for an editor modifying faction files of the directory</summary>
         /// <param name="directory">list of all groups made by currents mods</param>
         /// <param name="receiver">Mod target where modification are stored</param>
-        public FactionEditor(SSDirectory directory, SSModWritable receiver)
+        public FactionEditor(SSDirectory directory)
         {
             this.Directory = directory;
-            this.Receiver = receiver;
             this.GetFaction();
             this.PortraitsRessource = new PortraitsRessources(Directory);
         }
@@ -46,28 +44,28 @@ namespace SSEditor.FileHandling.Editors
         }
 
         /// <summary>Replace whatever faction are in the receiver by those of this editor</summary>
-        public void ReplaceFactionToWrite()
+        public void ReplaceFactionToWrite(SSModWritable receiver)
         {
             if (Factions == null)
                 throw new InvalidOperationException("no factions merged");
             
-            IEnumerable<SSFactionGroup> OldFactions = from ISSWritable w in Receiver.FileList
+            IEnumerable<SSFactionGroup> OldFactions = from ISSWritable w in receiver.FileList
                                                       where w is SSFactionGroup
                                                       select w as SSFactionGroup;
             foreach (SSFactionGroup f in OldFactions)
-                Receiver.FileList.Remove(f);
+                receiver.FileList.Remove(f);
             foreach (SSFactionGroup f in Factions)
-                Receiver.FileList.Add(f);
+                receiver.FileList.Add(f);
 
             SSRelativeUrl settingUrl = new SSRelativeUrl("data\\config\\settings.json");
-            SSJson SettingFile = (from ISSWritable w in Receiver.FileList
+            SSJson SettingFile = (from ISSWritable w in receiver.FileList
                                 where w.RelativeUrl == settingUrl
                                 select w as SSJson).SingleOrDefault();
             if (SettingFile == null)
             {
-                SettingFile = new SSJson(Receiver, Receiver.ModUrl + settingUrl);
+                SettingFile = new SSJson(receiver, receiver.ModUrl + settingUrl);
                 SettingFile.JsonContent = new JsonObject();
-                Receiver.FileList.Add(SettingFile);
+                receiver.FileList.Add(SettingFile);
             }
 
 
@@ -80,7 +78,7 @@ namespace SSEditor.FileHandling.Editors
                                                  where f.WillCreateFile == true
                                                  select f;
             IEnumerable<string> UsedMod = writed.Select(f => f.MonitoredContent).SelectMany(m => m.Files).Select(f => f.SourceMod).Distinct().Select(mod => mod.ModName);
-            JsonValue OldDesc = Receiver.ModInfo.Fields[".description"] as JsonValue;
+            JsonValue OldDesc = receiver.ModInfo.Fields[".description"] as JsonValue;
             string old = OldDesc.ToString();
             OldDesc.SetContent(old + " Faction were modified using mods: " + string.Join(", ", UsedMod));
         }
@@ -89,16 +87,14 @@ namespace SSEditor.FileHandling.Editors
     public class FactionEditorFactory
     {
         private SSDirectory Directory { get; set; }
-        private SSModWritable Receiver { get; set; }
-        public FactionEditorFactory(SSDirectory directory, SSModWritable receiver)
+        public FactionEditorFactory(SSDirectory directory)
         {
             Directory = directory;
-            Receiver = receiver;
         }
 
         public FactionEditor CreateFactionEditor()
         {
-            return new FactionEditor(Directory, Receiver);
+            return new FactionEditor(Directory);
         }
     }
 }
