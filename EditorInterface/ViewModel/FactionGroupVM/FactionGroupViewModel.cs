@@ -18,6 +18,7 @@ namespace EditorInterface.ViewModel
         {
             FactionGroup = factionGroup;
             PortraitsRessource = portraitsRessource;
+            Items.Add(new FactionGroupPortraitViewModel(PortraitsRessource) { DisplayName = "Portraits" });
             ActivateItem(new FactionGroupValueViewModel(FactionGroup) {DisplayName = "Values" });
         }
     }

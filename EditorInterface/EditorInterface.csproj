@@ -85,6 +85,9 @@
     <Compile Include="View\FactionEditorView.xaml.cs">
       <DependentUpon>FactionEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\FactionGroupV\FactionGroupPortraitView.xaml.cs">
+      <DependentUpon>FactionGroupPortraitView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FactionGroupV\FactionGroupTokenView.xaml.cs">
       <DependentUpon>FactionGroupTokenView.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FactionEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FactionGroupV\FactionGroupPortraitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
