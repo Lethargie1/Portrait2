@@ -3,9 +3,11 @@ using SSEditor.FileHandling;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace SSEditor.Ressources
 {
@@ -71,4 +73,21 @@ namespace SSEditor.Ressources
         }
     }
 
+    [ValueConversion(typeof(JsonValue), typeof(Portraits))]
+    public class JsonRelativeToPortraits : IMultiValueConverter
+    {
+        public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
+        {
+            JsonValue source = (JsonValue)value[0];
+            PortraitsRessources portraitsRessources = (PortraitsRessources)value[1];
+            Portraits result;
+            portraitsRessources.RessourceCorrespondance.TryGetValue(source.ToString().Replace('/', '\\'), out result);
+            return result;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

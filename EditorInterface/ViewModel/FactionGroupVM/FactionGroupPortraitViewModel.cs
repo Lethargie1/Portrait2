@@ -1,7 +1,11 @@
-﻿using SSEditor.Ressources;
+﻿using FVJson;
+using SSEditor.FileHandling;
+using SSEditor.MonitoringField;
+using SSEditor.Ressources;
 using Stylet;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +14,9 @@ namespace EditorInterface.ViewModel
 {
     public class FactionGroupPortraitViewModel : Screen
     {
-        private PortraitsRessources PortraitsRessources { get; set; }
+        public PortraitsRessources PortraitsRessources { get; private set; }
+        public MonitoredArray<SSFaction> TargetMonitor { get; private set; }
+        public ObservableCollection<JsonToken> MonitoredArray { get => TargetMonitor?.ContentArray; }
         public List<Portraits> AvailablePortraits
         {
             get
@@ -18,8 +24,9 @@ namespace EditorInterface.ViewModel
                 return PortraitsRessources.RessourceCorrespondance.Select(kv => kv.Value).ToList();
             }
         }
-        public FactionGroupPortraitViewModel(PortraitsRessources portraitsRessources)
+        public FactionGroupPortraitViewModel(MonitoredArray<SSFaction> targetMonitor, PortraitsRessources portraitsRessources)
         {
+            TargetMonitor = targetMonitor;
             PortraitsRessources = portraitsRessources;
 
         }

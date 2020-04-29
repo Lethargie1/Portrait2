@@ -6,7 +6,16 @@
              xmlns:local="clr-namespace:EditorInterface.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
         <Grid Margin="7">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -29,4 +38,5 @@
             <TextBlock Text="{Binding ShipNamePrefix}" Grid.Row="3" Grid.Column="1"/>
         </Grid>
     </Border>
+    </Grid>
 </UserControl>

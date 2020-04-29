@@ -4,10 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EditorInterface.View"
+             xmlns:r="clr-namespace:SSEditor.Ressources;assembly=SSEditor"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-        <Grid Background="Transparent">
+    <UserControl.Resources>
+        <r:JsonRelativeToPortraits x:Key="JsonRelativeToPortraits" />
+    </UserControl.Resources>
+
+    <Grid x:Name="Base" Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -16,7 +20,31 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
-        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="2">
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" >
+            <ListBox   Margin="7,7,7,7" SelectedIndex="0"  Background="Transparent" ItemsSource="{Binding MonitoredArray}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
+                            <StackPanel.DataContext>
+                                <MultiBinding Converter="{StaticResource JsonRelativeToPortraits}">
+                                    <MultiBinding.Bindings>
+                                        <Binding />
+                                        <Binding ElementName="Base" Path="DataContext.PortraitsRessources"/>
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+                            </StackPanel.DataContext>
+                            <Image Source="{Binding FullPath}" Height="60"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" >
             <ListBox  ItemsSource="{Binding Path=AvailablePortraits}"  Margin="7,7,7,7" SelectedIndex="0"  Background="Transparent">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
