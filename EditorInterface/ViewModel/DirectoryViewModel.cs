@@ -43,13 +43,16 @@ namespace EditorInterface.ViewModel
             StarsectorUrl.Url = Properties.Settings.Default.StarsectorUrl;
         }
 
-        public bool CanExploreDirectory()
-        {
-            if (StarsectorUrl.UrlState == URLstate.Acceptable && TargetModFolderUrl.UrlState == URLstate.Acceptable)
-                return true;
-            else
-                return false;
-        }
+        //public bool CanExploreDirectory
+        //{
+        //    get
+        //    {
+        //        if (StarsectorUrl.UrlState == URLstate.Acceptable && TargetModFolderUrl.UrlState == URLstate.Acceptable)
+        //            return true;
+        //        else
+        //            return false;
+        //    }
+        //}
         public void ExploreDirectory()
         {
             Properties.Settings.Default.StarsectorUrl = StarsectorUrl.Url;

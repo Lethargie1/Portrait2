@@ -13,6 +13,8 @@ namespace SSEditor.Ressources
         public string SourceModName { get => BinarySource.SourceMod.ModName; }
         public string FullPath { get => (BinarySource.SourceMod.ModUrl + BinarySource.RelativeUrl).ToString(); }
 
+        public SSRelativeUrl RelativeUrl { get => BinarySource.RelativeUrl; }
+
         public Portraits(ISSGenericFile binarySource)
         {
             BinarySource = binarySource;

@@ -40,6 +40,11 @@ namespace EditorInterface.ViewModel
                 NotifyOfPropertyChange(nameof(SelectedFactionViewModel));
             }
         }
+        public override void RequestClose(bool? dialogResult = null)
+        {
+            base.RequestClose(dialogResult);
+        }
+
 
     }
     [ValueConversion(typeof(SSFactionGroup), typeof(FactionGroupTokenViewModel))]

@@ -24,11 +24,31 @@ namespace EditorInterface.ViewModel
                 return PortraitsRessources.RessourceCorrespondance.Select(kv => kv.Value).ToList();
             }
         }
+
+        private Portraits _SelectedPortraitRessource;
+        public Portraits SelectedPortraitRessource { get => _SelectedPortraitRessource; set { _SelectedPortraitRessource = value; NotifyOfPropertyChange(nameof(CanAddPortrait)); } }
+
+        public JsonToken SelectedPortraitArray { get; set; }
         public FactionGroupPortraitViewModel(MonitoredArray<SSFaction> targetMonitor, PortraitsRessources portraitsRessources)
         {
             TargetMonitor = targetMonitor;
             PortraitsRessources = portraitsRessources;
 
+        }
+
+        public bool CanAddPortrait
+        {
+            get { return SelectedPortraitRessource != null ? true : false; }
+        }
+
+        public void AddPortrait()
+        {
+            TargetMonitor.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(SelectedPortraitRessource.RelativeUrl.SSStyleString)));
+        }
+
+        public void ClearPortrait()
+        {
+            TargetMonitor?.Modify(MonitoredArrayModification.GetClearModification());
         }
     }
 }

@@ -36,7 +36,9 @@ namespace SSEditor.FileHandling.Editors
                         where kv.Value is SSFactionGroup
                         select kv.Value).Select(g =>
                         {
-                            (g as SSFactionGroup).ExtractMonitoredContent();
+                            SSFactionGroup f = (SSFactionGroup)g;
+                            if (f.MonitoredContent == null)
+                                f.ExtractMonitoredContent();
                             return g as SSFactionGroup;
                         }).ToList();
             
