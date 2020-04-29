@@ -27,6 +27,19 @@ namespace EditorInterface.ViewModel
             FactionEditor.GetFaction();
             NotifyOfPropertyChange(nameof(Factions));
         }
+
+        public FactionGroupViewModel SelectedFactionViewModel { get => new FactionGroupViewModel(SelectedFaction); }
+        SSFactionGroup _SelectedFaction;
+        public SSFactionGroup SelectedFaction
+        {
+            get => this._SelectedFaction;
+            set
+            {
+                this._SelectedFaction = value;
+                NotifyOfPropertyChange(nameof(SelectedFactionViewModel));
+            }
+        }
+
     }
     [ValueConversion(typeof(SSFactionGroup), typeof(FactionGroupTokenViewModel))]
     public class FactionToFactionVMConverter : IValueConverter

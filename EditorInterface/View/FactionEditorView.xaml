@@ -21,7 +21,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Vertical">
             <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Height="400">
-                <ListBox  ItemsSource="{Binding Factions}" HorizontalContentAlignment="Stretch" Background="Transparent">
+                <ListBox  ItemsSource="{Binding Factions}" SelectedItem="{Binding SelectedFaction}" SelectedIndex="0"  HorizontalContentAlignment="Stretch" Background="Transparent">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <!--<DockPanel LastChildFill="False">
@@ -34,5 +34,6 @@
             </Border>
             <Button Content="Go back" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
         </StackPanel>
+        <ContentControl s:View.Model="{Binding SelectedFactionViewModel}" Margin="7" Grid.Column="1"/>
     </Grid>
 </UserControl>

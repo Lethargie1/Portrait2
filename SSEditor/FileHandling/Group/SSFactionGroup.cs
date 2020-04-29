@@ -12,17 +12,24 @@ namespace SSEditor.FileHandling
 {
     public class SSFactionGroup : SSJsonGroup<SSFaction>
     {
+        public MonitoredValue<SSFaction> Id { get; private set; } = null;
         public MonitoredValue<SSFaction> DisplayName { get; private set; } = null;
+        public MonitoredValue<SSFaction> DisplayNameWithArticle { get; private set; } = null;
+        public MonitoredValue<SSFaction> ShipNamePrefix { get; private set; } = null;
         public MonitoredArray<SSFaction> MalePortraits { get; private set; } = null;
         public MonitoredArray<SSFaction> FemalePortraits { get; private set; } = null;
         public MonitoredArrayValue<SSFaction> FactionColor { get; private set; } = null;
+        
         protected override void AttachDefinedAttribute()
         {
             DisplayName = AttachOneAttribute<MonitoredValue<SSFaction>>(".displayName");
             MalePortraits = AttachOneAttribute<MonitoredArray<SSFaction>>(".portraits.standard_male");
             FemalePortraits = AttachOneAttribute<MonitoredArray<SSFaction>>(".portraits.standard_female");
             FactionColor = AttachOneAttribute<MonitoredArrayValue<SSFaction>>(".color");
-
+            Id = AttachOneAttribute<MonitoredValue<SSFaction>>(".id");
+            DisplayName = AttachOneAttribute<MonitoredValue<SSFaction>>(".displayName");
+            DisplayNameWithArticle = AttachOneAttribute<MonitoredValue<SSFaction>>(".displayNameWithArticle");
+            ShipNamePrefix = AttachOneAttribute<MonitoredValue<SSFaction>>(".shipNamePrefix");
         }
         private T AttachOneAttribute<T>(string path) where T:MonitoredField<SSFaction>
         {

@@ -1,0 +1,21 @@
+﻿using SSEditor.FileHandling;
+using Stylet;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EditorInterface.ViewModel
+{
+    public class FactionGroupViewModel : Conductor<Screen>.Collection.OneActive
+    {
+        public SSFactionGroup FactionGroup{get;set;}
+
+        public FactionGroupViewModel(SSFactionGroup factionGroup)
+        {
+            FactionGroup = factionGroup;
+            ActivateItem(new FactionGroupValueViewModel(FactionGroup) {DisplayName = "Values" });
+        }
+    }
+}

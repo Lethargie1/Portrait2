@@ -69,7 +69,9 @@
     <Compile Include="ViewModel\DirectoryViewModel.cs" />
     <Compile Include="ViewModel\EditableUrlViewModel.cs" />
     <Compile Include="ViewModel\FactionEditorViewModel.cs" />
-    <Compile Include="ViewModel\FactionGroupTokenViewModel.cs" />
+    <Compile Include="ViewModel\FactionGroupVM\FactionGroupTokenViewModel.cs" />
+    <Compile Include="ViewModel\FactionGroupVM\FactionGroupValueViewModel.cs" />
+    <Compile Include="ViewModel\FactionGroupVM\FactionGroupViewModel.cs" />
     <Compile Include="ViewModel\MainMenuViewModel.cs" />
     <Compile Include="ViewModel\ModDetailedViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
@@ -82,8 +84,14 @@
     <Compile Include="View\FactionEditorView.xaml.cs">
       <DependentUpon>FactionEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FactionGroupTokenView.xaml.cs">
+    <Compile Include="View\FactionGroupV\FactionGroupTokenView.xaml.cs">
       <DependentUpon>FactionGroupTokenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FactionGroupV\FactionGroupValueView.xaml.cs">
+      <DependentUpon>FactionGroupValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FactionGroupV\FactionGroupView.xaml.cs">
+      <DependentUpon>FactionGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
@@ -114,7 +122,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FactionGroupTokenView.xaml">
+    <Page Include="View\FactionGroupV\FactionGroupTokenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FactionGroupV\FactionGroupValueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FactionGroupV\FactionGroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
