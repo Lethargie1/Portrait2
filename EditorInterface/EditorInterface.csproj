@@ -69,6 +69,7 @@
     <Compile Include="ViewModel\DirectoryViewModel.cs" />
     <Compile Include="ViewModel\EditableUrlViewModel.cs" />
     <Compile Include="ViewModel\FactionEditorViewModel.cs" />
+    <Compile Include="ViewModel\FactionGroupVM\FactionGroupPortraitViewModel.cs" />
     <Compile Include="ViewModel\FactionGroupVM\FactionGroupTokenViewModel.cs" />
     <Compile Include="ViewModel\FactionGroupVM\FactionGroupValueViewModel.cs" />
     <Compile Include="ViewModel\FactionGroupVM\FactionGroupViewModel.cs" />

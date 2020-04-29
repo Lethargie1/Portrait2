@@ -1,4 +1,5 @@
 ﻿using FVJson;
+using SSEditor.Ressources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace SSEditor.FileHandling.Editors
         public SSDirectory Directory { get; set; }
         public SSModWritable Receiver { get; set; }
 
+        public PortraitsRessources PortraitsRessource { get; set; }
         public List<SSFactionGroup> Factions { get; set; } = null;
         public List<JsonValue> Portraits { get; set; }
 
@@ -23,7 +25,8 @@ namespace SSEditor.FileHandling.Editors
         {
             this.Directory = directory;
             this.Receiver = receiver;
-
+            this.GetFaction();
+            this.PortraitsRessource = new PortraitsRessources(Directory);
         }
 
         /// <summary>Extract faction group from the directory</summary>
@@ -66,7 +69,7 @@ namespace SSEditor.FileHandling.Editors
             }
 
 
-            Portraits = new List<JsonValue>(Ressources.Portraits.GetOriginalPortraits(Factions));
+            Portraits = new List<JsonValue>(Ressources.PortraitsRessources.GetOriginalPortraits(Factions));
             JsonObject finalPortraits = new JsonObject(Portraits, "portraits");
             SettingFile.JsonContent.AddSubField(".graphics.portraits", finalPortraits);
 
@@ -78,6 +81,22 @@ namespace SSEditor.FileHandling.Editors
             JsonValue OldDesc = Receiver.ModInfo.Fields[".description"] as JsonValue;
             string old = OldDesc.ToString();
             OldDesc.SetContent(old + " Faction were modified using mods: " + string.Join(", ", UsedMod));
+        }
+    }
+
+    public class FactionEditorFactory
+    {
+        private SSDirectory Directory { get; set; }
+        private SSModWritable Receiver { get; set; }
+        public FactionEditorFactory(SSDirectory directory, SSModWritable receiver)
+        {
+            Directory = directory;
+            Receiver = receiver;
+        }
+
+        public FactionEditor CreateFactionEditor()
+        {
+            return new FactionEditor(Directory, Receiver);
         }
     }
 }

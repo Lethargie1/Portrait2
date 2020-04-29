@@ -1,4 +1,5 @@
 ﻿using SSEditor.FileHandling;
+using SSEditor.Ressources;
 using Stylet;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace EditorInterface.ViewModel
     public class FactionGroupViewModel : Conductor<Screen>.Collection.OneActive
     {
         public SSFactionGroup FactionGroup{get;set;}
+        public PortraitsRessources PortraitsRessource { get; private set; }
 
-        public FactionGroupViewModel(SSFactionGroup factionGroup)
+        public FactionGroupViewModel(SSFactionGroup factionGroup, PortraitsRessources portraitsRessource)
         {
             FactionGroup = factionGroup;
+            PortraitsRessource = portraitsRessource;
             ActivateItem(new FactionGroupValueViewModel(FactionGroup) {DisplayName = "Values" });
         }
     }

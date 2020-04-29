@@ -18,7 +18,8 @@ namespace EditorInterface
             base.ConfigureIoC(builder);
             builder.Bind<SSDirectory>().ToInstance(new SSDirectory());
             builder.Bind<SSModWritable>().ToInstance(new SSModWritable());
-            builder.Bind<FactionEditor>().ToSelf();
+            //builder.Bind<FactionEditor>().ToSelf();
+            builder.Bind<FactionEditorFactory>().ToSelf();
         }
     }
 }

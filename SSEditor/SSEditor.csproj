@@ -89,6 +89,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ressources\Portraits.cs" />
+    <Compile Include="Ressources\PortraitsRessources.cs" />
     <Compile Include="Ressources\SSRessource.cs" />
   </ItemGroup>
   <ItemGroup>

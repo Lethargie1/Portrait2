@@ -1,5 +1,4 @@
-﻿using FVJson;
-using SSEditor.FileHandling;
+﻿using SSEditor.FileHandling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +9,13 @@ namespace SSEditor.Ressources
 {
     public class Portraits
     {
-        public static IEnumerable<JsonValue> GetOriginalPortraits(IEnumerable<SSFactionGroup> factionGroups)
+        private ISSGenericFile BinarySource { get; set; }
+        public string SourceModName { get => BinarySource.SourceMod.ModName; }
+        public string FullPath { get => (BinarySource.SourceMod.ModUrl + BinarySource.RelativeUrl).ToString(); }
+
+        public Portraits(ISSGenericFile binarySource)
         {
-            List<JsonToken> Original = factionGroups.SelectMany(g =>
-            {
-                List<JsonToken> result = new List<JsonToken>();
-                if (g.MalePortraits != null)
-                    result.AddRange(g.MalePortraits.GetOriginalContent());
-                if (g.FemalePortraits != null)
-                    result.AddRange(g.FemalePortraits?.GetOriginalContent());
-                return result;
-            }).Distinct().ToList();
-            return Original.Cast<JsonValue>();
+            BinarySource = binarySource;
         }
     }
 }

@@ -272,7 +272,7 @@ namespace PortraitCrusher
                     {
                         SSBinaryGroup oldMale = MaleView.CurrentItem as SSBinaryGroup;
                         SSBinaryGroup oldFemale = FemaleView.CurrentItem as SSBinaryGroup;
-                        IEnumerable<JsonValue> portraits = SSEditor.Ressources.Portraits.GetOriginalPortraits(factionEditor.Factions);
+                        IEnumerable<JsonValue> portraits = SSEditor.Ressources.PortraitsRessources.GetOriginalPortraits(factionEditor.Factions);
                         AvailablePortraits.Clear();
                         foreach (JsonValue j in portraits)
                         {

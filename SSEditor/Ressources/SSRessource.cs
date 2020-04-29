@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.Ressources
 {
-    public static class SSRessource
+    public class SSRessource
     {
 
         /// <summary>From a list of file implementing the generic file interface a relative reference finds a ressource.</summary>

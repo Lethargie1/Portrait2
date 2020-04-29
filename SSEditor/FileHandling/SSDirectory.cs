@@ -13,7 +13,7 @@ namespace SSEditor.FileHandling
 {
     public class SSDirectory
     {
-
+        public event EventHandler Repopulated;
         public Dictionary<string, ISSGroup> GroupedFiles { get; private set; } = new Dictionary<string, ISSGroup>();
         public ObservableCollection<SSMod> Mods { get; private set; } = new ObservableCollection<SSMod>();
         public SSBaseUrl InstallationUrl { get; set; } = null;
@@ -118,10 +118,18 @@ namespace SSEditor.FileHandling
 
                 }
             }
+            OnRaiseRepopulated();
         }
 
 
-
+        protected void OnRaiseRepopulated()
+        {
+            // Make a temporary copy of the event to avoid possibility of
+            // a race condition if the last subscriber unsubscribes
+            // immediately after the null check and before the event is raised.
+            EventHandler handler = Repopulated;
+            handler?.Invoke(this, null);
+        }
 
     }
 
