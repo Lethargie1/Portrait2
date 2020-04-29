@@ -6,5 +6,5 @@
              xmlns:local="clr-namespace:EditorInterface.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <TabControl Style="{StaticResource StyletConductorTabControl}" Background="Transparent"/>
+    <TabControl Style="{StaticResource StyletConductorTabControl}" TabStripPlacement="Top" Background="Transparent"/>
 </UserControl>

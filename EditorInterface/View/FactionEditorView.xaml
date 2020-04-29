@@ -34,6 +34,6 @@
             </Border>
             <Button Content="Go back" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
         </StackPanel>
-        <ContentControl s:View.Model="{Binding SelectedFactionViewModel}" Margin="7" Grid.Column="1"/>
+        <ContentControl s:View.Model="{Binding SelectedFactionViewModel}" Margin="7" Grid.Column="1" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>
