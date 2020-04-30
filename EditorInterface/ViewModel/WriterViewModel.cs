@@ -8,6 +8,7 @@ using Stylet;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -124,5 +125,19 @@ namespace EditorInterface.ViewModel
         }
     }
 
+    [ValueConversion(typeof(ISSWritable), typeof(string))]
+    public class ISSWritableToDescriptiveString : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            ISSWritable writ = (ISSWritable)value;
+            return writ.RelativeUrl.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
 }
