@@ -19,21 +19,28 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical">
-            <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Height="400">
-                <ListBox  ItemsSource="{Binding Factions}" SelectedItem="{Binding SelectedFaction}" SelectedIndex="0"  HorizontalContentAlignment="Stretch" Background="Transparent" Margin="7">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <!--<DockPanel LastChildFill="False">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" >
+            <ListBox  ItemsSource="{Binding Factions}" SelectedItem="{Binding SelectedFaction}" SelectedIndex="0"  HorizontalContentAlignment="Stretch" Background="Transparent" Margin="7">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!--<DockPanel LastChildFill="False">
                                 <TextBlock DockPanel.Dock="Left" Text="{Binding}"/>
                             </DockPanel>-->
-                            <ContentControl s:View.Model="{Binding Converter={StaticResource FactionToFactionVMConverter}}" Margin="7" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Border>
-            <Button Content="Go back" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
-        </StackPanel>
-        <ContentControl s:View.Model="{Binding SelectedFactionViewModel}" Margin="0" Grid.Column="1" Grid.ColumnSpan="2"/>
+                        <ContentControl s:View.Model="{Binding Converter={StaticResource FactionToFactionVMConverter}}" Margin="7" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="1">
+            <WrapPanel>
+                <Button Content="Go back" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
+            </WrapPanel>
+        </Border>
+        <ContentControl s:View.Model="{Binding SelectedFactionViewModel}" Margin="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>

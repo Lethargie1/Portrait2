@@ -15,26 +15,33 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
-        <ContentControl s:View.Model="{Binding TargetModFolderUrl}"  Margin="7" Grid.Column="1"/>
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="30"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="UrlBox" Content="Select Path" Command="{s:Action SelectNewUrl}" Margin="7" Grid.Row="1"></Button>
-            <Label Content="_Patch folder path" Target="{Binding ElementName=UrlBox}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0" BorderThickness="0" BorderBrush="White"/>
-            <TextBox   Style="{StaticResource ValidatingTextBox}" Text="{Binding TargetFolder, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
-        </Grid>
-        <WrapPanel Grid.Row="1">
-            <Button Content="WriteMod" Command="{s:Action WriteToDisk}" Margin="3,3,3,3"></Button>
-            <Button Content="Cancel" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
-        </WrapPanel>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch">
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="UrlBox" Content="Select Path" Command="{s:Action SelectNewUrl}" Margin="7" Grid.Row="1"></Button>
+                <Label Content="_Patch folder path" Target="{Binding ElementName=UrlBox}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0" BorderThickness="0" BorderBrush="White"/>
+                <TextBox   Style="{StaticResource ValidatingTextBox}" Text="{Binding TargetFolder, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
+            </Grid>
+        </Border>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="3">
+            <WrapPanel>
+                <Button Content="WriteMod" Command="{s:Action WriteToDisk}" Margin="3,3,3,3"></Button>
+                <Button Content="Cancel" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
+            </WrapPanel>
+        </Border>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1">
+        </Border>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="2">
+        </Border>
     </Grid>
 </UserControl>
