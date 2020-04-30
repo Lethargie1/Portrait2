@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\JsonArrayToColorConverter.cs" />
     <Compile Include="FileHandling\Editors\FactionEditor.cs" />
     <Compile Include="FileHandling\Group\ISSGroupInterface.cs" />
     <Compile Include="FileHandling\Group\SSBinaryGroup.cs" />
