@@ -14,22 +14,26 @@ namespace EditorInterface.ViewModel
 {
     public class FactionEditorViewModel : Screen
     {
+        private Func<PortraitsRessourcesViewModel> PortraitsRessourcesVMFactory { get; set; }
         private FactionEditorFactory FactionEditorFactory { get; set; }
         public FactionEditor FactionEditor { get; private set; }
+        public PortraitsRessourcesViewModel PortraitsRessourcesVM { get; private set; }
         public List<SSFactionGroup> Factions { get => FactionEditor.Factions; }
-        public FactionEditorViewModel(FactionEditorFactory factionEditorFactory)
+        public FactionEditorViewModel(FactionEditorFactory factionEditorFactory, Func<PortraitsRessourcesViewModel> portraitsRessourcesViewModelFactory)
         {
             FactionEditorFactory = factionEditorFactory;
+            PortraitsRessourcesVMFactory = portraitsRessourcesViewModelFactory;
         }
 
         protected override void OnActivate() 
         {
             FactionEditor = FactionEditorFactory.CreateFactionEditor();
+            PortraitsRessourcesVM = PortraitsRessourcesVMFactory();
             //FactionEditor.GetFaction();
             //NotifyOfPropertyChange(nameof(Factions));
         }
 
-        public FactionGroupViewModel SelectedFactionViewModel { get => new FactionGroupViewModel(SelectedFaction, FactionEditor.PortraitsRessource); }
+        public FactionGroupViewModel SelectedFactionViewModel { get => new FactionGroupViewModel(SelectedFaction, PortraitsRessourcesVM); }
         SSFactionGroup _SelectedFaction;
         public SSFactionGroup SelectedFaction
         {

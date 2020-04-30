@@ -75,6 +75,7 @@
     <Compile Include="ViewModel\FactionGroupVM\FactionGroupViewModel.cs" />
     <Compile Include="ViewModel\MainMenuViewModel.cs" />
     <Compile Include="ViewModel\ModDetailedViewModel.cs" />
+    <Compile Include="ViewModel\RessourcesVm\PortraitsRessourcesViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="ViewModel\WriterViewModel.cs" />
     <Compile Include="View\DirectoryView.xaml.cs">
@@ -103,6 +104,9 @@
     </Compile>
     <Compile Include="View\ModDetailedView.xaml.cs">
       <DependentUpon>ModDetailedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RessourcesV\PortraitsRessourcesView.xaml.cs">
+      <DependentUpon>PortraitsRessourcesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -151,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ModDetailedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RessourcesV\PortraitsRessourcesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

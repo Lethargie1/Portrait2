@@ -1,6 +1,7 @@
 ﻿using EditorInterface.ViewModel;
 using SSEditor.FileHandling;
 using SSEditor.FileHandling.Editors;
+using SSEditor.Ressources;
 using Stylet;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace EditorInterface
             builder.Bind<SSModWritable>().ToInstance(new SSModWritable());
             //builder.Bind<FactionEditor>().ToSelf();
             builder.Bind<FactionEditorFactory>().ToSelf();
+            builder.Bind<PortraitsRessources>().ToSelf();
+            builder.Bind<PortraitsRessourcesViewModel>().ToSelf();
         }
     }
 }

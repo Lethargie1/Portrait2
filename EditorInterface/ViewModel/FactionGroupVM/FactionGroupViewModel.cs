@@ -14,13 +14,14 @@ namespace EditorInterface.ViewModel
         public SSFactionGroup FactionGroup{get;set;}
         public PortraitsRessources PortraitsRessource { get; private set; }
 
-        public FactionGroupViewModel(SSFactionGroup factionGroup, PortraitsRessources portraitsRessource)
+        public FactionGroupViewModel(SSFactionGroup factionGroup, PortraitsRessourcesViewModel portraitsRessourceVM)
         {
             FactionGroup = factionGroup;
-            PortraitsRessource = portraitsRessource;
-            Items.Add(new FactionGroupPortraitViewModel(FactionGroup?.FemalePortraits, PortraitsRessource) { DisplayName = "Female portraits" });
-            Items.Add(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessource) { DisplayName = "Male portraits" });
-            ActivateItem(new FactionGroupValueViewModel(FactionGroup) {DisplayName = "Values" });
+            //PortraitsRessource = portraitsRessource;
+            ActivateItem(new FactionGroupValueViewModel(FactionGroup) { DisplayName = "Values" });
+            ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.FemalePortraits, portraitsRessourceVM) { DisplayName = "Female portraits" });
+            ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, portraitsRessourceVM) { DisplayName = "Male portraits" });
+            
         }
     }
 }

@@ -35,7 +35,7 @@
                                 <MultiBinding Converter="{StaticResource JsonRelativeToPortraits}">
                                     <MultiBinding.Bindings>
                                         <Binding />
-                                        <Binding ElementName="Base" Path="DataContext.PortraitsRessources"/>
+                                        <Binding ElementName="Base" Path="DataContext.PortraitsRessourcesVM.PortraitsRessources"/>
                                     </MultiBinding.Bindings>
                                 </MultiBinding>
                             </StackPanel.DataContext>
@@ -45,22 +45,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Border>
-        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" >
-            <ListBox  ItemsSource="{Binding Path=AvailablePortraits}"  Margin="7,7,7,7" SelectedIndex="0"  Background="Transparent" SelectedItem="{Binding SelectedPortraitRessource}">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
-                            <Image Source="{Binding FullPath}" Height="60"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Border>
+        <ContentControl s:View.Model="{Binding ActiveItem}" Margin="0" Grid.Column="1" />
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1">
             <WrapPanel>
                 <Button Content="Add Portrait" Command="{s:Action AddPortrait}" Margin="3,3,3,3"></Button>
