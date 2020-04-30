@@ -1,4 +1,8 @@
-﻿using SSEditor.FileHandling;
+﻿using EditorInterface.Properties;
+using EditorInterface.Validation;
+using FluentValidation;
+using Ookii.Dialogs.Wpf;
+using SSEditor.FileHandling;
 using SSEditor.FileHandling.Editors;
 using Stylet;
 using System;
@@ -16,7 +20,10 @@ namespace EditorInterface.ViewModel
     public class WriterViewModel : Screen
     {
         private readonly IWindowManager windowManager;
-        public EditableUrlViewModel TargetModFolderUrl { get; set; } = new EditableUrlViewModel("Folder where patch will be written");
+
+        private string _TargetFolder;
+        public string TargetFolder { get => _TargetFolder; set { SetAndNotify(ref _TargetFolder, value);} }
+
 
         public SSDirectory Directory { get; private set; }
 
@@ -24,40 +31,72 @@ namespace EditorInterface.ViewModel
 
         private FactionEditorFactory FactionEditorFactory { get; set; }
 
-        public WriterViewModel(SSDirectory directory, FactionEditorFactory factionEditorFactory, IWindowManager windowManager)
+        public WriterViewModel(SSDirectory directory, FactionEditorFactory factionEditorFactory, IWindowManager windowManager, IModelValidator<WriterViewModel> validator) : base(validator)
         {
             Directory = directory;
             FactionEditorFactory = factionEditorFactory;
             this.windowManager = windowManager;
+            Validate();
+        }
+
+        protected override void OnActivate()
+        {
+            if (Directory.InstallationUrl !=null)
+            {
+                if (TargetFolder == null)
+                {
+                    SSBaseLinkUrl url= (Directory.InstallationUrl + new SSLinkUrl(Settings.Default.PatchTarget));
+                    TargetFolder = url.ToString();
+                }
+            }
+            base.OnActivate();
+        }
+
+        public void SelectNewUrl()
+        {
+            VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
+            if (OpenRootFolder.ShowDialog() == true)
+            {
+                this.TargetFolder = OpenRootFolder.SelectedPath;
+
+            }
+            return;
         }
 
         public void WriteToDisk()
         {
-            var match = Regex.Match(TargetModFolderUrl.Url, @"(?:" + Directory.InstallationUrl.ToString().Replace(@"\", @"\\") + @"\\)(.*)");
-            string linkPart = match.Groups[1].ToString();
-            Receiver.ModUrl = Directory.InstallationUrl + new SSLinkUrl(linkPart);
+            Receiver.ModUrl = new SSBaseLinkUrl() { Base = TargetFolder, Link = "" };
 
             var factionEditor = FactionEditorFactory.CreateFactionEditor();
             factionEditor.ReplaceFactionToWrite(Receiver);
 
-            //MessageBoxButton Button = MessageBoxButton.OK;
             try
             {  
                 Receiver.WriteMod();
                 windowManager.ShowMessageBox("Patch created successfully, do not forget to activate it before starting a new game");
-                //MessageBox.Show(this, "Patch created successfully, do not forget to activate it before starting a new game", "success", Button);
             }
             catch (IOException)
             {
                 windowManager.ShowMessageBox("Target directory is not accesibles (Is it open in the Windows explorer?)");
-                //MessageBox.Show(this, "Target directory is not accesibles (Is it open in the Windows explorer?)", "Access error", Button);
             }
             catch (System.UnauthorizedAccessException)
             {
                 windowManager.ShowMessageBox("Target directory are not accesibles (Is it open in the Windows explorer?)");
-               //MessageBox.Show(this, "Target directory are not accesibles (Is it open in the Windows explorer?)", "Access error", Button);
             }
 
         }
     }
+
+    public class WriterViewModelValidator : AbstractValidator<WriterViewModel>
+    {
+        public WriterViewModelValidator()
+        {
+            RuleFor(x => x.TargetFolder).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty().WithMessage("You must have a folder").Must(x =>
+            {
+                return StarsectorValidityChecker.CheckModFolderEmpty(x);
+            }).WithMessage("Folder must be empty");
+        }
+    }
+
+
 }

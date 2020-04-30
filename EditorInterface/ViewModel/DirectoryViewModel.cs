@@ -1,4 +1,8 @@
-﻿using SSEditor.FileHandling;
+﻿using EditorInterface.Properties;
+using EditorInterface.Validation;
+using FluentValidation;
+using Ookii.Dialogs.Wpf;
+using SSEditor.FileHandling;
 using Stylet;
 using System;
 using System.Collections.Generic;
@@ -14,8 +18,29 @@ namespace EditorInterface.ViewModel
 {
     public class DirectoryViewModel : Screen
     {
-        public EditableUrlViewModel StarsectorUrl { get; set; } = new EditableUrlViewModel("Starsector folder");
-        public EditableUrlViewModel TargetModFolderUrl { get; set; } = new EditableUrlViewModel("Folder where patch will be written");
+        private string _FolderUrl;
+        public string FolderUrl 
+        {
+            get 
+            {
+                if (_FolderUrl == null)
+                    _FolderUrl = Settings.Default.StarsectorUrl;
+                return _FolderUrl; 
+            } 
+            set { SetAndNotify(ref _FolderUrl, value); NotifyOfPropertyChange(nameof(HasNoFolderError)); }
+        }
+
+        public bool HasNoFolderError
+        {
+            get
+            {
+                var test = this.GetErrors(nameof(FolderUrl));
+                if (test == null || test.Cast<Object>().Count() == 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
 
         private SSMod _SelectedMod;
         public SSMod SelectedMod 
@@ -34,42 +59,21 @@ namespace EditorInterface.ViewModel
         }
         public SSDirectory Directory { get; private set; }
 
-        public DirectoryViewModel(SSDirectory directory)
+        public DirectoryViewModel(SSDirectory directory, IModelValidator<DirectoryViewModel> validator) : base(validator)
         {
             Directory = directory;
-            StarsectorUrl.ValidityChecker = StarsectorValidityChecker.CheckSSFolderValidity;
-            
-            //StarsectorUrl.Bind(x => x.UrlState, StarsectorUrl_StateChanged);
-            StarsectorUrl.Url = Properties.Settings.Default.StarsectorUrl;
+            this.Validate();
         }
 
-        //public bool CanExploreDirectory
-        //{
-        //    get
-        //    {
-        //        if (StarsectorUrl.UrlState == URLstate.Acceptable && TargetModFolderUrl.UrlState == URLstate.Acceptable)
-        //            return true;
-        //        else
-        //            return false;
-        //    }
-        //}
+
         public void ExploreDirectory()
         {
-            Properties.Settings.Default.StarsectorUrl = StarsectorUrl.Url;
+            Properties.Settings.Default.StarsectorUrl = FolderUrl;
             Properties.Settings.Default.Save();
-            Directory.SetUrl(StarsectorUrl.Url);
+            Directory.SetUrl(FolderUrl);
             Directory.ReadMods();
         }
 
-        //private void StarsectorUrl_StateChanged(object sender, Stylet.PropertyChangedExtendedEventArgs<URLstate> e)
-        //{
-        //        if (e.NewValue == URLstate.Acceptable)
-        //        {
-        //            TargetModFolderUrl.ValidityChecker = StarsectorValidityChecker.GetCheckModFolderValidity(StarsectorUrl.Url);
-        //            TargetModFolderUrl.Url = StarsectorUrl.Url + Properties.Settings.Default.PatchTarget;
-        //        }
-
-        //}
 
         public void HandleModChecking(SSMod sender) 
         {
@@ -89,8 +93,17 @@ namespace EditorInterface.ViewModel
             this.RequestClose();
         }
 
+        public void SelectNewUrl()
+        {
+            VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
+            if (OpenRootFolder.ShowDialog() == true)
+            {
+                this.FolderUrl = OpenRootFolder.SelectedPath;
 
-        
+            }
+            return;
+        }
+
     }
 
     [ValueConversion(typeof(ModType), typeof(bool))]
@@ -141,6 +154,17 @@ namespace EditorInterface.ViewModel
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class DirectoryViewModelValidator : AbstractValidator<DirectoryViewModel>
+    {
+        public DirectoryViewModelValidator()
+        {
+            RuleFor(x => x.FolderUrl).Must(x =>
+            {
+                return StarsectorValidityChecker.CheckSSFolderValidity(x);
+            }).WithMessage("Path must lead to Starsector installation");
         }
     }
 }

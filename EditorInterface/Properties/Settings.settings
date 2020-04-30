@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="PatchTarget" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\mods\LEPG</Value>
+      <Value Profile="(Default)">mods\LEPG</Value>
     </Setting>
     <Setting Name="StarsectorUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

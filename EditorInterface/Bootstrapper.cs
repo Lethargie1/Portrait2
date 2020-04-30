@@ -1,4 +1,5 @@
 ﻿using EditorInterface.ViewModel;
+using FluentValidation;
 using SSEditor.FileHandling;
 using SSEditor.FileHandling.Editors;
 using SSEditor.Ressources;
@@ -24,6 +25,8 @@ namespace EditorInterface
             builder.Bind<PortraitsRessources>().ToSelf();
             builder.Bind<PortraitsRessourcesViewModel>().ToSelf();
             builder.Bind<PortraitsRessourcesViewModelFactory>().ToSelf();
+            builder.Bind(typeof(IModelValidator<>)).To(typeof(FluentModelValidator<>));
+            builder.Bind(typeof(IValidator<>)).ToAllImplementations();
         }
     }
 }

@@ -282,6 +282,7 @@
     </Style>
 
     <!--style for all generic text-->
+    
     <Style TargetType="TextBlock">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
@@ -295,6 +296,36 @@
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
         <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
     </Style>
+    <Style TargetType="Label">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+    </Style>
+
+    <!--Named style for  text-->
+    <Style x:Key="ValidatingTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,40,0"/>
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <DockPanel LastChildFill="False">
+                        <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Left" Width="{Binding ElementName=CustomAdorner, Path=ActualWidth}"
+                                       Foreground="OrangeRed" TextTrimming="WordEllipsis"
+                                       Text="{Binding ElementName=CustomAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                        <Border Background="OrangeRed" DockPanel.Dock="Right" Margin="5,0,0,0" VerticalAlignment="Top"
+                                Width="30" Height="30" CornerRadius="5">
+                            <TextBlock Text="!" VerticalAlignment="center" HorizontalAlignment="center" FontWeight="Bold" Foreground="white" />
+                        </Border>
+                        <Border BorderBrush="red" BorderThickness="1">
+                            <AdornedElementPlaceholder Name="CustomAdorner" VerticalAlignment="Center"/>
+                        </Border>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <!--style for all generic controls-->
     <Style x:Key="ToggleButton" TargetType="ToggleButton">
         <Setter Property="SnapsToDevicePixels" Value="true"/>

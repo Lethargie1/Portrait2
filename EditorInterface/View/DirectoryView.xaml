@@ -12,6 +12,7 @@
     <UserControl.Resources>
         <vm:ModTypeToActivatedConverter x:Key="ModToActivatedConverter" />
         <vm:ModTypeToEnabledConverter x:Key="ModToEnabledConverter" />
+        
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,11 +25,23 @@
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch">
-                <StackPanel Orientation="Vertical">
-                    <ContentControl s:View.Model="{Binding StarsectorUrl}" Margin="7" />
-                    <ContentControl s:View.Model="{Binding TargetModFolderUrl}"  Margin="7"/>
-                    <Button Content="ExploreDirectory" Command="{s:Action ExploreDirectory}" Margin="7"></Button>
-                </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="UrlBox" Content="Select Path" Command="{s:Action SelectNewUrl}" Margin="7" Grid.Row="1"></Button>
+                    <Label Content="_Starsector folder path" Target="{Binding ElementName=UrlBox}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0" BorderThickness="0" BorderBrush="White"/>
+                    <TextBox   Style="{StaticResource ValidatingTextBox}" Text="{Binding FolderUrl, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
+                </Grid>
+                <Button Content="ExploreDirectory" Command="{s:Action ExploreDirectory}" Margin="7" IsEnabled="{Binding HasNoFolderError}"></Button>
+            </StackPanel>
             </Border>
         
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Column="1">
