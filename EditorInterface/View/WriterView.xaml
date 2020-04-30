@@ -40,6 +40,7 @@
             </WrapPanel>
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1">
+            <ListView ItemsSource="{Binding FilesToWriteView}" Margin="7"/>
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="2">
         </Border>

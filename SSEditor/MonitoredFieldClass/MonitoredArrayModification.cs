@@ -28,10 +28,14 @@ namespace SSEditor.MonitoringField
         }
         public static MonitoredArrayModification GetAddModification(JsonToken NewContent)
         {
+            if (NewContent == null)
+                throw new ArgumentException("Can't make add mod from empty token");
             return new MonitoredArrayModification(NewContent, ModificationType.Add);
         }
         public static MonitoredArrayModification GetRemoveModification(JsonToken NewContent)
         {
+            if (NewContent == null)
+                throw new ArgumentException("Can't make remove mod from empty token");
             return new MonitoredArrayModification(NewContent, ModificationType.Remove);
         }
     }

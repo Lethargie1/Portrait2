@@ -47,7 +47,8 @@ namespace EditorInterface.ViewModel
 
         public void RemovePortrait()
         {
-            TargetMonitor?.Modify(MonitoredArrayModification.GetRemoveModification(SelectedPortraitArray));
+            if (SelectedPortraitArray != null)
+                TargetMonitor?.Modify(MonitoredArrayModification.GetRemoveModification(SelectedPortraitArray));
         }
 
         public void ResetPortrait()

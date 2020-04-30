@@ -52,26 +52,44 @@ namespace SSEditor.FileHandling.Editors
             IEnumerable<SSFactionGroup> OldFactions = from ISSWritable w in receiver.FileList
                                                       where w is SSFactionGroup
                                                       select w as SSFactionGroup;
-            foreach (SSFactionGroup f in OldFactions)
+            foreach (SSFactionGroup f in OldFactions.ToList())
                 receiver.FileList.Remove(f);
             foreach (SSFactionGroup f in Factions)
                 receiver.FileList.Add(f);
 
             SSRelativeUrl settingUrl = new SSRelativeUrl("data\\config\\settings.json");
             SSJson SettingFile = (from ISSWritable w in receiver.FileList
-                                where w.RelativeUrl == settingUrl
+                                where w.RelativeUrl.Equals(settingUrl)
                                 select w as SSJson).SingleOrDefault();
+            Portraits = new List<JsonValue>(Ressources.PortraitsRessources.GetOriginalPortraits(Factions));
+            JsonObject finalPortraits = new JsonObject(Portraits, "portraits");
             if (SettingFile == null)
             {
                 SettingFile = new SSJson(receiver,  settingUrl);
                 SettingFile.JsonContent = new JsonObject();
                 receiver.FileList.Add(SettingFile);
+                SettingFile.JsonContent.AddSubField(".graphics.portraits", finalPortraits);
+                SettingFile.RefreshFields();
+            }
+            else 
+            {
+                JsonToken setted;
+                SettingFile.Fields.TryGetValue(".graphics.portraits", out setted);
+                if (setted == null)
+                    SettingFile.JsonContent.AddSubField(".graphics.portraits", finalPortraits);
+                else
+                {
+                    JsonObject set = (JsonObject)setted;
+                    set.Values.Clear();
+                    foreach (KeyValuePair<JsonValue, JsonToken> kv in finalPortraits.Values)
+                        set.Values.Add(kv.Key,kv.Value);
+                    SettingFile.RefreshFields();
+                }
             }
 
 
-            Portraits = new List<JsonValue>(Ressources.PortraitsRessources.GetOriginalPortraits(Factions));
-            JsonObject finalPortraits = new JsonObject(Portraits, "portraits");
-            SettingFile.JsonContent.AddSubField(".graphics.portraits", finalPortraits);
+            
+            
 
 
             IEnumerable<SSFactionGroup> writed = from SSFactionGroup f in Factions

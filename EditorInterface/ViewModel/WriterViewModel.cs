@@ -7,12 +7,15 @@ using SSEditor.FileHandling.Editors;
 using Stylet;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Navigation;
 
 namespace EditorInterface.ViewModel
 {
@@ -30,6 +33,26 @@ namespace EditorInterface.ViewModel
         public SSModWritable Receiver { get; } = new SSModWritable();
 
         private FactionEditorFactory FactionEditorFactory { get; set; }
+
+        public ObservableCollection<ISSWritable> FilesToWrite { get => Receiver.FileList; }
+
+        CollectionView _FilesToWriteView;
+        public CollectionView FilesToWriteView
+        {
+            get
+            {
+                if (_FilesToWriteView == null)
+                {
+
+                    _FilesToWriteView = (CollectionView)CollectionViewSource.GetDefaultView(FilesToWrite);
+                    //_FilesToWriteView = new CollectionView(FilesToWrite);
+                    _FilesToWriteView.Filter = x => ((ISSWritable)x).WillCreateFile;
+                    //PropertyGroupDescription groupDescription = new PropertyGroupDescription("SourceMod", new PortraitModToGroupConverter());
+                    //_PortraitsView.GroupDescriptions.Add(groupDescription);
+                }
+                return _FilesToWriteView;
+            }
+        }
 
         public WriterViewModel(SSDirectory directory, FactionEditorFactory factionEditorFactory, IWindowManager windowManager, IModelValidator<WriterViewModel> validator) : base(validator)
         {
@@ -49,6 +72,9 @@ namespace EditorInterface.ViewModel
                     TargetFolder = url.ToString();
                 }
             }
+            Receiver.ModUrl = new SSBaseLinkUrl() { Base = TargetFolder, Link = "" };
+            var factionEditor = FactionEditorFactory.CreateFactionEditor();
+            factionEditor.ReplaceFactionToWrite(Receiver);
             base.OnActivate();
         }
 
