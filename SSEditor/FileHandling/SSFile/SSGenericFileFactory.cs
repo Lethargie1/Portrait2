@@ -11,24 +11,24 @@ namespace SSEditor.FileHandling
     {
 
 
-        public static ISSGenericFile BuildFile(SSMod mod, SSFullUrl fullUrl)
+        public static ISSGenericFile BuildFile(SSMod mod, SSRelativeUrl Url)
         {
-            FileInfo info = new FileInfo(fullUrl?.ToString() ?? throw new ArgumentNullException("The Url cannot be null."));
+            FileInfo info = new FileInfo(Url?.ToString() ?? throw new ArgumentNullException("The Url cannot be null."));
             string FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
             string Extension = info.Extension;
             switch (Extension)
             {
                 case ".json":
-                    return new SSJson(mod, fullUrl);
+                    return new SSJson(mod, Url);
                 case ".faction":
-                    return new SSFaction(mod, fullUrl);
+                    return new SSFaction(mod, Url);
                 case ".csv":
-                    return new SSCsv(mod, fullUrl);
+                    return new SSCsv(mod, Url);
                 case ".jar":
                 case ".java":
-                    return new SSNoMerge(mod, fullUrl);
+                    return new SSNoMerge(mod, Url);
                 default:
-                    return new SSBinary(mod, fullUrl);
+                    return new SSBinary(mod, Url);
             }
         }
 

@@ -61,7 +61,7 @@ namespace SSEditor.FileHandling
         #endregion
 
         #region Constructors
-        public SSJson(ISSMod mod, SSFullUrl fullUrl) : base(mod, fullUrl)
+        public SSJson(ISSMod mod, SSRelativeUrl Url) : base(mod, Url)
         {
             //this.ExtractFile(fullUrl);
             SourceMod = mod;
@@ -140,7 +140,7 @@ namespace SSEditor.FileHandling
 
     public class SSFaction : SSJson
     {
-        public SSFaction(SSMod mod, SSFullUrl fullUrl) : base(mod, fullUrl)
+        public SSFaction(SSMod mod, SSRelativeUrl Url) : base(mod, Url)
         { }
         
     }

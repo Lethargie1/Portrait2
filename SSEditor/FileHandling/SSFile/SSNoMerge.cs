@@ -8,7 +8,7 @@ namespace SSEditor.FileHandling
 {
     public class SSNoMerge : SSGeneric
     {
-        public SSNoMerge(SSMod mod, SSFullUrl url) : base (mod,url)
+        public SSNoMerge(SSMod mod, SSRelativeUrl url) : base (mod,url)
         {}
     }
 }

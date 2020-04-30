@@ -49,7 +49,7 @@ namespace SSEditor.FileHandling
             SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
             if (ModInfo != null)
                 FileList.Remove(ModInfo);
-            ModInfo = new SSJson(this, TargetUrl);
+            ModInfo = new SSJson(this, TargetUrl.GetRelative());
             ModInfo.JsonType = SSJson.JsonFileType.NotExtrated;
             ModInfo.JsonContent = root;
             FileList.Add(ModInfo);

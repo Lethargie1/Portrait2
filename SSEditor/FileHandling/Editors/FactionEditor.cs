@@ -63,7 +63,7 @@ namespace SSEditor.FileHandling.Editors
                                 select w as SSJson).SingleOrDefault();
             if (SettingFile == null)
             {
-                SettingFile = new SSJson(receiver, receiver.ModUrl + settingUrl);
+                SettingFile = new SSJson(receiver,  settingUrl);
                 SettingFile.JsonContent = new JsonObject();
                 receiver.FileList.Add(SettingFile);
             }

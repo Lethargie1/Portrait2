@@ -62,6 +62,8 @@ namespace SSEditor.FileHandling
             SSBaseUrl newUrl = new SSBaseUrl(Path.Combine(left.Base, right));
             return newUrl;
         }
+
+
     }
 
     public class SSLinkUrl : SSUrl, IEquatable<SSLinkUrl>
@@ -214,6 +216,8 @@ namespace SSEditor.FileHandling
             newUrl.Relative = Path.Combine(left.Relative, right);
             return newUrl;
         }
+
+        public SSRelativeUrl GetRelative() => Relative != null ? new SSRelativeUrl(Relative) : null;
     }
 
 }

@@ -68,12 +68,13 @@ namespace SSEditor.FileHandling
         }
         private void FindModInfo()
         {
-            SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
+            SSRelativeUrl ModInfoRela = new SSRelativeUrl("mod_info.json");
+            SSFullUrl TargetUrl = ModUrl + ModInfoRela;
             FileInfo test = new FileInfo(TargetUrl.ToString());
             if (test.Exists)
             {
                 this.CurrentType = ModType.Mod;
-                ModInfo = new SSJson(this, TargetUrl);
+                ModInfo = new SSJson(this, ModInfoRela);
                 ModName = ((JsonValue)ModInfo.Fields[".name"]).ToString();
             }
             else
@@ -92,7 +93,7 @@ namespace SSEditor.FileHandling
             root.Values.Add(new JsonValue("name"), new JsonValue("Vanilla starsector"));
             root.Values.Add(new JsonValue("version"), new JsonValue("9.1a"));
             root.Values.Add(new JsonValue("description"), new JsonValue("It's the best"));
-            SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
+            SSRelativeUrl TargetUrl = new SSRelativeUrl("mod_info.json");
             ModInfo = new SSJson(this, TargetUrl);
             ModInfo.JsonType = SSJson.JsonFileType.NotExtrated;
             ModInfo.JsonContent = root;
@@ -100,20 +101,21 @@ namespace SSEditor.FileHandling
         }
         private void GenerateModInfo()
         {
+            SSRelativeUrl TargetUrl = new SSRelativeUrl("mod_info.json");
             if (CurrentType== ModType.Core)
             {
                 JsonObject root = new JsonObject();
                 root.Values.Add(new JsonValue("id"), new JsonValue("starsector-core"));
                 root.Values.Add(new JsonValue("name"), new JsonValue("Vanilla starsector"));
-                SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
+                
                 ModInfo = new SSJson(this, TargetUrl);
                 ModInfo.JsonType = SSJson.JsonFileType.NotExtrated;
                 ModInfo.JsonContent = root;
             }
             else
             {
-                SSFullUrl TargetUrl = ModUrl + new SSRelativeUrl("mod_info.json");
-                FileInfo test = new FileInfo(TargetUrl.ToString());
+                SSFullUrl TestUrl = ModUrl + new SSRelativeUrl("mod_info.json");
+                FileInfo test = new FileInfo(TestUrl.ToString());
                 if (test.Exists)
                     ModInfo = new SSJson(this, TargetUrl);
                 else
@@ -166,7 +168,7 @@ namespace SSEditor.FileHandling
                     upDirectory = upDirectory.Parent;
                 }
                 SSFullUrl fileUrl = ModUrl + new SSRelativeUrl(relativePath) + f.Name;
-                Files.Add(SSGenericFileFactory.BuildFile(this, fileUrl));
+                Files.Add(SSGenericFileFactory.BuildFile(this, fileUrl.GetRelative()));
             }
 
             

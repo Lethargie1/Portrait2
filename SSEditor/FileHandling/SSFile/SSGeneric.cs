@@ -20,10 +20,11 @@ namespace SSEditor.FileHandling
         public string FileName { get; protected set; }
         public ISSMod SourceMod { get; protected set; }
 
-        public SSGeneric(ISSMod mod, SSFullUrl url)
+        public SSGeneric(ISSMod mod, SSRelativeUrl url)
         {
             SourceMod = mod;
-            RelativeUrl = new SSRelativeUrl(url.Relative);
+            //RelativeUrl = new SSRelativeUrl(url.Relative);
+            RelativeUrl = url;
             FileInfo info = new FileInfo(url.ToString());
             FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
         }

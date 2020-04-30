@@ -9,7 +9,7 @@ namespace SSEditor.FileHandling
     public class SSBinary : SSGeneric
     {
         
-        public SSBinary(SSMod mod, SSFullUrl url) : base(mod, url)
+        public SSBinary(SSMod mod, SSRelativeUrl url) : base(mod, url)
         { }
     }
 }
