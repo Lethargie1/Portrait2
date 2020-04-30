@@ -23,7 +23,13 @@ namespace SSEditor.MonitoringField
             }
             return result;
         }
-
+        public List<MonitoredArrayModification> GetAddedMod()
+        {
+            var list = from MonitoredArrayModification m in ModificationCollection
+                       where m.ModType == MonitoredArrayModification.ModificationType.Add
+                       select m;
+            return list.ToList();
+        }
         private ObservableCollection<MonitoredArrayModification> ModificationCollection {get;} = new ObservableCollection<MonitoredArrayModification>();
 
         public void Modify(MonitoredArrayModification mod)

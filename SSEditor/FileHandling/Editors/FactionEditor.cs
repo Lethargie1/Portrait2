@@ -1,4 +1,5 @@
 ﻿using FVJson;
+using SSEditor.MonitoringField;
 using SSEditor.Ressources;
 using System;
 using System.Collections.Generic;
@@ -92,13 +93,26 @@ namespace SSEditor.FileHandling.Editors
             
 
 
-            IEnumerable<SSFactionGroup> writed = from SSFactionGroup f in Factions
-                                                 where f.WillCreateFile == true
+            IEnumerable<SSFactionGroup> OverWritten = from SSFactionGroup f in Factions
+                                                 where f.MustOverwrite == true
                                                  select f;
-            IEnumerable<string> UsedMod = writed.Select(f => f.MonitoredContent).SelectMany(m => m.Files).Select(f => f.SourceMod).Distinct().Select(mod => mod.ModName);
+            IEnumerable<string> ModOverWritten = OverWritten.Select(f => f.MonitoredContent).SelectMany(m => m.Files).Select(f => f.SourceMod).Distinct().Select(mod => mod.ModName);
+
+            IEnumerable<JsonValue> AddedPortrait = Factions.FindAll(f => f.MonitoredContent.IsModified()).SelectMany(f =>
+            {
+                List<MonitoredArrayModification> result = new List<MonitoredArrayModification>();
+                result.AddRange(f.MalePortraits.GetAddedMod());
+                result.AddRange(f.FemalePortraits.GetAddedMod());
+                return result;
+                }).Select(m => ((JsonValue)m.Content)).Distinct();
+
+            JsonRelativeToPortraits converter = new JsonRelativeToPortraits();
+            IEnumerable<string> addMod = AddedPortrait.Select(j => converter.Convert(new object[] { j, PortraitsRessource }, null, null, null)).Select(p => ((Portraits)p).SourceModName).Distinct();
+
+            var together = (ModOverWritten ?? Enumerable.Empty<string>()).Concat(addMod ?? Enumerable.Empty<string>()).Distinct() ;
             JsonValue OldDesc = receiver.ModInfo.Fields[".description"] as JsonValue;
             string old = OldDesc.ToString();
-            OldDesc.SetContent(old + " Faction were modified using mods: " + string.Join(", ", UsedMod));
+            OldDesc.SetContent(old + " Faction were modified using mods: " + string.Join(", ", together));
         }
     }
 
