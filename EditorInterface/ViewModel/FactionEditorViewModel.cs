@@ -14,26 +14,27 @@ namespace EditorInterface.ViewModel
 {
     public class FactionEditorViewModel : Screen
     {
-        private Func<PortraitsRessourcesViewModel> PortraitsRessourcesVMFactory { get; set; }
+        Func<PortraitsRessourcesViewModelFactory> PortraitsRessourcesVMFactoryFactory { get; set; }
+        private PortraitsRessourcesViewModelFactory PortraitsRessourcesVMFactory { get; set; }
         private FactionEditorFactory FactionEditorFactory { get; set; }
         public FactionEditor FactionEditor { get; private set; }
-        public PortraitsRessourcesViewModel PortraitsRessourcesVM { get; private set; }
+        //public PortraitsRessourcesViewModel PortraitsRessourcesVM { get; private set; }
         public List<SSFactionGroup> Factions { get => FactionEditor.Factions; }
-        public FactionEditorViewModel(FactionEditorFactory factionEditorFactory, Func<PortraitsRessourcesViewModel> portraitsRessourcesViewModelFactory)
+        public FactionEditorViewModel(FactionEditorFactory factionEditorFactory, Func<PortraitsRessourcesViewModelFactory> portraitsRessourcesViewModelFactoryFactory)
         {
             FactionEditorFactory = factionEditorFactory;
-            PortraitsRessourcesVMFactory = portraitsRessourcesViewModelFactory;
+            PortraitsRessourcesVMFactoryFactory = portraitsRessourcesViewModelFactoryFactory;
         }
 
         protected override void OnActivate() 
         {
             FactionEditor = FactionEditorFactory.CreateFactionEditor();
-            PortraitsRessourcesVM = PortraitsRessourcesVMFactory();
+            PortraitsRessourcesVMFactory = PortraitsRessourcesVMFactoryFactory();
             //FactionEditor.GetFaction();
             //NotifyOfPropertyChange(nameof(Factions));
         }
 
-        public FactionGroupViewModel SelectedFactionViewModel { get => new FactionGroupViewModel(SelectedFaction, PortraitsRessourcesVM); }
+        public FactionGroupViewModel SelectedFactionViewModel { get => new FactionGroupViewModel(SelectedFaction, PortraitsRessourcesVMFactory); }
         SSFactionGroup _SelectedFaction;
         public SSFactionGroup SelectedFaction
         {

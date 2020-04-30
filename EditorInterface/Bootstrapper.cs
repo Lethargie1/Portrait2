@@ -23,6 +23,7 @@ namespace EditorInterface
             builder.Bind<FactionEditorFactory>().ToSelf();
             builder.Bind<PortraitsRessources>().ToSelf();
             builder.Bind<PortraitsRessourcesViewModel>().ToSelf();
+            builder.Bind<PortraitsRessourcesViewModelFactory>().ToSelf();
         }
     }
 }

@@ -12,15 +12,16 @@ namespace EditorInterface.ViewModel
     public class FactionGroupViewModel : Conductor<Screen>.Collection.OneActive
     {
         public SSFactionGroup FactionGroup{get;set;}
-        public PortraitsRessources PortraitsRessource { get; private set; }
-
-        public FactionGroupViewModel(SSFactionGroup factionGroup, PortraitsRessourcesViewModel portraitsRessourceVM)
+        //public PortraitsRessources PortraitsRessource { get; private set; }
+        public PortraitsRessourcesViewModelFactory PortraitsRessourcesVMFactory { get; private set; }
+        public FactionGroupViewModel(SSFactionGroup factionGroup, PortraitsRessourcesViewModelFactory portraitsRessourcesVMFactory)
         {
             FactionGroup = factionGroup;
             //PortraitsRessource = portraitsRessource;
+            PortraitsRessourcesVMFactory = portraitsRessourcesVMFactory;
             ActivateItem(new FactionGroupValueViewModel(FactionGroup) { DisplayName = "Values" });
-            ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.FemalePortraits, portraitsRessourceVM) { DisplayName = "Female portraits" });
-            ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, portraitsRessourceVM) { DisplayName = "Male portraits" });
+            ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.FemalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Female portraits" });
+            ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Male portraits" });
             
         }
     }
