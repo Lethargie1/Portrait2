@@ -18,7 +18,6 @@ namespace EditorInterface.ViewModel
         private PortraitsRessourcesViewModelFactory PortraitsRessourcesVMFactory { get; set; }
         private FactionEditorFactory FactionEditorFactory { get; set; }
         public FactionEditor FactionEditor { get; private set; }
-        //public PortraitsRessourcesViewModel PortraitsRessourcesVM { get; private set; }
         public List<SSFactionGroup> Factions { get => FactionEditor.Factions; }
         public FactionEditorViewModel(FactionEditorFactory factionEditorFactory, Func<PortraitsRessourcesViewModelFactory> portraitsRessourcesViewModelFactoryFactory)
         {
@@ -30,8 +29,6 @@ namespace EditorInterface.ViewModel
         {
             FactionEditor = FactionEditorFactory.CreateFactionEditor();
             PortraitsRessourcesVMFactory = PortraitsRessourcesVMFactoryFactory();
-            //FactionEditor.GetFaction();
-            //NotifyOfPropertyChange(nameof(Factions));
         }
 
         public FactionGroupViewModel SelectedFactionViewModel { get => new FactionGroupViewModel(SelectedFaction, PortraitsRessourcesVMFactory); }

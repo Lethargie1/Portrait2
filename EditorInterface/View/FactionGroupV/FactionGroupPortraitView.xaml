@@ -49,11 +49,14 @@
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1">
             <WrapPanel>
                 <Button Content="Add Portrait" Command="{s:Action AddPortrait}" Margin="3,3,3,3"></Button>
+                
             </WrapPanel>
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1">
             <WrapPanel>
                 <Button Content="Clear Portrait" Command="{s:Action ClearPortrait}" Margin="3,3,3,3"></Button>
+                <Button Content="Remove Portrait" Command="{s:Action RemovePortrait}" Margin="3,3,3,3"></Button>
+                <Button Content="Reset Portrait" Command="{s:Action ResetPortrait}" Margin="3,3,3,3"></Button>
             </WrapPanel>
         </Border>
     </Grid>

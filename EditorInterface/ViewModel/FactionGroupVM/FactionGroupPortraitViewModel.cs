@@ -37,12 +37,22 @@ namespace EditorInterface.ViewModel
 
         public void AddPortrait()
         {
-            //TargetMonitor.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(SelectedPortraitRessource.RelativeUrl.SSStyleString)));
+            TargetMonitor.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(PortraitsRessourcesVM.SelectedPortraitRessource.RelativeUrl.SSStyleString)));
         }
 
         public void ClearPortrait()
         {
-            //TargetMonitor?.Modify(MonitoredArrayModification.GetClearModification());
+            TargetMonitor?.Modify(MonitoredArrayModification.GetClearModification());
+        }
+
+        public void RemovePortrait()
+        {
+            TargetMonitor?.Modify(MonitoredArrayModification.GetRemoveModification(SelectedPortraitArray));
+        }
+
+        public void ResetPortrait()
+        {
+            TargetMonitor?.ResetModification();
         }
     }
 }

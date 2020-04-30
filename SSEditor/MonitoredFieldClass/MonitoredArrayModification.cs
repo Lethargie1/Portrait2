@@ -30,7 +30,10 @@ namespace SSEditor.MonitoringField
         {
             return new MonitoredArrayModification(NewContent, ModificationType.Add);
         }
-        
+        public static MonitoredArrayModification GetRemoveModification(JsonToken NewContent)
+        {
+            return new MonitoredArrayModification(NewContent, ModificationType.Remove);
+        }
     }
     public static class MonitoredArrayModificationExtension
     {

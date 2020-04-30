@@ -32,6 +32,12 @@ namespace SSEditor.MonitoringField
             ModificationCollection.AddArrayMod(mod);
         }
 
+        public void ResetModification()
+        {
+            ModificationCollection.Clear();
+            Resolve();
+        }
+
         public void Reset()
         {
             ModificationCollection.Clear();
