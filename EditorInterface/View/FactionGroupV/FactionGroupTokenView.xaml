@@ -7,6 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="{Binding Name}" Foreground="{Binding Color}"/>
+        <Border BorderBrush="{Binding Color}" BorderThickness="2" HorizontalAlignment="Left" Width="200" Height="36">
+            <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" VerticalAlignment="Center" FontWeight="DemiBold" Margin="5,3,5,3"/>
+        </Border>
     </Grid>
 </UserControl>

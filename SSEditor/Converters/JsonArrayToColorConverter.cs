@@ -16,7 +16,8 @@ namespace SSEditor.Converters
             List<int> ColorCode = array.Values.Select(j =>
             {
                 JsonValue jval = (JsonValue)j;
-                int number = (int)(jval.Content);
+                int number = System.Convert.ToInt32(jval.Content);
+                //double number = (double)(jval.Content);
                 return number;
             }).ToList();
             if (ColorCode.Count == 4)

@@ -26,11 +26,10 @@ namespace EditorInterface.ViewModel
             {
                 JsonArrayToColorConverter converter = new JsonArrayToColorConverter();
                 JsonArray source = Group.FactionColor?.ContentArray;
-                string color = (string)converter.Convert(source);
-                if (color == null)
+                if (source == null || source.Values.Count != 4)
                     return "#FFFFFFFF";
-                else
-                    return color;
+                string color = (string)converter.Convert(source);
+                return color;
             }
         }
     }
