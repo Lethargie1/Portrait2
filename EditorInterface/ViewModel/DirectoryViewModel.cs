@@ -1,6 +1,7 @@
 ﻿using EditorInterface.Properties;
 using EditorInterface.Validation;
 using FluentValidation;
+using FVJson;
 using Ookii.Dialogs.Wpf;
 using SSEditor.FileHandling;
 using Stylet;
@@ -19,6 +20,7 @@ namespace EditorInterface.ViewModel
     public class DirectoryViewModel : Screen
     {
         private string _FolderUrl;
+        private JsonArray ActivatedModFromDirectory { get; set; }
         public string FolderUrl 
         {
             get 
@@ -41,6 +43,8 @@ namespace EditorInterface.ViewModel
                     return false;
             }
         }
+        private bool _HasBeenExploredOnce = false;
+        public bool HasBeenExploredOnce { get => _HasBeenExploredOnce; private set => SetAndNotify(ref _HasBeenExploredOnce, value); } 
 
         private SSMod _SelectedMod;
         public SSMod SelectedMod 
@@ -72,8 +76,32 @@ namespace EditorInterface.ViewModel
             Properties.Settings.Default.Save();
             Directory.SetUrl(FolderUrl);
             Directory.ReadMods();
+            ResetActivatedModList();
+            HasBeenExploredOnce = true;
         }
 
+        public void ResetActivatedModList()
+        {
+            if (ActivatedModFromDirectory == null)
+                ActivatedModFromDirectory = Directory.ReadUsedMod();
+            var ActivatedId = ActivatedModFromDirectory?.Values?.Select(j =>
+            {
+                JsonValue value = (JsonValue)j;
+                return value.Content as string;
+            }
+            );
+            foreach (SSMod m in Directory.Mods)
+            {
+                if (SSMod.Switchable.Contains(m.CurrentType))
+                {
+                    if (ActivatedId.Contains(m.ModId))
+                        m.ChangeType(ModType.Mod);
+                    else
+                        m.ChangeType(ModType.Skip);
+                }
+            }
+            
+        }
 
         public void HandleModChecking(SSMod sender) 
         {

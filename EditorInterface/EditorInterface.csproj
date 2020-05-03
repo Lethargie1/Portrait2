@@ -75,6 +75,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="FluentModelValidator.cs" />
     <Compile Include="Validation\StarsectorValidityChecker.cs" />
+    <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModel\DirectoryViewModel.cs" />
     <Compile Include="ViewModel\FactionEditorViewModel.cs" />
     <Compile Include="ViewModel\FactionGroupVM\FactionGroupPortraitViewModel.cs" />

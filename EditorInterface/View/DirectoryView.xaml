@@ -7,7 +7,8 @@
              xmlns:vm="clr-namespace:EditorInterface.ViewModel"
              mc:Ignorable="d" 
              xmlns:s="https://github.com/canton7/Stylet"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DirectoryViewModel}"
+             d:DesignHeight="700" d:DesignWidth="1000">
 
     <UserControl.Resources>
         <vm:ModTypeToActivatedConverter x:Key="ModToActivatedConverter" />
@@ -40,7 +41,8 @@
                     <Label Content="_Starsector folder path" Target="{Binding ElementName=UrlBox}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0" BorderThickness="0" BorderBrush="White"/>
                     <TextBox   Style="{StaticResource ValidatingTextBox}" Text="{Binding FolderUrl, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
                 </Grid>
-                <Button Content="ExploreDirectory" Command="{s:Action ExploreDirectory}" Margin="7" IsEnabled="{Binding HasNoFolderError}"></Button>
+                <Button Content="Explore Directory" Command="{s:Action ExploreDirectory}" Margin="7" IsEnabled="{Binding HasNoFolderError}"></Button>
+                <Button Content="Reset activated mod list" Command="{s:Action ResetActivatedModList}" Margin="7" IsEnabled="{Binding HasBeenExploredOnce}"></Button>
             </StackPanel>
             </Border>
         
@@ -53,7 +55,7 @@
                                       IsChecked="{Binding Path=CurrentType, Converter={StaticResource ModToActivatedConverter}, Mode=OneWay}" 
                                       IsEnabled="{Binding Path=CurrentType, Converter={StaticResource ModToEnabledConverter}, Mode=OneWay}"
                                       Command="{s:Action HandleModChecking}" CommandParameter="{Binding}" />
-                            <TextBlock DockPanel.Dock="Left" Text="{Binding}"/>
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding DisplayName}" Style="{StaticResource TextElement}"/>
 
                         </DockPanel>
                     </DataTemplate>
@@ -64,6 +66,9 @@
             <ContentControl s:View.Model="{Binding SelectedModViewModel}" Margin="7" />
         </Border>
         <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.ColumnSpan="3" Grid.Row="1"/>
-        <Button Content="Directory setup complete" Command="{s:Action DirectoryExploreComplete}" Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <WrapPanel Grid.Row="1" Margin="7">
+            <Button Content="Directory setup complete" Command="{s:Action DirectoryExploreComplete}" Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button Content="Take me back" Command="{s:Action RequestClose}" Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </WrapPanel>
     </Grid>
 </UserControl>

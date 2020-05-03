@@ -1,4 +1,5 @@
 ﻿using FVJson;
+using Stylet;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace SSEditor.FileHandling
 {
 
-    public class SSMod : ISSMod
+    public class SSMod :  PropertyChangedBase, ISSMod
     {
 
         public static List<ModType> Switchable = new List<ModType> { ModType.Mod, ModType.Ressource, ModType.Skip };
@@ -19,10 +20,18 @@ namespace SSEditor.FileHandling
         public static List<ModType> AlwaysTrue = new List<ModType> { ModType.Core};
         public event EventHandler<ModTypeChangeEventArgs> TypeChanged;
 
-
+        public string DisplayName
+        {
+            get
+            {
+                return CurrentType.ToString() + ": " + ((ModInfo?.Fields[".name"] as JsonValue)?.ToString() ?? ("Unnamed " + ModUrl.Link));
+            }
+        }
         public SSBaseLinkUrl ModUrl { get; private set; }
         public SSJson ModInfo { get; private set; }
-        public ModType CurrentType { get; private set; }
+        public string ModId { get; private set; }
+        private ModType _CurrentType;
+        public ModType CurrentType { get => _CurrentType; private set { SetAndNotify(ref _CurrentType, value); NotifyOfPropertyChange(nameof(DisplayName)); } }
         public string ModName { get; private set; }
 
         public override string ToString()
@@ -76,6 +85,7 @@ namespace SSEditor.FileHandling
                 this.CurrentType = ModType.Mod;
                 ModInfo = new SSJson(this, ModInfoRela);
                 ModName = ((JsonValue)ModInfo.Fields[".name"]).ToString();
+                ModId = ((JsonValue)ModInfo.Fields[".id"]).ToString();
             }
             else
             {

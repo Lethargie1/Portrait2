@@ -93,7 +93,7 @@ namespace SSEditor.FileHandling
                 _JsonContent = read as JsonObject;
             }
             if (_JsonContent == null)
-            { throw new ArgumentException("file contains nothing"); }
+                return;
             
         }
         public void RefreshFields()

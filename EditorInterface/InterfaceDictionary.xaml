@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:EditorInterface">
 
+    <local:ViewModelLocator x:Key="ViewModelLocator"/>
+    
     <DataTemplate x:Key="FactionFileImageTemplate">
         <Grid>
             <Image Source="{Binding LogoPath}" Height="30"/>
@@ -62,6 +64,7 @@
     <SolidColorBrush x:Key="UiOutline" Color="{StaticResource UIOutlineColor}" />
     <SolidColorBrush x:Key="UiFill" Color="CadetBlue" />
     <SolidColorBrush x:Key="UiHighContrast" Color="Azure" />
+    <Color x:Key="UiHighContrastColor">Azure</Color>
     <Color x:Key="UiLowContrastColor">DarkSlateGray</Color>
     <SolidColorBrush x:Key="UiLowContrast" Color="{StaticResource UiLowContrastColor}" />
     <SolidColorBrush x:Key="GlyphFill" Color="DarkSlateGray" />
@@ -153,7 +156,7 @@
                                 KeyboardNavigation.TabIndex="2"
                                 Background="{StaticResource UiLowContrast}">
                             <Border.BorderBrush>
-                                <SolidColorBrush Color="{StaticResource UIOutlineColor}"/>
+                                <SolidColorBrush Color="{StaticResource UiHighContrast}"/>
                             </Border.BorderBrush>
                             <ContentPresenter x:Name="PART_SelectedContentHost" Margin="4" ContentSource="SelectedContent" />
                         </Border>
@@ -175,7 +178,6 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -183,7 +185,7 @@
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
                                                                       Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="#FFAAAAAA" />
+                                            <EasingColorKeyFrame KeyTime="5" Value="#FFAAAAAA" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -193,7 +195,7 @@
                                   Grid.Column="0"
                                   Grid.Row="1"
                                   Panel.ZIndex="1"
-                                  Margin="0,0,-4,-1"
+                                  Margin="0,0,0,0"
                                   IsItemsHost="True"
                                   KeyboardNavigation.TabIndex="1"
                                   Background="Transparent" />
@@ -208,7 +210,7 @@
                                 KeyboardNavigation.TabIndex="2"
                                 Background="{StaticResource UiLowContrast}">
                             <Border.BorderBrush>
-                                <SolidColorBrush Color="{StaticResource UIOutlineColor}"/>
+                                <SolidColorBrush Color="{StaticResource UiHighContrastColor}"/>
                             </Border.BorderBrush>
                             <ContentPresenter x:Name="PART_SelectedContentHost" Margin="4" ContentSource="SelectedContent" />
                         </Border>
@@ -256,12 +258,12 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Border x:Name="Border"
-                                Margin="0,0,-4,0"
+                                Margin="0,0,0,0"
                                 BorderThickness="1,1,1,1"
-                                CornerRadius="12,0,0,12"
+                                CornerRadius="12,12,12,12"
                                 Background="Transparent">
 
-                            <Border Background="{StaticResource ButtonSolid}" CornerRadius="5" Margin="12,12,12,12">
+                            <Border Background="{StaticResource ButtonSolid}" CornerRadius="5" Margin="12,12,12,12" BorderBrush="{StaticResource UiHighContrast}" BorderThickness="2">
                                 <ContentPresenter x:Name="ContentSite"
                                                   VerticalAlignment="Center"
                                                   HorizontalAlignment="Center"
@@ -288,8 +290,7 @@
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
     </Style>
 
-    <Style x:Key="TextElement" TargetType="TextBlock">
-        <Setter Property="Margin" Value="5,5,3,3"/>
+    <Style x:Key="TextElement" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
     </Style>
     <Style TargetType="TextBox">
         <Setter Property="FontSize" Value="18"/>

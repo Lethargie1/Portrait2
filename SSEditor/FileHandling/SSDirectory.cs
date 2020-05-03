@@ -29,6 +29,21 @@ namespace SSEditor.FileHandling
             InstallationUrl = url;
         }
 
+        public JsonArray ReadUsedMod()
+        {
+            SSBaseLinkUrl ModFolderPath = InstallationUrl + new SSLinkUrl("mods");
+            SSMod Dummy = new SSMod(ModFolderPath);
+            SSRelativeUrl rela = new SSRelativeUrl("enabled_mods.json");
+
+            SSJson file = new SSJson(Dummy, rela);
+            file.ExtractFile();
+            JsonToken trying;
+            file.Fields.TryGetValue(".enabledMods", out trying);
+            if (trying == null)
+                return new JsonArray();
+            return trying as JsonArray;
+        }
+
         public void SetUrl(string directoryUrl)
         {
             InstallationUrl = new SSBaseUrl(directoryUrl);
