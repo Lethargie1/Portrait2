@@ -73,6 +73,20 @@ namespace SSEditor.Ressources
             }).Distinct().ToList();
             return Original.Cast<JsonValue>();
         }
+
+        public static IEnumerable<JsonValue> GetCurrentPortraits(IEnumerable<SSFactionGroup> factionGroups)
+        {
+            List<JsonToken> Original = factionGroups.SelectMany(g =>
+            {
+                List<JsonToken> result = new List<JsonToken>();
+                if (g.MalePortraits != null)
+                    result.AddRange(g.MalePortraits.ContentArray);
+                if (g.FemalePortraits != null)
+                    result.AddRange(g.FemalePortraits?.ContentArray);
+                return result;
+            }).Distinct().ToList();
+            return Original.Cast<JsonValue>();
+        }
     }
 
     [ValueConversion(typeof(JsonValue), typeof(Portraits))]

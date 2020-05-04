@@ -63,7 +63,9 @@ namespace SSEditor.FileHandling.Editors
                                 where w.RelativeUrl.Equals(settingUrl)
                                 select w as SSJson).SingleOrDefault();
             Portraits = new List<JsonValue>(Ressources.PortraitsRessources.GetOriginalPortraits(Factions));
-            JsonObject finalPortraits = new JsonObject(Portraits, "portraits");
+            var UsedPortraits = new List<JsonValue>(Ressources.PortraitsRessources.GetCurrentPortraits(Factions));
+            var UnusedPortrait = Portraits.Except(UsedPortraits);
+            JsonObject finalPortraits = new JsonObject(UnusedPortrait, "portraits");
             if (SettingFile == null)
             {
                 SettingFile = new SSJson(receiver,  settingUrl);
