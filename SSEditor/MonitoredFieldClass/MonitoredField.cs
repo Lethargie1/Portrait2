@@ -1,6 +1,7 @@
 ﻿
 using FVJson;
 using SSEditor.FileHandling;
+using Stylet;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public abstract class MonitoredField<T> where T:SSJson
+    public abstract class MonitoredField<T> : PropertyChangedBase where T:SSJson
     {
         public string FieldPath { get; set; }
         private ObservableCollection<T> _Files;
@@ -28,6 +29,7 @@ namespace SSEditor.MonitoringField
             }
         }
 
+        abstract public bool Modified { get; }
         abstract public JsonToken GetJsonEquivalent();
         abstract public JsonToken GetJsonEquivalentNoOverwrite();
         abstract public bool RequiresOverwrite();

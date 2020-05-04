@@ -14,6 +14,7 @@ namespace SSEditor.MonitoringField
     public class MonitoredArray<T> : MonitoredField<T> where T : SSJson
     {
         public ObservableCollection<JsonToken> ContentArray { get; } = new ObservableCollection<JsonToken>();
+        public override bool Modified { get => this.IsModified(); }
         public ObservableCollection<JsonToken> GetOriginalContent()
         {
             ObservableCollection<JsonToken> result = new ObservableCollection<JsonToken>();
@@ -36,19 +37,16 @@ namespace SSEditor.MonitoringField
         {
             ContentArray.ApplyModification(mod);
             ModificationCollection.AddArrayMod(mod);
+            NotifyOfPropertyChange(nameof(Modified));
         }
 
         public void ResetModification()
         {
             ModificationCollection.Clear();
             Resolve();
+            NotifyOfPropertyChange(nameof(Modified));
         }
 
-        public void Reset()
-        {
-            ModificationCollection.Clear();
-            this.Resolve();
-        }
         private void ResolveBase(ObservableCollection<JsonToken> modified)
         {
             if (FieldPath != null)

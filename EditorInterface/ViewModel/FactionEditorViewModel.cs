@@ -19,6 +19,8 @@ namespace EditorInterface.ViewModel
         private FactionEditorFactory FactionEditorFactory { get; set; }
         public FactionEditor FactionEditor { get; private set; }
         public List<SSFactionGroup> Factions { get => FactionEditor.Factions; }
+
+
         public FactionEditorViewModel(FactionEditorFactory factionEditorFactory, Func<PortraitsRessourcesViewModelFactory> portraitsRessourcesViewModelFactoryFactory)
         {
             FactionEditorFactory = factionEditorFactory;

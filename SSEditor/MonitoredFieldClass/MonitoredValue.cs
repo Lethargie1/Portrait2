@@ -12,7 +12,7 @@ namespace SSEditor.MonitoringField
     public class MonitoredValue<T>: MonitoredField<T> where T:SSJson 
     {
         public JsonValue Content { get; private set; }
-
+        public override bool Modified { get => this.IsModified(); }
         public MonitoredValue(JsonValue content)
         {
             Content = content;

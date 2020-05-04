@@ -13,7 +13,7 @@ namespace SSEditor.MonitoringField
     public class MonitoredArrayValue<T> : MonitoredField<T> where T:SSJson
     {
         public JsonArray ContentArray { get; } = new JsonArray();
-
+        public override bool Modified { get => this.IsModified(); }
 
 
         public override void Resolve()

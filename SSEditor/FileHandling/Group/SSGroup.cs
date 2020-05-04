@@ -1,4 +1,5 @@
 ﻿using SSEditor.MonitoringField;
+using Stylet;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    public abstract class SSGroup<T> : ISSGroup, ISSWritable where T: ISSGenericFile
+    public abstract class SSGroup<T> : PropertyChangedBase, ISSGroup, ISSWritable where T: ISSGenericFile
     {
         public ReadOnlyObservableCollection<T> CommonFilesReadOnly { get; private set; }
         protected ObservableCollection<T> CommonFiles { get;} = new ObservableCollection<T>();
@@ -16,6 +17,7 @@ namespace SSEditor.FileHandling
         public SSRelativeUrl RelativeUrl { get; private set; }
 
         public virtual bool MustOverwrite { get; set; } = false;
+        public virtual bool IsModified { get; set; } = false;
         public virtual bool WillCreateFile { get; } = true;
         public SSGroup()
         {

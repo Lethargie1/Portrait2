@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FVJson;
+using Stylet;
 
 namespace SSEditor.FileHandling
 {
@@ -37,7 +38,10 @@ namespace SSEditor.FileHandling
             if (PathedContent.TryGetValue(path, out extracted))
             {
                 if (extracted is T typed)
+                {
+                    typed.Bind(x => x.Modified, (sender, arg) => SubPropertyModified(sender, arg));
                     return typed;
+                }
                 else
                     throw new InvalidOperationException("Existing field is different type than defined one");
             }
@@ -50,6 +54,11 @@ namespace SSEditor.FileHandling
         {
         }
 
+        public void SubPropertyModified(object sender, EventArgs e)
+        {
+            NotifyOfPropertyChange(nameof(IsModified));
+            NotifyOfPropertyChange(nameof(MustOverwrite));
+        }
     }
     
 }

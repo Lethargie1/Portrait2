@@ -14,6 +14,8 @@ namespace SSEditor.MonitoringField
     {
         public Dictionary<JsonValue,MonitoredField<T>> MonitoredProperties { get; private set; } = new Dictionary<JsonValue, MonitoredField<T>>();
 
+        public override bool Modified { get => this.IsModified(); }
+
         public void Add(string field, MonitoredField<T> fieldMonitor)
         {
             MonitoredProperties.Add(new JsonValue(field), fieldMonitor);

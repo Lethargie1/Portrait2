@@ -24,6 +24,17 @@ namespace SSEditor.FileHandling
         }
         public MonitoredObject<T> MonitoredContent { get; set; } = null;
         public Dictionary<string, MonitoredField<T>> PathedContent { get; private set; } = new Dictionary<string, MonitoredField<T>>();
+
+        public override bool IsModified 
+        {
+            get
+            {
+                if (MonitoredContent.IsModified() == true)
+                    return true;
+                return false;
+            }
+            set => base.IsModified = value; 
+        }
         public override bool WillCreateFile
         {
             get
