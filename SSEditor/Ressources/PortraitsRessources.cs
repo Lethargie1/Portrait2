@@ -13,6 +13,8 @@ namespace SSEditor.Ressources
 {
     public class PortraitsRessources
     {
+        public static PropertyGroupDescription GroupDescription { get; } = new PropertyGroupDescription("SourceModName");
+
         private List<SSFactionGroup> ReferencedFiles{ get; set; }
 
         public Dictionary<string, Portraits> RessourceCorrespondance { get; } = new Dictionary<string, Portraits>();

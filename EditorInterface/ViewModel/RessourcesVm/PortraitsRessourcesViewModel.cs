@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace EditorInterface.ViewModel
 {
@@ -37,6 +38,28 @@ namespace EditorInterface.ViewModel
                 return PortraitsRessources.RessourceCorrespondance.Select(kv => kv.Value).ToList();
             }
         }
+        CollectionView _AvailablePortraitsView;
+        public CollectionView AvailablePortraitsView
+        {
+            get
+            {
+                if (_AvailablePortraitsView == null)
+                {
+
+                    _AvailablePortraitsView = (CollectionView)CollectionViewSource.GetDefaultView(AvailablePortraits);
+                    //_FilesToWriteView = new CollectionView(FilesToWrite);
+                    //_FilesToWriteView.Filter = x => ((ISSWritable)x).WillCreateFile;
+                    //PropertyGroupDescription groupDescription = new PropertyGroupDescription("SourceMod", new PortraitModToGroupConverter());
+                    _AvailablePortraitsView.GroupDescriptions.Clear();
+                    _AvailablePortraitsView.GroupDescriptions.Add(PortraitsRessources.GroupDescription);
+                }
+                return _AvailablePortraitsView;
+            }
+        }
+
+
+
+
 
         private Portraits _SelectedPortraitRessource;
         public Portraits SelectedPortraitRessource
