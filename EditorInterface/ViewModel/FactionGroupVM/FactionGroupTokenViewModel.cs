@@ -4,6 +4,7 @@ using SSEditor.FileHandling;
 using Stylet;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,19 @@ namespace EditorInterface.ViewModel
                 b.Unbind();
             base.OnClose();
         }
-        public string Name { get => Group.DisplayName?.Content?.ToString() ?? Group.ToString(); }
+        public string Name 
+        {
+            get 
+            {
+                if (Group.DisplayName?.Content?.ToString() == null)
+                {
+                    FileInfo file = new FileInfo(Group.RelativeUrl.ToString());
+                    return file.Name;
+                }
+                else
+                    return Group.DisplayName?.Content?.ToString() ;
+            }
+        }
 
         public string Color
         {

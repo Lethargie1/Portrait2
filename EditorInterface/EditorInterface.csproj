@@ -86,6 +86,7 @@
     <Compile Include="ViewModel\ModDetailedViewModel.cs" />
     <Compile Include="ViewModel\RessourcesVm\PortraitsRessourcesViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
+    <Compile Include="ViewModel\SSMessageBoxViewModel.cs" />
     <Compile Include="ViewModel\WriterViewModel.cs" />
     <Compile Include="View\DirectoryView.xaml.cs">
       <DependentUpon>DirectoryView.xaml</DependentUpon>
@@ -120,6 +121,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\SSMessageBoxView.xaml.cs">
+      <DependentUpon>SSMessageBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WriterView.xaml.cs">
       <DependentUpon>WriterView.xaml</DependentUpon>
@@ -165,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SSMessageBoxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

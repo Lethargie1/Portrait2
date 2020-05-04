@@ -27,6 +27,7 @@ namespace EditorInterface
             builder.Bind<PortraitsRessourcesViewModelFactory>().ToSelf();
             builder.Bind(typeof(IModelValidator<>)).To(typeof(FluentModelValidator<>));
             builder.Bind(typeof(IValidator<>)).ToAllImplementations();
+            builder.Bind(typeof(IMessageBoxViewModel)).To(typeof(SSMessageBoxViewModel));
         }
     }
 }
