@@ -26,8 +26,20 @@ namespace EditorInterface.ViewModel
         private readonly IWindowManager windowManager;
 
         private string _TargetFolder;
-        public string TargetFolder { get => _TargetFolder; set { SetAndNotify(ref _TargetFolder, value);} }
+        public string TargetFolder { get => _TargetFolder; set { SetAndNotify(ref _TargetFolder, value); NotifyOfPropertyChange(nameof(HasNoFolderError)); } }
 
+        public bool HasNoFolderError
+        {
+            get
+            {
+                Validator.ValidateAllPropertiesAsync();
+                var test = this.GetErrors(nameof(TargetFolder));
+                if (test == null || test.Cast<Object>().Count() == 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
 
         public SSDirectory Directory { get; private set; }
 
@@ -77,6 +89,8 @@ namespace EditorInterface.ViewModel
             var factionEditor = FactionEditorFactory.CreateFactionEditor();
             factionEditor.ReplaceFactionToWrite(Receiver);
             base.OnActivate();
+            Validator.ValidateAllPropertiesAsync();
+            NotifyOfPropertyChange(nameof(HasNoFolderError));
         }
 
         public void SelectNewUrl()
@@ -110,7 +124,8 @@ namespace EditorInterface.ViewModel
             {
                 windowManager.ShowMessageBox("Target directory are not accesibles (Is it open in the Windows explorer?)");
             }
-
+            Validator.ValidateAllPropertiesAsync();
+            NotifyOfPropertyChange(nameof(HasNoFolderError));
         }
     }
 
@@ -121,7 +136,7 @@ namespace EditorInterface.ViewModel
             RuleFor(x => x.TargetFolder).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty().WithMessage("You must have a folder").Must(x =>
             {
                 return StarsectorValidityChecker.CheckModFolderEmpty(x);
-            }).WithMessage("Folder must be empty");
+            }).WithMessage("The folder is not empty");
         }
     }
 

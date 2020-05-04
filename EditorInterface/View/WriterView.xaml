@@ -46,7 +46,7 @@
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
             <WrapPanel>
-                <Button Content="WriteMod" Command="{s:Action WriteToDisk}" Margin="3,3,3,3"></Button>
+                <Button Content="WriteMod" Command="{s:Action WriteToDisk}" Margin="3,3,3,3" IsEnabled="{Binding HasNoFolderError}"></Button>
             </WrapPanel>
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1">
