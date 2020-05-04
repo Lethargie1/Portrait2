@@ -13,6 +13,11 @@ namespace SSEditor.MonitoringField
     {
         public JsonValue Content { get; private set; }
         public override bool Modified { get => this.IsModified(); }
+
+        public MonitoredValue() : base()
+        {
+            Content = new JsonValue();
+        }
         public MonitoredValue(JsonValue content)
         {
             Content = content;

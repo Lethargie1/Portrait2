@@ -65,10 +65,15 @@
         <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Column="2">
             <ContentControl s:View.Model="{Binding SelectedModViewModel}" Margin="7" />
         </Border>
-        <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.ColumnSpan="3" Grid.Row="1"/>
-        <WrapPanel Grid.Row="1" Margin="7">
-            <Button Content="Directory setup complete" Command="{s:Action DirectoryExploreComplete}" Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Button Content="Take me back" Command="{s:Action RequestClose}" Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </WrapPanel>
+        <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Column="0"  Grid.Row="1">
+            <WrapPanel Grid.Row="1" >
+                <Button Content="Take me back" Command="{s:Action RequestClose}" Margin="3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </WrapPanel>
+        </Border>
+        <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1">
+            <WrapPanel Grid.Row="1" >
+                <Button Content="Directory setup complete" Command="{s:Action DirectoryExploreComplete}" Margin="3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding HasBeenExploredOnce}"/>
+            </WrapPanel>
+        </Border>
     </Grid>
 </UserControl>

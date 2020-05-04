@@ -14,7 +14,7 @@ namespace SSEditor.MonitoringField
     {
         public static MonitoredField<T> CreateFieldFromExampleToken(JsonToken token, string fieldpath)
         {
-            MonitoredField<T> result = null;
+            //MonitoredField<T> result = null;
 
             bool isValueArray = Regex.Match(fieldpath.Split('.').Last(), @"color|button|^music_").Success; ;
             switch (token)

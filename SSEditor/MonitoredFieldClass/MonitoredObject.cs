@@ -116,5 +116,57 @@ namespace SSEditor.MonitoringField
             }
             return result;
         }
+
+        public void AddSubMonitor(string path, MonitoredField<T> content)
+        {
+            content.FieldPath = path;
+            if (path == "")
+                throw new FormatException("path cannot be empty");
+            string[] parts = path.Split('.');
+            if (parts[0] != "")
+                throw new FormatException("path must start with .");
+            int count = parts.Count();
+            if (count < 2)
+                throw new FormatException("path must contains .");
+            JsonValue partKey = new JsonValue(parts[1]);
+            if (count == 2)
+            {
+                if (MonitoredProperties.ContainsKey(partKey))
+                    throw new FormatException("Cant add existing field");
+                else
+                {
+                    MonitoredProperties.Add(partKey, content);
+                    foreach (T file in Files)
+                        content.Files.Add(file);
+                    return;
+                }
+            }
+            else
+            {
+                string[] remain = new string[count - 2];
+                Array.Copy(parts, 2, remain, 0, count - 2);
+                string newPath = "." + string.Join(".", remain);
+                if (MonitoredProperties.ContainsKey(partKey))
+                {
+                    if (MonitoredProperties[partKey] is MonitoredObject<T> mObject)
+                    {
+                        mObject.AddSubMonitor(newPath, content);
+                    }
+                    else
+                    {
+                        throw new FormatException("Cannot add subfield to non object field");
+                    }
+                }
+                else
+                {
+                    MonitoredObject<T> newMobject = new MonitoredObject<T>();
+                    newMobject.AddSubMonitor(newPath, content);
+                    MonitoredProperties.Add(partKey, newMobject);
+                    foreach (T file in Files)
+                        content.Files.Add(file);
+                    return;
+                }
+            }
+        }
     }
 }

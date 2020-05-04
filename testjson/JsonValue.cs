@@ -12,24 +12,48 @@ namespace FVJson
         public object Content { get; private set; }
         public void SetContent(bool value)
         {
+            if (Content == null)
+            {
+                base.Type = TokenType.Boolean;
+                Content = value;
+                return;
+            }
             if (base.Type != TokenType.Boolean)
                 throw new ArgumentException("Worng type of JsonValue");
             Content = value;
         }
         public void SetContent(string value)
         {
+            if (Content == null)
+            {
+                base.Type = TokenType.String;
+                Content = value;
+                return;
+            }
             if (base.Type != TokenType.String)
                 throw new ArgumentException("Worng type of JsonValue");
             Content = value;
         }
         public void SetContent(double value)
         {
+            if (Content == null)
+            {
+                base.Type = TokenType.Double;
+                Content = value;
+                return;
+            }
             if (base.Type != TokenType.Double)
                 throw new ArgumentException("Worng type of JsonValue");
             Content = value;
         }
         public void SetContent(int value)
         {
+            if (Content == null)
+            {
+                base.Type = TokenType.Integer;
+                Content = value;
+                return;
+            }
             if (base.Type != TokenType.Integer)
                 throw new ArgumentException("Worng type of JsonValue");
             Content = value;
@@ -57,6 +81,10 @@ namespace FVJson
         }
 
 
+        public JsonValue()
+        {
+            Content = null;
+        }
         public JsonValue(bool value)
         {
             this.Type = TokenType.Boolean;
@@ -119,7 +147,10 @@ namespace FVJson
 
         public override string ToString()
         {
-            return Content.ToString();
+            if (Content == null)
+                return null;
+            else
+                return Content.ToString();
         }
         public override string ToJsonString()
         {

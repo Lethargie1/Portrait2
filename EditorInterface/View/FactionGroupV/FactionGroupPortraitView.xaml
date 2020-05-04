@@ -31,7 +31,7 @@
             <ListBox   Margin="7,7,7,7" SelectedIndex="0"  Background="Transparent" ItemsSource="{Binding MonitoredArray}" SelectedItem="{Binding SelectedPortraitArray}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel/>
+                        <WrapPanel Margin="0"/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
@@ -61,9 +61,9 @@
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1">
             <WrapPanel>
-                <Button Content="Clear Portrait" Command="{s:Action ClearPortrait}" Margin="3,3,3,3"></Button>
-                <Button Content="Remove Portrait" Command="{s:Action RemovePortrait}" Margin="3,3,3,3"></Button>
-                <Button Content="Reset Portrait" Command="{s:Action ResetPortrait}" Margin="3,3,3,3"></Button>
+                <Button Content="Clear Portrait" Command="{s:Action ClearPortrait}" Margin="3"></Button>
+                <Button Content="Remove Portrait" Command="{s:Action RemovePortrait}" Margin="3"></Button>
+                <Button Content="Reset Portrait" Command="{s:Action ResetPortrait}" Margin="3"></Button>
             </WrapPanel>
         </Border>
     </Grid>

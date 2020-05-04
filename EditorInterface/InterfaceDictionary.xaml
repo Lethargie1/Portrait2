@@ -7,6 +7,9 @@
     <local:ViewModelLocator x:Key="ViewModelLocator"/>
     <vm:ImageConverter x:Key="ImageConverter"/>
 
+    <Style TargetType="WrapPanel">
+        <Setter Property="Margin" Value="9"/>
+    </Style>
     <DataTemplate x:Key="FactionFileImageTemplate">
         <Grid>
             <Image Source="{Binding LogoPath}" Height="30"/>

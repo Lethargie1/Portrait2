@@ -28,11 +28,10 @@ namespace SSEditor.FileHandling
             FemalePortraits = AttachOneAttribute<MonitoredArray<SSFaction>>(".portraits.standard_female");
             FactionColor = AttachOneAttribute<MonitoredArrayValue<SSFaction>>(".color");
             Id = AttachOneAttribute<MonitoredValue<SSFaction>>(".id");
-            DisplayName = AttachOneAttribute<MonitoredValue<SSFaction>>(".displayName");
             DisplayNameWithArticle = AttachOneAttribute<MonitoredValue<SSFaction>>(".displayNameWithArticle");
             ShipNamePrefix = AttachOneAttribute<MonitoredValue<SSFaction>>(".shipNamePrefix");
         }
-        private T AttachOneAttribute<T>(string path) where T:MonitoredField<SSFaction>
+        private T AttachOneAttribute<T>(string path) where T:MonitoredField<SSFaction>, new()
         {
             MonitoredField<SSFaction> extracted;
             if (PathedContent.TryGetValue(path, out extracted))
@@ -46,7 +45,12 @@ namespace SSEditor.FileHandling
                     throw new InvalidOperationException("Existing field is different type than defined one");
             }
             else
-                return null;
+            {
+                extracted = new T();
+                MonitoredContent.AddSubMonitor(path, extracted);
+                extracted.Bind(x => x.Modified, (sender, arg) => SubPropertyModified(sender, arg));
+                return extracted as T;
+            }
         }
 
 
