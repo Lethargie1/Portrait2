@@ -19,9 +19,14 @@ namespace EditorInterface.ViewModel
             FactionGroup = factionGroup;
             //PortraitsRessource = portraitsRessource;
             PortraitsRessourcesVMFactory = portraitsRessourcesVMFactory;
+            string DisplayNameArticled = FactionGroup?.DisplayNameWithArticle?.Content?.ToString();
+
             ActivateItem(new FactionGroupValueViewModel(FactionGroup) { DisplayName = "Values" });
-            ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.FemalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Female portraits" });
-            ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Male portraits" });
+            string FemaleDisplayPortrait = DisplayNameArticled != null ? "Female Portraits from " + DisplayNameArticled : "Female portraits";
+            ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.FemalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Portraits (f)" , LongDisplayName = FemaleDisplayPortrait });
+
+            string maleDisplayPortrait = DisplayNameArticled != null ? "Male Portraits from " + DisplayNameArticled : "Male portraits";
+            ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Portraits (m)", LongDisplayName = maleDisplayPortrait });
             
         }
     }

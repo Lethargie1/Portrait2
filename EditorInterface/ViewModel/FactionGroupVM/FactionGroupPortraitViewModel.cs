@@ -14,6 +14,7 @@ namespace EditorInterface.ViewModel
 {
     public class FactionGroupPortraitViewModel : Conductor<PortraitsRessourcesViewModel>
     {
+        public string LongDisplayName { get; set; }
         public PortraitsRessourcesViewModel PortraitsRessourcesVM { get; private set; }
         public MonitoredArray<SSFaction> TargetMonitor { get; private set; }
         public ObservableCollection<JsonToken> MonitoredArray { get => TargetMonitor?.ContentArray; }

@@ -13,7 +13,7 @@
     </UserControl.Resources>
 
     
-    <Grid Background="{StaticResource GeneralBackgroundBrush}">
+    <Grid Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -21,7 +21,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
 
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" >

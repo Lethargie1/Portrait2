@@ -15,7 +15,7 @@
         <vm:ModTypeToEnabledConverter x:Key="ModToEnabledConverter" />
         
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>

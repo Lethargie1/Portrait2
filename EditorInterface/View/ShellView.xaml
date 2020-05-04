@@ -9,7 +9,7 @@
         Title="Shell" Height="800" Width="1400">
         
     <Grid>
-        <Grid Background="{StaticResource GeneralBackgroundBrush}">
+        <Grid Background="{StaticResource SpaceBackground}">
 
             <ContentControl s:View.Model="{Binding ActiveItem}"  />
 

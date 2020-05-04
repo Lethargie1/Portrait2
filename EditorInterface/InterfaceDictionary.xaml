@@ -1,9 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:EditorInterface">
+                    xmlns:local="clr-namespace:EditorInterface"
+                    xmlns:properties="clr-namespace:EditorInterface.Properties"
+                    xmlns:vm="clr-namespace:EditorInterface.ViewModel">
 
     <local:ViewModelLocator x:Key="ViewModelLocator"/>
-    
+    <vm:ImageConverter x:Key="ImageConverter"/>
+
     <DataTemplate x:Key="FactionFileImageTemplate">
         <Grid>
             <Image Source="{Binding LogoPath}" Height="30"/>
@@ -53,6 +56,7 @@
    
 
     <!--application wide styleing yes-->
+    <ImageBrush x:Key="SpaceBackground" ImageSource="{Binding Source={x:Static properties:Resources.galaxy_space}, Converter={StaticResource ImageConverter}}"   Stretch="UniformToFill"/>
     <SolidColorBrush x:Key="TextBrush" Color="Azure" />
     <Color x:Key="GeneralBackgroundColor">black</Color>
     <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="{StaticResource GeneralBackgroundColor}" />
