@@ -20,8 +20,10 @@ namespace SSEditor.FileHandling
 
         public override bool MustOverwrite
         {
-            get => MonitoredContent.RequiresOverwrite();      
+            get => base.ForceOverwrite ? true : MonitoredContent.RequiresOverwrite();      
         }
+
+
         public MonitoredObject<T> MonitoredContent { get; set; } = null;
         public Dictionary<string, MonitoredField<T>> PathedContent { get; private set; } = new Dictionary<string, MonitoredField<T>>();
 

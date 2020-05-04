@@ -16,7 +16,11 @@ namespace SSEditor.FileHandling
 
         public SSRelativeUrl RelativeUrl { get; private set; }
 
-        public virtual bool MustOverwrite { get; set; } = false;
+        
+        public virtual bool MustOverwrite { get => ForceOverwrite; }
+
+        private bool _ForceOverwrite = false;
+        public bool ForceOverwrite { get => _ForceOverwrite; set { SetAndNotify(ref _ForceOverwrite, value); NotifyOfPropertyChange(nameof(MustOverwrite)); } } 
         public virtual bool IsModified { get; set; } = false;
         public virtual bool WillCreateFile { get; } = true;
         public SSGroup()

@@ -11,7 +11,8 @@ namespace SSEditor.FileHandling
     {
         void WriteTo(SSBaseLinkUrl newPath);
         SSRelativeUrl RelativeUrl { get; }
-        bool MustOverwrite { get; set; }
+        bool MustOverwrite { get; }
+        bool ForceOverwrite { get; set; }
     }
     public interface ISSJsonGroup : ISSGroup
     {
