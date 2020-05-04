@@ -41,6 +41,8 @@ namespace SSEditor.FileHandling
         {
             get
             {
+                if (MustOverwrite == true)
+                    return true;
                 if (MonitoredContent.Files.Count == 0)
                     return false;
                 if (MonitoredContent.IsModified() == true)

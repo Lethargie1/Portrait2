@@ -342,31 +342,30 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Grid>
+                    <Grid Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="{TemplateBinding Width}"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Name="Text" Panel.ZIndex="2" FontFamily="Segoe Ui Dark" HorizontalAlignment="Center"  VerticalAlignment="Center"  Foreground="{StaticResource TextBrush}" Text="{TemplateBinding Content}" FontSize="12" FontWeight="SemiBold" Margin="5,5,5,5" />
-                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="{StaticResource ButtonSolid}" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                        <TextBlock Name="Text" Panel.ZIndex="2" FontFamily="Segoe Ui Dark" HorizontalAlignment="Center"  VerticalAlignment="Center"  Foreground="{StaticResource TextBrush}" Text="{TemplateBinding Content}" FontSize="12" FontWeight="SemiBold" Margin="5,5,5,5" Background="Transparent" />
+                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <BulletDecorator.Bullet>
-                                <Border x:Name="Border" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" Width="{Binding ElementName=Text, Path=Width}" >
-                                    <Grid Margin="2,2,2,2" >
-                                        <Rectangle  Fill="{StaticResource ButtonSolid}" StrokeThickness="0" Stroke="Black" Stretch="UniformToFill" />
-                                        <Rectangle x:Name="CheckMark" Margin="1" Fill="{StaticResource ButtonPale}" HorizontalAlignment="Stretch" />
-                                    </Grid>
+                                <Border x:Name="Border" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" Width="{TemplateBinding Width}" Height="30" CornerRadius="9">
                                 </Border>
                             </BulletDecorator.Bullet>
+                            
                         </BulletDecorator>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="false">
-                            <Setter TargetName="CheckMark" Property="Visibility" Value="Hidden"/>
+                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Gainsboro" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="Text" Property="Foreground" Value="{StaticResource TextBrush}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonPale}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Gainsboro" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="Border" Property="Background" Value="LightGray" />

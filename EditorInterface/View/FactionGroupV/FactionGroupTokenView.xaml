@@ -18,5 +18,6 @@
         <Border Grid.Column="1" Background="{Binding StatusColor}" BorderThickness="0" VerticalAlignment="Center"  CornerRadius="9" Width ="36" Height="36" Margin="10,0,0,0">
             <TextBlock Text="{Binding StatusLetter}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"  FontWeight="Bold" Margin="5,3,5,3" Foreground="Black"/>
         </Border>
+        <CheckBox Grid.Column="2" IsChecked="{Binding ForceOverwrite}" Style="{StaticResource ToggleButton}" Content="Force replace" HorizontalAlignment="Center" Width="100" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>

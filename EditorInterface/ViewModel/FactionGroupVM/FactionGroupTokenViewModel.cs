@@ -70,5 +70,18 @@ namespace EditorInterface.ViewModel
                     return "Transparent";
             }
         }
+
+        public bool ForceOverwrite
+        {
+            get
+            {
+                return Group.ForceOverwrite;
+            }
+            set
+            {
+                Group.ForceOverwrite = value;
+                NotifyOfPropertyChange(nameof(StatusLetter));
+            }
+        }
     }
 }
