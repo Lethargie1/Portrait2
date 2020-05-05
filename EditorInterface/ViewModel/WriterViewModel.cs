@@ -91,6 +91,7 @@ namespace EditorInterface.ViewModel
             base.OnActivate();
             Validator.ValidateAllPropertiesAsync();
             NotifyOfPropertyChange(nameof(HasNoFolderError));
+            NotifyOfPropertyChange(nameof(TargetFolder));
         }
 
         public void SelectNewUrl()
@@ -126,6 +127,7 @@ namespace EditorInterface.ViewModel
             }
             Validator.ValidateAllPropertiesAsync();
             NotifyOfPropertyChange(nameof(HasNoFolderError));
+            NotifyOfPropertyChange(nameof(TargetFolder));
         }
     }
 
