@@ -24,7 +24,14 @@ namespace EditorInterface.ViewModel
         public string SSDisplayName
         {
             get { return FactionGroup?.DisplayName?.Content.ToString(); }
+            set 
+            { 
+                FactionGroup.DisplayName.Modification = new FVJson.JsonValue(value);
+                
+                NotifyOfPropertyChange(nameof(SSDisplayNameWarning));
+            }
         }
+        public string SSDisplayNameWarning { get => FactionGroup.DisplayName.HasMultipleSourceFile ? "Has multiple source" : null; }
 
         public string SSDisplayNameWithArticle
         {

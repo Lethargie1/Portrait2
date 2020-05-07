@@ -22,6 +22,7 @@ namespace EditorInterface.ViewModel
             Group = group;
             binding.Add(Group.Bind(x => x.IsModified, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
             binding.Add(Group.Bind(x => x.MustOverwrite, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
+            binding.Add(Group.DisplayName.Bind(x => x.Content, (sender, arg) => NotifyOfPropertyChange(nameof(Name))));
         }
 
         protected override void OnClose()
@@ -34,7 +35,8 @@ namespace EditorInterface.ViewModel
         {
             get 
             {
-                if (Group.DisplayName?.Content?.ToString() == null)
+                
+                if (Group.DisplayName.Content?.ToString() == null)
                 {
                     FileInfo file = new FileInfo(Group.RelativeUrl.ToString());
                     return file.Name;
