@@ -119,6 +119,7 @@
     <Compile Include="ViewModel\FactionGroupVM\FactionGroupViewModel.cs" />
     <Compile Include="ViewModel\MainMenuViewModel.cs" />
     <Compile Include="ViewModel\ModDetailedViewModel.cs" />
+    <Compile Include="ViewModel\MonitoredFieldVm\MonitoredValueViewModel.cs" />
     <Compile Include="ViewModel\RessourcesVm\PortraitsRessourcesViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="ViewModel\SSMessageBoxViewModel.cs" />
@@ -269,6 +270,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\galaxy-space-957010.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

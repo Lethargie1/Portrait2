@@ -1,4 +1,5 @@
 ﻿using SSEditor.FileHandling;
+using SSEditor.MonitoringField;
 using Stylet;
 using System;
 using System.Collections.Generic;
@@ -12,26 +13,40 @@ namespace EditorInterface.ViewModel
     {
         public SSFactionGroup FactionGroup { get; set; }
 
+        private List<IEventBinding> binding = new List<IEventBinding>();
         public FactionGroupValueViewModel(SSFactionGroup factionGroup)
         {
             FactionGroup = factionGroup;
         }
+        protected override void OnClose()
+        {
+            foreach (IEventBinding b in binding)
+                b.Unbind();
+            base.OnClose();
+        }
+
         public string Id
         {
             get { return FactionGroup?.Id?.Content.ToString(); }
         }
 
+        
         public string SSDisplayName
         {
             get { return FactionGroup?.DisplayName?.Content.ToString(); }
             set 
             { 
-                FactionGroup.DisplayName.Modification = new FVJson.JsonValue(value);
+                FactionGroup.DisplayName.ApplyModification(new FVJson.JsonValue(value));
                 
                 NotifyOfPropertyChange(nameof(SSDisplayNameWarning));
             }
         }
-        public string SSDisplayNameWarning { get => FactionGroup.DisplayName.HasMultipleSourceFile ? "Has multiple source" : null; }
+        public void ResetDisplayName()
+        {
+            FactionGroup?.DisplayName?.Reset();
+            NotifyOfPropertyChange(nameof(SSDisplayName));
+        }
+        public string SSDisplayNameWarning { get => FactionGroup?.DisplayName.HasMultipleSourceFile ?? false ? "Has multiple source" : null; }
 
         public string SSDisplayNameWithArticle
         {
@@ -42,5 +57,7 @@ namespace EditorInterface.ViewModel
         {
             get { return FactionGroup?.ShipNamePrefix?.Content.ToString(); }
         }
+
+        
     }
 }

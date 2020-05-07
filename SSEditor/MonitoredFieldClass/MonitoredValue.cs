@@ -11,7 +11,8 @@ namespace SSEditor.MonitoringField
 {
     public class MonitoredValue<T>: MonitoredField<T> where T:SSJson 
     {
-        public JsonValue Content { get; private set; }
+        private JsonValue _Content;
+        public JsonValue Content { get => _Content; private set=>SetAndNotify(ref _Content,value); }
         public override bool Modified { get => this.IsModified(); }
 
         private JsonValue _Modification;
@@ -20,9 +21,7 @@ namespace SSEditor.MonitoringField
             get => _Modification;
             set 
             {
-                SetAndNotify(ref _Modification, value);
-                Content.SetContent(value.Content);
-                NotifyOfPropertyChange(nameof(Content));
+                SetAndNotify(ref _Modification, value);                
                 NotifyOfPropertyChange(nameof(Modified));
             }
                 
@@ -37,9 +36,15 @@ namespace SSEditor.MonitoringField
         {
             Content = content;
         }
+        public void ApplyModification(JsonValue mod)
+        {
+            Modification = mod;
+            Content = mod;
+        }
         public void Reset()
         {
-            Modification = null;
+            if (Modification != null)
+                Modification = null;
             Resolve();
         }
         override public void Resolve()
@@ -61,12 +66,12 @@ namespace SSEditor.MonitoringField
                 if (Modification != null)
                     TokenResult = Modification;
                 if (TokenResult is JsonValue value)
-                    Content.SetContent(value.Content);
+                    Content = value;
                 else if (TokenResult == null)
-                    Content.SetContent(null);
+                    Content = null;
                 else
                     throw new ArgumentException("Path leads to wrong type of token");
-                NotifyOfPropertyChange(nameof(Content));
+
                 T FileResult = Ordered.FirstOrDefault()?.file;
             }
         }

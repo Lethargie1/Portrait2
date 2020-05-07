@@ -37,7 +37,7 @@
                 <TextBlock Text="{Binding Id}" Grid.Column="1"/>
                 <TextBlock Text="Display name: " Grid.Row="1"/>
                 <DockPanel Grid.Row="1" Grid.Column="1" LastChildFill="False">
-                    <Button  Style="{StaticResource SmallButton}" Height="20" Width="20" Margin="3" >
+                    <Button  Style="{StaticResource SmallButton}" Height="20" Width="20" Margin="3" Command="{s:Action ResetDisplayName}" CommandParameter="{Binding FactionGroup.DisplayName}" >
                     </Button>
                     <TextBox Text="{Binding SSDisplayName, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Left" />
                     <TextBlock Text="{Binding SSDisplayNameWarning}" DockPanel.Dock="Left" Foreground="Red"/>

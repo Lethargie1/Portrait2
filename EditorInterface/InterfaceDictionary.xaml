@@ -60,6 +60,7 @@
 
     <!--application wide styleing yes-->
     <ImageBrush x:Key="SpaceBackground" ImageSource="/LEPG;component/Images/galaxy-space-957010.jpg"   Stretch="UniformToFill"/>
+    <ImageBrush x:Key="Reset" ImageSource="/LEPG;component/Images/refresh.png"   Stretch="UniformToFill"/>
     <SolidColorBrush x:Key="TextBrush" Color="Azure" />
     <Color x:Key="GeneralBackgroundColor">black</Color>
     <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="{StaticResource GeneralBackgroundColor}" />
@@ -481,7 +482,7 @@
     </Style>
 
 
-    
+
     <Style TargetType="Button">
         <Setter Property="Background" Value="{StaticResource ButtonSolid}"/>
         <Setter Property="Template">
@@ -513,6 +514,32 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Button" x:Key="SmallButton">
+        <Setter Property="Background" Value="{StaticResource ButtonSolid}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid x:Name="grid" Background="Transparent">
+                        <Border x:Name="border" CornerRadius="0" Margin="3" BorderBrush="{StaticResource UiHighContrast}" BorderThickness="0" Background="{StaticResource ButtonSolid}" OpacityMask="{StaticResource Reset}">
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource ButtonPale}"/>
+                            <Setter Property="Background" TargetName="grid" Value="gray"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="#2C628B"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <ControlTemplate x:Key="ComboBoxToggleButton"
                  TargetType="{x:Type ToggleButton}">
         <Grid>
