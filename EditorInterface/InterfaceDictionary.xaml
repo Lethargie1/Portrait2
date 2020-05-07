@@ -59,7 +59,7 @@
    
 
     <!--application wide styleing yes-->
-    <ImageBrush x:Key="SpaceBackground" ImageSource="{Binding Source={x:Static properties:Resources.galaxy_space}, Converter={StaticResource ImageConverter}}"   Stretch="UniformToFill"/>
+    <ImageBrush x:Key="SpaceBackground" ImageSource="/LEPG;component/Images/galaxy-space-957010.jpg"   Stretch="UniformToFill"/>
     <SolidColorBrush x:Key="TextBrush" Color="Azure" />
     <Color x:Key="GeneralBackgroundColor">black</Color>
     <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="{StaticResource GeneralBackgroundColor}" />
