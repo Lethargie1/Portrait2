@@ -36,7 +36,7 @@
                 <TextBlock Text="id: "/>
                 <TextBlock Text="{Binding Id}" Grid.Column="1"/>
                 <TextBlock Text="Display name: " Grid.Row="1"/>
-                <ContentControl s:View.Model="{Binding DisplayName}" Grid.Row="1" Grid.Column="1"/>
+                <ContentControl s:View.Model="{Binding SSDisplayName}" Grid.Row="1" Grid.Column="1"/>
 
                 <TextBlock Text="Display name with article: " Grid.Row="2"/>
                 <ContentControl s:View.Model="{Binding DisplayNameWithArticle}" Grid.Row="2" Grid.Column="1"/>

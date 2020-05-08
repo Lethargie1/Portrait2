@@ -17,7 +17,7 @@ namespace EditorInterface.ViewModel
         public FactionGroupValueViewModel(SSFactionGroup factionGroup)
         {
             FactionGroup = factionGroup;
-            DisplayName = new MonitoredValueViewModel(FactionGroup?.DisplayName);
+            SSDisplayName = new MonitoredValueViewModel(FactionGroup?.DisplayName);
             DisplayNameWithArticle = new MonitoredValueViewModel(FactionGroup?.DisplayNameWithArticle);
             ShipNamePrefix = new MonitoredValueViewModel(FactionGroup?.ShipNamePrefix);
         }
@@ -33,7 +33,7 @@ namespace EditorInterface.ViewModel
             get { return FactionGroup?.Id?.Content.ToString(); }
         }
 
-        public MonitoredValueViewModel DisplayName { get; }
+        public MonitoredValueViewModel SSDisplayName { get; }
         public MonitoredValueViewModel DisplayNameWithArticle { get; }
 
         public MonitoredValueViewModel ShipNamePrefix { get; }
