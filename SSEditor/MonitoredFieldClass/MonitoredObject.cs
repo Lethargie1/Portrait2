@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public class MonitoredObject<T> : MonitoredField<T> where T : SSJson
+    public class MonitoredObject : MonitoredField 
     {
-        public Dictionary<JsonValue,MonitoredField<T>> MonitoredProperties { get; private set; } = new Dictionary<JsonValue, MonitoredField<T>>();
+        public Dictionary<JsonValue,MonitoredField> MonitoredProperties { get; private set; } = new Dictionary<JsonValue, MonitoredField>();
 
         public override bool Modified { get => this.IsModified(); }
 
-        public void Add(string field, MonitoredField<T> fieldMonitor)
+        public void Add(string field, MonitoredField fieldMonitor)
         {
             MonitoredProperties.Add(new JsonValue(field), fieldMonitor);
         }
@@ -25,7 +25,7 @@ namespace SSEditor.MonitoringField
         public override JsonToken GetJsonEquivalent()
         {
             JsonObject NewContent = new JsonObject();
-            foreach (KeyValuePair<JsonValue,MonitoredField<T>> kv in MonitoredProperties)
+            foreach (KeyValuePair<JsonValue,MonitoredField> kv in MonitoredProperties)
             {
                 JsonToken a = kv.Value.GetJsonEquivalent();
                 NewContent.Values.Add(kv.Key, a);
@@ -36,7 +36,7 @@ namespace SSEditor.MonitoringField
         public override JsonToken GetJsonEquivalentNoOverwrite()
         {
             JsonObject NewContent = new JsonObject();
-            foreach (KeyValuePair<JsonValue, MonitoredField<T>> kv in MonitoredProperties)
+            foreach (KeyValuePair<JsonValue, MonitoredField> kv in MonitoredProperties)
             {
                 JsonToken a = kv.Value.GetJsonEquivalentNoOverwrite();
                 if (a == null)
@@ -50,7 +50,7 @@ namespace SSEditor.MonitoringField
 
         public override bool IsModified()
         {
-            var test = (from KeyValuePair<JsonValue, MonitoredField<T>> kv in MonitoredProperties
+            var test = (from KeyValuePair<JsonValue, MonitoredField> kv in MonitoredProperties
                         where kv.Value.IsModified() == true
                         select kv.Value).FirstOrDefault();
             return test == null ? false : true;
@@ -58,7 +58,7 @@ namespace SSEditor.MonitoringField
 
         public override bool RequiresOverwrite()
         {
-            var test = (from KeyValuePair<JsonValue, MonitoredField<T>> kv in MonitoredProperties
+            var test = (from KeyValuePair<JsonValue, MonitoredField> kv in MonitoredProperties
                         where kv.Value.RequiresOverwrite() == true
                         select kv.Value).FirstOrDefault();
             return test == null ? false : true;
@@ -80,11 +80,11 @@ namespace SSEditor.MonitoringField
                     //this is in case someone suround a field name with "" and someone else dosn't
                     if (MonitoredProperties.ContainsKey(KeyAsStr) || MonitoredProperties.ContainsKey(KeyAsRef))
                         continue;
-                    MonitoredField<T> tempchildfield;
+                    MonitoredField tempchildfield;
                     if (FieldPath=="")
-                        tempchildfield = MonitoredFieldFactory<T>.CreateFieldFromExampleToken(KeyValue.Value,  "." + KeyValue.Key.ToString());
+                        tempchildfield = MonitoredFieldFactory.CreateFieldFromExampleToken(KeyValue.Value,  "." + KeyValue.Key.ToString());
                     else
-                        tempchildfield = MonitoredFieldFactory<T>.CreateFieldFromExampleToken(KeyValue.Value,this.FieldPath + "." + KeyValue.Key.ToString());
+                        tempchildfield = MonitoredFieldFactory.CreateFieldFromExampleToken(KeyValue.Value,this.FieldPath + "." + KeyValue.Key.ToString());
 
                     tempchildfield.ReplaceFiles(base.Files);
                     MonitoredProperties.Add(KeyValue.Key,tempchildfield);
@@ -93,23 +93,23 @@ namespace SSEditor.MonitoringField
             }
         }
 
-        protected override void ResolveAdd(T file)
+        protected override void ResolveAdd(ISSJson file)
         {
             Resolve();
         }
 
-        protected override void ResolveRemove(T file)
+        protected override void ResolveRemove(ISSJson file)
         {
             Resolve();
         }
 
-        public override Dictionary<string, MonitoredField<T>> GetPathedChildrens()
+        public override Dictionary<string, MonitoredField> GetPathedChildrens()
         {
-            Dictionary<string, MonitoredField<T>> result = new Dictionary<String, MonitoredField<T>>() { { "", this } };
-            foreach (KeyValuePair<JsonValue, MonitoredField<T>> kv in MonitoredProperties)
+            Dictionary<string, MonitoredField> result = new Dictionary<String, MonitoredField>() { { "", this } };
+            foreach (KeyValuePair<JsonValue, MonitoredField> kv in MonitoredProperties)
             {
-                Dictionary<string, MonitoredField<T>> subResult = kv.Value.GetPathedChildrens();
-                foreach (KeyValuePair<string, MonitoredField<T>> subkv in subResult)
+                Dictionary<string, MonitoredField> subResult = kv.Value.GetPathedChildrens();
+                foreach (KeyValuePair<string, MonitoredField> subkv in subResult)
                 {
                     result.Add("." + kv.Key.ToString() + subkv.Key, subkv.Value);
                 }
@@ -117,7 +117,7 @@ namespace SSEditor.MonitoringField
             return result;
         }
 
-        public void AddSubMonitor(string path, MonitoredField<T> content)
+        public void AddSubMonitor(string path, MonitoredField content)
         {
             content.FieldPath = path;
             if (path == "")
@@ -136,7 +136,7 @@ namespace SSEditor.MonitoringField
                 else
                 {
                     MonitoredProperties.Add(partKey, content);
-                    foreach (T file in Files)
+                    foreach (ISSJson file in Files)
                         content.Files.Add(file);
                     return;
                 }
@@ -148,7 +148,7 @@ namespace SSEditor.MonitoringField
                 string newPath = "." + string.Join(".", remain);
                 if (MonitoredProperties.ContainsKey(partKey))
                 {
-                    if (MonitoredProperties[partKey] is MonitoredObject<T> mObject)
+                    if (MonitoredProperties[partKey] is MonitoredObject mObject)
                     {
                         mObject.AddSubMonitor(newPath, content);
                     }
@@ -159,10 +159,10 @@ namespace SSEditor.MonitoringField
                 }
                 else
                 {
-                    MonitoredObject<T> newMobject = new MonitoredObject<T>();
+                    MonitoredObject newMobject = new MonitoredObject();
                     newMobject.AddSubMonitor(newPath, content);
                     MonitoredProperties.Add(partKey, newMobject);
-                    foreach (T file in Files)
+                    foreach (ISSJson file in Files)
                         content.Files.Add(file);
                     return;
                 }

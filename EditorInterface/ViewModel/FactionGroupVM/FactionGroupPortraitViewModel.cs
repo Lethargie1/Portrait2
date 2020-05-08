@@ -16,11 +16,11 @@ namespace EditorInterface.ViewModel
     {
         public string LongDisplayName { get; set; }
         public PortraitsRessourcesViewModel PortraitsRessourcesVM { get; private set; }
-        public MonitoredArray<SSFaction> TargetMonitor { get; private set; }
+        public MonitoredArray TargetMonitor { get; private set; }
         public ObservableCollection<JsonToken> MonitoredArray { get => TargetMonitor?.ContentArray; }
 
         public JsonToken SelectedPortraitArray { get; set; }
-        public FactionGroupPortraitViewModel(MonitoredArray<SSFaction> targetMonitor, PortraitsRessourcesViewModel portraitsRessourcesVM)
+        public FactionGroupPortraitViewModel(MonitoredArray targetMonitor, PortraitsRessourcesViewModel portraitsRessourcesVM)
         {
             TargetMonitor = targetMonitor;
             PortraitsRessourcesVM = portraitsRessourcesVM;

@@ -12,17 +12,17 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public abstract class MonitoredField<T> : PropertyChangedBase where T:SSJson
+    public abstract class MonitoredField : PropertyChangedBase 
     {
         public string FieldPath { get; set; }
-        private ObservableCollection<T> _Files;
-        public ObservableCollection<T> Files
+        private ObservableCollection<ISSJson> _Files;
+        public ObservableCollection<ISSJson> Files
         {
             get
             {
                 if (_Files == null)
                 {
-                    _Files = new ObservableCollection<T>();
+                    _Files = new ObservableCollection<ISSJson>();
                     _Files.CollectionChanged += this.OnFilesChanged;
                 }
                 return _Files;
@@ -35,11 +35,11 @@ namespace SSEditor.MonitoringField
         abstract public bool RequiresOverwrite();
         abstract public bool IsModified();
         abstract public void Resolve();
-        abstract protected void ResolveAdd(T file);
-        abstract protected void ResolveRemove(T file);
-        public abstract Dictionary<string, MonitoredField<T>> GetPathedChildrens();
+        abstract protected void ResolveAdd(ISSJson file);
+        abstract protected void ResolveRemove(ISSJson file);
+        public abstract Dictionary<string, MonitoredField> GetPathedChildrens();
 
-        public void ReplaceFiles(ObservableCollection<T> newFiles)
+        public void ReplaceFiles(ObservableCollection<ISSJson> newFiles)
         {
             Files.CollectionChanged -= this.OnFilesChanged;
             _Files = newFiles;
@@ -49,11 +49,11 @@ namespace SSEditor.MonitoringField
         private void OnFilesChanged(object sender, NotifyCollectionChangedEventArgs e )
         {
             if (e.NewItems != null && e.NewItems.Count != 0)
-                foreach (T file in e.NewItems)
+                foreach (ISSJson file in e.NewItems)
                     this.ResolveAdd(file);
 
             if (e.OldItems != null && e.OldItems.Count != 0)
-                foreach (T file in e.OldItems)
+                foreach (ISSJson file in e.OldItems)
                     this.ResolveRemove(file);
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {

@@ -15,7 +15,7 @@ namespace SSEditor.FileHandling
     {
 
     }
-    public class SSJsonGroup<T> : SSGroup<T>, ISSJsonGroup where T: SSJson
+    public class SSJsonGroup<T> : SSGroup<T>, ISSJsonGroup where T: ISSJson
     {
 
         public override bool MustOverwrite
@@ -24,8 +24,8 @@ namespace SSEditor.FileHandling
         }
 
 
-        public MonitoredObject<T> MonitoredContent { get; set; } = null;
-        public Dictionary<string, MonitoredField<T>> PathedContent { get; private set; } = new Dictionary<string, MonitoredField<T>>();
+        public MonitoredObject MonitoredContent { get; set; } = null;
+        public Dictionary<string, MonitoredField> PathedContent { get; private set; } = new Dictionary<string, MonitoredField>();
 
         public override bool IsModified 
         {
@@ -55,15 +55,15 @@ namespace SSEditor.FileHandling
 
         public void ExtractMonitoredContent()
         {
-            MonitoredObject<T> rootMonitoredObject = new MonitoredObject<T>() { FieldPath = "" };
+            MonitoredObject rootMonitoredObject = new MonitoredObject() { FieldPath = "" };
             
             T core = (from T file in base.CommonFiles
                       where file.SourceMod.CurrentType == ModType.Core
                       select file).SingleOrDefault();
-            List<T> modAdded = (from T file in base.CommonFiles
+            List<ISSJson> modAdded = (from T file in base.CommonFiles
                                 where file.SourceMod.CurrentType == ModType.Mod
-                                select file).ToList();
-            ObservableCollection<T> fileUsed = new ObservableCollection<T>(modAdded);
+                                select file as ISSJson).ToList();
+            ObservableCollection<ISSJson> fileUsed = new ObservableCollection<ISSJson>(modAdded);
             if ( core != null)
                 fileUsed.Add(core);
 
@@ -78,11 +78,11 @@ namespace SSEditor.FileHandling
 
         public void PopulatePathedContent()
         {
-            Dictionary<string, MonitoredField<T>> temp = MonitoredContent?.GetPathedChildrens();
+            Dictionary<string, MonitoredField> temp = MonitoredContent?.GetPathedChildrens();
             PathedContent.Clear();
             if (temp !=null)
             {
-                foreach (KeyValuePair<string, MonitoredField<T>> kv in temp)
+                foreach (KeyValuePair<string, MonitoredField> kv in temp)
                 {
                     PathedContent.Add(kv.Key, kv.Value);
                 }

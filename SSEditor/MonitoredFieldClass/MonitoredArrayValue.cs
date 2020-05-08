@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public class MonitoredArrayValue<T> : MonitoredField<T> where T:SSJson
+    public class MonitoredArrayValue : MonitoredField
     {
         public JsonArray ContentArray { get; } = new JsonArray();
         public override bool Modified { get => this.IsModified(); }
@@ -57,12 +57,12 @@ namespace SSEditor.MonitoringField
         {
             return false;
         }
-        protected override void ResolveAdd(T file)
+        protected override void ResolveAdd(ISSJson file)
         {
             Resolve();
         }
 
-        protected override void ResolveRemove(T file)
+        protected override void ResolveRemove(ISSJson file)
         {
             Resolve();
         }
@@ -72,9 +72,9 @@ namespace SSEditor.MonitoringField
             return base.FieldPath + ": " + ContentArray.ToString();
         }
 
-        public override Dictionary<string, MonitoredField<T>> GetPathedChildrens()
+        public override Dictionary<string, MonitoredField> GetPathedChildrens()
         {
-            return new Dictionary<String, MonitoredField<T>>() { { "", this } };
+            return new Dictionary<String, MonitoredField>() { { "", this } };
         }
     }
 }

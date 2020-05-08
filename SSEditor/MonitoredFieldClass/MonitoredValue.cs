@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public class MonitoredValue<T>: MonitoredField<T> where T:SSJson 
+    public class MonitoredValue: MonitoredField 
     {
         private JsonValue _Content;
         public JsonValue Content { get => _Content; private set=>SetAndNotify(ref _Content,value); }
@@ -72,7 +72,7 @@ namespace SSEditor.MonitoringField
                 else
                     throw new ArgumentException("Path leads to wrong type of token");
 
-                T FileResult = Ordered.FirstOrDefault()?.file;
+                ISSJson FileResult = Ordered.FirstOrDefault()?.file;
             }
         }
         public override JsonToken GetJsonEquivalent()
@@ -96,12 +96,12 @@ namespace SSEditor.MonitoringField
                 return false;
         }
 
-        protected override void ResolveAdd(T file)
+        protected override void ResolveAdd(ISSJson file)
         {
             Resolve();
         }
 
-        protected override void ResolveRemove(T file)
+        protected override void ResolveRemove(ISSJson file)
         {
             Resolve();
         }
@@ -111,9 +111,9 @@ namespace SSEditor.MonitoringField
             return base.FieldPath+": "+ Content.ToString();
         }
 
-        public override Dictionary<string, MonitoredField<T>> GetPathedChildrens()
+        public override Dictionary<string, MonitoredField> GetPathedChildrens()
         {
-            return new Dictionary<String, MonitoredField<T>>() { { "", this } };
+            return new Dictionary<String, MonitoredField>() { { "", this } };
         }
     }
 }

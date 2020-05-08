@@ -21,6 +21,8 @@ namespace SSEditor.FileHandling
         //these contains json data, many type exist but the handling of the internal jsoncontent is the same
         bool ExtractedProperly { get;}
         JsonToken ReadToken(string path);
+        void RefreshFields();
+        Dictionary<string, JsonToken> Fields { get; }
     }
 
     public interface ISSMergable : ISSGenericFile

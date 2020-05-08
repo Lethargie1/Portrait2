@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public static class MonitoredFieldFactory<T> where T:SSJson
+    public static class MonitoredFieldFactory 
     {
-        public static MonitoredField<T> CreateFieldFromExampleToken(JsonToken token, string fieldpath)
+        public static MonitoredField CreateFieldFromExampleToken(JsonToken token, string fieldpath)
         {
             //MonitoredField<T> result = null;
 
@@ -21,8 +21,8 @@ namespace SSEditor.MonitoringField
             {
                 case JsonArray jArray:
                     if (isValueArray)
-                        return new MonitoredArrayValue<T>() {FieldPath = fieldpath };
-                    return new MonitoredArray<T>() { FieldPath = fieldpath };
+                        return new MonitoredArrayValue() {FieldPath = fieldpath };
+                    return new MonitoredArray() { FieldPath = fieldpath };
                     //JsonToken TestChild = jArray.Values.FirstOrDefault();
                     //switch (TestChild)
                     //{
@@ -32,9 +32,9 @@ namespace SSEditor.MonitoringField
                     //        return new MonitoredArray<T>() { FieldPath = fieldpath };
                     //}
                 case JsonObject jObject:
-                    return new MonitoredObject<T>() { FieldPath = fieldpath };
+                    return new MonitoredObject() { FieldPath = fieldpath };
                 case JsonValue jValue:
-                    return new MonitoredValue<T>(jValue) { FieldPath = fieldpath };
+                    return new MonitoredValue(jValue) { FieldPath = fieldpath };
                 default:
                     throw new ArgumentException();
             }

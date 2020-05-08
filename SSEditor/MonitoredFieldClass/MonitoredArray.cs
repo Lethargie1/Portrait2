@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public class MonitoredArray<T> : MonitoredField<T> where T : SSJson
+    public class MonitoredArray: MonitoredField 
     {
         public ObservableCollection<JsonToken> ContentArray { get; } = new ObservableCollection<JsonToken>();
         public override bool Modified { get => this.IsModified(); }
@@ -124,12 +124,12 @@ namespace SSEditor.MonitoringField
             return test == null ? false : true;
         }
 
-        protected override void ResolveAdd(T file)
+        protected override void ResolveAdd(ISSJson file)
         {
             Resolve();
         }
 
-        protected override void ResolveRemove(T file)
+        protected override void ResolveRemove(ISSJson file)
         {
             Resolve();
         }
@@ -138,9 +138,9 @@ namespace SSEditor.MonitoringField
             return base.FieldPath + " Array: (" + this.ContentArray.Count.ToString() + ")value, first one: " + (this.ContentArray.FirstOrDefault()?.ToString() ?? "none") ;
         }
 
-        public override Dictionary<string, MonitoredField<T>> GetPathedChildrens()
+        public override Dictionary<string, MonitoredField> GetPathedChildrens()
         {
-            return new Dictionary<String, MonitoredField<T>>() { { "", this } };
+            return new Dictionary<String, MonitoredField>() { { "", this } };
         }
     }
 }
