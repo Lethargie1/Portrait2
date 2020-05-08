@@ -26,7 +26,11 @@ namespace SSEditor.FileHandling
             DisplayName = AttachOneAttribute<MonitoredValue>(".displayName");
             MalePortraits = AttachOneAttribute<MonitoredArray>(".portraits.standard_male");
             FemalePortraits = AttachOneAttribute<MonitoredArray>(".portraits.standard_female");
+            //should be the base color fo the faction
             FactionColor = AttachOneAttribute<MonitoredArrayValue>(".color");
+            //darkUIColor is the background color for text header
+            //secondaryUIColor should be the color of segment in 2 color faction
+            //baseUIColor is the color of text
             Id = AttachOneAttribute<MonitoredValue>(".id");
             DisplayNameWithArticle = AttachOneAttribute<MonitoredValue>(".displayNameWithArticle");
             ShipNamePrefix = AttachOneAttribute<MonitoredValue>(".shipNamePrefix");
