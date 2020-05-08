@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EditorInterface"
              xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:c="clr-namespace:SSEditor.Converters;assembly=SSEditor" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              d:DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MonitoredValueViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="40" d:DesignWidth="200">
     <UserControl.Resources>
         <s:BoolToVisibilityConverter x:Key="BoolToVisible" TrueVisibility="Visible" FalseVisibility="Hidden"/>
+        <c:BooleanToInverseConverter x:Key="BoolToInverse"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -21,7 +23,24 @@
 
         <Button  Style="{StaticResource SmallButton}" Height="{Binding ElementName=icon, Path=ActualHeight}" Width="{Binding ElementName=icon, Path=ActualWidth}" Margin="5,0,0,0" Command="{s:Action Reset}" >
         </Button>
-        <Rectangle Grid.Column="1" Fill="{Binding Color}" Height="{Binding ElementName=icon, Path=ActualHeight}" Width="50" Stroke="{StaticResource UiHighContrast}"/>
+        <Rectangle x:Name="rect" Grid.Column="1" Fill="{Binding Color}" Height="{Binding ElementName=icon, Path=ActualHeight}" Width="50" Stroke="{StaticResource UiHighContrast}">
+            <Rectangle.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseLeftButtonDown">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="myPopupA" Storyboard.TargetProperty="(Popup.IsOpen)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00.1" Value="{Binding ElementName=myPopupA,Converter={StaticResource BoolToInverse},Path=IsOpen}" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Rectangle.Triggers>
+        </Rectangle>
+        <Popup Name="myPopupA" PlacementTarget="{Binding ElementName=rect}" Placement="Right">
+            <xctk:ColorCanvas SelectedColor="{Binding Color}"/>
+        </Popup>
+
+
         <TextBlock Text="{Binding ValueWarning}" Grid.Column="2" Foreground="Red"/>
         <Border x:Name="icon" Grid.Column="3" Background="Yellow" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Center" CornerRadius="3" Margin="0,0,5,0" Visibility="{Binding MonitoredColor.Modified, Converter={StaticResource BoolToVisible}}" >
             <TextBlock Text="M" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"  FontWeight="Bold" Foreground="Black" Margin="5,2"/>

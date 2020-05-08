@@ -23,6 +23,7 @@ namespace EditorInterface.ViewModel
             binding.Add(Group.Bind(x => x.IsModified, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
             binding.Add(Group.Bind(x => x.MustOverwrite, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
             binding.Add(Group.DisplayName.Bind(x => x.Content, (sender, arg) => NotifyOfPropertyChange(nameof(Name))));
+            binding.Add(Group.FactionColor.Bind(x => x.ContentArray, (sender, arg) => NotifyOfPropertyChange(nameof(Color))));
         }
 
         protected override void OnClose()

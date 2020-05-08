@@ -1,4 +1,5 @@
-﻿using SSEditor.Converters;
+﻿using FVJson;
+using SSEditor.Converters;
 using SSEditor.MonitoringField;
 using Stylet;
 using System;
@@ -22,7 +23,18 @@ namespace EditorInterface
         public string Color
         {
             get => (string)colorConverter.Convert(MonitoredColor.ContentArray);
+
+            set
+            {
+
+                if (value != Color)
+                {
+                    MonitoredColor.ApplyModification((JsonArray)colorConverter.ConvertBack(value));
+                    NotifyOfPropertyChange(nameof(Color));
+                }
+            }
         }
+
 
         public void Reset()
         {

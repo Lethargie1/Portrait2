@@ -23,7 +23,8 @@ namespace SSEditor.MonitoringField
             get => _Modification;
             set
             {
-                if (value.Values.Count != 4)
+
+                if (value != null && value.Values.Count != 4)
                     throw new ArgumentException("Cant set an array with the wrong count");
                 SetAndNotify(ref _Modification, value);
                 NotifyOfPropertyChange(nameof(Modified));
@@ -85,7 +86,7 @@ namespace SSEditor.MonitoringField
 
         public override bool IsModified()
         {
-            return false;
+            return Modification != null; 
         }
 
         public override bool RequiresOverwrite()

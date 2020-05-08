@@ -30,9 +30,19 @@ namespace SSEditor.Converters
                 throw new ArgumentException("Not a 4 value array");
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(string value)
         {
-            throw new NotImplementedException();
+            string first = value.Substring(1, 2);
+            string second = value.Substring(3, 2);
+            string third = value.Substring(5, 2);
+            string fourth = value.Substring(7, 2);
+
+            JsonArray result = new JsonArray();
+            result.Values.Add(new JsonValue(System.Convert.ToInt32(second,16)));
+            result.Values.Add(new JsonValue(System.Convert.ToInt32(third,16)));
+            result.Values.Add(new JsonValue(System.Convert.ToInt32(fourth,16)));
+            result.Values.Add(new JsonValue(System.Convert.ToInt32(first,16)));
+            return result;
         }
     }
 }
