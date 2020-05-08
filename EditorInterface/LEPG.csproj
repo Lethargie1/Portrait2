@@ -124,6 +124,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="FluentModelValidator.cs" />
+    <Compile Include="ViewModel\MonitoredFieldVm\MonitoredColorViewModel.cs" />
     <Compile Include="View\MonitoredFieldV\MonitoredValueView.xaml.cs">
       <DependentUpon>MonitoredValueView.xaml</DependentUpon>
     </Compile>

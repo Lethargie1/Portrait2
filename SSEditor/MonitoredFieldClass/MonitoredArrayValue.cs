@@ -12,9 +12,37 @@ namespace SSEditor.MonitoringField
 {
     public class MonitoredArrayValue : MonitoredField
     {
-        public JsonArray ContentArray { get; } = new JsonArray();
+        private JsonArray _ContentArray;
+        public JsonArray ContentArray { get => _ContentArray; set => SetAndNotify(ref _ContentArray, value); }
+
         public override bool Modified { get => this.IsModified(); }
 
+        private JsonArray _Modification;
+        public JsonArray Modification
+        {
+            get => _Modification;
+            set
+            {
+                if (value.Values.Count != 4)
+                    throw new ArgumentException("Cant set an array with the wrong count");
+                SetAndNotify(ref _Modification, value);
+                NotifyOfPropertyChange(nameof(Modified));
+            }
+
+        }
+        public void ApplyModification(JsonArray mod)
+        {
+            Modification = mod;
+            ContentArray = mod;
+        }
+        public void Reset()
+        {
+            if (Modification != null)
+                Modification = null;
+            Resolve();
+        }
+
+        public bool HasMultipleSourceFile { get; private set; } = false;
 
         public override void Resolve()
         {
@@ -27,15 +55,22 @@ namespace SSEditor.MonitoringField
                               orderby p.modName
                               select new { p.value, p.file };
                 JsonToken ValueResult = Ordered.FirstOrDefault()?.value;
-                if (ValueResult is JsonArray jArray)
-                {
-                    if (jArray.Values.Count == 4)
-                    {
-                        ContentArray.Values.Clear();
-                        foreach (JsonToken token in jArray.Values)
-                            ContentArray.Values.Add(token);
-                    }
-                }
+                if (Ordered.Count() > 1)
+                    HasMultipleSourceFile = true;
+                else
+                    HasMultipleSourceFile = false;
+                NotifyOfPropertyChange(nameof(HasMultipleSourceFile));
+                if (Modification != null)
+                    ValueResult = Modification;
+
+                if (ValueResult is JsonArray value)
+                    ContentArray = value;
+                else if (ValueResult == null)
+                    ContentArray = null;
+                else
+                    throw new ArgumentException("Path leads to wrong type of token");
+
+
                 ISSJson FileResult = Ordered.FirstOrDefault()?.file;
             }
         }
