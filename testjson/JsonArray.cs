@@ -67,13 +67,13 @@ namespace FVJson
             if (Values[0].Type == TokenType.Integer)
                 result = "[";
             else
-                result = "[\n\t" + AddTab;
+                result = "[\n\r\t" + AddTab;
             for (int i = 0; i < Values.Count - 1; i++)
             {
                 if (Values[i].Type == TokenType.Integer)
                     result = result + Values[i].ToJsonString(tab+1) + ",";
                 else
-                    result = result + Values[i].ToJsonString(tab+1) + ",\n\t" +AddTab;
+                    result = result + Values[i].ToJsonString(tab+1) + ",\n\r\t" +AddTab;
             }
             if (Values.Count > 0)
             {
@@ -81,7 +81,7 @@ namespace FVJson
                 if (Values.Last().Type == TokenType.Integer)
                     ;
                 else
-                    result = result + ",\n" +AddTab;
+                    result = result + ",\n\r" +AddTab;
             }
             result = result + "]";
             return result;

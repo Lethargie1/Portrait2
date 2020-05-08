@@ -121,10 +121,10 @@ namespace FVJson
             for (int i = 0; i < tab; i++)
                 AddTab = AddTab + "\t";
             string result;
-            result = "{\r";
+            result = "{\r\n";
             foreach (KeyValuePair<JsonValue, JsonToken> kp in Values)
             {
-                result = result + "\t" +AddTab + kp.Key.ToJsonString() + ":" + kp.Value.ToJsonString(tab+1) + ",\r";
+                result = result + "\t" +AddTab + kp.Key.ToJsonString() + ":" + kp.Value.ToJsonString(tab+1) + ",\r\n";
             }
             result = result + AddTab+ "}";
             return result;
