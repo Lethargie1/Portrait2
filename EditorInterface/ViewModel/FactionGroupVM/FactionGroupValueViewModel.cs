@@ -20,6 +20,7 @@ namespace EditorInterface.ViewModel
             SSDisplayName = new MonitoredValueViewModel(FactionGroup?.DisplayName);
             DisplayNameWithArticle = new MonitoredValueViewModel(FactionGroup?.DisplayNameWithArticle);
             ShipNamePrefix = new MonitoredValueViewModel(FactionGroup?.ShipNamePrefix);
+            Color1 = new MonitoredColorViewModel(FactionGroup?.FactionColor);
         }
         protected override void OnClose()
         {
@@ -37,6 +38,8 @@ namespace EditorInterface.ViewModel
         public MonitoredValueViewModel DisplayNameWithArticle { get; }
 
         public MonitoredValueViewModel ShipNamePrefix { get; }
+
+        public MonitoredColorViewModel Color1 { get; }
 
 
         

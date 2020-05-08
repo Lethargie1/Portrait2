@@ -60,7 +60,7 @@
 
     <!--application wide styleing yes-->
     <ImageBrush x:Key="SpaceBackground" ImageSource="/LEPG;component/Images/galaxy-space-957010.jpg"   Stretch="UniformToFill"/>
-    <ImageBrush x:Key="Reset" ImageSource="/LEPG;component/Images/refresh.png"   Stretch="UniformToFill"/>
+    <ImageBrush x:Key="Reset" ImageSource="/LEPG;component/Images/refresh.png"   Stretch="Uniform"/>
     <SolidColorBrush x:Key="TextBrush" Color="Azure" />
     <Color x:Key="GeneralBackgroundColor">black</Color>
     <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="{StaticResource GeneralBackgroundColor}" />

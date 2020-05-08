@@ -29,6 +29,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -43,7 +44,9 @@
                 <ContentControl s:View.Model="{Binding DisplayNameWithArticle}" Grid.Row="2" Grid.Column="1"/>
                 <TextBlock Text="Ship name prefix: " Grid.Row="3"/>
                 <ContentControl s:View.Model="{Binding ShipNamePrefix}" Grid.Row="3" Grid.Column="1"/>
-                <xctk:ColorCanvas Grid.Row="5"/>
+                <TextBlock Text="Faction Color: " Grid.Row="4"/>
+                <ContentControl s:View.Model="{Binding Color1}" Grid.Row="4" Grid.Column="1"/>
+                <xctk:ColorCanvas Grid.Row="6"/>
             </Grid>
         </Border>
     </Grid>

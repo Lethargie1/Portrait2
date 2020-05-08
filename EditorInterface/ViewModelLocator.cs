@@ -56,5 +56,21 @@ namespace EditorInterface
             }
         }
 
+        public MonitoredColorViewModel MonitoredColorViewModel
+        {
+            get
+            {
+                JsonArray value = new JsonArray();
+                value.Values.Add(new JsonValue(55));
+                value.Values.Add(new JsonValue(45));
+                value.Values.Add(new JsonValue(35));
+                value.Values.Add(new JsonValue(205));
+                MonitoredArrayValue monitorValue = new MonitoredArrayValue();
+                MonitoredColorViewModel result = new MonitoredColorViewModel(monitorValue);
+                monitorValue.ApplyModification(value);
+                return result;
+            }
+        }
+
     }
 }

@@ -124,6 +124,9 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="FluentModelValidator.cs" />
+    <Compile Include="View\MonitoredFieldV\MonitoredColorView.xaml.cs">
+      <DependentUpon>MonitoredColorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\MonitoredFieldVm\MonitoredColorViewModel.cs" />
     <Compile Include="View\MonitoredFieldV\MonitoredValueView.xaml.cs">
       <DependentUpon>MonitoredValueView.xaml</DependentUpon>
@@ -184,6 +187,10 @@
       <DependentUpon>WriterView.xaml</DependentUpon>
     </Compile>
     <Page Include="InterfaceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MonitoredFieldV\MonitoredColorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
