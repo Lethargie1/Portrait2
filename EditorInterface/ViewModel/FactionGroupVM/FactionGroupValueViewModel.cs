@@ -17,6 +17,9 @@ namespace EditorInterface.ViewModel
         public FactionGroupValueViewModel(SSFactionGroup factionGroup)
         {
             FactionGroup = factionGroup;
+            DisplayName = new MonitoredValueViewModel(FactionGroup?.DisplayName);
+            DisplayNameWithArticle = new MonitoredValueViewModel(FactionGroup?.DisplayNameWithArticle);
+            ShipNamePrefix = new MonitoredValueViewModel(FactionGroup?.ShipNamePrefix);
         }
         protected override void OnClose()
         {
@@ -30,33 +33,11 @@ namespace EditorInterface.ViewModel
             get { return FactionGroup?.Id?.Content.ToString(); }
         }
 
-        
-        public string SSDisplayName
-        {
-            get { return FactionGroup?.DisplayName?.Content.ToString(); }
-            set 
-            { 
-                FactionGroup.DisplayName.ApplyModification(new FVJson.JsonValue(value));
-                
-                NotifyOfPropertyChange(nameof(SSDisplayNameWarning));
-            }
-        }
-        public void ResetDisplayName()
-        {
-            FactionGroup?.DisplayName?.Reset();
-            NotifyOfPropertyChange(nameof(SSDisplayName));
-        }
-        public string SSDisplayNameWarning { get => FactionGroup?.DisplayName.HasMultipleSourceFile ?? false ? "Has multiple source" : null; }
+        public MonitoredValueViewModel DisplayName { get; }
+        public MonitoredValueViewModel DisplayNameWithArticle { get; }
 
-        public string SSDisplayNameWithArticle
-        {
-            get { return FactionGroup?.DisplayNameWithArticle?.Content.ToString(); }
-        }
+        public MonitoredValueViewModel ShipNamePrefix { get; }
 
-        public string ShipNamePrefix
-        {
-            get { return FactionGroup?.ShipNamePrefix?.Content.ToString(); }
-        }
 
         
     }

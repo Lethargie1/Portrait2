@@ -30,26 +30,19 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="id: "/>
                 <TextBlock Text="{Binding Id}" Grid.Column="1"/>
                 <TextBlock Text="Display name: " Grid.Row="1"/>
-                <DockPanel Grid.Row="1" Grid.Column="1" LastChildFill="False">
-                    <Button  Style="{StaticResource SmallButton}" Height="20" Width="20" Margin="3" Command="{s:Action ResetDisplayName}" CommandParameter="{Binding FactionGroup.DisplayName}" >
-                    </Button>
-                    <TextBox Text="{Binding SSDisplayName, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Left" />
-                    <TextBlock Text="{Binding SSDisplayNameWarning}" DockPanel.Dock="Left" Foreground="Red"/>
-                    <Border Grid.Column="1" Background="Yellow" BorderThickness="0" VerticalAlignment="Center"  CornerRadius="3" Width ="20" Height="20" Margin="0,0,0,0" Visibility="{Binding FactionGroup.DisplayName.Modified, Converter={StaticResource BoolToVisible}}" DockPanel.Dock="Right">
-                        <TextBlock Text="M" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"  FontWeight="Bold" Foreground="Black"/>
-                    </Border>
-                </DockPanel>
+                <ContentControl s:View.Model="{Binding DisplayName}" Grid.Row="1" Grid.Column="1"/>
 
                 <TextBlock Text="Display name with article: " Grid.Row="2"/>
-                <TextBlock Text="{Binding SSDisplayNameWithArticle}" Grid.Row="2" Grid.Column="1"/>
+                <ContentControl s:View.Model="{Binding DisplayNameWithArticle}" Grid.Row="2" Grid.Column="1"/>
                 <TextBlock Text="Ship name prefix: " Grid.Row="3"/>
-                <TextBlock Text="{Binding ShipNamePrefix}" Grid.Row="3" Grid.Column="1"/>
+                <ContentControl s:View.Model="{Binding ShipNamePrefix}" Grid.Row="3" Grid.Column="1"/>
+                
             </Grid>
         </Border>
     </Grid>

@@ -1,5 +1,7 @@
 ﻿using EditorInterface.ViewModel;
+using FVJson;
 using SSEditor.FileHandling;
+using SSEditor.MonitoringField;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +41,18 @@ namespace EditorInterface
                 var fv = new FluentModelValidator<DirectoryViewModel>(validator);
                 var vm = new DirectoryViewModel(DummyDirectory, fv);
                 return vm;
+            }
+        }
+
+        public MonitoredValueViewModel MonitoredValueViewModel
+        {
+            get
+            {
+                JsonValue value = new JsonValue("Hegemon");
+                MonitoredValue monitorValue = new MonitoredValue();
+                MonitoredValueViewModel result = new MonitoredValueViewModel(monitorValue);
+                monitorValue.ApplyModification(new JsonValue("hegemony2"));
+                return result;
             }
         }
 

@@ -109,6 +109,9 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="FluentModelValidator.cs" />
+    <Compile Include="View\MonitoredFieldV\MonitoredValueView.xaml.cs">
+      <DependentUpon>MonitoredValueView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validation\StarsectorValidityChecker.cs" />
     <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModel\DirectoryViewModel.cs" />
@@ -165,6 +168,10 @@
       <DependentUpon>WriterView.xaml</DependentUpon>
     </Compile>
     <Page Include="InterfaceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MonitoredFieldV\MonitoredValueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -274,5 +281,6 @@
   <ItemGroup>
     <Resource Include="Images\refresh.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
