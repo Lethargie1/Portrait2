@@ -19,18 +19,30 @@ namespace SSEditor.FileHandling
         public MonitoredValue ShipNamePrefix { get; private set; } = null;
         public MonitoredArray MalePortraits { get; private set; } = null;
         public MonitoredArray FemalePortraits { get; private set; } = null;
-        public MonitoredArrayValue FactionColor { get; private set; } = null;
-        
+        public MonitoredArrayValue Color { get; private set; } = null;
+        public MonitoredArrayValue DarkUIColor { get; private set; } = null;
+        public MonitoredArrayValue BaseUIColor { get; private set; } = null;
+        public MonitoredArrayValue SecondaryUIColor { get; private set; } = null;
+
         protected override void AttachDefinedAttribute()
         {
             DisplayName = AttachOneAttribute<MonitoredValue>(".displayName");
             MalePortraits = AttachOneAttribute<MonitoredArray>(".portraits.standard_male");
             FemalePortraits = AttachOneAttribute<MonitoredArray>(".portraits.standard_female");
-            //should be the base color fo the faction
-            FactionColor = AttachOneAttribute<MonitoredArrayValue>(".color");
+
+            //should be the base color for the faction
+            Color = AttachOneAttribute<MonitoredArrayValue>(".color");
             //darkUIColor is the background color for text header
-            //secondaryUIColor should be the color of segment in 2 color faction
+            DarkUIColor = AttachOneAttribute<MonitoredArrayValue>(".darkUIColor");
             //baseUIColor is the color of text
+            BaseUIColor = AttachOneAttribute<MonitoredArrayValue>(".baseUIcolor");
+            //secondaryUIColor should be the color of segment in 2 color faction
+            SecondaryUIColor = AttachOneAttribute<MonitoredArrayValue>(".secondaryUIcolor");
+            
+
+           
+            
+            
             Id = AttachOneAttribute<MonitoredValue>(".id");
             DisplayNameWithArticle = AttachOneAttribute<MonitoredValue>(".displayNameWithArticle");
             ShipNamePrefix = AttachOneAttribute<MonitoredValue>(".shipNamePrefix");
@@ -46,7 +58,7 @@ namespace SSEditor.FileHandling
                     return typed;
                 }
                 else
-                    throw new InvalidOperationException("Existing field is different type than defined one");
+                    throw new InvalidOperationException($"Existing field {path} in file {this.RelativeUrl.ToString()} is different type than {typeof(T)}");
             }
             else
             {

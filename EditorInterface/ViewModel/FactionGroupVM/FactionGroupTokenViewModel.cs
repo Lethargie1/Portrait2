@@ -23,7 +23,7 @@ namespace EditorInterface.ViewModel
             binding.Add(Group.Bind(x => x.IsModified, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
             binding.Add(Group.Bind(x => x.MustOverwrite, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
             binding.Add(Group.DisplayName.Bind(x => x.Content, (sender, arg) => NotifyOfPropertyChange(nameof(Name))));
-            binding.Add(Group.FactionColor.Bind(x => x.ContentArray, (sender, arg) => NotifyOfPropertyChange(nameof(Color))));
+            binding.Add(Group.Color.Bind(x => x.ContentArray, (sender, arg) => NotifyOfPropertyChange(nameof(Color))));
         }
 
         protected override void OnClose()
@@ -52,7 +52,7 @@ namespace EditorInterface.ViewModel
             get
             {
                 JsonArrayToColorConverter converter = new JsonArrayToColorConverter();
-                JsonArray source = Group.FactionColor?.ContentArray;
+                JsonArray source = Group.Color?.ContentArray;
                 if (source == null || source.Values.Count != 4)
                     return "#FFFFFFFF";
                 string color = (string)converter.Convert(source);

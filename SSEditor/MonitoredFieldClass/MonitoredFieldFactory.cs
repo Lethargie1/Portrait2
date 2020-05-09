@@ -16,7 +16,7 @@ namespace SSEditor.MonitoringField
         {
             //MonitoredField<T> result = null;
 
-            bool isValueArray = Regex.Match(fieldpath.Split('.').Last(), @"color|button|^music_").Success; ;
+            bool isValueArray = Regex.Match(fieldpath.Split('.').Last(), @"Color|color|button|^music_").Success; ;
             switch (token)
             {
                 case JsonArray jArray:

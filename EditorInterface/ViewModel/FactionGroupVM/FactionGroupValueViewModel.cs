@@ -20,7 +20,12 @@ namespace EditorInterface.ViewModel
             SSDisplayName = new MonitoredValueViewModel(FactionGroup?.DisplayName);
             DisplayNameWithArticle = new MonitoredValueViewModel(FactionGroup?.DisplayNameWithArticle);
             ShipNamePrefix = new MonitoredValueViewModel(FactionGroup?.ShipNamePrefix);
-            Color1 = new MonitoredColorViewModel(FactionGroup?.FactionColor);
+            Color = new MonitoredColorViewModel(FactionGroup?.Color);
+            BaseUIColor = new MonitoredColorViewModel(FactionGroup?.BaseUIColor);
+            DarkUIColor = new MonitoredColorViewModel(FactionGroup?.DarkUIColor);
+            SecondaryUIColor = new MonitoredColorViewModel(FactionGroup?.SecondaryUIColor);
+
+
         }
         protected override void OnClose()
         {
@@ -39,9 +44,12 @@ namespace EditorInterface.ViewModel
 
         public MonitoredValueViewModel ShipNamePrefix { get; }
 
-        public MonitoredColorViewModel Color1 { get; }
+        public MonitoredColorViewModel Color { get; }
+        public MonitoredColorViewModel BaseUIColor { get; }
+        public MonitoredColorViewModel DarkUIColor { get; }
+        public MonitoredColorViewModel SecondaryUIColor { get; }
 
 
-        
+
     }
 }
