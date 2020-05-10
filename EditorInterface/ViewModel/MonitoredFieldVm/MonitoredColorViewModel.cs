@@ -22,7 +22,7 @@ namespace EditorInterface
 
         public string Color
         {
-            get => (string)colorConverter.Convert(MonitoredColor.ContentArray);
+            get => (string)colorConverter.Convert(MonitoredColor?.ContentArray) ?? DefaultColor;
 
             set
             {
@@ -34,13 +34,24 @@ namespace EditorInterface
                 }
             }
         }
+        public string DefaultColor { get; set; } = "#FFFFFFFF";
+        public MonitoredArrayValue ReplacementSource { get; set; }
 
-
+        
         public void Reset()
         {
             MonitoredColor?.Reset();
             NotifyOfPropertyChange(nameof(Color));
         }
-        public string ValueWarning { get => MonitoredColor?.HasMultipleSourceFile ?? false ? "Has multiple source" : null; }
+        public string ValueWarning
+        {
+            get
+            {
+                if (Color == null)
+                    return "Value not set";
+                else
+                 return MonitoredColor?.HasMultipleSourceFile ?? false ? "Has multiple source" : null;
+            }
+        }
     }
 }

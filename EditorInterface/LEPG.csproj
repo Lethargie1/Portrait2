@@ -123,6 +123,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="CustomUserControl\OutlinedTextBlock.cs" />
     <Compile Include="FluentModelValidator.cs" />
     <Compile Include="View\MonitoredFieldV\MonitoredColorView.xaml.cs">
       <DependentUpon>MonitoredColorView.xaml</DependentUpon>

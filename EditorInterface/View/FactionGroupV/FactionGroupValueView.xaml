@@ -7,6 +7,7 @@
              xmlns:s="https://github.com/canton7/Stylet"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:Properties="clr-namespace:EditorInterface.Properties" x:Class="EditorInterface.View.FactionGroupValueView"
+             xmlns:cuc="clr-namespace:EditorInterface.CustomUserControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -20,8 +21,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
+            
         </Grid.ColumnDefinitions>
-        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.ColumnSpan="3">
             <Grid Margin="7">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -37,16 +39,17 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="id: "/>
                 <TextBlock Text="{Binding Id}" Grid.Column="1"/>
                 <TextBlock Text="Display name: " Grid.Row="1"/>
-                <ContentControl s:View.Model="{Binding SSDisplayName}" Grid.Row="1" Grid.Column="1"/>
+                <ContentControl s:View.Model="{Binding SSDisplayName}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" />
 
                 <TextBlock Text="Display name with article: " Grid.Row="2"/>
-                <ContentControl s:View.Model="{Binding DisplayNameWithArticle}" Grid.Row="2" Grid.Column="1"/>
+                <ContentControl s:View.Model="{Binding DisplayNameWithArticle}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
                 <TextBlock Text="Ship name prefix: " Grid.Row="3"/>
-                <ContentControl s:View.Model="{Binding ShipNamePrefix}" Grid.Row="3" Grid.Column="1"/>
+                <ContentControl s:View.Model="{Binding ShipNamePrefix}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" />
                 <TextBlock Text="Faction Color: " Grid.Row="4"/>
                 <ContentControl s:View.Model="{Binding Color}" Grid.Row="4" Grid.Column="1"/>
                 <TextBlock Text="Base UI color: " Grid.Row="5"/>
@@ -55,7 +58,11 @@
                 <ContentControl s:View.Model="{Binding DarkUIColor}" Grid.Row="6" Grid.Column="1"/>
                 <TextBlock Text="Secondary UI color: " Grid.Row="7"/>
                 <ContentControl s:View.Model="{Binding SecondaryUIColor}" Grid.Row="7" Grid.Column="1"/>
-
+                <Border Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{Binding DarkUIColor.Color}">
+                <cuc:OutlinedTextBlock   FontFamily="Verdana" FontSize="20pt" FontWeight="ExtraBold" TextWrapping="Wrap" StrokeThickness="2" Stroke="Black" Fill="{Binding Color.Color}">
+                    Example Text
+                </cuc:OutlinedTextBlock>
+                </Border>
             </Grid>
         </Border>
     </Grid>

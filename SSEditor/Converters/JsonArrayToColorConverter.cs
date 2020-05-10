@@ -13,6 +13,8 @@ namespace SSEditor.Converters
     {
         public object Convert(JsonArray array)
         {
+            if (array == null)
+                return null;
             List<int> ColorCode = array.Values.Select(j =>
             {
                 JsonValue jval = (JsonValue)j;

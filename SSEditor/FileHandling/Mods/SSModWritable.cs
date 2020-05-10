@@ -56,23 +56,29 @@ namespace SSEditor.FileHandling
         }
         public void WriteMod()
         {
-            var targetdir = new DirectoryInfo(ModUrl.ToString());
-            if (targetdir.Exists)
-                targetdir.Delete(true);
-
-            JsonArray replaceList = ModInfo.Fields[".replace"] as JsonArray;
-            IEnumerable<ISSWritable> replaceFiles = from ISSWritable f in FileList
-                                                    where f.MustOverwrite == true && f.WillCreateFile ==true
-                                                    select f;
-            foreach (ISSWritable f in replaceFiles)
+            try
             {
-                string cleaned = Regex.Replace(f.RelativeUrl.ToString(), @"\\", @"\\");
-                replaceList.Values.Add(new JsonValue(cleaned));
-            }
+                var targetdir = new DirectoryInfo(ModUrl.ToString());
+                if (targetdir.Exists)
+                    targetdir.Delete(true);
 
-            foreach (ISSWritable f in FileList)
+                JsonArray replaceList = ModInfo.Fields[".replace"] as JsonArray;
+                IEnumerable<ISSWritable> replaceFiles = from ISSWritable f in FileList
+                                                        where f.MustOverwrite == true && f.WillCreateFile == true
+                                                        select f;
+                foreach (ISSWritable f in replaceFiles)
+                {
+                    string cleaned = Regex.Replace(f.RelativeUrl.ToString(), @"\\", @"\\");
+                    replaceList.Values.Add(new JsonValue(cleaned));
+                }
+
+                foreach (ISSWritable f in FileList)
+                {
+                    f.WriteTo(ModUrl);
+                }
+            }catch (Exception e)
             {
-                f.WriteTo(ModUrl);
+                throw new Exception("failed");
             }
         }
 
