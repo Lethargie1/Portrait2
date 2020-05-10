@@ -28,6 +28,8 @@ namespace SSEditor.MonitoringField
             foreach (KeyValuePair<JsonValue,MonitoredField> kv in MonitoredProperties)
             {
                 JsonToken a = kv.Value.GetJsonEquivalent();
+                if (a == null)
+                    continue;
                 NewContent.Values.Add(kv.Key, a);
             }
             return NewContent;
