@@ -12,12 +12,12 @@ using System.Windows.Data;
 
 namespace EditorInterface.ViewModel
 {
-    public class FactionGroupTokenViewModel :Screen 
+    public class FactionGroupTokenViewModel : FactionGroupValueViewModel
     {
         private SSFactionGroup Group { get; set; }
 
         private List<IEventBinding> binding = new List<IEventBinding>();
-        public FactionGroupTokenViewModel(SSFactionGroup group)
+        public FactionGroupTokenViewModel(SSFactionGroup group) : base (group)
         {
             Group = group;
             binding.Add(Group.Bind(x => x.IsModified, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
@@ -47,18 +47,18 @@ namespace EditorInterface.ViewModel
             }
         }
 
-        public string Color
-        {
-            get
-            {
-                JsonArrayToColorConverter converter = new JsonArrayToColorConverter();
-                JsonArray source = Group.Color?.ContentArray;
-                if (source == null || source.Values.Count != 4)
-                    return "#FFFFFFFF";
-                string color = (string)converter.Convert(source);
-                return color;
-            }
-        }
+        //public string Color
+        //{
+        //    get
+        //    {
+        //        JsonArrayToColorConverter converter = new JsonArrayToColorConverter();
+        //        JsonArray source = Group.Color?.ContentArray;
+        //        if (source == null || source.Values.Count != 4)
+        //            return "#FFFFFFFF";
+        //        string color = (string)converter.Convert(source);
+        //        return color;
+        //    }
+        //}
 
         public string StatusLetter
         {

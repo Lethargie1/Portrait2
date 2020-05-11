@@ -17,7 +17,8 @@ namespace EditorInterface
         public MonitoredValueViewModel(MonitoredValue monitoredValue)
         {
             MonitoredValue = monitoredValue;
-            binding.Add(MonitoredValue.Bind(x => x.Content, (sender, arg) => 
+            if (MonitoredValue != null)
+                binding.Add(MonitoredValue.Bind(x => x.Content, (sender, arg) =>
             {
                 NotifyOfPropertyChange(nameof(Value));
                 NotifyOfPropertyChange(nameof(ValueWarning));

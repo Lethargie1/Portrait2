@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EditorInterface.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" d:DesignStyle="{StaticResource DesignStyle}">
     <Grid Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border BorderBrush="{Binding Color}" BorderThickness="2" HorizontalAlignment="Left" Width="200" Height="36">
-            <TextBlock Text="{Binding Name}"  VerticalAlignment="Center" FontWeight="DemiBold" Margin="5,3,5,3"/>
+        <Border BorderBrush="{Binding Color.Color}" BorderThickness="2" HorizontalAlignment="Left" Width="200" Height="36">
+            <TextBlock Text="{Binding SSDisplayName.Value}"  Foreground="{Binding BaseUIColor.Color}" VerticalAlignment="Center" FontWeight="DemiBold" Margin="5,3,5,3"/>
         </Border>
         <Border Grid.Column="1" Background="{Binding StatusColor}" BorderThickness="0" VerticalAlignment="Center"  CornerRadius="9" Width ="36" Height="36" Margin="10,0,0,0">
             <TextBlock Text="{Binding StatusLetter}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"  FontWeight="Bold" Margin="5,3,5,3" Foreground="Black"/>

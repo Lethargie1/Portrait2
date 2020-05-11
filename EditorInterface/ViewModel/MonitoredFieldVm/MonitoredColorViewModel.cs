@@ -14,12 +14,25 @@ namespace EditorInterface
     {
         private JsonArrayToColorConverter colorConverter = new JsonArrayToColorConverter();
         public MonitoredArrayValue MonitoredColor { get; private set; }
-
-        public MonitoredColorViewModel(MonitoredArrayValue color)
+        private List<IEventBinding> binding = new List<IEventBinding>();
+        public MonitoredColorViewModel(MonitoredArrayValue color )
         {
             MonitoredColor = color;
-        }
+            if (MonitoredColor != null)
+            binding.Add(MonitoredColor.Bind(x => x.ContentArray, (sender, arg) =>
+            {
+                NotifyOfPropertyChange(nameof(Color));
+                NotifyOfPropertyChange(nameof(ValueWarning));
+            }));
 
+        }
+        protected override void OnClose()
+        {
+            foreach (IEventBinding b in binding)
+                b.Unbind();
+            replacementBinding?.Unbind();
+            base.OnClose();
+        }
         public string Color
         {
             get
@@ -39,6 +52,7 @@ namespace EditorInterface
                         replacementBinding = ReplacementSource.Bind(x => x.ContentArray, (sender, arg) =>
                         {
                             NotifyOfPropertyChange(nameof(Color));
+                            NotifyOfPropertyChange(nameof(ValueWarning));
                         });
                     return (string)colorConverter.Convert(ReplacementSourceTransformation(ReplacementSource?.ContentArray));
                 }
@@ -52,8 +66,6 @@ namespace EditorInterface
                 if (value != Color)
                 {
                     MonitoredColor.ApplyModification((JsonArray)colorConverter.ConvertBack(value));
-                    NotifyOfPropertyChange(nameof(Color));
-                    NotifyOfPropertyChange(nameof(ValueWarning));
                 }
             }
         }
@@ -66,8 +78,6 @@ namespace EditorInterface
         public void Reset()
         {
             MonitoredColor?.Reset();
-            NotifyOfPropertyChange(nameof(Color));
-            NotifyOfPropertyChange(nameof(ValueWarning));
         }
         public string ValueWarning
         {
