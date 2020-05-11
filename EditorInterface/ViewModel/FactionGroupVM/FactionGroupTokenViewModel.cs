@@ -22,8 +22,6 @@ namespace EditorInterface.ViewModel
             Group = group;
             binding.Add(Group.Bind(x => x.IsModified, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
             binding.Add(Group.Bind(x => x.MustOverwrite, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
-            binding.Add(Group.DisplayName.Bind(x => x.Content, (sender, arg) => NotifyOfPropertyChange(nameof(Name))));
-            binding.Add(Group.Color.Bind(x => x.ContentArray, (sender, arg) => NotifyOfPropertyChange(nameof(Color))));
         }
 
         protected override void OnClose()
@@ -32,33 +30,6 @@ namespace EditorInterface.ViewModel
                 b.Unbind();
             base.OnClose();
         }
-        public string Name 
-        {
-            get 
-            {
-                
-                if (Group.DisplayName.Content?.ToString() == null)
-                {
-                    FileInfo file = new FileInfo(Group.RelativeUrl.ToString());
-                    return file.Name;
-                }
-                else
-                    return Group.DisplayName?.Content?.ToString() ;
-            }
-        }
-
-        //public string Color
-        //{
-        //    get
-        //    {
-        //        JsonArrayToColorConverter converter = new JsonArrayToColorConverter();
-        //        JsonArray source = Group.Color?.ContentArray;
-        //        if (source == null || source.Values.Count != 4)
-        //            return "#FFFFFFFF";
-        //        string color = (string)converter.Convert(source);
-        //        return color;
-        //    }
-        //}
 
         public string StatusLetter
         {
