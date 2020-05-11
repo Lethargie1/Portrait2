@@ -33,17 +33,38 @@ namespace EditorInterface.ViewModel
             PortraitsRessourcesVMFactory = PortraitsRessourcesVMFactoryFactory();
         }
 
-        public FactionGroupViewModel SelectedFactionViewModel { get => new FactionGroupViewModel(SelectedFaction, PortraitsRessourcesVMFactory); }
+        private FactionGroupViewModel _SelectedFactionViewModel = null;
+        public FactionGroupViewModel SelectedFactionViewModel
+        {
+            get
+            {
+                if (_SelectedFactionViewModel == null)
+                {
+                    _SelectedFactionViewModel = new FactionGroupViewModel(SelectedFaction, PortraitsRessourcesVMFactory, PriorFactionSelectedTabName);
+                    return _SelectedFactionViewModel;
+                }
+                else
+                    return _SelectedFactionViewModel;
+            }
+
+            private set
+            {
+                _SelectedFactionViewModel = value;
+            }
+        }
         SSFactionGroup _SelectedFaction;
         public SSFactionGroup SelectedFaction
         {
             get => this._SelectedFaction;
             set
             {
+                PriorFactionSelectedTabName = SelectedFactionViewModel?.ActiveItem.DisplayName;
+                SelectedFactionViewModel = null;
                 this._SelectedFaction = value;
                 NotifyOfPropertyChange(nameof(SelectedFactionViewModel));
             }
         }
+        private string PriorFactionSelectedTabName = null; 
         public override void RequestClose(bool? dialogResult = null)
         {
             base.RequestClose(dialogResult);

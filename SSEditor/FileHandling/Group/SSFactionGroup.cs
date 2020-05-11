@@ -35,9 +35,9 @@ namespace SSEditor.FileHandling
             //darkUIColor is the background color for text header
             DarkUIColor = AttachOneAttribute<MonitoredArrayValue>(".darkUIColor");
             //baseUIColor is the color of text
-            BaseUIColor = AttachOneAttribute<MonitoredArrayValue>(".baseUIcolor");
+            BaseUIColor = AttachOneAttribute<MonitoredArrayValue>(".baseUIColor");
             //secondaryUIColor should be the color of segment in 2 color faction
-            SecondaryUIColor = AttachOneAttribute<MonitoredArrayValue>(".secondaryUIcolor");
+            SecondaryUIColor = AttachOneAttribute<MonitoredArrayValue>(".secondaryUIColor");
             
 
            

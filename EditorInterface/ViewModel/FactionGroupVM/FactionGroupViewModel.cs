@@ -14,7 +14,7 @@ namespace EditorInterface.ViewModel
         public SSFactionGroup FactionGroup{get;set;}
         //public PortraitsRessources PortraitsRessource { get; private set; }
         public PortraitsRessourcesViewModelFactory PortraitsRessourcesVMFactory { get; private set; }
-        public FactionGroupViewModel(SSFactionGroup factionGroup, PortraitsRessourcesViewModelFactory portraitsRessourcesVMFactory)
+        public FactionGroupViewModel(SSFactionGroup factionGroup, PortraitsRessourcesViewModelFactory portraitsRessourcesVMFactory, string priorFactionSelectedTabName)
         {
             FactionGroup = factionGroup;
             //PortraitsRessource = portraitsRessource;
@@ -27,7 +27,11 @@ namespace EditorInterface.ViewModel
 
             string maleDisplayPortrait = DisplayNameArticled != null ? "Male Portraits from " + DisplayNameArticled : "Male portraits";
             ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Portraits (m)", LongDisplayName = maleDisplayPortrait });
-            
+
+            Screen tabMatching = this.Items.FirstOrDefault(x => x.DisplayName == priorFactionSelectedTabName);
+            if (tabMatching != null)
+                this.ActivateItem(tabMatching);
+
         }
     }
 }
