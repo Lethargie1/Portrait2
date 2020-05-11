@@ -38,7 +38,7 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="id: "/>
@@ -58,7 +58,9 @@
                 <ContentControl s:View.Model="{Binding DarkUIColor}" Grid.Row="6" Grid.Column="1"/>
                 <TextBlock Text="Secondary UI color: " Grid.Row="7"/>
                 <ContentControl s:View.Model="{Binding SecondaryUIColor}" Grid.Row="7" Grid.Column="1"/>
-                <StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <ContentControl s:View.Model="{Binding FleetCircleViewModel}" Margin="5,15,5,15"/>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
                     <Border  Background="{Binding DarkUIColor.Color}" Padding="5,3,5,3" CornerRadius="3">
                         <cuc:OutlinedTextBlock   FontFamily="Verdana" FontSize="20pt" FontWeight="ExtraBold" TextWrapping="Wrap" StrokeThickness="2" Stroke="Black" Fill="{Binding BaseUIColor.Color}">
                             Example Header
@@ -67,6 +69,7 @@
                     <TextBlock Foreground="{Binding BaseUIColor.Color}" TextWrapping="Wrap"> 
                         Exemple description
                     </TextBlock>
+                </StackPanel>
                 </StackPanel>
             </Grid>
         </Border>

@@ -66,7 +66,7 @@ namespace EditorInterface.ViewModel
         public MonitoredColorViewModel DarkUIColor { get; }
         public MonitoredColorViewModel SecondaryUIColor { get; }
 
-
+        public FactionGroupFleetCircleViewModel FleetCircleViewModel { get; } = new FactionGroupFleetCircleViewModel();
 
     }
 }

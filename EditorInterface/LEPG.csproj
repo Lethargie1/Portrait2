@@ -124,7 +124,11 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CustomUserControl\OutlinedTextBlock.cs" />
+    <Compile Include="View\FactionGroupV\FactionGroupFleetCircleView.xaml.cs">
+      <DependentUpon>FactionGroupFleetCircleView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FluentModelValidator.cs" />
+    <Compile Include="ViewModel\FactionGroupVM\FactionGroupFleetCircleViewModel.cs" />
     <Compile Include="View\MonitoredFieldV\MonitoredColorView.xaml.cs">
       <DependentUpon>MonitoredColorView.xaml</DependentUpon>
     </Compile>
@@ -187,6 +191,10 @@
     <Compile Include="View\WriterView.xaml.cs">
       <DependentUpon>WriterView.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\FactionGroupV\FactionGroupFleetCircleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="InterfaceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -31,7 +31,7 @@ namespace EditorInterface
         }
         public ViewModelLocator()
         {
-            
+
         }
         public DirectoryViewModel DirectoryViewModel
         {
@@ -69,6 +69,14 @@ namespace EditorInterface
                 MonitoredColorViewModel result = new MonitoredColorViewModel(monitorValue);
                 monitorValue.ApplyModification(value);
                 return result;
+            }
+        }
+
+        public FactionGroupFleetCircleViewModel FactionGroupFleetCircleViewModel
+        {
+            get
+            {
+                return new FactionGroupFleetCircleViewModel();
             }
         }
 
