@@ -9,7 +9,7 @@
              xmlns:Properties="clr-namespace:EditorInterface.Properties" x:Class="EditorInterface.View.FactionGroupValueView"
              xmlns:cuc="clr-namespace:EditorInterface.CustomUserControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" d:DesignStyle="{StaticResource DesignStyle}">
     <UserControl.Resources>
         <s:BoolToVisibilityConverter x:Key="BoolToVisible" TrueVisibility="Visible" FalseVisibility="Hidden"/>
     </UserControl.Resources>
@@ -58,11 +58,16 @@
                 <ContentControl s:View.Model="{Binding DarkUIColor}" Grid.Row="6" Grid.Column="1"/>
                 <TextBlock Text="Secondary UI color: " Grid.Row="7"/>
                 <ContentControl s:View.Model="{Binding SecondaryUIColor}" Grid.Row="7" Grid.Column="1"/>
-                <!--<Border Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{Binding DarkUIColor.Color}">-->
-                <cuc:OutlinedTextBlock   FontFamily="Verdana" FontSize="20pt" FontWeight="ExtraBold" TextWrapping="Wrap" StrokeThickness="2" Stroke="Black" Fill="{Binding Color.Color}">
-                    Example Text
-                </cuc:OutlinedTextBlock>
-                <!--</Border>-->
+                <StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Border  Background="{Binding DarkUIColor.Color}" Padding="5,3,5,3" CornerRadius="3">
+                        <cuc:OutlinedTextBlock   FontFamily="Verdana" FontSize="20pt" FontWeight="ExtraBold" TextWrapping="Wrap" StrokeThickness="2" Stroke="Black" Fill="{Binding BaseUIColor.Color}">
+                            Example Header
+                        </cuc:OutlinedTextBlock>
+                    </Border>
+                    <TextBlock Foreground="{Binding BaseUIColor.Color}" TextWrapping="Wrap"> 
+                        Exemple description
+                    </TextBlock>
+                </StackPanel>
             </Grid>
         </Border>
     </Grid>

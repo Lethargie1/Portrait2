@@ -8,7 +8,7 @@
              xmlns:c="clr-namespace:SSEditor.Converters;assembly=SSEditor" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              d:DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MonitoredValueViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="40" d:DesignWidth="200">
+             d:DesignHeight="40" d:DesignWidth="200" d:DesignStyle="{StaticResource DesignStyle}">
     <UserControl.Resources>
         <s:BoolToVisibilityConverter x:Key="BoolToVisible" TrueVisibility="Visible" FalseVisibility="Hidden"/>
         <c:BooleanToInverseConverter x:Key="BoolToInverse"/>

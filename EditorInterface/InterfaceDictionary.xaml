@@ -7,6 +7,10 @@
     <local:ViewModelLocator x:Key="ViewModelLocator"/>
     <vm:ImageConverter x:Key="ImageConverter"/>
 
+    <Style TargetType="UserControl" x:Key="DesignStyle">
+        <Setter Property="Background" Value="Black"/>
+    </Style>
+    
     <Style TargetType="WrapPanel">
         <Setter Property="Margin" Value="9"/>
     </Style>
