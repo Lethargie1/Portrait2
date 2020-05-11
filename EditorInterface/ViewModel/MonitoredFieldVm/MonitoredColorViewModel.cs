@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EditorInterface
 {
-    public class MonitoredColorViewModel: Screen
+    public class MonitoredColorViewModel : Screen
     {
         private JsonArrayToColorConverter colorConverter = new JsonArrayToColorConverter();
         public MonitoredArrayValue MonitoredColor { get; private set; }
@@ -22,7 +22,29 @@ namespace EditorInterface
 
         public string Color
         {
-            get => (string)colorConverter.Convert(MonitoredColor?.ContentArray) ?? DefaultColor;
+            get
+            {
+                if (MonitoredColor?.ContentArray != null)
+                {
+                    if (replacementBinding != null)
+                    {
+                        replacementBinding.Unbind();
+                        replacementBinding = null;
+                    }
+                    return (string)colorConverter.Convert(MonitoredColor?.ContentArray);
+                }
+                else if (ReplacementSource?.ContentArray != null)
+                {
+                    if (replacementBinding == null)
+                        replacementBinding = ReplacementSource.Bind(x => x.ContentArray, (sender, arg) =>
+                        {
+                            NotifyOfPropertyChange(nameof(Color));
+                        });
+                    return (string)colorConverter.Convert(ReplacementSourceTransformation(ReplacementSource?.ContentArray));
+                }
+                else
+                    return DefaultColor;
+            }
 
             set
             {
@@ -35,8 +57,10 @@ namespace EditorInterface
             }
         }
         public string DefaultColor { get; set; } = "#FFFFFFFF";
-        public MonitoredArrayValue ReplacementSource { get; set; }
 
+        IEventBinding replacementBinding;
+        public MonitoredArrayValue ReplacementSource { get; set; }
+        public Func<JsonArray, JsonArray> ReplacementSourceTransformation { get; set; } = x => x;
         
         public void Reset()
         {
@@ -47,7 +71,7 @@ namespace EditorInterface
         {
             get
             {
-                if (Color == null)
+                if (MonitoredColor?.ContentArray == null)
                     return "Value not set";
                 else
                  return MonitoredColor?.HasMultipleSourceFile ?? false ? "Has multiple source" : null;

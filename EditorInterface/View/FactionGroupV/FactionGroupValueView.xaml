@@ -58,11 +58,11 @@
                 <ContentControl s:View.Model="{Binding DarkUIColor}" Grid.Row="6" Grid.Column="1"/>
                 <TextBlock Text="Secondary UI color: " Grid.Row="7"/>
                 <ContentControl s:View.Model="{Binding SecondaryUIColor}" Grid.Row="7" Grid.Column="1"/>
-                <Border Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{Binding DarkUIColor.Color}">
+                <!--<Border Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{Binding DarkUIColor.Color}">-->
                 <cuc:OutlinedTextBlock   FontFamily="Verdana" FontSize="20pt" FontWeight="ExtraBold" TextWrapping="Wrap" StrokeThickness="2" Stroke="Black" Fill="{Binding Color.Color}">
                     Example Text
                 </cuc:OutlinedTextBlock>
-                </Border>
+                <!--</Border>-->
             </Grid>
         </Border>
     </Grid>

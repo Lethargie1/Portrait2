@@ -1,4 +1,5 @@
-﻿using SSEditor.FileHandling;
+﻿using FVJson;
+using SSEditor.FileHandling;
 using SSEditor.MonitoringField;
 using Stylet;
 using System;
@@ -21,9 +22,32 @@ namespace EditorInterface.ViewModel
             DisplayNameWithArticle = new MonitoredValueViewModel(FactionGroup?.DisplayNameWithArticle);
             ShipNamePrefix = new MonitoredValueViewModel(FactionGroup?.ShipNamePrefix);
             Color = new MonitoredColorViewModel(FactionGroup?.Color);
-            BaseUIColor = new MonitoredColorViewModel(FactionGroup?.BaseUIColor);
-            DarkUIColor = new MonitoredColorViewModel(FactionGroup?.DarkUIColor);
-            SecondaryUIColor = new MonitoredColorViewModel(FactionGroup?.SecondaryUIColor);
+            BaseUIColor = new MonitoredColorViewModel(FactionGroup?.BaseUIColor) {ReplacementSource = FactionGroup?.Color };
+            DarkUIColor = new MonitoredColorViewModel(FactionGroup?.DarkUIColor)
+            {
+                ReplacementSource = FactionGroup?.Color,
+                ReplacementSourceTransformation = delegate(JsonArray a) 
+                {
+                    JsonArray result = new JsonArray();
+                    try
+                    {
+                        List<double> number = (from JsonToken j in a.Values
+                                               select (double)((JsonValue)j).Content).ToList();
+                    
+                    result.Values.Add(new JsonValue(number[0]*0.4));
+                    result.Values.Add(new JsonValue(number[1]*0.4));
+                    result.Values.Add(new JsonValue(number[2]*0.4));
+                    JsonValue alpha = new JsonValue(175);
+                    result.Values.Add(alpha);
+                    }
+                    catch (Exception e)
+                    {
+                        var c = 2;
+                    }
+                    return result;
+                }
+            };
+            SecondaryUIColor = new MonitoredColorViewModel(FactionGroup?.SecondaryUIColor) { ReplacementSource = FactionGroup?.Color };
 
 
         }
