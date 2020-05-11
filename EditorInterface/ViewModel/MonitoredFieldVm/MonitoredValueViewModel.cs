@@ -13,12 +13,22 @@ namespace EditorInterface
     public class MonitoredValueViewModel : Screen 
     {
         public MonitoredValue MonitoredValue { get; set; }
-
+        private List<IEventBinding> binding = new List<IEventBinding>();
         public MonitoredValueViewModel(MonitoredValue monitoredValue)
         {
             MonitoredValue = monitoredValue;
+            binding.Add(MonitoredValue.Bind(x => x.Content, (sender, arg) => 
+            {
+                NotifyOfPropertyChange(nameof(Value));
+                NotifyOfPropertyChange(nameof(ValueWarning));
+            }));
         }
-
+        protected override void OnClose()
+        {
+            foreach (IEventBinding b in binding)
+                b.Unbind();
+            base.OnClose();
+        }
         public string Value
         {
             get { return MonitoredValue?.Content?.ToString(); }
@@ -42,15 +52,12 @@ namespace EditorInterface
                     default:
                         throw new InvalidOperationException("Value type is improperly set");
                 }
-                
 
-                NotifyOfPropertyChange(nameof(ValueWarning));
             }
         }
         public void Reset()
         {
             MonitoredValue?.Reset();
-            NotifyOfPropertyChange(nameof(Value));
         }
         public string ValueWarning { get => MonitoredValue?.HasMultipleSourceFile ?? false ? "Has multiple source" : null; }
     }
