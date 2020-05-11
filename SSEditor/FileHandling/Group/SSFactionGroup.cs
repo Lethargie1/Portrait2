@@ -26,7 +26,7 @@ namespace SSEditor.FileHandling
 
         protected override void AttachDefinedAttribute()
         {
-            DisplayName = AttachOneAttribute<MonitoredValue>(".displayName");
+            DisplayName = AttachOneAttribute<MonitoredValue>(".displayName", JsonToken.TokenType.String);
             MalePortraits = AttachOneAttribute<MonitoredArray>(".portraits.standard_male");
             FemalePortraits = AttachOneAttribute<MonitoredArray>(".portraits.standard_female");
 
@@ -43,11 +43,11 @@ namespace SSEditor.FileHandling
            
             
             
-            Id = AttachOneAttribute<MonitoredValue>(".id");
-            DisplayNameWithArticle = AttachOneAttribute<MonitoredValue>(".displayNameWithArticle");
-            ShipNamePrefix = AttachOneAttribute<MonitoredValue>(".shipNamePrefix");
+            Id = AttachOneAttribute<MonitoredValue>(".id",JsonToken.TokenType.Reference);
+            DisplayNameWithArticle = AttachOneAttribute<MonitoredValue>(".displayNameWithArticle", JsonToken.TokenType.String);
+            ShipNamePrefix = AttachOneAttribute<MonitoredValue>(".shipNamePrefix", JsonToken.TokenType.String);
         }
-        private T AttachOneAttribute<T>(string path) where T:MonitoredField, new()
+        private T AttachOneAttribute<T>(string path, JsonToken.TokenType goalType = JsonToken.TokenType.String) where T:MonitoredField, new()
         {
             MonitoredField extracted;
             if (PathedContent.TryGetValue(path, out extracted))
@@ -63,6 +63,8 @@ namespace SSEditor.FileHandling
             else
             {
                 extracted = new T();
+                if (extracted is MonitoredValue mv)
+                    mv.GoalType = goalType;
                 MonitoredContent.AddSubMonitor(path, extracted);
                 extracted.Bind(x => x.Modified, (sender, arg) => SubPropertyModified(sender, arg));
                 return extracted as T;

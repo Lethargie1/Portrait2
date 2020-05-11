@@ -21,10 +21,10 @@ namespace EditorInterface
 
         public string Value
         {
-            get { return MonitoredValue?.Content.ToString(); }
+            get { return MonitoredValue?.Content?.ToString(); }
             set
             {
-                switch (MonitoredValue?.Content.Type)
+                switch (MonitoredValue?.GoalType)
                 {
                     case JsonToken.TokenType.Double:
                     case JsonToken.TokenType.Integer:

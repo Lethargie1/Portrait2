@@ -29,21 +29,14 @@ namespace EditorInterface.ViewModel
                 ReplacementSourceTransformation = delegate(JsonArray a) 
                 {
                     JsonArray result = new JsonArray();
-                    try
-                    {
-                        List<double> number = (from JsonToken j in a.Values
-                                               select (double)((JsonValue)j).Content).ToList();
+                        List<int> number = (from JsonToken j in a.Values
+                                               select Convert.ToInt32( ((JsonValue)j).Content)   ).ToList();
                     
                     result.Values.Add(new JsonValue(number[0]*0.4));
                     result.Values.Add(new JsonValue(number[1]*0.4));
                     result.Values.Add(new JsonValue(number[2]*0.4));
                     JsonValue alpha = new JsonValue(175);
                     result.Values.Add(alpha);
-                    }
-                    catch (Exception e)
-                    {
-                        var c = 2;
-                    }
                     return result;
                 }
             };

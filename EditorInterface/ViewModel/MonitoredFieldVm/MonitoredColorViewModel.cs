@@ -53,6 +53,7 @@ namespace EditorInterface
                 {
                     MonitoredColor.ApplyModification((JsonArray)colorConverter.ConvertBack(value));
                     NotifyOfPropertyChange(nameof(Color));
+                    NotifyOfPropertyChange(nameof(ValueWarning));
                 }
             }
         }
@@ -66,6 +67,7 @@ namespace EditorInterface
         {
             MonitoredColor?.Reset();
             NotifyOfPropertyChange(nameof(Color));
+            NotifyOfPropertyChange(nameof(ValueWarning));
         }
         public string ValueWarning
         {
