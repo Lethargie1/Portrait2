@@ -131,6 +131,12 @@
     </Compile>
     <Compile Include="FluentModelValidator.cs" />
     <Compile Include="ViewModel\FactionGroupVM\FactionGroupFleetCircleViewModel.cs" />
+    <Compile Include="View\FileV\JsonGroupView.xaml.cs">
+      <DependentUpon>JsonGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FileV\ISSWritableView.xaml.cs">
+      <DependentUpon>ISSWritableView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MonitoredFieldV\MonitoredColorView.xaml.cs">
       <DependentUpon>MonitoredColorView.xaml</DependentUpon>
     </Compile>
@@ -198,6 +204,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InterfaceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FileV\JsonGroupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FileV\ISSWritableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
