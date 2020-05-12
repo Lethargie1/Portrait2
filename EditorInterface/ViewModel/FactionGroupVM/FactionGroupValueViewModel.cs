@@ -14,7 +14,7 @@ namespace EditorInterface.ViewModel
     {
         public SSFactionGroup FactionGroup { get; set; }
 
-        private List<IEventBinding> binding = new List<IEventBinding>();
+        protected List<IEventBinding> binding = new List<IEventBinding>();
         public FactionGroupValueViewModel(SSFactionGroup factionGroup)
         {
             FactionGroup = factionGroup;
@@ -41,7 +41,7 @@ namespace EditorInterface.ViewModel
                 }
             };
             SecondaryUIColor = new MonitoredColorViewModel(FactionGroup?.SecondaryUIColor) { ReplacementSource = FactionGroup?.Color };
-
+            FleetCircleViewModel = new FactionGroupFleetCircleViewModel(Color,SecondaryUIColor);
 
         }
         protected override void OnClose()
@@ -66,7 +66,7 @@ namespace EditorInterface.ViewModel
         public MonitoredColorViewModel DarkUIColor { get; }
         public MonitoredColorViewModel SecondaryUIColor { get; }
 
-        public FactionGroupFleetCircleViewModel FleetCircleViewModel { get; } = new FactionGroupFleetCircleViewModel();
+        public FactionGroupFleetCircleViewModel FleetCircleViewModel { get; }
 
     }
 }

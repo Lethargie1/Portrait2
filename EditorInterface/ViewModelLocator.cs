@@ -72,13 +72,13 @@ namespace EditorInterface
             }
         }
 
-        public FactionGroupFleetCircleViewModel FactionGroupFleetCircleViewModel
-        {
-            get
-            {
-                return new FactionGroupFleetCircleViewModel();
-            }
-        }
+        //public FactionGroupFleetCircleViewModel FactionGroupFleetCircleViewModel
+        //{
+        //    get
+        //    {
+        //        return new FactionGroupFleetCircleViewModel();
+        //    }
+        //}
 
     }
 }

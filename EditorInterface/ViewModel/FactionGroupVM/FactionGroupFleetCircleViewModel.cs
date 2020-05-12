@@ -8,21 +8,27 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using SSEditor.MonitoringField;
+using SSEditor.FileHandling;
+using System.Windows.Data;
+using Stylet;
 //using System.Drawing;
 
 namespace EditorInterface.ViewModel
 {
-    public class FactionGroupFleetCircleViewModel
+    public class FactionGroupFleetCircleViewModel : Screen
     {
         public string Color1 { get; set; } = "#FF0000FF";
         public string Color2 { get; set; } = "#FFFF00";
+
+
 
         public int SegmentNumber { get; set; } = 6;
         public DrawingImage GeometryImage 
         {
             get
             {
-                GeometryDrawing seg1 = SegmentedCircleDrawer(0, Color1, SegmentNumber, 25);
+                GeometryDrawing seg1 = SegmentedCircleDrawer(0, Color.Color, SegmentNumber, 25);
                 GeometryDrawing seg2 = SegmentedCircleDrawer(1, Color2, SegmentNumber, 25);
                 DrawingGroup group = new DrawingGroup();
                 group.Append();
@@ -35,10 +41,14 @@ namespace EditorInterface.ViewModel
                 return new DrawingImage(group);
             }
         }
+        public MonitoredColorViewModel Color { get; set; }
 
-        public FactionGroupFleetCircleViewModel()
+        public MonitoredColorViewModel SecondaryColor { get; set; }
+
+        public FactionGroupFleetCircleViewModel(MonitoredColorViewModel color, MonitoredColorViewModel secondaryColor)
         {
-
+            this.Color = color;
+            this.SecondaryColor = secondaryColor;
         }
 
         private PathFigure SegmentedCirclePathCreator(int drawOnOdd, int segmentNumber, double radius)
