@@ -11,7 +11,14 @@ namespace SSEditor.MonitoringField
 {
     public class MonitoredValue: MonitoredField 
     {
-        public JsonToken.TokenType GoalType { get; set; }
+        public JsonToken.TokenType GoalType { get; private set; }
+        public void SetGoal(JsonToken.TokenType type)
+        {
+            GoalType = type;
+            GoalExternalySet = true;
+        }
+
+        private bool GoalExternalySet { get; set; } = false;
         private JsonValue _Content;
         public JsonValue Content { get => _Content; private set=>SetAndNotify(ref _Content,value); }
         public override bool Modified { get => this.IsModified(); }
@@ -72,7 +79,13 @@ namespace SSEditor.MonitoringField
                 if (TokenResult is JsonValue value)
                 {
                     Content = value;
-                    GoalType = value.Type;
+                    if (!GoalExternalySet)
+                        GoalType = value.Type;
+                    else
+                    {
+                        if (value.Type != GoalType)
+                            throw new InvalidOperationException($"Cannot put value of type {value.Type.ToString()} in Monitored with goal {GoalType.ToString()}");
+                    }
                 }
                 else if (TokenResult == null)
                     Content = null;

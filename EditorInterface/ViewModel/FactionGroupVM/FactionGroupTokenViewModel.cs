@@ -16,7 +16,6 @@ namespace EditorInterface.ViewModel
     {
         private SSFactionGroup Group { get; set; }
 
-        private List<IEventBinding> binding = new List<IEventBinding>();
         public FactionGroupTokenViewModel(SSFactionGroup group) : base (group)
         {
             Group = group;
@@ -24,12 +23,6 @@ namespace EditorInterface.ViewModel
             binding.Add(Group.Bind(x => x.MustOverwrite, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
         }
 
-        protected override void OnClose()
-        {
-            foreach (IEventBinding b in binding)
-                b.Unbind();
-            base.OnClose();
-        }
 
         public string StatusLetter
         {

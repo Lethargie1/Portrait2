@@ -41,7 +41,7 @@ namespace FVJson
         {
             try
             {this.SelectToken(path);}
-            catch (ArgumentOutOfRangeException e)
+            catch (ArgumentOutOfRangeException)
             { return false; }
             return true;
         }

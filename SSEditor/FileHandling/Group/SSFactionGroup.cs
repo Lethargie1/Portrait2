@@ -57,6 +57,8 @@ namespace SSEditor.FileHandling
                 if (extracted is T typed)
                 {
                     typed.Bind(x => x.Modified, (sender, arg) => SubPropertyModified(sender, arg));
+                    if (typed is MonitoredValue mv)
+                        mv.SetGoal(goalType);
                     return typed;
                 }
                 else
@@ -66,7 +68,7 @@ namespace SSEditor.FileHandling
             {
                 extracted = new T();
                 if (extracted is MonitoredValue mv)
-                    mv.GoalType = goalType;
+                    mv.SetGoal(goalType);
                 MonitoredContent.AddSubMonitor(path, extracted);
                 extracted.Bind(x => x.Modified, (sender, arg) => SubPropertyModified(sender, arg));
                 return extracted as T;

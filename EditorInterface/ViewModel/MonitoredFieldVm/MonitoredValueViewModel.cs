@@ -39,7 +39,17 @@ namespace EditorInterface
                 {
                     case JsonToken.TokenType.Double:
                     case JsonToken.TokenType.Integer:
-                        MonitoredValue?.ApplyModification(new JsonValue(Convert.ToDouble(value)));
+                        
+                        try
+                        {
+                            if (MonitoredValue?.Content?.Content != null)
+                                if (Convert.ToDouble(value) == (double)MonitoredValue?.Content?.Content)
+                                    return;
+                            MonitoredValue?.ApplyModification(new JsonValue(Convert.ToDouble(value)));
+                        }catch(FormatException)
+                        {
+                            NotifyOfPropertyChange(nameof(Value));
+                        }
                         break;
                     case JsonToken.TokenType.Reference:
                         MonitoredValue?.ApplyModification(new JsonValue(value,JsonToken.TokenType.Reference));
@@ -49,7 +59,6 @@ namespace EditorInterface
                         break;
                     case JsonToken.TokenType.Boolean:
                         throw new NotImplementedException("Havent done boolean yet");
-                        break;
                     default:
                         throw new InvalidOperationException("Value type is improperly set");
                 }

@@ -255,13 +255,7 @@ namespace EditorInterface.CustomUserControl
                 return;
             }
 
-            _FormattedText = new FormattedText(
-              Text ?? "",
-              CultureInfo.CurrentUICulture,
-              FlowDirection,
-              new Typeface(FontFamily, FontStyle, FontWeight, FontStretch),
-              FontSize,
-              Brushes.Black);
+
             _FormattedText = new FormattedText(Text ?? "", CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), FontSize, Brushes.Black, 120);
             UpdateFormattedText();
         }

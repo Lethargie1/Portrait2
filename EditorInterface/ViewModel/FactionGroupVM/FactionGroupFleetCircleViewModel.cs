@@ -32,7 +32,7 @@ namespace EditorInterface.ViewModel
                 try
                 {
                     return Convert.ToInt32(SecondarySegment.Value);
-                }catch(Exception e)
+                }catch(Exception )
                 {
                     return 1;
                 }
