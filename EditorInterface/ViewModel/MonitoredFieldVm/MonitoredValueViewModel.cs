@@ -45,17 +45,17 @@ namespace EditorInterface
                             if (MonitoredValue?.Content?.Content != null)
                                 if (Convert.ToDouble(value) == (double)MonitoredValue?.Content?.Content)
                                     return;
-                            MonitoredValue?.ApplyModification(new JsonValue(Convert.ToDouble(value)));
+                            MonitoredValue?.Modify(MonitoredValueModification.GetReplaceModification(new JsonValue(Convert.ToDouble(value))));
                         }catch(FormatException)
                         {
                             NotifyOfPropertyChange(nameof(Value));
                         }
                         break;
                     case JsonToken.TokenType.Reference:
-                        MonitoredValue?.ApplyModification(new JsonValue(value,JsonToken.TokenType.Reference));
+                        MonitoredValue?.Modify(MonitoredValueModification.GetReplaceModification(new JsonValue(value,JsonToken.TokenType.Reference)));
                         break;
                     case JsonToken.TokenType.String:
-                        MonitoredValue?.ApplyModification(new JsonValue(value));
+                        MonitoredValue?.Modify(MonitoredValueModification.GetReplaceModification(new JsonValue(value)));
                         break;
                     case JsonToken.TokenType.Boolean:
                         throw new NotImplementedException("Havent done boolean yet");

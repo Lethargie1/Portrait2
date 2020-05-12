@@ -23,17 +23,9 @@ namespace SSEditor.MonitoringField
         public JsonValue Content { get => _Content; private set=>SetAndNotify(ref _Content,value); }
         public override bool Modified { get => this.IsModified(); }
 
-        private JsonValue _Modification;
-        public JsonValue Modification 
-        { 
-            get => _Modification;
-            set 
-            {
-                SetAndNotify(ref _Modification, value);                
-                NotifyOfPropertyChange(nameof(Modified));
-            }
-                
-        }
+
+        public MonitoredValueModification Modification { get; set; }
+        
 
         public bool HasMultipleSourceFile { get; private set; } = false;
         public MonitoredValue() : base()
@@ -45,17 +37,29 @@ namespace SSEditor.MonitoringField
             Content = content;
             GoalType = content.Type;
         }
-        public void ApplyModification(JsonValue mod)
+
+        public void Modify(MonitoredValueModification mod)
         {
-            if (mod != null && mod.Type != this.GoalType)
-                throw new ArgumentException($"Wrong type of modification ({Enum.GetName(typeof(JsonToken.TokenType), mod.Type)}) for monitored Value <{this.FieldPath}> with goaltype ({Enum.GetName(typeof(JsonToken.TokenType), this.GoalType)})");
+            if (mod != null && mod.Content.Type != this.GoalType)
+                throw new ArgumentException($"Wrong type of modification ({Enum.GetName(typeof(JsonToken.TokenType), mod.Content.Type)}) for monitored Value <{this.FieldPath}> with goaltype ({Enum.GetName(typeof(JsonToken.TokenType), this.GoalType)})");
             Modification = mod;
-            Content = mod;
+            NotifyOfPropertyChange(nameof(Modified));
+            ApplyModification();
+        }
+        public void ApplyModification()
+        {
+            if (Modification == null)
+                return;
+            if (Modification.ModType == MonitoredValueModification.ModificationType.Unset)
+                Content = null;
+            else if (Modification.ModType == MonitoredValueModification.ModificationType.Replace)
+                Content = Modification.Content;
         }
         public void Reset()
         {
             if (Modification != null)
                 Modification = null;
+            NotifyOfPropertyChange(nameof(Modified));
             Resolve();
         }
         override public void Resolve()
@@ -75,8 +79,10 @@ namespace SSEditor.MonitoringField
                     NotifyOfPropertyChange(nameof(HasMultipleSourceFile));
                 }
                 if (Modification != null)
-                    TokenResult = Modification;
-                if (TokenResult is JsonValue value)
+                {
+                    ApplyModification();
+                }
+                else if (TokenResult is JsonValue value)
                 {
                     Content = value;
                     if (!GoalExternalySet)
@@ -101,7 +107,7 @@ namespace SSEditor.MonitoringField
         }
         public override JsonToken GetJsonEquivalentNoOverwrite()
         {
-            return Modification;
+            return Modification.Content;
         }
 
         public override bool IsModified()

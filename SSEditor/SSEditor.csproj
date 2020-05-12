@@ -93,6 +93,7 @@
     <Compile Include="MonitoredFieldClass\MonitoredFieldFactory.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredObject.cs" />
     <Compile Include="MonitoredFieldClass\MonitoredValue.cs" />
+    <Compile Include="MonitoredFieldClass\MonitoredValueModification.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ressources\GroupHeaderConverter.cs" />

@@ -30,6 +30,8 @@ namespace SSEditor.MonitoringField
         }
         protected void ApplyModification()
         {
+            if (Modification == null)
+                return;
             if (Modification.ModType == MonitoredArrayValueModification.ModificationType.Unset)
                 ContentArray = null;
             else

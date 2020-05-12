@@ -52,7 +52,7 @@ namespace EditorInterface
                 JsonValue value = new JsonValue("Hegemon");
                 MonitoredValue monitorValue = new MonitoredValue();
                 MonitoredValueViewModel result = new MonitoredValueViewModel(monitorValue);
-                monitorValue.ApplyModification(new JsonValue("hegemony2"));
+                monitorValue.Modify(MonitoredValueModification.GetReplaceModification(new JsonValue("hegemony2")));
                 return result;
             }
         }
