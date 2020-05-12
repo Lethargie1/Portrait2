@@ -281,6 +281,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <DesignData Include="TestObject\hegemony.faction" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -313,8 +314,6 @@
   <ItemGroup>
     <Resource Include="Images\refresh.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestObject\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

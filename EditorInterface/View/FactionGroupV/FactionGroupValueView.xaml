@@ -35,6 +35,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -80,6 +81,8 @@
                         </TextBlock>
                     </Grid>
                 </Border>
+                <TextBlock Text="Secondary segments: " Grid.Row="8"/>
+                <ContentControl s:View.Model="{Binding SecondarySegments}" Grid.Row="8" Grid.Column="1"/>
             </Grid>
 
         </Border>

@@ -9,6 +9,25 @@
              d:DesignHeight="50" d:DesignWidth="100" d:DesignStyle="{StaticResource DesignStyle}">
     <Grid>
         <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"> Fleet </TextBlock>
-        <Image Source="{Binding GeometryImage}" Stretch="uniform"/>
+        <Image Stretch="uniform">
+            <Image.Source>
+                <DrawingImage>
+                    <DrawingImage.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Geometry="{Binding Segments1}">
+                                <GeometryDrawing.Pen>
+                                    <Pen Thickness="1" Brush="{Binding Color.Color}" />
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="{Binding Segments2}">
+                                <GeometryDrawing.Pen>
+                                    <Pen Thickness="1" Brush="{Binding SecondaryColor.Color}" />
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingImage.Drawing>
+                </DrawingImage>
+            </Image.Source>
+        </Image>
     </Grid>
 </UserControl>

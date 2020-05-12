@@ -24,6 +24,8 @@ namespace SSEditor.FileHandling
         public MonitoredArrayValue BaseUIColor { get; private set; } = null;
         public MonitoredArrayValue SecondaryUIColor { get; private set; } = null;
 
+        public MonitoredValue SecondarySegments { get; private set; } = null;
+
         protected override void AttachDefinedAttribute()
         {
             DisplayName = AttachOneAttribute<MonitoredValue>(".displayName", JsonToken.TokenType.String);
@@ -38,8 +40,8 @@ namespace SSEditor.FileHandling
             BaseUIColor = AttachOneAttribute<MonitoredArrayValue>(".baseUIColor");
             //secondaryUIColor should be the color of segment in 2 color faction
             SecondaryUIColor = AttachOneAttribute<MonitoredArrayValue>(".secondaryUIColor");
-            
 
+            SecondarySegments = AttachOneAttribute<MonitoredValue>(".secondarySegments", JsonToken.TokenType.Double);
            
             
             

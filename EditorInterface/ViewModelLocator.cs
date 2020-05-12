@@ -29,6 +29,7 @@ namespace EditorInterface
 
             }
         }
+
         public ViewModelLocator()
         {
 

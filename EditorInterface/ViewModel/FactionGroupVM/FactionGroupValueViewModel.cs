@@ -41,7 +41,8 @@ namespace EditorInterface.ViewModel
                 }
             };
             SecondaryUIColor = new MonitoredColorViewModel(FactionGroup?.SecondaryUIColor) { ReplacementSource = FactionGroup?.Color };
-            FleetCircleViewModel = new FactionGroupFleetCircleViewModel(Color,SecondaryUIColor);
+            SecondarySegments = new MonitoredValueViewModel(FactionGroup?.SecondarySegments);
+            FleetCircleViewModel = new FactionGroupFleetCircleViewModel(Color,SecondaryUIColor, SecondarySegments);
 
         }
         protected override void OnClose()
@@ -65,6 +66,8 @@ namespace EditorInterface.ViewModel
         public MonitoredColorViewModel BaseUIColor { get; }
         public MonitoredColorViewModel DarkUIColor { get; }
         public MonitoredColorViewModel SecondaryUIColor { get; }
+
+        public MonitoredValueViewModel SecondarySegments { get; }
 
         public FactionGroupFleetCircleViewModel FleetCircleViewModel { get; }
 
