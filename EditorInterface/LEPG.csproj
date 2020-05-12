@@ -124,6 +124,8 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CustomUserControl\OutlinedTextBlock.cs" />
+    <Compile Include="ViewModel\FileVm\ISSWritableViewModel.cs" />
+    <Compile Include="ViewModel\FileVm\JsonGroupViewModel.cs" />
     <Compile Include="View\FactionGroupV\FactionGroupFleetCircleView.xaml.cs">
       <DependentUpon>FactionGroupFleetCircleView.xaml</DependentUpon>
     </Compile>

@@ -146,6 +146,12 @@ namespace SSEditor.FileHandling
             return new ReadOnlyObservableCollection<SSJson>(BaseCollection);
         }
 
+        public ICollection<GroupModification> GetModifications()
+        {
+            var Unsourced = this.MonitoredContent.GetModification();
+            var Sourced = Unsourced.Select(x => { x.GroupUrl = this.RelativeUrl; return x; });
+            return Sourced.ToList();
+        }
         //public void CopyFilesToMonitored( MonitoredField<T> monitor)
         //{
         //    monitor.ReplaceFiles(base.CommonFiles);
