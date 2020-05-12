@@ -76,7 +76,7 @@ namespace SSEditor.FileHandling
                 {
                     f.WriteTo(ModUrl);
                 }
-            }catch (Exception e)
+            }catch (Exception)
             {
                 throw new Exception("failed");
             }

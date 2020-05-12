@@ -79,9 +79,7 @@ namespace FVJson
             if (Values.Count > 0)
             {
                 result = result + Values.Last().ToJsonString(tab+1);
-                if (Values.Last().Type == TokenType.Integer)
-                    ;
-                else
+                if (Values.Last().Type != TokenType.Integer)
                     result = result + ",\r\n" + AddTab;
             }
             result = result + "]";

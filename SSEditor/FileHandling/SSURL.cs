@@ -10,7 +10,6 @@ namespace SSEditor.FileHandling
 {
     public abstract class SSUrl
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         public override abstract string ToString();
         public string SSStyleString
         {
