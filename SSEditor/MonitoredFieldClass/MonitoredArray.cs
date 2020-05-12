@@ -138,6 +138,27 @@ namespace SSEditor.MonitoringField
             return base.FieldPath + " Array: (" + this.ContentArray.Count.ToString() + ")value, first one: " + (this.ContentArray.FirstOrDefault()?.ToString() ?? "none") ;
         }
 
+        public override IEnumerable<GroupModification> GetModification()
+        {
+            if (Modified)
+            {
+                List<GroupModification> result = new List<GroupModification>();
+                foreach (MonitoredArrayModification mod in ModificationCollection)
+                {
+                    GroupModification GMod = new GroupModification()
+                    {
+                        Modification = mod,
+                        FieldPath = this.FieldPath
+                    };
+                    result.Add(GMod);
+                }
+                return result;
+            }
+            else
+                return new List<GroupModification>();
+        }
+
+
         public override Dictionary<string, MonitoredField> GetPathedChildrens()
         {
             return new Dictionary<String, MonitoredField>() { { "", this } };

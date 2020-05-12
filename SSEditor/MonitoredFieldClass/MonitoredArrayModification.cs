@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.MonitoringField
 {
-    public class MonitoredArrayModification
+    public class MonitoredArrayModification : IMonitoredModification
     {
         public enum ModificationType { Clear, Remove, Add}
 

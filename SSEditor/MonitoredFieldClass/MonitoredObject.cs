@@ -170,5 +170,16 @@ namespace SSEditor.MonitoringField
                 }
             }
         }
+
+        public override IEnumerable<GroupModification> GetModification()
+        {
+            List<GroupModification> result = new List<GroupModification>();
+            foreach (KeyValuePair<JsonValue,MonitoredField> kv in MonitoredProperties)
+            {
+                result.AddRange(kv.Value.GetModification());
+            }
+
+            return result;
+        }
     }
 }

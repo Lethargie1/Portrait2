@@ -39,6 +39,8 @@ namespace SSEditor.MonitoringField
         abstract protected void ResolveRemove(ISSJson file);
         public abstract Dictionary<string, MonitoredField> GetPathedChildrens();
 
+        public abstract IEnumerable<GroupModification> GetModification();
+
         public void ReplaceFiles(ObservableCollection<ISSJson> newFiles)
         {
             Files.CollectionChanged -= this.OnFilesChanged;
