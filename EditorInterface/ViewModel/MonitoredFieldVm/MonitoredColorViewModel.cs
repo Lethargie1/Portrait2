@@ -65,7 +65,7 @@ namespace EditorInterface
 
                 if (value != Color)
                 {
-                    MonitoredColor.ApplyModification((JsonArray)colorConverter.ConvertBack(value));
+                    MonitoredColor.Modify(MonitoredArrayValueModification.GetReplaceModification((JsonArray)colorConverter.ConvertBack(value)));
                 }
             }
         }

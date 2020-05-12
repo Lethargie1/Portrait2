@@ -17,29 +17,29 @@ namespace SSEditor.MonitoringField
 
         public override bool Modified { get => this.IsModified(); }
 
-        private JsonArray _Modification;
-        public JsonArray Modification
-        {
-            get => _Modification;
-            set
-            {
 
-                if (value != null && value.Values.Count != 4)
-                    throw new ArgumentException("Cant set an array with the wrong count");
-                SetAndNotify(ref _Modification, value);
-                NotifyOfPropertyChange(nameof(Modified));
-            }
+        private MonitoredArrayValueModification Modification { get; set; }
 
-        }
-        public void ApplyModification(JsonArray mod)
+
+        public void Modify(MonitoredArrayValueModification mod)
         {
             Modification = mod;
-            ContentArray = mod;
+            NotifyOfPropertyChange(nameof(Modified));
+            ApplyModification();
+
+        }
+        protected void ApplyModification()
+        {
+            if (Modification.ModType == MonitoredArrayValueModification.ModificationType.Unset)
+                ContentArray = null;
+            else
+                ContentArray = Modification.Content;
         }
         public void Reset()
         {
             if (Modification != null)
                 Modification = null;
+            NotifyOfPropertyChange(nameof(Modified));
             Resolve();
         }
 
@@ -61,10 +61,10 @@ namespace SSEditor.MonitoringField
                 else
                     HasMultipleSourceFile = false;
                 NotifyOfPropertyChange(nameof(HasMultipleSourceFile));
-                if (Modification != null)
-                    ValueResult = Modification;
 
-                if (ValueResult is JsonArray value)
+                if (Modification != null)
+                    ApplyModification();
+                else if (ValueResult is JsonArray value)
                     ContentArray = value;
                 else if (ValueResult == null)
                     ContentArray = null;
@@ -81,7 +81,7 @@ namespace SSEditor.MonitoringField
         }
         public override JsonToken GetJsonEquivalentNoOverwrite()
         {
-            return Modification;
+            return Modification?.Content;
         }
 
         public override bool IsModified()
@@ -91,7 +91,10 @@ namespace SSEditor.MonitoringField
 
         public override bool RequiresOverwrite()
         {
-            return false;
+            if (Modification != null && HasMultipleSourceFile)
+                return true;
+            else
+                return false;
         }
         protected override void ResolveAdd(ISSJson file)
         {

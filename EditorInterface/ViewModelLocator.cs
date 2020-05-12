@@ -68,7 +68,7 @@ namespace EditorInterface
                 value.Values.Add(new JsonValue(205));
                 MonitoredArrayValue monitorValue = new MonitoredArrayValue();
                 MonitoredColorViewModel result = new MonitoredColorViewModel(monitorValue);
-                monitorValue.ApplyModification(value);
+                monitorValue.Modify(MonitoredArrayValueModification.GetReplaceModification(value));
                 return result;
             }
         }
