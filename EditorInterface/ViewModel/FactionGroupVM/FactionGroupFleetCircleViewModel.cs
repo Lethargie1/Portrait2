@@ -22,8 +22,8 @@ namespace EditorInterface.ViewModel
         {
             get
             {
-                GeometryDrawing seg1 = SegmentedCircleDrawer(0, Color1, SegmentNumber);
-                GeometryDrawing seg2 = SegmentedCircleDrawer(1, Color2, SegmentNumber);
+                GeometryDrawing seg1 = SegmentedCircleDrawer(0, Color1, SegmentNumber, 25);
+                GeometryDrawing seg2 = SegmentedCircleDrawer(1, Color2, SegmentNumber, 25);
                 DrawingGroup group = new DrawingGroup();
                 group.Append();
                 group.Children.Add(seg1);
@@ -41,13 +41,13 @@ namespace EditorInterface.ViewModel
 
         }
 
-        private PathFigure SegmentedCirclePathCreator(int drawOnOdd, int segmentNumber)
+        private PathFigure SegmentedCirclePathCreator(int drawOnOdd, int segmentNumber, double radius)
         {
             PathFigure myPathFigure = new PathFigure();
-            myPathFigure.StartPoint = new Point(50, 0);
+            myPathFigure.StartPoint = new Point(radius, 0);
             bool isStroked;
             double segmentAngle = Math.PI * 2 / SegmentNumber;
-            double radius = 50;
+            
             double x;
             double y;
             double angle;
@@ -61,7 +61,7 @@ namespace EditorInterface.ViewModel
                 myPathFigure.Segments.Add(
                     new ArcSegment(
                         new Point(x, y),
-                        new Size(50, 50),
+                        new Size(radius, radius),
                         0,
                         false, /* IsLargeArc */
                         SweepDirection.Clockwise,
@@ -70,11 +70,11 @@ namespace EditorInterface.ViewModel
             return myPathFigure;
         }
 
-        private GeometryDrawing SegmentedCircleDrawer(int drawOnOdd,string color, int segmentNumber)
+        private GeometryDrawing SegmentedCircleDrawer(int drawOnOdd,string color, int segmentNumber, double radius)
         {
             /// Create a PathGeometry to contain the figure.
             PathGeometry myPathGeometry = new PathGeometry();
-            myPathGeometry.Figures.Add(SegmentedCirclePathCreator(drawOnOdd,segmentNumber));
+            myPathGeometry.Figures.Add(SegmentedCirclePathCreator(drawOnOdd,segmentNumber, radius));
 
 
             GeometryDrawing aGeometryDrawing = new GeometryDrawing();

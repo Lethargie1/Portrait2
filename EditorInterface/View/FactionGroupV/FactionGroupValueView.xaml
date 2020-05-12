@@ -58,20 +58,30 @@
                 <ContentControl s:View.Model="{Binding DarkUIColor}" Grid.Row="6" Grid.Column="1"/>
                 <TextBlock Text="Secondary UI color: " Grid.Row="7"/>
                 <ContentControl s:View.Model="{Binding SecondaryUIColor}" Grid.Row="7" Grid.Column="1"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                    <ContentControl s:View.Model="{Binding FleetCircleViewModel}" Margin="5,15,5,15"/>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
-                    <Border  Background="{Binding DarkUIColor.Color}" Padding="5,3,5,3" CornerRadius="3">
-                        <cuc:OutlinedTextBlock   FontFamily="Verdana" FontSize="20pt" FontWeight="ExtraBold" TextWrapping="Wrap" StrokeThickness="2" Stroke="Black" Fill="{Binding BaseUIColor.Color}">
-                            Example Header
-                        </cuc:OutlinedTextBlock>
-                    </Border>
-                    <TextBlock Foreground="{Binding BaseUIColor.Color}" TextWrapping="Wrap"> 
+                <Border Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="{StaticResource UiHighContrast}" CornerRadius="5" BorderThickness="2">
+                    <Grid   >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ContentControl s:View.Model="{Binding FleetCircleViewModel}" Margin="10" Grid.Column="0" Grid.RowSpan="2" Height="75"/>
+                        <Border  Background="{Binding DarkUIColor.Color}" Padding="5,3,5,3" CornerRadius="5" Grid.Column="1" Margin="5">
+                            <cuc:OutlinedTextBlock   FontFamily="Verdana" FontSize="20pt" FontWeight="ExtraBold" TextWrapping="NoWrap" StrokeThickness="2" Stroke="Black" Fill="{Binding BaseUIColor.Color}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                Example Header
+                            </cuc:OutlinedTextBlock>
+                        </Border>
+                        <TextBlock Foreground="{Binding BaseUIColor.Color}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"> 
                         Exemple description
-                    </TextBlock>
-                </StackPanel>
-                </StackPanel>
+                        </TextBlock>
+                    </Grid>
+                </Border>
             </Grid>
+
         </Border>
     </Grid>
 </UserControl>

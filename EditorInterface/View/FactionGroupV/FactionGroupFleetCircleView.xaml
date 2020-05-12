@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:EditorInterface"
              d:DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=FactionGroupFleetCircleViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" d:DesignStyle="{StaticResource DesignStyle}">
-    <Image Source="{Binding GeometryImage}" Stretch="uniform"/>
+             d:DesignHeight="50" d:DesignWidth="100" d:DesignStyle="{StaticResource DesignStyle}">
+    <Grid>
+        <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"> Fleet </TextBlock>
+        <Image Source="{Binding GeometryImage}" Stretch="uniform"/>
+    </Grid>
 </UserControl>
