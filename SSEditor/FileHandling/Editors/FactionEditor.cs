@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using JsonToken = FVJson.JsonToken;
 
 namespace SSEditor.FileHandling.Editors
 {
@@ -115,6 +117,26 @@ namespace SSEditor.FileHandling.Editors
             JsonValue OldDesc = receiver.ModInfo.Fields[".description"] as JsonValue;
             string old = OldDesc.ToString();
             OldDesc.SetContent(old + " Faction were modified using mods: " + string.Join(", ", together));
+        }
+
+
+
+
+        public void SaveGroupModification()
+        {
+            try
+            {
+                List<GroupModification> ModificationList = Factions.SelectMany(fg => fg.GetModifications()).ToList();
+                JsonSerializerSettings a = new JsonSerializerSettings()
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                };
+                string test = JsonConvert.SerializeObject(ModificationList,a );
+                List<GroupModification> deserializedProduct = JsonConvert.DeserializeObject<List<GroupModification>>(test,a);
+            }
+            catch (Exception e)
+            { }
+
         }
     }
 

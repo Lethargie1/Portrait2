@@ -11,9 +11,10 @@ namespace SSEditor.MonitoringField
     {
         public enum ModificationType { Clear, Remove, Add}
 
-        public ModificationType ModType { get; private set; }
-        public JsonToken Content { get; private set; }
+        public ModificationType ModType { get; set; }
+        public JsonToken Content { get; set; }
 
+        public MonitoredArrayModification() { }
         private MonitoredArrayModification(ModificationType type)
         { ModType = type; }
         private MonitoredArrayModification(JsonToken content, ModificationType type)

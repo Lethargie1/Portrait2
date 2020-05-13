@@ -71,6 +71,12 @@ namespace EditorInterface.ViewModel
         }
 
 
+        public void SaveGroupModification()
+        {
+            FactionEditor?.SaveGroupModification();
+        }
+
+
     }
     [ValueConversion(typeof(SSFactionGroup), typeof(FactionGroupTokenViewModel))]
     public class FactionToFactionVMConverter : IValueConverter
