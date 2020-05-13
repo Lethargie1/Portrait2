@@ -11,6 +11,7 @@ namespace SSEditor.MonitoringField
     {
         public enum ModificationType { Clear, Remove, Add}
 
+        public Type RessourceType { get; set; } = null;
         public ModificationType ModType { get; set; }
         public JsonToken Content { get; set; }
 
@@ -33,11 +34,11 @@ namespace SSEditor.MonitoringField
             var result = new MonitoredArrayModification(ModificationType.Clear);
             return result;
         }
-        public static MonitoredArrayModification GetAddModification(JsonToken NewContent)
+        public static MonitoredArrayModification GetAddModification(JsonToken NewContent, Type ressourceType=null)
         {
             if (NewContent == null)
                 throw new ArgumentException("Can't make add mod from empty token");
-            return new MonitoredArrayModification(NewContent, ModificationType.Add);
+            return new MonitoredArrayModification(NewContent, ModificationType.Add) {RessourceType = ressourceType };
         }
         public static MonitoredArrayModification GetRemoveModification(JsonToken NewContent)
         {

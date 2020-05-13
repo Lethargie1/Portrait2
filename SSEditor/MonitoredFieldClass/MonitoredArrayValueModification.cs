@@ -11,6 +11,7 @@ namespace SSEditor.MonitoringField
     {
         public enum ModificationType { Unset, Replace,}
 
+        public Type RessourceType { get; set; } = null;
         public ModificationType ModType { get; set; }
         public JsonArray Content { get; set; }
 

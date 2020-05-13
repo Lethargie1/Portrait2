@@ -38,7 +38,7 @@ namespace EditorInterface.ViewModel
 
         public void AddPortrait()
         {
-            TargetMonitor?.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(PortraitsRessourcesVM.SelectedPortraitRessource.RelativeUrl.SSStyleString)));
+            TargetMonitor?.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(PortraitsRessourcesVM.SelectedPortraitRessource.RelativeUrl.SSStyleString),typeof(PortraitsRessources)));
         }
 
         public void ClearPortrait()
