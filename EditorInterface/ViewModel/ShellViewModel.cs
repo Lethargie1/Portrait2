@@ -1,4 +1,5 @@
-﻿using Stylet;
+﻿using FVJson;
+using Stylet;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -17,6 +18,7 @@ namespace EditorInterface.ViewModel
 
         public ShellViewModel(MainMenuViewModel menu)
         {
+
             Menu = menu;
             this.ActivateItem(Menu);
         }

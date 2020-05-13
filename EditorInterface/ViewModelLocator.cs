@@ -4,8 +4,10 @@ using SSEditor.FileHandling;
 using SSEditor.MonitoringField;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EditorInterface
@@ -30,6 +32,58 @@ namespace EditorInterface
             }
         }
 
+        private JsonObject _DummyFileContent;
+        public JsonObject DummyFileContent
+        {
+            get
+            {
+                if (_DummyFileContent== null)
+                {
+                    string ReadResult = File.ReadAllText("TestObject/hegemony.faction");
+                    var result = Regex.Replace(ReadResult, "#.*", "");
+                    using (StringReader reader = new StringReader(result))
+                    {
+                        JsonReader jreader = new JsonReader(reader);
+                        JsonToken read = jreader.UnJson();
+                        _DummyFileContent = read as JsonObject;
+                    }
+                }
+                return _DummyFileContent;
+            }
+        }
+
+        private SSFaction _DummyFaction;
+        public SSFaction DummyFaction
+        {
+            get
+            {
+                if (_DummyFaction == null)
+                {
+                    _DummyFaction = new SSFaction(DummyMod, new SSRelativeUrl("hegemony.faction"));
+                    _DummyFaction.JsonType = SSJson.JsonFileType.NotExtrated;
+                    _DummyFaction.JsonContent = DummyFileContent;
+                }
+                return _DummyFaction;
+            }
+        }
+
+        private ISSMod _DummyMod;
+        public ISSMod DummyMod
+        {
+            get
+            {
+                if (_DummyMod == null)
+                {
+                    SSModWritable dum = new SSModWritable();
+                    SSBaseUrl url = new SSBaseUrl("c://star");
+                    SSLinkUrl url2 = new SSLinkUrl("mods\\dummy");
+                    dum.ModUrl = url + url2;
+                    dum.MakeModInfoBase();
+                    _DummyMod = dum;
+                }
+                return _DummyMod;
+            }
+        }
         public ViewModelLocator()
         {
 
@@ -70,6 +124,14 @@ namespace EditorInterface
                 MonitoredColorViewModel result = new MonitoredColorViewModel(monitorValue);
                 monitorValue.Modify(MonitoredArrayValueModification.GetReplaceModification(value));
                 return result;
+            }
+        }
+
+        public ISSWritableViewModel ISSWritableViewModel
+        {
+            get
+            {
+                return new ISSWritableViewModel(DummyFaction);
             }
         }
 

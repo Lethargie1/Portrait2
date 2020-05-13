@@ -140,7 +140,7 @@ namespace SSEditor.FileHandling
 
     public class SSFaction : SSJson
     {
-        public SSFaction(SSMod mod, SSRelativeUrl Url) : base(mod, Url)
+        public SSFaction(ISSMod mod, SSRelativeUrl Url) : base(mod, Url)
         { }
         
     }

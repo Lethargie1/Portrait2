@@ -17,7 +17,7 @@ namespace EditorInterface.ViewModel
             Writable = writable;
         }
 
-        public string filepath { get => Writable?.RelativeUrl.ToString(); }
+        public string Filepath { get => Writable?.RelativeUrl.ToString(); }
 
         public bool MustOverwrite { get => Writable?.MustOverwrite ?? false; }
 

@@ -16,7 +16,7 @@ namespace EditorInterface.ViewModel
             JsonGroup = jsonGroup;
         }
 
-        public string filepath { get => JsonGroup?.RelativeUrl.ToString(); }
+        public string Filepath { get => JsonGroup?.RelativeUrl.ToString(); }
 
         public bool MustOverwrite { get => JsonGroup?.MustOverwrite ?? false; }
 
