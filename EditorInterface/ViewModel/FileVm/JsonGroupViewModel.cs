@@ -20,6 +20,14 @@ namespace EditorInterface.ViewModel
 
         public bool MustOverwrite { get => JsonGroup?.MustOverwrite ?? false; }
 
+        public List<string> Modification
+        {
+            get 
+            {
+                return JsonGroup.GetModifications().Select(x => x.ToString()).ToList();
+            }
+        }
+
     }
 
 }

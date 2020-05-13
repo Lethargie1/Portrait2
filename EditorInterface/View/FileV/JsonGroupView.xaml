@@ -13,8 +13,9 @@
         <TextBlock Text="Json file"/>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Path: "/>
-            <TextBlock Text="{Binding FilePath}"/>
+            <TextBlock Text="{Binding Filepath}"/>
         </StackPanel>
         <TextBlock Text="Must be overwritten" Visibility="{Binding MustOverwrite, Converter={StaticResource BoolToVisible}}"/>
+        <ListBox ItemsSource="{Binding Modification}"></ListBox>
     </StackPanel>
 </UserControl>

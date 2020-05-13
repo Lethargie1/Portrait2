@@ -21,6 +21,12 @@ namespace SSEditor.MonitoringField
             ModType = type;
             Content = content;
         }
+
+        public override string ToString()
+        {
+            return $"Array.{ModType}, content type {Content?.GetType()?.ToString() ?? "n/a"}";
+        }
+
         public static MonitoredArrayModification GetClearModification()
         {
             var result = new MonitoredArrayModification(ModificationType.Clear);

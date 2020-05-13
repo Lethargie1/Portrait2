@@ -21,6 +21,12 @@ namespace SSEditor.MonitoringField
             ModType = type;
             Content = content;
         }
+
+        public override string ToString()
+        {
+            return $"ValueArray.{ModType}, content (description not implemented)";
+        }
+
         public static MonitoredArrayValueModification GetUnsetModification()
         {
             var result = new MonitoredArrayValueModification(ModificationType.Unset);

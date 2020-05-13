@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSEditor.MonitoringField;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace SSEditor.FileHandling
     public interface ISSJsonGroup : ISSGroup
     {
         ReadOnlyObservableCollection<SSJson> GetJSonFiles();
+        ICollection<GroupModification> GetModifications();
     }
 }

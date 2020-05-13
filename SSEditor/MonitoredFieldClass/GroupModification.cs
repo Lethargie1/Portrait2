@@ -12,5 +12,10 @@ namespace SSEditor.MonitoringField
         public SSRelativeUrl GroupUrl { get; set; }
         public string FieldPath { get; set; }
         public IMonitoredModification Modification { get; set; }
+
+        public override string ToString()
+        {
+            return $"Mod: {Modification.ToString()}, <{FieldPath}>";
+        }
     }
 }

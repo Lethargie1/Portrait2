@@ -21,6 +21,12 @@ namespace SSEditor.MonitoringField
             ModType = type;
             Content = content;
         }
+
+        public override string ToString()
+        {
+            return $"Value.{ModType}, content {Content.ToString()}";
+        }
+
         public static MonitoredValueModification GetUnsetModification()
         {
             var result = new MonitoredValueModification(ModificationType.Unset);
