@@ -10,8 +10,8 @@ namespace EditorInterface.ViewModel
 {
     public class JsonGroupViewModel
     {
-        public SSJsonGroup JsonGroup { get; set; }
-        public JsonGroupViewModel(SSJsonGroup jsonGroup)
+        public ISSJsonGroup JsonGroup { get; set; }
+        public JsonGroupViewModel(ISSJsonGroup jsonGroup)
         {
             JsonGroup = jsonGroup;
         }

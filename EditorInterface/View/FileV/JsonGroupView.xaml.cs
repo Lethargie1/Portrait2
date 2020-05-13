@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EditorInterface.View.FileV
+namespace EditorInterface.View
 {
     /// <summary>
     /// Interaction logic for ISSWritableView.xaml

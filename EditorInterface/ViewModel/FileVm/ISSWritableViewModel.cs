@@ -31,10 +31,12 @@ namespace EditorInterface.ViewModel
         {
             switch (value)
             {
-                case SSJsonGroup j:
+                case ISSJsonGroup j:
                     return new JsonGroupViewModel(j);
                 case ISSWritable w:
                     return new ISSWritableViewModel(w);
+                case null:
+                    return null;
                 default:
                     throw new ArgumentException("Converting a not writable");
             }

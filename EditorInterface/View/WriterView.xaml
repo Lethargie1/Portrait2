@@ -10,7 +10,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <vm:ISSWritableToDescriptiveString x:Key="WritToString" /> 
+        <vm:ISSWritableToDescriptiveString x:Key="WritToString" />
+        <vm:ISSWritableToISSWritableVMConverter x:Key="WritToVm"/>
     </UserControl.Resources>
     
     <Grid>
@@ -50,7 +51,7 @@
             </WrapPanel>
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1">
-            <ListView ItemsSource="{Binding FilesToWriteView}" Margin="7">
+            <ListView ItemsSource="{Binding FilesToWriteView}" Margin="7" x:Name="WritableList">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <DockPanel LastChildFill="False">
@@ -61,6 +62,7 @@
             </ListView>
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="2">
+            <ContentControl s:View.Model="{Binding ElementName=WritableList, Path=SelectedItem, Converter={StaticResource WritToVm}}" Margin="7" />
         </Border>
     </Grid>
 </UserControl>
