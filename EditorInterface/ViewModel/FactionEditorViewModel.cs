@@ -1,9 +1,11 @@
-﻿using SSEditor.FileHandling;
+﻿
+using SSEditor.FileHandling;
 using SSEditor.FileHandling.Editors;
 using Stylet;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -73,7 +75,25 @@ namespace EditorInterface.ViewModel
 
         public void SaveGroupModification()
         {
-            FactionEditor?.SaveGroupModification();
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+
+            // Show save file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save document
+                string filename = dlg.FileName;
+                using (StreamWriter sw = File.CreateText(filename))
+                {
+                    string toSave = FactionEditor?.GetModificationsAsJson();
+                    if (toSave != null)
+                        sw.Write(toSave);
+                }
+            }
+            
         }
 
 

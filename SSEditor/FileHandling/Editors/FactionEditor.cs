@@ -122,21 +122,15 @@ namespace SSEditor.FileHandling.Editors
 
 
 
-        public void SaveGroupModification()
+        public string GetModificationsAsJson()
         {
-            try
+            List<GroupModification> ModificationList = Factions.SelectMany(fg => fg.GetModifications()).ToList();
+            JsonSerializerSettings setting = new JsonSerializerSettings()
             {
-                List<GroupModification> ModificationList = Factions.SelectMany(fg => fg.GetModifications()).ToList();
-                JsonSerializerSettings a = new JsonSerializerSettings()
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                };
-                string test = JsonConvert.SerializeObject(ModificationList,a );
-                List<GroupModification> deserializedProduct = JsonConvert.DeserializeObject<List<GroupModification>>(test,a);
-            }
-            catch (Exception e)
-            { }
-
+                TypeNameHandling = TypeNameHandling.Auto,
+                Formatting = Formatting.Indented
+            };
+            return JsonConvert.SerializeObject(ModificationList, setting);
         }
     }
 
