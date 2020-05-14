@@ -40,7 +40,7 @@
             <WrapPanel>
                 <Button Content="Go back" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
                 <Button Content="Save" Command="{s:Action SaveGroupModification}" Margin="3,3,3,3"></Button>
-                <Button Content="Read" Command="{s:Action ReadGroupModification}" Margin="3,3,3,3"></Button>
+                <Button Content="Load" Command="{s:Action ReadGroupModification}" Margin="3,3,3,3"></Button>
             </WrapPanel>
         </Border>
         <ContentControl s:View.Model="{Binding SelectedFactionViewModel}" Margin="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2"/>

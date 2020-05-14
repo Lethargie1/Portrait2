@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:EditorInterface"
                     xmlns:properties="clr-namespace:EditorInterface.Properties"
-                    xmlns:vm="clr-namespace:EditorInterface.ViewModel">
+                    xmlns:vm="clr-namespace:EditorInterface.ViewModel"
+                    xmlns:cuc="clr-namespace:EditorInterface.CustomUserControl">
 
     <local:ViewModelLocator x:Key="ViewModelLocator"/>
     <vm:ImageConverter x:Key="ImageConverter"/>
@@ -300,6 +301,13 @@
     <Style TargetType="TextBlock">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+    </Style>
+
+    <Style TargetType="cuc:OutlinedTextBlock">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Fill" Value="{StaticResource TextBrush}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="Stroke" Value="Black" />
     </Style>
 
     <Style x:Key="TextElement" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
