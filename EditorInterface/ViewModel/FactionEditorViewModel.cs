@@ -21,12 +21,13 @@ namespace EditorInterface.ViewModel
         private FactionEditorFactory FactionEditorFactory { get; set; }
         public FactionEditor FactionEditor { get; private set; }
         public List<SSFactionGroup> Factions { get => FactionEditor.Factions; }
+        public IWindowManager WindowManager { get; set; }
 
-
-        public FactionEditorViewModel(FactionEditorFactory factionEditorFactory, Func<PortraitsRessourcesViewModelFactory> portraitsRessourcesViewModelFactoryFactory)
+        public FactionEditorViewModel(FactionEditorFactory factionEditorFactory, Func<PortraitsRessourcesViewModelFactory> portraitsRessourcesViewModelFactoryFactory, IWindowManager windowManager)
         {
             FactionEditorFactory = factionEditorFactory;
             PortraitsRessourcesVMFactoryFactory = portraitsRessourcesViewModelFactoryFactory;
+            WindowManager = windowManager;
         }
 
         protected override void OnActivate() 
@@ -77,40 +78,55 @@ namespace EditorInterface.ViewModel
         {
             // Configure save file dialog box
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-
+            dlg.DefaultExt = ".lepgfaction"; // Default file extension
+            dlg.Filter = "LEPG faction modification (.lepgfaction)|*.lepgfaction"; // Filter files by extension
             // Show save file dialog box
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Process save file dialog box results
-            if (result == true)
+            try
             {
-                // Save document
-                string filename = dlg.FileName;
-                using (StreamWriter sw = File.CreateText(filename))
+                Nullable<bool> result = dlg.ShowDialog();
+
+                // Process save file dialog box results
+                if (result == true)
                 {
-                    string toSave = FactionEditor?.GetModificationsAsJson();
-                    if (toSave != null)
-                        sw.Write(toSave);
+                    // Save document
+                    string filename = dlg.FileName;
+                    using (StreamWriter sw = File.CreateText(filename))
+                    {
+                        string toSave = FactionEditor?.GetModificationsAsJson();
+                        if (toSave != null)
+                            sw.Write(toSave);
+                    }
                 }
             }
-            
+            catch (Exception e)
+            {
+                WindowManager.ShowMessageBox($"Something failed while saving. I got error: {e.Message}. Does that help you?");
+            }
         }
 
         public void ReadGroupModification()
         {
             // Configure open file dialog box
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
+            dlg.DefaultExt = ".lepgfaction"; // Default file extension
+            dlg.Filter = "LEPG faction modification (.lepgfaction)|*.lepgfaction"; // Filter files by extension
             // Show open file dialog box
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Process open file dialog box results
-            if (result == true)
+            try
             {
-                // Open document
-                string filename = dlg.FileName;
-                string ReadResult = File.ReadAllText(filename);
-                FactionEditor?.ApplyModificationFromJson(ReadResult);
+                Nullable<bool> result = dlg.ShowDialog();
+
+                // Process open file dialog box results
+                if (result == true)
+                {
+                    // Open document
+                    string filename = dlg.FileName;
+                    string ReadResult = File.ReadAllText(filename);
+                    FactionEditor?.ApplyModificationFromJson(ReadResult);
+                }
+            }
+            catch (Exception e)
+            {
+                WindowManager.ShowMessageBox($"Something failed while Loading. I got error: {e.Message}. Does that help you?");
             }
         }
 

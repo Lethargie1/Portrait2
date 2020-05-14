@@ -138,9 +138,20 @@ namespace SSEditor.FileHandling.Editors
             List<GroupModification> ModificationList = JsonConvert.DeserializeObject<List<GroupModification>>(text, setting);
             foreach (GroupModification gm in ModificationList)
             {
+                
+
                 SSFactionGroup match = Factions.Find(f => f.RelativeUrl.Equals(gm.GroupUrl));
                 if (match!= null)
                 {
+                    if (gm.Modification.RessourceType == typeof(PortraitsRessources))
+                    {
+                        if (PortraitsRessource.FindBinaryFromDirectory(gm.Modification.GetContentAsValue().ToString()) == null)
+                            continue;
+                    }
+                    else if (gm.Modification.RessourceType != null)
+                    {
+                        throw new ArgumentException("faction modification refer to unknown ressource");
+                    }
                     MonitoredField pointed;
                     match.PathedContent.TryGetValue(gm.FieldPath, out pointed);
                     if (pointed == null)

@@ -30,6 +30,16 @@ namespace SSEditor.MonitoringField
             return $"Value.{ModType}, content {Content.ToString()}";
         }
 
+        public object GetContentAsValue()
+        {
+            if (Content is JsonValue j)
+            {
+                return j;
+            }
+            else
+                throw new InvalidOperationException("Monitored value modification contain non-value modification");
+        }
+
         public static MonitoredValueModification GetUnsetModification()
         {
             var result = new MonitoredValueModification(ModificationType.Unset);

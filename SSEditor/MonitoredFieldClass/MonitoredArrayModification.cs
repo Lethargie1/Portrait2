@@ -29,6 +29,16 @@ namespace SSEditor.MonitoringField
             return $"Array.{ModType}, content type {Content?.GetType()?.ToString() ?? "n/a"}";
         }
 
+        public object GetContentAsValue()
+        {
+            if (Content is JsonValue j)
+            {
+                return j;
+            }
+            else
+                throw new InvalidOperationException("Monitored array modification contain non-value modification");
+        }
+
         public static MonitoredArrayModification GetClearModification()
         {
             var result = new MonitoredArrayModification(ModificationType.Clear);
@@ -46,6 +56,8 @@ namespace SSEditor.MonitoringField
                 throw new ArgumentException("Can't make remove mod from empty token");
             return new MonitoredArrayModification(NewContent, ModificationType.Remove);
         }
+
+        
     }
     public static class MonitoredArrayModificationExtension
     {

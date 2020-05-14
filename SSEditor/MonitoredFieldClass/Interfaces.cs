@@ -9,5 +9,6 @@ namespace SSEditor.MonitoringField
     public interface IMonitoredModification
     {
         Type RessourceType { get; }
+        object GetContentAsValue();
     }
 }

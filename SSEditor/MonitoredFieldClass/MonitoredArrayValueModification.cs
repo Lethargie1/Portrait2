@@ -29,6 +29,11 @@ namespace SSEditor.MonitoringField
             return $"ValueArray.{ModType}, content (description not implemented)";
         }
 
+        public object GetContentAsValue()
+        {
+             throw new InvalidOperationException("Monitored value array cannot contain a single value");
+        }
+
         public static MonitoredArrayValueModification GetUnsetModification()
         {
             var result = new MonitoredArrayValueModification(ModificationType.Unset);
