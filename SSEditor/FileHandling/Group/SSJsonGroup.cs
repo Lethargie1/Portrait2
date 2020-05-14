@@ -91,6 +91,8 @@ namespace SSEditor.FileHandling
 
         public override void WriteTo(SSBaseLinkUrl newPath)
         {
+            if (!this.WillCreateFile)
+                return;
             SSBaseUrl InstallationUrl = new SSBaseUrl(newPath.Base);
             SSFullUrl TargetUrl = newPath + this.RelativeUrl;
 

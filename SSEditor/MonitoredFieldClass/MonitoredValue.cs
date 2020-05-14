@@ -107,7 +107,7 @@ namespace SSEditor.MonitoringField
         }
         public override JsonToken GetJsonEquivalentNoOverwrite()
         {
-            return Modification.Content;
+            return Modification?.Content;
         }
 
         public override bool IsModified()
