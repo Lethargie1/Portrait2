@@ -15,7 +15,7 @@ namespace SSEditor.MonitoringField
 
         public override string ToString()
         {
-            return $"Mod: {Modification.ToString()}, <{FieldPath}>";
+            return $"<{FieldPath}>\n   {Modification.ToString()} ";
         }
     }
 }

@@ -26,7 +26,13 @@ namespace SSEditor.MonitoringField
 
         public override string ToString()
         {
-            return $"ValueArray.{ModType}, content (description not implemented)";
+            string show = null;
+            if (Content != null)
+            {
+                var parts = Content.Values.Select(v => ((JsonValue)v).ToString());
+                show = String.Join(",", parts);
+            }
+            return $"ValueArray.{ModType}, content: [{show ?? "n/a"}]";
         }
 
         public object GetContentAsValue()

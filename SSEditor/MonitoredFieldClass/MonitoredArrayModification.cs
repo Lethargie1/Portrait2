@@ -26,7 +26,7 @@ namespace SSEditor.MonitoringField
 
         public override string ToString()
         {
-            return $"Array.{ModType}, content type {Content?.GetType()?.ToString() ?? "n/a"}";
+            return $"Array.{ModType}, content: {Content?.ToString() ?? "n/a"}";
         }
 
         public object GetContentAsValue()
