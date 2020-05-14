@@ -121,16 +121,46 @@ namespace SSEditor.FileHandling.Editors
 
 
 
-
+        private JsonSerializerSettings  setting = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+                Formatting = Formatting.Indented
+            };
         public string GetModificationsAsJson()
         {
             List<GroupModification> ModificationList = Factions.SelectMany(fg => fg.GetModifications()).ToList();
-            JsonSerializerSettings setting = new JsonSerializerSettings()
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                Formatting = Formatting.Indented
-            };
+            
             return JsonConvert.SerializeObject(ModificationList, setting);
+        }
+
+        public void ApplyModificationFromJson(string text)
+        {
+            List<GroupModification> ModificationList = JsonConvert.DeserializeObject<List<GroupModification>>(text, setting);
+            foreach (GroupModification gm in ModificationList)
+            {
+                SSFactionGroup match = Factions.Find(f => f.RelativeUrl.Equals(gm.GroupUrl));
+                if (match!= null)
+                {
+                    MonitoredField pointed;
+                    match.PathedContent.TryGetValue(gm.FieldPath, out pointed);
+                    if (pointed == null)
+                        continue;
+                    switch (gm.Modification)
+                    {
+                        case MonitoredArrayModification mam:
+                            ((MonitoredArray)pointed).Modify(mam);
+                            break;
+                        case MonitoredArrayValueModification mavm:
+                            ((MonitoredArrayValue)pointed).Modify(mavm);
+                            break;
+                        case MonitoredValueModification mvm:
+                            ((MonitoredValue)pointed).Modify(mvm);
+                            break;
+                    }
+                    
+
+                }
+            }
         }
     }
 

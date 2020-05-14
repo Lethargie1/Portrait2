@@ -71,6 +71,7 @@ namespace SSEditor.FileHandling
                     mv.SetGoal(goalType);
                 MonitoredContent.AddSubMonitor(path, extracted);
                 extracted.Bind(x => x.Modified, (sender, arg) => SubPropertyModified(sender, arg));
+                PopulatePathedContent();
                 return extracted as T;
             }
         }

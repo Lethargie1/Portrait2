@@ -96,6 +96,24 @@ namespace EditorInterface.ViewModel
             
         }
 
+        public void ReadGroupModification()
+        {
+            // Configure open file dialog box
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                string ReadResult = File.ReadAllText(filename);
+                FactionEditor?.ApplyModificationFromJson(ReadResult);
+            }
+        }
+
 
     }
     [ValueConversion(typeof(SSFactionGroup), typeof(FactionGroupTokenViewModel))]

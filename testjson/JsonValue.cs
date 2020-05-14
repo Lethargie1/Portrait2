@@ -9,7 +9,7 @@ namespace FVJson
 {
     public class JsonValue : JsonToken, IEquatable<JsonValue>
     {
-        public object Content { get; private set; }
+        public object Content { get; set; } = null;
         public void SetContent(bool value)
         {
             if (Content == null)
@@ -83,7 +83,6 @@ namespace FVJson
 
         public JsonValue()
         {
-            Content = null;
         }
         public JsonValue(bool value)
         {
