@@ -11,11 +11,11 @@
         <s:BoolToVisibilityConverter x:Key="BoolToVisible" TrueVisibility="Visible" FalseVisibility="Hidden"/>
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="Other type of file"/>
+        <TextBlock Text="File that is not editable"/>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Path: " />
-            <TextBlock Text="{Binding Filepath}"/>
+            <TextBlock Text="{Binding Filepath}" Foreground="Yellow"/>
         </StackPanel>
-        <TextBlock Text="Must be overwritten" Visibility="{Binding MustOverwrite, Converter={StaticResource BoolToVisible}}"/>
+        <TextBlock Text="Must be overwritten" Visibility="{Binding MustOverwrite, Converter={StaticResource BoolToVisible}}" Foreground="Red"/>
     </StackPanel>
 </UserControl>

@@ -10,12 +10,12 @@
         <s:BoolToVisibilityConverter x:Key="BoolToVisible" TrueVisibility="Visible" FalseVisibility="Hidden"/>
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="Json file"/>
+        <TextBlock Text="Editable Json file"/>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Path: "/>
-            <TextBlock Text="{Binding Filepath}"/>
+            <TextBlock Text="{Binding Filepath}" Foreground="Yellow"/>
         </StackPanel>
-        <TextBlock Text="Must be overwritten" Visibility="{Binding MustOverwrite, Converter={StaticResource BoolToVisible}}"/>
-        <ListBox ItemsSource="{Binding Modification}"></ListBox>
+        <TextBlock Text="Must be overwritten" Visibility="{Binding MustOverwrite, Converter={StaticResource BoolToVisible}}" Foreground="Red"/>
+        <ListBox ItemsSource="{Binding Modification}" HorizontalContentAlignment="Stretch"></ListBox>
     </StackPanel>
 </UserControl>
