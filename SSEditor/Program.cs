@@ -20,35 +20,39 @@ namespace SSEditor
             
             SSBaseUrl SSUrl = new SSBaseUrl("E:\\SS\\Starsector");
             SSLinkUrl CoreUrl = new SSLinkUrl("starsector-core");
-            SSLinkUrl TahlanUrl = new SSLinkUrl("mods\\tahlan");
+            //SSLinkUrl TahlanUrl = new SSLinkUrl("mods\\tahlan");
             SSLinkUrl SWPUrl = new SSLinkUrl("mods\\Ship and Weapon Pack");
-            SSRelativeUrl HegemonyUrl = new SSRelativeUrl("data\\world\\factions\\hegemony.faction");
+            SSRelativeUrl shipdataUrl = new SSRelativeUrl("data\\hulls\\ship_data.csv");
 
-           
-
-            SSBaseUrl ModFolderPath = SSUrl + "mods";
-            DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
-            IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
-
-            
-            SSDirectory test = new SSDirectory(SSUrl);
-            SSModWritable target = new SSModWritable();
-            target.ModUrl = SSUrl + new SSLinkUrl("mods\\lepg");
-            test.ReadMods("lepg");
-            test.PopulateMergedCollections();
-
-            FactionEditor factionEditor = new FactionEditor(test);
-            List<SSFactionGroup> factions = factionEditor.GetFaction();
-            foreach (SSFactionGroup f in factions)
+            SSFullUrl dataurl = SSUrl + SWPUrl + shipdataUrl;
+            CSVContent content;
+            using (StreamReader sr = File.OpenText(dataurl.ToString()))
             {
-                    f.MalePortraits?.ContentArray.Clear();
-                    f.MalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai1.png"));
-                    f.FemalePortraits?.ContentArray.Clear();
-                    f.FemalePortraits?.ContentArray.Add(new JsonValue("graphics/portraits/portrait_ai2.png"));
-                    
+                content = CSVContent.ExtractFromText(sr);
             }
-            factionEditor.ReplaceFactionToWrite(target);
-            target.WriteMod();
+
+            dataurl = SSUrl + CoreUrl + shipdataUrl;
+            CSVContent content2;
+            using (StreamReader sr = File.OpenText(dataurl.ToString()))
+            {
+                content2 = CSVContent.ExtractFromText(sr);
+            }
+
+            CSVContent content3 = CSVContent.Merge(new[]{content,content2});
+            //SSBaseUrl ModFolderPath = SSUrl + "mods";
+            //DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
+            //IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
+
+
+            //SSDirectory test = new SSDirectory(SSUrl);
+            //SSModWritable target = new SSModWritable();
+            //target.ModUrl = SSUrl + new SSLinkUrl("mods\\lepg");
+            //test.ReadMods("lepg");
+            //test.PopulateMergedCollections();
+
+            //FactionEditor factionEditor = new FactionEditor(test);
+            //List<SSFactionGroup> factions = factionEditor.GetFaction();
+            //
         }
     }
 }

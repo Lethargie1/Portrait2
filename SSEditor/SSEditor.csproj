@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F56779BD-F395-44F6-BDB8-3ECAB7BDBE39}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>SSEditor</RootNamespace>
     <AssemblyName>SSEditor</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Converters\BooleanToInverseConverter.cs" />
     <Compile Include="Converters\JsonArrayToColorConverter.cs" />
+    <Compile Include="FileHandling\CSVContent.cs" />
     <Compile Include="FileHandling\Editors\FactionEditor.cs" />
     <Compile Include="FileHandling\Group\ISSGroupInterface.cs" />
     <Compile Include="FileHandling\Group\SSBinaryGroup.cs" />
