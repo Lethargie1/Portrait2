@@ -71,6 +71,11 @@ namespace SSEditor.Ressources
             }
             var referencedShipHull = referencedShipVariant.Distinct().Select(x => VariantsRessources.GetHullIdFromVariantName(x)).Distinct().ToList() ;
 
+            Directory.GroupedFiles.TryGetValue("data\\hulls\\ship_data.csv", out ISSGroup dataGroup);
+            SSCsvGroup ShipDataGroup = (SSCsvGroup)dataGroup;
+            ShipDataGroup.ExtractMonitoredContent();
+
+            referencedShipHull.Select(x => ShipDataGroup.Content.GetLineByColumnValue("id", x));
             //ok, using the referenced ship hull, i need to pull the data from ship data and myself a samwich
         }
     }

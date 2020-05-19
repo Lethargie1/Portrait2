@@ -11,10 +11,18 @@ namespace SSEditor.FileHandling
 {
     class SSCsvGroup : SSGroup<SSCsv>
     {
+        public CSVContent Content { get; set; }
+
         public SSCsvGroup(SSCsv firstfile) : base()
         {
             this.Add(firstfile);
         }
+
+        public void ExtractMonitoredContent()
+        {
+            Content = CSVContent.Merge(this.CommonFiles.Select(x => x.Content));
+        }
+
 
         public override void WriteTo(SSBaseLinkUrl newPath)
         {
