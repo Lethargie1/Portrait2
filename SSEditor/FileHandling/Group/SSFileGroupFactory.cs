@@ -21,6 +21,10 @@ namespace SSEditor.FileHandling
                     SSFactionGroup newFGroup = new SSFactionGroup();
                     newFGroup.Add(f);
                     return newFGroup;
+                case SSVariant v:
+                    SSVariantGroup newVGroup = new SSVariantGroup();
+                    newVGroup.Add(v);
+                    return newVGroup;
                 case SSJson gf:
                     SSJsonGroup newgfGroup = new SSJsonGroup();
                     newgfGroup.Add(gf);

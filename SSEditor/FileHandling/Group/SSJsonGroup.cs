@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Stylet;
 
 namespace SSEditor.FileHandling
 {
@@ -153,6 +154,38 @@ namespace SSEditor.FileHandling
             var Unsourced = this.MonitoredContent.GetModification();
             var Sourced = Unsourced.Select(x => { x.GroupUrl = this.RelativeUrl; return x; });
             return Sourced.ToList();
+        }
+
+        protected G AttachOneAttribute<G>(string path, JsonToken.TokenType goalType = JsonToken.TokenType.String) where G : MonitoredField, new()
+        {
+            MonitoredField extracted;
+            if (PathedContent.TryGetValue(path, out extracted))
+            {
+                if (extracted is G typed)
+                {
+                    typed.Bind(x => x.Modified, (sender, arg) => SubPropertyModified(sender, arg));
+                    if (typed is MonitoredValue mv)
+                        mv.SetGoal(goalType);
+                    return typed;
+                }
+                else
+                    throw new InvalidOperationException($"Existing field {path} in file {this.RelativeUrl.ToString()} is different type than {typeof(G)}");
+            }
+            else
+            {
+                extracted = new G();
+                if (extracted is MonitoredValue mv)
+                    mv.SetGoal(goalType);
+                MonitoredContent.AddSubMonitor(path, extracted);
+                extracted.Bind(x => x.Modified, (sender, arg) => SubPropertyModified(sender, arg));
+                PopulatePathedContent();
+                return extracted as G;
+            }
+        }
+        public void SubPropertyModified(object sender, EventArgs e)
+        {
+            NotifyOfPropertyChange(nameof(IsModified));
+            NotifyOfPropertyChange(nameof(MustOverwrite));
         }
         //public void CopyFilesToMonitored( MonitoredField<T> monitor)
         //{

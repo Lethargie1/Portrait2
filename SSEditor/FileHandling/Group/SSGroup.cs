@@ -28,7 +28,15 @@ namespace SSEditor.FileHandling
             CommonFilesReadOnly = new ReadOnlyObservableCollection<T>(CommonFiles);
         }
         
-
+        public virtual void Add(ISSGenericFile file)
+        {
+            if (file is T typed)
+            {
+                Add(typed);
+            }
+            else
+                throw new ArgumentException($"cannot add file of type {file.GetType()} to this group");
+        }
         public virtual void Add(T file)
         {
             if (file.RelativeUrl == null )

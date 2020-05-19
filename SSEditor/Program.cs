@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FVJson;
 using SSEditor.FileHandling.Editors;
+using SSEditor.Ressources;
 
 namespace SSEditor
 {
@@ -39,11 +40,16 @@ namespace SSEditor
             }
 
             CSVContent content3 = CSVContent.Merge(new[]{content,content2});
+            var b = content3.GetLineByColumnValue("id", "swp_archon")["tags"];
             //SSBaseUrl ModFolderPath = SSUrl + "mods";
             //DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath.ToString());
             //IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
 
-
+            SSDirectory directory = new SSDirectory();
+            directory.InstallationUrl = SSUrl;
+            directory.ReadMods();
+            directory.PopulateMergedCollections();
+            VariantsRessources variant = new VariantsRessources(directory);
             //SSDirectory test = new SSDirectory(SSUrl);
             //SSModWritable target = new SSModWritable();
             //target.ModUrl = SSUrl + new SSLinkUrl("mods\\lepg");

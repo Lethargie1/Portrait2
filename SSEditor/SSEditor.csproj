@@ -76,6 +76,7 @@
     <Compile Include="FileHandling\Group\SSCsvGroup.cs" />
     <Compile Include="FileHandling\Group\SSFileGroupFactory.cs" />
     <Compile Include="FileHandling\Group\SSJsonGroup.cs" />
+    <Compile Include="FileHandling\Group\SSVariantGroup.cs" />
     <Compile Include="FileHandling\ISSWritable.cs" />
     <Compile Include="FileHandling\Mods\ISSMod.cs" />
     <Compile Include="FileHandling\Mods\SSModWritable.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Ressources\Portraits.cs" />
     <Compile Include="Ressources\PortraitsRessources.cs" />
     <Compile Include="Ressources\SSRessource.cs" />
+    <Compile Include="Ressources\VariantsRessources.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

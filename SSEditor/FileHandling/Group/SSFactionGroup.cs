@@ -49,43 +49,14 @@ namespace SSEditor.FileHandling
             DisplayNameWithArticle = AttachOneAttribute<MonitoredValue>(".displayNameWithArticle", JsonToken.TokenType.String);
             ShipNamePrefix = AttachOneAttribute<MonitoredValue>(".shipNamePrefix", JsonToken.TokenType.String);
         }
-        private T AttachOneAttribute<T>(string path, JsonToken.TokenType goalType = JsonToken.TokenType.String) where T:MonitoredField, new()
-        {
-            MonitoredField extracted;
-            if (PathedContent.TryGetValue(path, out extracted))
-            {
-                if (extracted is T typed)
-                {
-                    typed.Bind(x => x.Modified, (sender, arg) => SubPropertyModified(sender, arg));
-                    if (typed is MonitoredValue mv)
-                        mv.SetGoal(goalType);
-                    return typed;
-                }
-                else
-                    throw new InvalidOperationException($"Existing field {path} in file {this.RelativeUrl.ToString()} is different type than {typeof(T)}");
-            }
-            else
-            {
-                extracted = new T();
-                if (extracted is MonitoredValue mv)
-                    mv.SetGoal(goalType);
-                MonitoredContent.AddSubMonitor(path, extracted);
-                extracted.Bind(x => x.Modified, (sender, arg) => SubPropertyModified(sender, arg));
-                PopulatePathedContent();
-                return extracted as T;
-            }
-        }
+        
 
 
         public SSFactionGroup() : base ()
         {
         }
 
-        public void SubPropertyModified(object sender, EventArgs e)
-        {
-            NotifyOfPropertyChange(nameof(IsModified));
-            NotifyOfPropertyChange(nameof(MustOverwrite));
-        }
+        
     }
     
 }

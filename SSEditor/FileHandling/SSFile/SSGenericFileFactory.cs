@@ -22,6 +22,8 @@ namespace SSEditor.FileHandling
                     return new SSJson(mod, Url);
                 case ".faction":
                     return new SSFaction(mod, Url);
+                case ".variant":
+                    return new SSVariant(mod, Url);
                 case ".csv":
                     return new SSCsv(mod, Url);
                 case ".jar":

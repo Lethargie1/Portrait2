@@ -145,5 +145,12 @@ namespace SSEditor.FileHandling
         
     }
 
+    public class SSVariant : SSJson
+    {
+        public SSVariant(ISSMod mod, SSRelativeUrl Url) : base(mod, Url)
+        { }
+
+    }
+
 }
 

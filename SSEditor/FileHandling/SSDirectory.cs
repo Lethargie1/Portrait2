@@ -102,32 +102,7 @@ namespace SSEditor.FileHandling
                     else
                     {
                         ISSGroup matchingGroup = GroupedFiles[modFile.RelativeUrl.ToString()];
-                        switch (modFile)
-                        {
-                            case SSFaction factionfile:
-                                if (matchingGroup is SSFactionGroup factionGroup)
-                                {
-                                    factionGroup.Add(factionfile);
-                                }
-                                break;
-                            case SSJson file:
-                                if (matchingGroup is SSGroup<SSJson> fileGroup)
-                                {
-                                    fileGroup.Add(file);
-                                }
-                                break;
-                            case SSCsv fileCsv:
-                                SSCsvGroup fcg = matchingGroup as SSCsvGroup;
-                                fcg.Add(fileCsv);
-                                break;
-                            case SSBinary binaryFile:
-                                ((SSBinaryGroup)matchingGroup).Add(binaryFile);
-                                break;
-                            default:
-                                throw new NotImplementedException("Could not add a file in the directory to a known group");
-
-
-                        }
+                        matchingGroup.Add(modFile);
 
                     }
 
