@@ -108,6 +108,7 @@
     <Compile Include="Ressources\GroupHeaderConverter.cs" />
     <Compile Include="Ressources\Portraits.cs" />
     <Compile Include="Ressources\PortraitsRessources.cs" />
+    <Compile Include="Ressources\ShipHullRessources.cs" />
     <Compile Include="Ressources\SSRessource.cs" />
     <Compile Include="Ressources\VariantsRessources.cs" />
   </ItemGroup>

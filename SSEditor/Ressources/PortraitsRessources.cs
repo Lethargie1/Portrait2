@@ -20,6 +20,8 @@ namespace SSEditor.Ressources
         public Dictionary<string, Portraits> RessourceCorrespondance { get; } = new Dictionary<string, Portraits>();
         public List<Portraits> Ressouces { get; } = new List<Portraits>();
         private SSDirectory Directory { get; set; }
+
+
         public PortraitsRessources(SSDirectory directory)
         {
             Directory = directory;
