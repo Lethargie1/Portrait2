@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CsvHelper;
-
+using CsvHelper.TypeConversion;
 
 namespace SSEditor.FileHandling
 {
@@ -16,6 +16,11 @@ namespace SSEditor.FileHandling
         public List<Dictionary<string,string>> Content { get; private set; }
 
         public CSVContent() { }
+
+        public Dictionary<string,string> GetLineByColumnValue(string ColumnHead, string ColumnValue)
+        {
+            return Content.Where(x => x[ColumnHead] == ColumnValue).SingleOrDefault();
+        }
 
         public static CSVContent ExtractFromText(TextReader source)
         {
@@ -51,7 +56,6 @@ namespace SSEditor.FileHandling
             return result;
         }
 
-
         public static CSVContent Merge(IEnumerable<CSVContent> ToMerge )
         {
             CSVContent result = new CSVContent();
@@ -62,16 +66,23 @@ namespace SSEditor.FileHandling
             {
                 foreach (Dictionary<string,string> line in csv.Content)
                 {
-                    var MissingKeysValue = result.Headers.Where(x => !line.ContainsKey(x))
-                                                         .Select(x => new KeyValuePair<string, string>(x, ""));
-                    foreach (KeyValuePair<string,string> kv in MissingKeysValue)
-                    { line.Add(kv.Key, kv.Value); }
-                    result.Content.Add(line);
+                    Dictionary<string, string> newLine = new Dictionary<string, string>();
+                    foreach (string head in result.Headers)
+                    {
+                        if (line.ContainsKey(head))
+                            newLine.Add(head, line[head]);
+                        else
+                            newLine.Add(head, "");
+                    }
+
+                    result.Content.Add(newLine);
                 }
             }
 
 
             return result;
         }
+
+
     }
 }
