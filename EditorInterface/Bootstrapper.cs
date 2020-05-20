@@ -20,10 +20,12 @@ namespace EditorInterface
             base.ConfigureIoC(builder);
             builder.Bind<SSDirectory>().ToInstance(new SSDirectory());
             builder.Bind<SSModWritable>().ToInstance(new SSModWritable());
-            //builder.Bind<FactionEditor>().ToSelf();
+            builder.Bind<ShipHullRessources>().ToSelf();
+            builder.Bind<VariantsRessources>().ToSelf();
             builder.Bind<FactionEditorFactory>().ToSelf();
             builder.Bind<PortraitsRessources>().ToSelf();
             builder.Bind<PortraitsRessourcesViewModel>().ToSelf();
+            builder.Bind<ShipHullRessourcesViewModel>().ToSelf();
             builder.Bind<PortraitsRessourcesViewModelFactory>().ToSelf();
             builder.Bind(typeof(IModelValidator<>)).To(typeof(FluentModelValidator<>));
             builder.Bind(typeof(IValidator<>)).ToAllImplementations();

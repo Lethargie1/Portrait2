@@ -124,13 +124,18 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CustomUserControl\OutlinedTextBlock.cs" />
+    <Compile Include="ViewModel\FactionGroupVM\FactionGroupKnownHullViewModel.cs" />
     <Compile Include="ViewModel\FileVm\ISSWritableViewModel.cs" />
     <Compile Include="ViewModel\FileVm\JsonGroupViewModel.cs" />
+    <Compile Include="ViewModel\RessourcesVm\ShipHullRessourcesViewModel.cs" />
     <Compile Include="View\FactionGroupV\FactionGroupFleetCircleView.xaml.cs">
       <DependentUpon>FactionGroupFleetCircleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="FluentModelValidator.cs" />
     <Compile Include="ViewModel\FactionGroupVM\FactionGroupFleetCircleViewModel.cs" />
+    <Compile Include="View\FactionGroupV\FactionGroupKnownHullView.xaml.cs">
+      <DependentUpon>FactionGroupKnownHullView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FileV\JsonGroupView.xaml.cs">
       <DependentUpon>JsonGroupView.xaml</DependentUpon>
     </Compile>
@@ -183,6 +188,9 @@
     <Compile Include="View\ModDetailedView.xaml.cs">
       <DependentUpon>ModDetailedView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\RessourcesV\ShipHullRessourcesView.xaml.cs">
+      <DependentUpon>ShipHullRessourcesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\RessourcesV\PortraitsRessourcesView.xaml.cs">
       <DependentUpon>PortraitsRessourcesView.xaml</DependentUpon>
     </Compile>
@@ -206,6 +214,10 @@
     <Page Include="InterfaceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FactionGroupV\FactionGroupKnownHullView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\FileV\JsonGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -254,6 +266,10 @@
     <Page Include="View\ModDetailedView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RessourcesV\ShipHullRessourcesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\RessourcesV\PortraitsRessourcesView.xaml">
       <SubType>Designer</SubType>

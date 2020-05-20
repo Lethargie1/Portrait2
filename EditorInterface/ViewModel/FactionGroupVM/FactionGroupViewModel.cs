@@ -28,6 +28,8 @@ namespace EditorInterface.ViewModel
             string maleDisplayPortrait = DisplayNameArticled != null ? "Male Portraits from " + DisplayNameArticled : "Male portraits";
             ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Portraits (m)", LongDisplayName = maleDisplayPortrait });
 
+
+
             Screen tabMatching = this.Items.FirstOrDefault(x => x.DisplayName == priorFactionSelectedTabName);
             if (tabMatching != null)
                 this.ActivateItem(tabMatching);

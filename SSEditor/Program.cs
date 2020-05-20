@@ -51,7 +51,7 @@ namespace SSEditor
             directory.PopulateMergedCollections();
             VariantsRessources variant = new VariantsRessources(directory);
             string a = variant.GetHullIdFromVariantName("swp_albatross_cs");
-            ShipHullRessources ship = new ShipHullRessources(directory);
+            ShipHullRessources ship = new ShipHullRessources(directory,variant);
             //SSDirectory test = new SSDirectory(SSUrl);
             //SSModWritable target = new SSModWritable();
             //target.ModUrl = SSUrl + new SSLinkUrl("mods\\lepg");
