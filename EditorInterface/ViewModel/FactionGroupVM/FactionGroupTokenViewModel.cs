@@ -21,8 +21,22 @@ namespace EditorInterface.ViewModel
             Group = group;
             binding.Add(Group.Bind(x => x.IsModified, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
             binding.Add(Group.Bind(x => x.MustOverwrite, (sender, arg) => NotifyOfPropertyChange(nameof(StatusLetter))));
+            binding.Add(this.SSDisplayName.Bind(x => x.Value, (sender, arg) => NotifyOfPropertyChange(nameof(TokenDisplayName))));
         }
 
+        public string TokenDisplayName
+        {
+            get
+            {
+                string result = SSDisplayName.Value;
+                if (result == null || result == "")
+                {
+                    var file = new FileInfo(Group.RelativeUrl.ToString());
+                    result = file.Name;
+                }
+                return result;
+            }
+        }
 
         public string StatusLetter
         {

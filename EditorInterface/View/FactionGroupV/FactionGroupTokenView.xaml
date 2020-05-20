@@ -32,7 +32,7 @@
         </Grid.ColumnDefinitions>
         <Border BorderBrush="{StaticResource UiOutline}" BorderThickness="1" Background="Transparent"  HorizontalAlignment="Left">
             <Border BorderBrush="{Binding Color.Color}" BorderThickness="0"  Style="{StaticResource factionborder}" Margin="2" Width="200" Height="36">
-                <cuc:OutlinedTextBlock  TextWrapping="NoWrap" Fill="{Binding BaseUIColor.Color}" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="5,3,5,3" FontWeight="DemiBold" Text="{Binding SSDisplayName.Value}"/>
+                <cuc:OutlinedTextBlock  TextWrapping="NoWrap" Fill="{Binding BaseUIColor.Color}" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="5,3,5,3" FontWeight="DemiBold" Text="{Binding TokenDisplayName, Mode=OneWay}"/>
             </Border>
         </Border>
         <Border Grid.Column="1" Background="{Binding StatusColor}" BorderThickness="0" VerticalAlignment="Center"  CornerRadius="9" Width ="36" Height="36" Margin="10,0,0,0">

@@ -54,7 +54,7 @@ namespace EditorInterface.ViewModel
 
         public string Id
         {
-            get { return FactionGroup?.Id?.Content.ToString(); }
+            get { return FactionGroup?.Id?.Content?.ToString(); }
         }
 
         public MonitoredValueViewModel SSDisplayName { get; }
