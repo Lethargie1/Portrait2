@@ -107,12 +107,12 @@ namespace SSEditor.Ressources
                     var skinGroup = AvailableShipHullSkinGroup.First(x => x.SkinHullId.Content.Content.ToString() == referencedId);
                     string hullId = skinGroup.BaseHullId.Content.Content.ToString();
                     hullGroup = AvailableShipHullGroup.First(x => x.HullId.Content.Content.ToString() == hullId);
-                    localResult = new ShipHullSkin(skinGroup, hullGroup);
+                    localResult = new ShipHullSkin(skinGroup, hullGroup, Directory);
                     localResult.ShipDataLine = ShipDataGroup.Content.GetLineByColumnValue("id", hullId);
                 }
                 else
                 {
-                    localResult = new ShipHull(hullGroup);
+                    localResult = new ShipHull(hullGroup,Directory);
                     localResult.ShipDataLine = ShipDataGroup.Content.GetLineByColumnValue("id", referencedId);
                 }
 

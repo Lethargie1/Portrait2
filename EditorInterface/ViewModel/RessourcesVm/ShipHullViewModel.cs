@@ -18,6 +18,8 @@ namespace EditorInterface.ViewModel
         }
 
         public string DisplayName { get => ShipHull.Id; }
+        public string HullName { get => ShipHull.HullName; }
+        public string SpriteFullPath { get => ShipHull.SpriteFullPath; }
     }
 
     [ValueConversion(typeof(IShipHull), typeof(ShipHullViewModel))]
