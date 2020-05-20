@@ -1,4 +1,5 @@
-﻿using SSEditor.FileHandling;
+﻿using FVJson;
+using SSEditor.FileHandling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace SSEditor.Ressources
         string Id { get; }
         string HullName { get; }
         string SpriteFullPath { get; }
+        List<String> Tags { get;  }
 
         Dictionary<string, string> ShipDataLine { get; set; }
         
@@ -47,6 +49,17 @@ namespace SSEditor.Ressources
                 }
                 else
                     return null;
+            }
+        }
+
+        public List<String> Tags
+        {
+            get
+            {
+                ShipDataLine.TryGetValue("tags", out string csvCell);
+                if (csvCell == "")
+                    return new List<string>();
+                return csvCell.Split(',').ToList();
             }
         }
     }
@@ -85,6 +98,27 @@ namespace SSEditor.Ressources
             }
         }
 
-        
+        public List<String> Tags
+        {
+            get
+            {
+                if (GroupSource.Tags.ContentArray.Count() == 0)
+                {
+                    ShipDataLine.TryGetValue("tags", out string csvCell);
+                    if (csvCell == "")
+                        return new List<string>();
+                    return csvCell.Split(',').ToList();
+                }
+                else
+                {
+                    return GroupSource.Tags.ContentArray.Select(x =>
+                    {
+                        var value = (JsonValue)x;
+                        return value.Content.ToString();
+                    }).ToList();
+                }
+            }
+        }
+
     }
 }

@@ -66,6 +66,7 @@ namespace SSEditor.Ressources
         List<String> ReferencedShipHullIdFromVariant { get; set; }
 
         public Dictionary<string, IShipHull> UsableShipHull { get; private set; }
+        public Dictionary<string, List<string>> TagToHullId { get; private set; }
 
 
         public void ExtractHullIdUsedFromVariant()
@@ -121,6 +122,13 @@ namespace SSEditor.Ressources
             }
         }
 
+        public void ExtractTags()
+        {
+            TagToHullId = UsableShipHull.SelectMany(x => x.Value.Tags.Select(tag => new {x.Key,tag }))
+                                  .GroupBy(x => x.tag, x => x.Key)
+                                  .ToDictionary(g => g.Key, g => g.ToList());
+        }
+
         public void RefreshRessource()
         {
             Directory.GroupedFiles.TryGetValue("data\\hulls\\ship_data.csv", out ISSGroup dataGroup);
@@ -130,6 +138,18 @@ namespace SSEditor.Ressources
             ExtractHullIdUsedFromVariant();
             ExtractAvailableHullAndSkin();
             ExtractUsableShipHull();
+            ExtractTags();
+        }
+
+        public List<IShipHull> MakeShipHullListFromTagAndId(IEnumerable<string> tags , IEnumerable<string> ids)
+        {
+            List<string> idResult = new List<string>();
+            foreach (string tag in tags)
+            {
+                idResult.AddRange(TagToHullId[tag]);
+            }
+            idResult.AddRange(ids);
+            return idResult.Distinct().Select(id => UsableShipHull[id]).ToList();
         }
     }
 }
