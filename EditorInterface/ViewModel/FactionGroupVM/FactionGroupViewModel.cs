@@ -22,15 +22,16 @@ namespace EditorInterface.ViewModel
             PortraitsRessourcesVMFactory = portraitsRessourcesVMFactory;
             ShipHullRessourcesViewModelFactory = shipHullRessourcesViewModelFactory;
             string DisplayNameArticled = FactionGroup?.DisplayNameWithArticle?.Content?.ToString();
-
             ActivateItem(new FactionGroupValueViewModel(FactionGroup) { DisplayName = "Values" });
+
+            //tabs for portraits
             string FemaleDisplayPortrait = DisplayNameArticled != null ? "Female Portraits from " + DisplayNameArticled : "Female portraits";
             ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.FemalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Portraits (f)" , LongDisplayName = FemaleDisplayPortrait });
-
             string maleDisplayPortrait = DisplayNameArticled != null ? "Male Portraits from " + DisplayNameArticled : "Male portraits";
             ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Portraits (m)", LongDisplayName = maleDisplayPortrait });
 
-            ActivateItem(new FactionGroupKnownHullViewModel(FactionGroup?.FemalePortraits, ShipHullRessourcesViewModelFactory.getVM()) { DisplayName = "Known Hull", LongDisplayName = ""});
+            //tabs for hulls
+            ActivateItem(new FactionGroupKnownHullViewModel(FactionGroup?.KnownShipsTag, FactionGroup?.KnownShipsHulls, ShipHullRessourcesViewModelFactory.getVM()) { DisplayName = "Known Hull", LongDisplayName = ""});
 
             Screen tabMatching = this.Items.FirstOrDefault(x => x.DisplayName == priorFactionSelectedTabName);
             if (tabMatching != null)

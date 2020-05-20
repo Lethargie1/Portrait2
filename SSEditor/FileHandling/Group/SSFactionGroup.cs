@@ -25,6 +25,8 @@ namespace SSEditor.FileHandling
         public MonitoredArrayValue SecondaryUIColor { get; private set; } = null;
 
         public MonitoredValue SecondarySegments { get; private set; } = null;
+        public MonitoredArray KnownShipsTag { get; private set; } = null;
+        public MonitoredArray KnownShipsHulls { get; private set; } = null;
 
         protected override void AttachDefinedAttribute()
         {
@@ -48,6 +50,9 @@ namespace SSEditor.FileHandling
             Id = AttachOneAttribute<MonitoredValue>(".id",JsonToken.TokenType.Reference);
             DisplayNameWithArticle = AttachOneAttribute<MonitoredValue>(".displayNameWithArticle", JsonToken.TokenType.String);
             ShipNamePrefix = AttachOneAttribute<MonitoredValue>(".shipNamePrefix", JsonToken.TokenType.String);
+
+            KnownShipsTag = AttachOneAttribute<MonitoredArray>(".knownShips.tags");
+            KnownShipsHulls = AttachOneAttribute<MonitoredArray>(".knownShips.hulls");
         }
         
 

@@ -6,10 +6,11 @@
              xmlns:local="clr-namespace:EditorInterface.View"
              xmlns:r="clr-namespace:SSEditor.Ressources;assembly=SSEditor"
              xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:vm="clr-namespace:EditorInterface.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <r:JsonRelativeToPortraits x:Key="JsonRelativeToPortraits" />
+        <vm:ShipHullToShipHullVMConverter x:Key="HullConverter"/>
     </UserControl.Resources>
 
     <Grid x:Name="Base" Background="Transparent">
@@ -28,12 +29,12 @@
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding LongDisplayName}" />
             <Border  Style="{StaticResource ElementBorder}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" >
-            <ListBox   Margin="7,7,7,7" SelectedIndex="0"  Background="Transparent" ItemsSource="{Binding MonitoredArray}" SelectedItem="{Binding SelectedPortraitArray}">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Margin="0"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
+                <ListBox   Margin="7,7,7,7" SelectedIndex="0"  Background="Transparent" ItemsSource="{Binding KnownShipList}" SelectedItem="{Binding SelectedPortraitArray}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl s:View.Model="{Binding Converter={StaticResource HullConverter}}" Margin="0" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
         </Border>
         </Grid>

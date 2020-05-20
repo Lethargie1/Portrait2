@@ -144,11 +144,15 @@ namespace SSEditor.Ressources
         public List<IShipHull> MakeShipHullListFromTagAndId(IEnumerable<string> tags , IEnumerable<string> ids)
         {
             List<string> idResult = new List<string>();
-            foreach (string tag in tags)
-            {
-                idResult.AddRange(TagToHullId[tag]);
-            }
-            idResult.AddRange(ids);
+            if (tags != null)
+                foreach (string tag in tags)
+                {
+                    TagToHullId.TryGetValue(tag, out List<String> tagedIds);
+                    if (tagedIds != null)
+                        idResult.AddRange(tagedIds);
+                }
+            if (ids != null)
+                idResult.AddRange(ids);
             return idResult.Distinct().Select(id => UsableShipHull[id]).ToList();
         }
     }

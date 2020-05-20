@@ -1,5 +1,6 @@
 ﻿using FVJson;
 using SSEditor.MonitoringField;
+using SSEditor.Ressources;
 using Stylet;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,25 @@ namespace EditorInterface.ViewModel
     {
         public string LongDisplayName { get; set; }
         public ShipHullRessourcesViewModel ShipHullRessourcesVM { get; private set; }
-        public MonitoredArray TargetMonitor { get; private set; }
-        public ObservableCollection<JsonToken> MonitoredArray { get => TargetMonitor?.ContentArray; }
+        public MonitoredArray TagMonitor { get; private set; }
+        public MonitoredArray HullMonitor { get; private set; }
+        public ObservableCollection<JsonToken> MonitoredArray { get => TagMonitor?.ContentArray; }
+
+        public List<IShipHull> KnownShipList
+        {
+            get
+            {
+                var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
+                var hullIds = HullMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
+                return ShipHullRessourcesVM.ShipHullRessources.MakeShipHullListFromTagAndId(tags, hullIds);
+            }
+        }
 
         public JsonToken SelectedPortraitArray { get; set; }
-        public FactionGroupKnownHullViewModel(MonitoredArray targetMonitor, ShipHullRessourcesViewModel shipHullRessourcesVM)
+        public FactionGroupKnownHullViewModel(MonitoredArray tagMonitor, MonitoredArray hullMonitor, ShipHullRessourcesViewModel shipHullRessourcesVM)
         {
-            TargetMonitor = targetMonitor;
+            TagMonitor = tagMonitor;
+            HullMonitor = hullMonitor;
             ShipHullRessourcesVM = shipHullRessourcesVM;
             ActivateItem(ShipHullRessourcesVM);
         }
