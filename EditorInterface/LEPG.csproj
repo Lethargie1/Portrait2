@@ -129,6 +129,7 @@
     <Compile Include="ViewModel\FileVm\ISSWritableViewModel.cs" />
     <Compile Include="ViewModel\FileVm\JsonGroupViewModel.cs" />
     <Compile Include="ViewModel\RessourcesVm\ShipHullRessourcesViewModel.cs" />
+    <Compile Include="ViewModel\RessourcesVm\ShipHullViewModel.cs" />
     <Compile Include="View\FactionGroupV\FactionGroupFleetCircleView.xaml.cs">
       <DependentUpon>FactionGroupFleetCircleView.xaml</DependentUpon>
     </Compile>
@@ -194,6 +195,9 @@
     </Compile>
     <Compile Include="View\RessourcesV\PortraitsRessourcesView.xaml.cs">
       <DependentUpon>PortraitsRessourcesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RessourcesV\ShipHullView.xaml.cs">
+      <DependentUpon>ShipHullView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -273,6 +277,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\RessourcesV\PortraitsRessourcesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RessourcesV\ShipHullView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

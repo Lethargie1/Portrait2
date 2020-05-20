@@ -30,7 +30,7 @@ namespace EditorInterface.ViewModel
             string maleDisplayPortrait = DisplayNameArticled != null ? "Male Portraits from " + DisplayNameArticled : "Male portraits";
             ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Portraits (m)", LongDisplayName = maleDisplayPortrait });
 
-            ActivateItem(new FactionGroupKnownHullViewModel(FactionGroup?.FemalePortraits, ShipHullRessourcesViewModelFactory.getVM()));
+            ActivateItem(new FactionGroupKnownHullViewModel(FactionGroup?.FemalePortraits, ShipHullRessourcesViewModelFactory.getVM()) { DisplayName = "Known Hull", LongDisplayName = ""});
 
             Screen tabMatching = this.Items.FirstOrDefault(x => x.DisplayName == priorFactionSelectedTabName);
             if (tabMatching != null)
