@@ -16,24 +16,24 @@ namespace EditorInterface.ViewModel
 {
     public class FactionEditorViewModel : Screen
     {
-        Func<PortraitsRessourcesViewModelFactory> PortraitsRessourcesVMFactoryFactory { get; set; }
-        private PortraitsRessourcesViewModelFactory PortraitsRessourcesVMFactory { get; set; }
+        Func<FactionGroupViewModelFactory> FactionGroupVMFactoryFactory { get; set; }
+        private FactionGroupViewModelFactory FactionGroupVMFactory { get; set; }
         private FactionEditorFactory FactionEditorFactory { get; set; }
         public FactionEditor FactionEditor { get; private set; }
         public List<SSFactionGroup> Factions { get => FactionEditor.Factions; }
         public IWindowManager WindowManager { get; set; }
 
-        public FactionEditorViewModel(FactionEditorFactory factionEditorFactory, Func<PortraitsRessourcesViewModelFactory> portraitsRessourcesViewModelFactoryFactory, IWindowManager windowManager)
+        public FactionEditorViewModel(FactionEditorFactory factionEditorFactory, Func<FactionGroupViewModelFactory> factionGroupViewModelFactoryFactory, IWindowManager windowManager)
         {
             FactionEditorFactory = factionEditorFactory;
-            PortraitsRessourcesVMFactoryFactory = portraitsRessourcesViewModelFactoryFactory;
+            FactionGroupVMFactoryFactory = factionGroupViewModelFactoryFactory;
             WindowManager = windowManager;
         }
 
         protected override void OnActivate() 
         {
             FactionEditor = FactionEditorFactory.CreateFactionEditor();
-            PortraitsRessourcesVMFactory = PortraitsRessourcesVMFactoryFactory();
+            FactionGroupVMFactory = FactionGroupVMFactoryFactory();
         }
 
         private FactionGroupViewModel _SelectedFactionViewModel = null;
@@ -43,7 +43,7 @@ namespace EditorInterface.ViewModel
             {
                 if (_SelectedFactionViewModel == null)
                 {
-                    _SelectedFactionViewModel = new FactionGroupViewModel(SelectedFaction, PortraitsRessourcesVMFactory, PriorFactionSelectedTabName);
+                    _SelectedFactionViewModel = FactionGroupVMFactory.GetFactionGroupViewModel(SelectedFaction, PriorFactionSelectedTabName);
                     return _SelectedFactionViewModel;
                 }
                 else
