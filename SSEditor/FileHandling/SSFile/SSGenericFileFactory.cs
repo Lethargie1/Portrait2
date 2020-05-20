@@ -24,6 +24,8 @@ namespace SSEditor.FileHandling
                     return new SSFaction(mod, Url);
                 case ".variant":
                     return new SSVariant(mod, Url);
+                case ".ship":
+                    return new SSShipHull(mod, Url);
                 case ".csv":
                     return new SSCsv(mod, Url);
                 case ".jar":

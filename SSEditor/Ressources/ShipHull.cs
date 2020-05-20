@@ -9,15 +9,14 @@ namespace SSEditor.Ressources
 {
     public class ShipHull
     {
-        public ShipHull(ISSGenericFile binarySource)
+        public ShipHull(SSShipHullGroup groupSource)
         {
-            BinarySource = binarySource;
+            GroupSource = groupSource;
         }
 
-        private ISSGenericFile BinarySource { get; set; }
-        public string SourceModName { get => BinarySource.SourceMod.ModName; }
-        public string FullPath { get => (BinarySource.SourceMod.ModUrl + BinarySource.RelativeUrl).ToString(); }
-        public SSRelativeUrl RelativeUrl { get => BinarySource.RelativeUrl; }
+        private SSShipHullGroup GroupSource { get; set; }
+
+        public SSRelativeUrl RelativeUrl { get => GroupSource.RelativeUrl; }
 
         public Dictionary<string,string> ShipDataLine { get; set; }
         public string Id
