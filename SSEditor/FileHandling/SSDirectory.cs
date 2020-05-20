@@ -121,6 +121,21 @@ namespace SSEditor.FileHandling
             handler?.Invoke(this, null);
         }
 
+        /// <summary>Read same typed json from the directory and extract their content</summary>
+        /// <param name="Refresh">Force call to ExtractMonitoredContent (this clear modification)</param>
+        public IEnumerable<T> GetAndReadJsonGroupsByType<T> (bool refresh = false) where T:SSJsonGroup
+        {
+            var Extracted = (from KeyValuePair<string, ISSGroup> kv in this.GroupedFiles
+                                 where kv.Value is T
+                                 select kv.Value).Select(g =>
+                                 {
+                                     T f = (T)g;
+                                     if (f.MonitoredContent == null || refresh)
+                                         f.ExtractMonitoredContent();
+                                     return f;
+                                 });
+            return Extracted;
+        }
     }
 
 
