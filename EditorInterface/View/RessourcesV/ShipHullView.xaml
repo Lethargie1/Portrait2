@@ -7,7 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="{Binding HullName}"/>
-        <Image Source="{Binding SpriteFullPath}" Height="60"/>
+        <TextBlock x:Name="text" Text="{Binding HullName}" HorizontalAlignment="Stretch">
+        </TextBlock>
+
+        <Popup Name="myPopupA" PlacementTarget="{Binding ElementName=text}" Placement="Right" IsOpen="{Binding ElementName=text, Path=IsMouseOver, Mode=OneWay}">
+            <Image Source="{Binding SpriteFullPath}" MaxHeight="120" MaxWidth="120" HorizontalAlignment="Center"/>
+        </Popup>
     </Grid>
 </UserControl>
