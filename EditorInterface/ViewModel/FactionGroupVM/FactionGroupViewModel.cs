@@ -14,11 +14,13 @@ namespace EditorInterface.ViewModel
         public SSFactionGroup FactionGroup{get;set;}
         //public PortraitsRessources PortraitsRessource { get; private set; }
         public PortraitsRessourcesViewModelFactory PortraitsRessourcesVMFactory { get; private set; }
-        public FactionGroupViewModel(SSFactionGroup factionGroup, PortraitsRessourcesViewModelFactory portraitsRessourcesVMFactory, string priorFactionSelectedTabName)
+        public ShipHullRessourcesViewModelFactory ShipHullRessourcesViewModelFactory { get; private set; }
+        public FactionGroupViewModel(SSFactionGroup factionGroup, PortraitsRessourcesViewModelFactory portraitsRessourcesVMFactory, ShipHullRessourcesViewModelFactory shipHullRessourcesViewModelFactory, string priorFactionSelectedTabName)
         {
             FactionGroup = factionGroup;
             //PortraitsRessource = portraitsRessource;
             PortraitsRessourcesVMFactory = portraitsRessourcesVMFactory;
+            ShipHullRessourcesViewModelFactory = shipHullRessourcesViewModelFactory;
             string DisplayNameArticled = FactionGroup?.DisplayNameWithArticle?.Content?.ToString();
 
             ActivateItem(new FactionGroupValueViewModel(FactionGroup) { DisplayName = "Values" });
@@ -28,7 +30,7 @@ namespace EditorInterface.ViewModel
             string maleDisplayPortrait = DisplayNameArticled != null ? "Male Portraits from " + DisplayNameArticled : "Male portraits";
             ActivateItem(new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessourcesVMFactory.getVM()) { DisplayName = "Portraits (m)", LongDisplayName = maleDisplayPortrait });
 
-
+            ActivateItem(new FactionGroupKnownHullViewModel(FactionGroup?.FemalePortraits, ShipHullRessourcesViewModelFactory.getVM()));
 
             Screen tabMatching = this.Items.FirstOrDefault(x => x.DisplayName == priorFactionSelectedTabName);
             if (tabMatching != null)

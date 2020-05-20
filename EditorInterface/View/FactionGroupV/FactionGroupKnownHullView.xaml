@@ -29,27 +29,12 @@
             <TextBlock Text="{Binding LongDisplayName}" />
             <Border  Style="{StaticResource ElementBorder}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" >
             <ListBox   Margin="7,7,7,7" SelectedIndex="0"  Background="Transparent" ItemsSource="{Binding MonitoredArray}" SelectedItem="{Binding SelectedPortraitArray}">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Margin="0"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
-                            <StackPanel.DataContext>
-                                <MultiBinding Converter="{StaticResource JsonRelativeToPortraits}">
-                                    <MultiBinding.Bindings>
-                                        <Binding />
-                                        <Binding ElementName="Base" Path="DataContext.PortraitsRessourcesVM.PortraitsRessources"/>
-                                    </MultiBinding.Bindings>
-                                </MultiBinding>
-                            </StackPanel.DataContext>
-                            <Image Source="{Binding FullPath}" Height="60"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Margin="0"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
         </Border>
         </Grid>
         <ContentControl s:View.Model="{Binding ActiveItem}" Margin="0" Grid.Column="1" />

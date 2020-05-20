@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorInterface.ViewModel.FactionGroupVM
+namespace EditorInterface.ViewModel
 {
-    class FactionGroupKnownHullViewModel : Conductor<ShipHullRessourcesViewModel>
+    public class FactionGroupKnownHullViewModel : Conductor<ShipHullRessourcesViewModel>
     {
         public string LongDisplayName { get; set; }
         public ShipHullRessourcesViewModel ShipHullRessourcesVM { get; private set; }
