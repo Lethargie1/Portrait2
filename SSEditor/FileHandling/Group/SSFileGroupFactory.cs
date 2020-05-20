@@ -29,6 +29,10 @@ namespace SSEditor.FileHandling
                     SSShipHullGroup newSHGroup = new SSShipHullGroup();
                     newSHGroup.Add(sh);
                     return newSHGroup;
+                case SSShipHullSkin shs:
+                    SSShipHullSkinGroup newSHSGroup = new SSShipHullSkinGroup();
+                    newSHSGroup.Add(shs);
+                    return newSHSGroup;
                 case SSJson gf:
                     SSJsonGroup newgfGroup = new SSJsonGroup();
                     newgfGroup.Add(gf);

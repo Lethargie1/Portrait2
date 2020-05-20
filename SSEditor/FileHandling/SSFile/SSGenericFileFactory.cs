@@ -26,6 +26,8 @@ namespace SSEditor.FileHandling
                     return new SSVariant(mod, Url);
                 case ".ship":
                     return new SSShipHull(mod, Url);
+                case ".skin":
+                    return new SSShipHullSkin(mod, Url);
                 case ".csv":
                     return new SSCsv(mod, Url);
                 case ".jar":

@@ -159,5 +159,13 @@ namespace SSEditor.FileHandling
 
     }
 
+    public class SSShipHullSkin : SSJson
+    {
+        public SSShipHullSkin(ISSMod mod, SSRelativeUrl Url) : base(mod, Url)
+        { }
+
+    }
+
+
 }
 

@@ -77,6 +77,7 @@
     <Compile Include="FileHandling\Group\SSFileGroupFactory.cs" />
     <Compile Include="FileHandling\Group\SSJsonGroup.cs" />
     <Compile Include="FileHandling\Group\SSShipHullGroup.cs" />
+    <Compile Include="FileHandling\Group\SSShipHullSkinGroup.cs" />
     <Compile Include="FileHandling\Group\SSVariantGroup.cs" />
     <Compile Include="FileHandling\ISSWritable.cs" />
     <Compile Include="FileHandling\Mods\ISSMod.cs" />
