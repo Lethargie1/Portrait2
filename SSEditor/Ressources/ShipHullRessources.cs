@@ -47,53 +47,27 @@ namespace SSEditor.Ressources
             "orbitalStationLowTech",
             "battlestationLowTech"
         };
+        //dependency injected object
         SSDirectory Directory { get; set; }
         VariantsRessources VariantsRessources { get; set; }
 
-        public ShipHullRessources(SSDirectory directory)
+        public ShipHullRessources(SSDirectory directory, VariantsRessources variantsResources)
         {
             Directory = directory;
-            VariantsRessources = new VariantsRessources(Directory);
-            
-            Directory.GroupedFiles.TryGetValue("data\\hulls\\ship_data.csv", out ISSGroup dataGroup);
-            ShipDataGroup = (SSCsvGroup)dataGroup;
-            ShipDataGroup.ExtractMonitoredContent();
+            VariantsRessources = variantsResources;
 
-            ExtractHullIdUsedFromVariant();
-            ExtractAvailableHullAndSkin();
-            ExtractUsableShipHull();
+            RefreshRessource();
 
-            //var BaseHullFiles = (from KeyValuePair<string, ISSGroup> kv in Directory.GroupedFiles
-            //                     where kv.Value is SSShipHullGroup
-            //                     select kv.Value).Select(g =>
-            //                     {
-            //                         SSShipHullGroup f = (SSShipHullGroup)g;
-            //                         if (f.MonitoredContent == null)
-            //                             f.ExtractMonitoredContent();
-            //                         return f;
-            //                     });
-            //var a = HullFiles.GroupBy(x => x.HullId.Content.ToString())
-            //.Where(x => x.Count() > 1);
-            //var dic = HullFiles.ToDictionary(x => x.HullId.ToString());
-            //var ShipHull = referencedShipHull.Select(x =>
-            //{
-            //    try
-            //    { var a = HullFiles.First(g => g.HullId.Content.ToString() == x); }
-            //    catch(Exception e)
-            //    {
-
-            //    }
-            //    ShipHull localHull = new ShipHull(HullFiles.First(g => g.HullId.Content.ToString() == x));
-            //    localHull.ShipDataLine = ShipDataGroup.Content.GetLineByColumnValue("id", x);
-            //    return localHull;
-            //});
-
-            //ShipHull.ToList();
-            //ok, using the referenced ship hull, i need to pull the data from ship data and myself a samwich
         }
 
         SSCsvGroup ShipDataGroup { get; set; }
-        public List<String> referencedShipHullIdFromVariant { get; set; }
+        List<SSShipHullGroup> AvailableShipHullGroup { get; set; }
+        List<SSShipHullSkinGroup> AvailableShipHullSkinGroup { get; set; }
+        List<String> ReferencedShipHullIdFromVariant { get; set; }
+
+        public Dictionary<string, IShipHull> UsableShipHull { get; private set; }
+
+
         public void ExtractHullIdUsedFromVariant()
         {
             Directory.GroupedFiles.TryGetValue("data\\world\\factions\\default_ship_roles.json", out ISSGroup roleGroup);
@@ -111,23 +85,20 @@ namespace SSEditor.Ressources
                 else
                     throw new Exception("Default ship role contains non object field with expected name");
             }
-            referencedShipHullIdFromVariant = referencedShipVariant.Distinct().Select(x => VariantsRessources.GetHullIdFromVariantName(x)).Distinct().ToList();
+            ReferencedShipHullIdFromVariant = referencedShipVariant.Distinct().Select(x => VariantsRessources.GetHullIdFromVariantName(x)).Distinct().ToList();
 
         }
-
-        public List<SSShipHullGroup> AvailableShipHullGroup { get; private set; }
-        public List<SSShipHullSkinGroup> AvailableShipHullSkinGroup { get; private set; }
+       
         public void ExtractAvailableHullAndSkin()
         {
             AvailableShipHullGroup = Directory.GetAndReadJsonGroupsByType<SSShipHullGroup>().ToList();
             AvailableShipHullSkinGroup = Directory.GetAndReadJsonGroupsByType<SSShipHullSkinGroup>().ToList();
         }
 
-        public Dictionary<string,IShipHull> UsableShipHull { get;  private set; }
         public void ExtractUsableShipHull()
         {
             UsableShipHull = new Dictionary<string, IShipHull>();
-            foreach (string referencedId in referencedShipHullIdFromVariant)
+            foreach (string referencedId in ReferencedShipHullIdFromVariant)
             {
                 var hullGroup = AvailableShipHullGroup.FirstOrDefault(x => x.HullId.Content.Content.ToString() == referencedId);
                 IShipHull localResult;
@@ -148,6 +119,17 @@ namespace SSEditor.Ressources
                 
                 UsableShipHull.Add(referencedId, localResult);
             }
+        }
+
+        public void RefreshRessource()
+        {
+            Directory.GroupedFiles.TryGetValue("data\\hulls\\ship_data.csv", out ISSGroup dataGroup);
+            ShipDataGroup = (SSCsvGroup)dataGroup;
+            ShipDataGroup.ExtractMonitoredContent();
+
+            ExtractHullIdUsedFromVariant();
+            ExtractAvailableHullAndSkin();
+            ExtractUsableShipHull();
         }
     }
 }
