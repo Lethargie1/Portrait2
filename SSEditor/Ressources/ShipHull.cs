@@ -28,13 +28,8 @@ namespace SSEditor.Ressources
         public SSRelativeUrl RelativeUrl { get => GroupSource.RelativeUrl; }
 
         public Dictionary<string,string> ShipDataLine { get; set; }
-        public string Id
-        {
-            get
-            {
-                return GroupSource.HullId?.Content?.ToString();
-            }
-        }
+        public string Id { get { return GroupSource.HullId?.Content?.ToString(); } }
+        public string HullName { get { return GroupSource.} }
     }
 
     public class ShipHullSkin : IShipHull
