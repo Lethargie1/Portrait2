@@ -123,7 +123,7 @@ namespace SSEditor.FileHandling
 
         /// <summary>Read same typed json from the directory and extract their content</summary>
         /// <param name="Refresh">Force call to ExtractMonitoredContent (this clear modification)</param>
-        public IEnumerable<T> GetAndReadJsonGroupsByType<T> (bool refresh = false) where T:SSJsonGroup
+        public IEnumerable<T> GetAndReadJsonGroupsByType<T> (bool refresh = false) where T:ISSJsonGroup
         {
             var Extracted = (from KeyValuePair<string, ISSGroup> kv in this.GroupedFiles
                                  where kv.Value is T

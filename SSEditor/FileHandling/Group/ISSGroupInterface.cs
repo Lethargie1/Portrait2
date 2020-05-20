@@ -21,5 +21,8 @@ namespace SSEditor.FileHandling
     {
         ReadOnlyObservableCollection<SSJson> GetJSonFiles();
         ICollection<GroupModification> GetModifications();
+        MonitoredObject MonitoredContent { get; }
+
+        void ExtractMonitoredContent();
     }
 }

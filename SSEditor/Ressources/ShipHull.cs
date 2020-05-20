@@ -7,7 +7,16 @@ using System.Threading.Tasks;
 
 namespace SSEditor.Ressources
 {
-    public class ShipHull
+    public interface IShipHull
+    {
+        SSRelativeUrl RelativeUrl { get; }
+        string Id { get; }
+
+        Dictionary<string, string> ShipDataLine { get; set; }
+        
+    }
+
+    public class ShipHull : IShipHull
     {
         public ShipHull(SSShipHullGroup groupSource)
         {
@@ -23,10 +32,25 @@ namespace SSEditor.Ressources
         {
             get
             {
-                string result = null;
-                ShipDataLine?.TryGetValue("Id", out result);
-                return result;
+                return GroupSource.HullId?.Content?.ToString();
             }
         }
+    }
+
+    public class ShipHullSkin : IShipHull
+    {
+        private SSShipHullGroup BaseHullGroup { get; set; }
+        private SSShipHullSkinGroup GroupSource { get; set; }
+
+        public ShipHullSkin(SSShipHullSkinGroup groupSource, SSShipHullGroup baseHullGroup)
+        {
+            GroupSource = groupSource;
+            BaseHullGroup = baseHullGroup;
+        }
+
+        public SSRelativeUrl RelativeUrl { get => GroupSource.RelativeUrl; }
+        public string Id { get => GroupSource?.SkinHullId?.Content?.ToString(); }
+
+        public Dictionary<string, string> ShipDataLine { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SSEditor.FileHandling
 {
-    class SSShipHullSkinGroup: SSJsonGroup<SSShipHullSkin>
+    public class SSShipHullSkinGroup: SSJsonGroup<SSShipHullSkin>
     {
         public SSShipHullSkinGroup() : base()
         { }
@@ -23,6 +23,6 @@ namespace SSEditor.FileHandling
             SkinHullId = AttachOneAttribute<MonitoredValue>(".skinHullId", JsonToken.TokenType.String);
             Tags =       AttachOneAttribute<MonitoredArray>(".tags");
         }
-    {
+    
     }
 }
