@@ -32,9 +32,9 @@
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding LongDisplayName}" />
             <Border  Style="{StaticResource ElementBorder}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" >
-                <ListView ItemsSource="{Binding KnownShipList}" Margin="7">
+                <ListView ItemsSource="{Binding KnownShipList}" Margin="7" >
                     <ListView.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListViewItem}"  >
+                        <Style TargetType="{x:Type ListViewItem}"  BasedOn="{StaticResource ListViewShipItemStyle}">
                             <!--<Setter Property="Content" Value="{Binding Converter={StaticResource HullConverter}}"/>-->
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                         </Style>
@@ -44,7 +44,7 @@
                             <GridViewColumn Header="Image">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Grid Width="35">
+                                        <Grid Width="35" Height="30">
                                             <Image Source="{Binding SpriteFullPath}" MaxHeight="30" MaxWidth="30" HorizontalAlignment="Center"/>
                                         </Grid>
                                     </DataTemplate>
