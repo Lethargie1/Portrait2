@@ -29,13 +29,26 @@
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding LongDisplayName}" />
             <Border  Style="{StaticResource ElementBorder}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" >
-                <ListBox   Margin="7,7,7,7" SelectedIndex="0"  Background="Transparent" ItemsSource="{Binding KnownShipList}" SelectedItem="{Binding SelectedPortraitArray}">
+                <!--<ListBox   Margin="7,7,7,7" SelectedIndex="0"  Background="Transparent" ItemsSource="{Binding KnownShipList}" SelectedItem="{Binding SelectedPortraitArray}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <ContentControl s:View.Model="{Binding Converter={StaticResource HullConverter}}" Margin="0" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                </ListBox>
+                </ListBox>-->
+                <ListView ItemsSource="{Binding KnownShipList}">
+                    <!--<ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}"  >
+                            <Setter Property="Content" Value="{Binding Converter={StaticResource HullConverter}}"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>-->
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Id}"   Header="ID" Width="100"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=HullName}"   Header="Name" Width="100"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
         </Border>
         </Grid>
         <ContentControl s:View.Model="{Binding ActiveItem}" Margin="0" Grid.Column="1" />

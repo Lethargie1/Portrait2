@@ -43,4 +43,12 @@ namespace EditorInterface.ViewModel
             ActivateItem(ShipHullRessourcesVM);
         }
     }
+
+    public class DesignFactionGroupKnownHullViewModel
+    {
+        public List<IShipHull> KnownShipList { get; set; }
+        public string LongDisplayName { get; set; }
+        public string DisplayName { get; set; }
+
+    }
 }

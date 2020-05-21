@@ -121,4 +121,19 @@ namespace SSEditor.Ressources
         }
 
     }
+
+    public class ManualShipHull : IShipHull
+    {
+        public SSRelativeUrl RelativeUrl => throw new NotImplementedException();
+
+        public string Id { get; set; }
+
+        public string HullName { get; set; }
+
+        public string SpriteFullPath { get; set; }
+
+        public List<string> Tags { get; set; }
+
+        public Dictionary<string, string> ShipDataLine { get ; set ; }
+    }
 }
