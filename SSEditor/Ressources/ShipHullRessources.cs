@@ -61,9 +61,9 @@ namespace SSEditor.Ressources
         }
 
         SSCsvGroup ShipDataGroup { get; set; }
-        List<SSShipHullGroup> AvailableShipHullGroup { get; set; }
-        List<SSShipHullSkinGroup> AvailableShipHullSkinGroup { get; set; }
-        List<String> ReferencedShipHullIdFromVariant { get; set; }
+        List<SSShipHullGroup> AvailableShipHullGroup { get; set; } = new List<SSShipHullGroup>();
+        List<SSShipHullSkinGroup> AvailableShipHullSkinGroup { get; set; } = new List<SSShipHullSkinGroup>();
+        List<String> ReferencedShipHullIdFromVariant { get; set; } = new List<string>();
 
         public Dictionary<string, IShipHull> UsableShipHull { get; private set; }
         public Dictionary<string, List<string>> TagToHullId { get; private set; }
@@ -73,6 +73,8 @@ namespace SSEditor.Ressources
         {
             Directory.GroupedFiles.TryGetValue("data\\world\\factions\\default_ship_roles.json", out ISSGroup roleGroup);
             SSJsonGroup jsonRoleGroup = (SSJsonGroup)roleGroup;
+            if (jsonRoleGroup == null)
+                return;
             if (jsonRoleGroup.MonitoredContent == null)
                 jsonRoleGroup.ExtractMonitoredContent();
             List<string> referencedShipVariant = new List<string>();
@@ -133,7 +135,7 @@ namespace SSEditor.Ressources
         {
             Directory.GroupedFiles.TryGetValue("data\\hulls\\ship_data.csv", out ISSGroup dataGroup);
             ShipDataGroup = (SSCsvGroup)dataGroup;
-            ShipDataGroup.ExtractMonitoredContent();
+            ShipDataGroup?.ExtractMonitoredContent();
 
             ExtractHullIdUsedFromVariant();
             ExtractAvailableHullAndSkin();
