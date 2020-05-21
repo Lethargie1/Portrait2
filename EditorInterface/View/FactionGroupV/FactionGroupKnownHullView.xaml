@@ -40,7 +40,7 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.View>
-                        <GridView>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource GVShipHeaderStyle}">
                             <GridViewColumn Header="Image">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
