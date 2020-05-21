@@ -14,6 +14,10 @@ namespace SSEditor.Ressources
         string Id { get; }
         string HullName { get; }
         string SpriteFullPath { get; }
+        string HullSize { get; }
+
+        string Tech { get; }
+        string Designation { get; }
         List<String> Tags { get;  }
 
         Dictionary<string, string> ShipDataLine { get; set; }
@@ -34,8 +38,10 @@ namespace SSEditor.Ressources
         public SSRelativeUrl RelativeUrl { get => GroupSource.RelativeUrl; }
 
         public Dictionary<string,string> ShipDataLine { get; set; }
+        //read from the .ship file
         public string Id { get { return GroupSource.HullId?.Content?.ToString(); } }
         public string HullName { get { return GroupSource.HullName?.Content?.ToString();  } }
+        public string HullSize { get { return GroupSource.HullSize?.Content?.ToString(); } }
         public string SpriteFullPath
         {
             get
@@ -52,6 +58,27 @@ namespace SSEditor.Ressources
             }
         }
 
+        //stuff that requires the shipdataline from the csv
+        public string Tech
+        {
+            get
+            {
+                ShipDataLine.TryGetValue("tech/manufacturer", out string tech);
+                if (tech == null || tech == "")
+                    tech = "none set";
+                return tech;
+            }
+        }
+        public string Designation
+        {
+            get
+            {
+                ShipDataLine.TryGetValue("designation", out string designation);
+                if (designation == null || designation == "")
+                    designation = "none set";
+                return designation;
+            }
+        }
         public List<String> Tags
         {
             get
@@ -97,7 +124,32 @@ namespace SSEditor.Ressources
                     return null;
             }
         }
+        public string HullSize { get { return BaseHullGroup.HullSize?.Content?.ToString(); } }
 
+        //stuff that requires the shipdataline from the csv
+        public string Tech
+        {
+            get
+            {
+                string tech = GroupSource?.Tech?.Content?.ToString();
+                if (tech != null)
+                    return tech;
+                ShipDataLine.TryGetValue("tech/manufacturer", out tech);
+                if (tech == null || tech == "")
+                    tech = "none set";
+                return tech;
+            }
+        }
+        public string Designation
+        {
+            get
+            {
+                ShipDataLine.TryGetValue("designation", out string designation);
+                if (designation == null || designation == "")
+                    designation = "none set";
+                return designation;
+            }
+        }
         public List<String> Tags
         {
             get
@@ -122,18 +174,5 @@ namespace SSEditor.Ressources
 
     }
 
-    public class ManualShipHull : IShipHull
-    {
-        public SSRelativeUrl RelativeUrl => throw new NotImplementedException();
 
-        public string Id { get; set; }
-
-        public string HullName { get; set; }
-
-        public string SpriteFullPath { get; set; }
-
-        public List<string> Tags { get; set; }
-
-        public Dictionary<string, string> ShipDataLine { get ; set ; }
-    }
 }

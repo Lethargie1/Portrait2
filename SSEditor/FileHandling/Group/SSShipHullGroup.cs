@@ -13,7 +13,7 @@ namespace SSEditor.FileHandling
         public MonitoredValue HullId { get; private set; } = null;
         public MonitoredValue HullName { get; private set; } = null;
         public MonitoredValue SpriteName { get; private set; } = null;
-        
+        public MonitoredValue HullSize{ get; private set; } = null;
 
         public SSShipHullGroup() : base()
         { }
@@ -23,6 +23,7 @@ namespace SSEditor.FileHandling
             HullId = AttachOneAttribute<MonitoredValue>(".hullId", JsonToken.TokenType.String);
             HullName = AttachOneAttribute<MonitoredValue>(".hullName", JsonToken.TokenType.String);
             SpriteName = AttachOneAttribute<MonitoredValue>(".spriteName", JsonToken.TokenType.String);
+            HullSize = AttachOneAttribute<MonitoredValue>(".hullSize", JsonToken.TokenType.String);
         }
     }
 }

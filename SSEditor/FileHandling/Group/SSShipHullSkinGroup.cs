@@ -18,6 +18,8 @@ namespace SSEditor.FileHandling
         public MonitoredArray Tags { get; private set; } = null;
         public MonitoredValue HullName { get; private set; } = null;
         public MonitoredValue SpriteName { get; private set; } = null;
+        public MonitoredValue HullSize { get; private set; } = null;
+        public MonitoredValue Tech { get; private set; } = null;
 
         protected override void AttachDefinedAttribute()
         {
@@ -26,6 +28,8 @@ namespace SSEditor.FileHandling
             Tags =       AttachOneAttribute<MonitoredArray>(".tags");
             HullName = AttachOneAttribute<MonitoredValue>(".hullName", JsonToken.TokenType.String);
             SpriteName = AttachOneAttribute<MonitoredValue>(".spriteName", JsonToken.TokenType.String);
+            HullSize = AttachOneAttribute<MonitoredValue>(".hullSize", JsonToken.TokenType.String);
+            Tech = AttachOneAttribute<MonitoredValue>(".tech", JsonToken.TokenType.String);
         }
     
     }
