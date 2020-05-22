@@ -10,12 +10,13 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <vm:FactionToFactionVMConverter x:Key="FactionToFactionVMConverter" />
-    </UserControl.Resources>
+        <s:BoolToVisibilityConverter x:Key="BoolToVisible" TrueVisibility="Visible" FalseVisibility="Collapsed"/>
+        </UserControl.Resources>
 
     
     <Grid Background="Transparent">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -24,8 +25,9 @@
             <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
 
-        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" >
-            <ListBox  ItemsSource="{Binding Factions}" SelectedItem="{Binding SelectedFaction}" SelectedIndex="0"  HorizontalContentAlignment="Stretch" Background="Transparent" Margin="7">
+        <Border x:Name="Faction" Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" >
+            <Expander x:Name="FactionExpender" ExpandDirection="Right" IsExpanded="True" BorderBrush="AliceBlue" Margin="7">
+            <ListBox  ItemsSource="{Binding Factions}" SelectedItem="{Binding SelectedFaction}" SelectedIndex="0"  HorizontalContentAlignment="Stretch" Background="Transparent" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <!--<DockPanel LastChildFill="False">
@@ -35,9 +37,10 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            </Expander>
         </Border>
-        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="1">
-            <WrapPanel>
+        <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" Grid.Row="1" HorizontalAlignment="Stretch">
+            <WrapPanel Visibility="{Binding ElementName=FactionExpender, Path=IsExpanded, Converter={StaticResource BoolToVisible}}">
                 <Button Content="Go back" Command="{s:Action RequestClose}" Margin="3,3,3,3"></Button>
                 <Button Content="Save" Command="{s:Action SaveGroupModification}" Margin="3,3,3,3"></Button>
                 <Button Content="Load" Command="{s:Action ReadGroupModification}" Margin="3,3,3,3"></Button>
