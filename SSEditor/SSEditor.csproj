@@ -107,6 +107,7 @@
     <Compile Include="MonitoredFieldClass\MonitoredValueModification.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ressources\BPPackageRessources.cs" />
     <Compile Include="Ressources\GroupHeaderConverter.cs" />
     <Compile Include="Ressources\Portraits.cs" />
     <Compile Include="Ressources\PortraitsRessources.cs" />

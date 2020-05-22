@@ -143,6 +143,12 @@ namespace SSEditor.Ressources
             ExtractTags();
         }
 
+        public IShipHull IdToRessource(string id)
+        {
+            UsableShipHull.TryGetValue(id, out IShipHull result);
+            return result;
+        }
+
         public List<IShipHull> MakeShipHullListFromTagAndId(IEnumerable<string> tags , IEnumerable<string> ids)
         {
             List<string> idResult = new List<string>();

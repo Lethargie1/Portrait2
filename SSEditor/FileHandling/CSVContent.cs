@@ -17,6 +17,25 @@ namespace SSEditor.FileHandling
 
         public CSVContent() { }
 
+
+        public List<Dictionary<string,string>> GetTaggedLines(string tagColumnHead, string tag)
+        {
+            List<Dictionary<string, string>> result = new List<Dictionary<string, string>>();
+            if (!Headers.Contains(tagColumnHead))
+                throw new ArgumentException($"Column header name: {tagColumnHead} does not exist in current Content");
+            foreach (Dictionary<string,string> line in Content)
+            {
+                line.TryGetValue(tagColumnHead, out string csvCell);
+                if (csvCell == "")
+                    continue;
+                var CellContent = csvCell.Split(',').ToList();
+                if (CellContent.Contains(tag))
+                    result.Add(line);
+            }
+
+            return result;
+        }
+
         public Dictionary<string,string> GetLineByColumnValue(string ColumnHead, string ColumnValue)
         {
             return Content.Where(x => x[ColumnHead] == ColumnValue).SingleOrDefault();
