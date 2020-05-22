@@ -125,9 +125,9 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CustomUserControl\OutlinedTextBlock.cs" />
     <Compile Include="ViewModel\FactionGroupVM\FactionGroupKnownHullViewModel.cs" />
-    <Compile Include="ViewModel\FactionGroupVM\FactionGroupViewModelFactory.cs" />
     <Compile Include="ViewModel\FileVm\ISSWritableViewModel.cs" />
     <Compile Include="ViewModel\FileVm\JsonGroupViewModel.cs" />
+    <Compile Include="ViewModel\RessourcesVm\IRessourcesViewModel.cs" />
     <Compile Include="ViewModel\RessourcesVm\ShipHullRessourcesViewModel.cs" />
     <Compile Include="ViewModel\RessourcesVm\ShipHullViewModel.cs" />
     <Compile Include="View\FactionGroupV\FactionGroupFleetCircleView.xaml.cs">

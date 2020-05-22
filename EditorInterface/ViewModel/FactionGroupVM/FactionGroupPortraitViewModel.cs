@@ -26,15 +26,8 @@ namespace EditorInterface.ViewModel
             PortraitsRessourcesVM = portraitsRessourcesVM;
             ActivateItem(PortraitsRessourcesVM);
         }
-        protected override void OnViewLoaded()
-        {
-            base.OnViewLoaded();
-            ActivateItem(PortraitsRessourcesVM);
-        }
-        //public bool CanAddPortrait
-        //{
-        //    get { return SelectedPortraitRessource != null ? true : false; }
-        //}
+        
+
 
         public void AddPortrait()
         {

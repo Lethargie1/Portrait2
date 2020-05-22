@@ -10,18 +10,14 @@ namespace EditorInterface.ViewModel
 {
     public class ShipHullRessourcesViewModel : Screen
     {
-        public ShipHullRessourcesViewModelFactory SourceFactory { get; set; }
+        //public ShipHullRessourcesViewModelFactory SourceFactory { get; set; }
         public ShipHullRessources ShipHullRessources { get; private set; }
         public ShipHullRessourcesViewModel(ShipHullRessources shipHullRessources)
         {
             ShipHullRessources = shipHullRessources;
         }
 
-        public ShipHullRessourcesViewModel(ShipHullRessources shipHullRessources, ShipHullRessourcesViewModelFactory sourceFactory) : this(shipHullRessources)
-        {
-            SourceFactory = sourceFactory;
-        }
-
+        
         public List<IShipHull> AvailableShips
         {
             get
@@ -30,14 +26,11 @@ namespace EditorInterface.ViewModel
             }
         }
 
-
-        protected override void OnViewLoaded()
+        private IShipHull _SelectedShipHullRessource;
+        public IShipHull SelectedShipHullRessource
         {
-            if (SourceFactory != null)
-                this.SelectedIndex = SourceFactory.SharedIndex;
-            else
-                this.SelectedIndex = 0;
-            base.OnViewLoaded();
+            get => _SelectedShipHullRessource;
+            set => SetAndNotify(ref _SelectedShipHullRessource, value);
         }
 
         private int _SelectedIndex;
@@ -47,25 +40,9 @@ namespace EditorInterface.ViewModel
             set
             {
                 SetAndNotify(ref _SelectedIndex, value);
-                if (SourceFactory != null)
-                    SourceFactory.SharedIndex = value;
             }
         }
-    }
 
-    public class ShipHullRessourcesViewModelFactory
-    {
-        public ShipHullRessources ShipHullRessources { get; set; }
-        public ShipHullRessourcesViewModelFactory(ShipHullRessources shipHullRessources)
-        {
-            ShipHullRessources = shipHullRessources;
-        }
-
-        public ShipHullRessourcesViewModel getVM()
-        {
-            return new ShipHullRessourcesViewModel(ShipHullRessources, this);
-        }
-        public int SharedIndex { get; set; } = 0;
     }
 
 

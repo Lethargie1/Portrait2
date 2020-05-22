@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <TextBlock Text="Available Ship Hull ressources" Grid.Row="0"/>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" >
-            <ListView ItemsSource="{Binding AvailableShips}" Margin="7">
+            <ListView ItemsSource="{Binding AvailableShips}" Margin="7" SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedShipHullRessource}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}"   BasedOn="{StaticResource ListViewShipItemStyle}">
                         <!--<Setter Property="Content" Value="{Binding Converter={StaticResource HullConverter}}"/>-->

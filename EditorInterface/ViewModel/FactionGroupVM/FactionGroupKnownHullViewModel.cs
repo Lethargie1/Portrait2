@@ -37,11 +37,7 @@ namespace EditorInterface.ViewModel
             ShipHullRessourcesVM = shipHullRessourcesVM;
             ActivateItem(ShipHullRessourcesVM);
         }
-        protected override void OnViewLoaded()
-        {
-            base.OnViewLoaded();
-            ActivateItem(ShipHullRessourcesVM);
-        }
+        
     }
 
     public class DesignFactionGroupKnownHullViewModel

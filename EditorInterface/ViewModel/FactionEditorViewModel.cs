@@ -16,24 +16,38 @@ namespace EditorInterface.ViewModel
 {
     public class FactionEditorViewModel : Screen
     {
-        Func<FactionGroupViewModelFactory> FactionGroupVMFactoryFactory { get; set; }
-        private FactionGroupViewModelFactory FactionGroupVMFactory { get; set; }
+        Func<Func<FactionGroupViewModel>> FactionGroupVMFactoryFactory { get; set; }
+        private Func<FactionGroupViewModel> FactionGroupVMFactory { get; set; }
         private FactionEditorFactory FactionEditorFactory { get; set; }
         public FactionEditor FactionEditor { get; private set; }
         public List<SSFactionGroup> Factions { get => FactionEditor.Factions; }
         public IWindowManager WindowManager { get; set; }
 
-        public FactionEditorViewModel(FactionEditorFactory factionEditorFactory, Func<FactionGroupViewModelFactory> factionGroupViewModelFactoryFactory, IWindowManager windowManager)
+        public ShipHullRessourcesViewModel ShipHullRessourcesViewModel { get; set; }
+        public Func<ShipHullRessourcesViewModel> ShipHullRessourcesViewModelFactory { get; set; }
+        public PortraitsRessourcesViewModel PortraitsRessourcesViewModel { get; set; }
+        public Func<PortraitsRessourcesViewModel> PortraitsRessourcesViewModelFactory { get; set; }
+
+        public FactionEditorViewModel(
+            FactionEditorFactory factionEditorFactory, 
+            Func<FactionGroupViewModel> factionGroupViewModelFactory, 
+            IWindowManager windowManager, 
+            Func<ShipHullRessourcesViewModel> shipHullRessourcesViewModelFactory, 
+            Func<PortraitsRessourcesViewModel> portraitsRessourcesViewModelFactory)
         {
             FactionEditorFactory = factionEditorFactory;
-            FactionGroupVMFactoryFactory = factionGroupViewModelFactoryFactory;
+            FactionGroupVMFactory = factionGroupViewModelFactory;
             WindowManager = windowManager;
+            ShipHullRessourcesViewModelFactory = shipHullRessourcesViewModelFactory;
+            PortraitsRessourcesViewModelFactory = portraitsRessourcesViewModelFactory;
         }
 
         protected override void OnActivate() 
         {
             FactionEditor = FactionEditorFactory.CreateFactionEditor();
-            FactionGroupVMFactory = FactionGroupVMFactoryFactory();
+            //FactionGroupVMFactory = FactionGroupVMFactoryFactory();
+            ShipHullRessourcesViewModel = ShipHullRessourcesViewModelFactory();
+            PortraitsRessourcesViewModel = PortraitsRessourcesViewModelFactory();
         }
 
         private FactionGroupViewModel _SelectedFactionViewModel = null;
@@ -43,7 +57,11 @@ namespace EditorInterface.ViewModel
             {
                 if (_SelectedFactionViewModel == null)
                 {
-                    _SelectedFactionViewModel = FactionGroupVMFactory.GetFactionGroupViewModel(SelectedFaction, PriorFactionSelectedTabName);
+                    _SelectedFactionViewModel = FactionGroupVMFactory();
+                    _SelectedFactionViewModel.ShipHullRessourcesViewModel = ShipHullRessourcesViewModel;
+                    _SelectedFactionViewModel.PortraitsRessourcesViewModel = PortraitsRessourcesViewModel;
+                    _SelectedFactionViewModel.FactionGroup = SelectedFaction;
+                    _SelectedFactionViewModel.SelectedTabName = PriorFactionSelectedTabName;
                     return _SelectedFactionViewModel;
                 }
                 else
