@@ -35,6 +35,9 @@ namespace SSEditor.Ressources
                 SpecialItemGroup.ExtractMonitoredContent();
             var tagged = SpecialItemGroup.Content.GetTaggedLines("tags", "package_bp");
             AvailableBPPackages = tagged.ToDictionary(x=> x["id"], x => new BPPackage(x, this.Directory));
+
+            var BaseLine = new Dictionary<string, string>() { {"plugin params","base_bp"}, { "name", "Base Blueprint" }, { "icon", "graphics/icons/cargo/blueprint_basic.png" } };
+            AvailableBPPackages.Add("base_package", new BPPackage(BaseLine, this.Directory));
             foreach (KeyValuePair<string,BPPackage> kv in AvailableBPPackages)
             {
                 var UsingShip = ShipHullRessources.UsableShipHull.Where(skv => skv.Value.Tags.Contains(kv.Value.BluePrintTag))
