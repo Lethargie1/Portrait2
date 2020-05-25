@@ -847,6 +847,7 @@
         </Setter>
     </Style>
     
+   
     
     <Style x:Key="GVShipHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
         <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>

@@ -34,7 +34,7 @@ namespace EditorInterface.ViewModel
         {
             get
             {
-                return new BPPackageListViewModel() { Packages = new ObservableCollection<BPPackage>(BPPackageRessources.AvailableBPPackages.Select(x => x.Value).ToList()) };
+                return new BPPackageListViewModel() { Packages = new ObservableCollection<BPPackage>(BPPackageRessources.AvailableBPPackages.Select(x => x.Value).Where(x => x.BluePrints.Count>0).ToList()) };
             }
         }
 

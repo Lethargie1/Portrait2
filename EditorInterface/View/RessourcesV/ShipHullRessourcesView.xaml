@@ -19,9 +19,14 @@
         </Grid.RowDefinitions>
         <TextBlock Text="Available Ship Hull ressources" Grid.Row="0"/>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" >
-            <StackPanel Orientation="Vertical">
-                <ContentControl s:View.Model="{Binding BPPackageListViewModel}" Margin="0" />
-                <ListView ItemsSource="{Binding AvailableShips}" Margin="7" SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedShipHullRessource}">
+            <Grid Margin="7">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <ContentControl s:View.Model="{Binding BPPackageListViewModel}" Margin="0" Grid.Row="0"/>
+                <GridSplitter Background="{StaticResource ButtonPale}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="5"/>
+                <ListView ItemsSource="{Binding AvailableShips}"  SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedShipHullRessource}" Grid.Row="1">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}"   BasedOn="{StaticResource ListViewShipItemStyle}">
                             <!--<Setter Property="Content" Value="{Binding Converter={StaticResource HullConverter}}"/>-->
@@ -67,7 +72,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-            </StackPanel>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>
