@@ -11,9 +11,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <vm:ShipHullToShipHullVMConverter x:Key="HullConverter"/>
-        <Style TargetType="TextBlock" x:Key="GridViewText" BasedOn="{StaticResource TextElement}">
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
     </UserControl.Resources>
 
     <Grid x:Name="Base" Background="Transparent">
@@ -32,6 +29,8 @@
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding LongDisplayName}" />
             <Border  Style="{StaticResource ElementBorder}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" >
+                <StackPanel Orientation="Vertical">
+                    <ContentControl s:View.Model="{Binding BPPackageListViewModel}" Margin="0" />
                 <ListView ItemsSource="{Binding KnownShipList}" Margin="7"  >
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}"  BasedOn="{StaticResource ListViewShipItemStyle}">
@@ -77,7 +76,8 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-        </Border>
+                </StackPanel>
+            </Border>
         </Grid>
         <ContentControl s:View.Model="{Binding ActiveItem}" Margin="0" Grid.Column="1" />
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1">

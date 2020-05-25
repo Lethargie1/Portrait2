@@ -34,7 +34,7 @@ namespace SSEditor.Ressources
             if (SpecialItemGroup.Content == null)
                 SpecialItemGroup.ExtractMonitoredContent();
             var tagged = SpecialItemGroup.Content.GetTaggedLines("tags", "package_bp");
-            AvailableBPPackages = tagged.ToDictionary(x=> x["id"], x => new BPPackage(x));
+            AvailableBPPackages = tagged.ToDictionary(x=> x["id"], x => new BPPackage(x, this.Directory));
             foreach (KeyValuePair<string,BPPackage> kv in AvailableBPPackages)
             {
                 var UsingShip = ShipHullRessources.UsableShipHull.Where(skv => skv.Value.Tags.Contains(kv.Value.BluePrintTag))
@@ -48,15 +48,26 @@ namespace SSEditor.Ressources
             AvailableBPPackages.TryGetValue(id, out BPPackage result);
             return result;
         }
+        public BPPackage TagToRessource(string tag)
+        {
+            return AvailableBPPackages.SingleOrDefault(x => x.Value.BluePrintTag == tag).Value;
+        }
     }
 
     public class BPPackage
     {
         public Dictionary<string,string> SpecialItemLine { get; set; }
+        public SSDirectory Directory { get; set; }
 
         public BPPackage(Dictionary<string,string> line)
         {
             SpecialItemLine = line;
+        }
+
+        public BPPackage(Dictionary<string, string> line, SSDirectory directory)
+        {
+            SpecialItemLine = line;
+            Directory = directory;
         }
         public string BluePrintTag
         {
@@ -77,10 +88,25 @@ namespace SSEditor.Ressources
                 string cellContent = SpecialItemLine["icon"];
                 if (cellContent == "")
                 { return null; }
-                return cellContent.Replace('/','\\');
+                string rela = cellContent.Replace('/', '\\');
+                Directory.GroupedFiles.TryGetValue(rela, out ISSGroup binaryGroup);
+                SSBinaryGroup binary = (SSBinaryGroup)binaryGroup;
+                binary?.RecalculateFinal();
+                return binary.FinalSourcePath;
+                
             }
         }
 
+        public string Name
+        {
+            get
+            {
+                string cellContent = SpecialItemLine["name"];
+                if (cellContent == "")
+                { return null; }
+                return cellContent;
+            }
+        }
         public List<IShipHull> BluePrints { get; private set; } = new List<IShipHull>();
     }
 }

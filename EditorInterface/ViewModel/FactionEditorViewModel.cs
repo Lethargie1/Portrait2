@@ -25,6 +25,9 @@ namespace EditorInterface.ViewModel
 
         public ShipHullRessourcesViewModel ShipHullRessourcesViewModel { get; set; }
         public Func<ShipHullRessourcesViewModel> ShipHullRessourcesViewModelFactory { get; set; }
+        public BPPackageRessourcesViewModel BPPackageRessourcesViewModel { get; set; }
+        public Func<BPPackageRessourcesViewModel> BPPackageRessourcesViewModelFactory { get; set; }
+
         public PortraitsRessourcesViewModel PortraitsRessourcesViewModel { get; set; }
         public Func<PortraitsRessourcesViewModel> PortraitsRessourcesViewModelFactory { get; set; }
 
@@ -33,13 +36,15 @@ namespace EditorInterface.ViewModel
             Func<FactionGroupViewModel> factionGroupViewModelFactory, 
             IWindowManager windowManager, 
             Func<ShipHullRessourcesViewModel> shipHullRessourcesViewModelFactory, 
-            Func<PortraitsRessourcesViewModel> portraitsRessourcesViewModelFactory)
+            Func<PortraitsRessourcesViewModel> portraitsRessourcesViewModelFactory,
+            Func<BPPackageRessourcesViewModel> bPPackageRessourcesViewModelFactory)
         {
             FactionEditorFactory = factionEditorFactory;
             FactionGroupVMFactory = factionGroupViewModelFactory;
             WindowManager = windowManager;
             ShipHullRessourcesViewModelFactory = shipHullRessourcesViewModelFactory;
             PortraitsRessourcesViewModelFactory = portraitsRessourcesViewModelFactory;
+            BPPackageRessourcesViewModelFactory = bPPackageRessourcesViewModelFactory;
         }
 
         protected override void OnActivate() 
@@ -48,6 +53,7 @@ namespace EditorInterface.ViewModel
             //FactionGroupVMFactory = FactionGroupVMFactoryFactory();
             ShipHullRessourcesViewModel = ShipHullRessourcesViewModelFactory();
             PortraitsRessourcesViewModel = PortraitsRessourcesViewModelFactory();
+            BPPackageRessourcesViewModel = BPPackageRessourcesViewModelFactory();
         }
 
         private FactionGroupViewModel _SelectedFactionViewModel = null;
@@ -59,9 +65,9 @@ namespace EditorInterface.ViewModel
                 {
                     _SelectedFactionViewModel = FactionGroupVMFactory();
                     _SelectedFactionViewModel.FactionGroup = SelectedFaction;
+                    _SelectedFactionViewModel.BPPackageRessourcesViewModel = BPPackageRessourcesViewModel;
                     _SelectedFactionViewModel.ShipHullRessourcesViewModel = ShipHullRessourcesViewModel;
                     _SelectedFactionViewModel.PortraitsRessourcesViewModel = PortraitsRessourcesViewModel;
-                    
                     _SelectedFactionViewModel.SelectedTabName = PriorFactionSelectedTabName;
                     return _SelectedFactionViewModel;
                 }

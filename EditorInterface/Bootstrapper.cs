@@ -30,6 +30,7 @@ namespace EditorInterface
             
             builder.Bind<PortraitsRessourcesViewModel>().ToSelf();
             builder.Bind<ShipHullRessourcesViewModel>().ToSelf();
+            builder.Bind<BPPackageRessourcesViewModel>().ToSelf();
             //builder.Bind<PortraitsRessourcesViewModelFactory>().ToSelf();
             //builder.Bind<FactionGroupViewModelFactory>().ToSelf();
             builder.Bind(typeof(IModelValidator<>)).To(typeof(FluentModelValidator<>));

@@ -29,12 +29,13 @@ namespace EditorInterface.ViewModel
                 ActivateItem(new FactionGroupValueViewModel(FactionGroup) { DisplayName = "Values" });
 
                 //tabs for portraits
-                
+
                 //tabs for hulls
                 //ActivateItem(new FactionGroupKnownHullViewModel(FactionGroup?.KnownShipsTag, FactionGroup?.KnownShipsHulls, ShipHullRessourcesViewModelFactory.getVM()) { DisplayName = "Known Hull", LongDisplayName = "" });
-                
+
             }
         }
+        public BPPackageRessourcesViewModel BPPackageRessourcesViewModel{get; set;}
 
         private ShipHullRessourcesViewModel _ShipHullRessourcesViewModel;
         public ShipHullRessourcesViewModel ShipHullRessourcesViewModel
@@ -43,7 +44,7 @@ namespace EditorInterface.ViewModel
             set
             {
                 _ShipHullRessourcesViewModel = value;
-                var KnownHullVM = new FactionGroupKnownHullViewModel(FactionGroup?.KnownShipsTag, FactionGroup?.KnownShipsHulls, ShipHullRessourcesViewModel);
+                var KnownHullVM = new FactionGroupKnownHullViewModel(FactionGroup?.KnownShipsTag, FactionGroup?.KnownShipsHulls, ShipHullRessourcesViewModel,BPPackageRessourcesViewModel);
                 KnownHullVM.DisplayName = "Known Hull";
                 KnownHullVM.LongDisplayName = "";
                 ActivateItem(KnownHullVM);               
