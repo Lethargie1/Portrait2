@@ -58,9 +58,10 @@ namespace EditorInterface.ViewModel
                 if (_SelectedFactionViewModel == null)
                 {
                     _SelectedFactionViewModel = FactionGroupVMFactory();
+                    _SelectedFactionViewModel.FactionGroup = SelectedFaction;
                     _SelectedFactionViewModel.ShipHullRessourcesViewModel = ShipHullRessourcesViewModel;
                     _SelectedFactionViewModel.PortraitsRessourcesViewModel = PortraitsRessourcesViewModel;
-                    _SelectedFactionViewModel.FactionGroup = SelectedFaction;
+                    
                     _SelectedFactionViewModel.SelectedTabName = PriorFactionSelectedTabName;
                     return _SelectedFactionViewModel;
                 }
