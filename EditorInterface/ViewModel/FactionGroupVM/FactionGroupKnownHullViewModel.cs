@@ -43,14 +43,17 @@ namespace EditorInterface.ViewModel
             }
         }
 
+
+        protected List<IEventBinding> binding = new List<IEventBinding>();
+
         private bool _ShowBluePrintSeparate = true;
         public bool ShowBluePrintSeparate
         {
             get => _ShowBluePrintSeparate;
-            set => SetAndNotify(ref _ShowBluePrintSeparate, value, nameof(KnownShipList));
+            set => SetAndNotify(ref _ShowBluePrintSeparate, value, nameof(DisplayShipList));
         }
 
-        public List<IShipHull> KnownShipList
+        public IEnumerable<IShipHull> TotalShipHulls
         {
             get
             {
@@ -63,27 +66,55 @@ namespace EditorInterface.ViewModel
                 var hullIds = HullMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
                 var IndividualShip = hullIds.Select(x => this.ShipHullRessourcesVM.ShipHullRessources.IdToRessource(x));
 
+                return Enumerable.Concat<IShipHull>(ShipFromPackage, IndividualShip).Distinct();
+            }
+        }
+
+        public IEnumerable<IShipHull> IndividualShipHulls
+        {
+            get
+            {
+                var hullIds = HullMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
+                var IndividualShip = hullIds.Select(x => this.ShipHullRessourcesVM.ShipHullRessources.IdToRessource(x));
+
+                return IndividualShip.Distinct();
+            }
+        }
+
+        public List<IShipHull> DisplayShipList
+        {
+            get
+            {
+
                 List<IShipHull> allShips;
                 if (ShowBluePrintSeparate)
-                    allShips =IndividualShip.Distinct().ToList();
+                    allShips =IndividualShipHulls.ToList();
                 else
-                    allShips = Enumerable.Concat<IShipHull>(ShipFromPackage, IndividualShip).Distinct().ToList();
+                    allShips =TotalShipHulls.ToList();
 
 
                 return allShips;
             }
         }
 
-        public JsonToken SelectedPortraitArray { get; set; }
-        
-        
+
+
+        public void AddShip()
+        {
+            var Selected = ShipHullRessourcesVM.SelectedShipHullRessource;
+            if (TotalShipHulls.Select(x => x.Id).Contains(Selected.Id))
+                return;
+            HullMonitor?.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(Selected.Id), typeof(ShipHullRessources)));
+            NotifyOfPropertyChange(nameof(DisplayShipList));
+        }
+
+        protected override void OnClose()
+        {
+            foreach (IEventBinding b in binding)
+                b.Unbind();
+            base.OnClose();
+        }
     }
 
-    public class DesignFactionGroupKnownHullViewModel
-    {
-        public List<IShipHull> KnownShipList { get; set; }
-        public string LongDisplayName { get; set; }
-        public string DisplayName { get; set; }
 
-    }
 }

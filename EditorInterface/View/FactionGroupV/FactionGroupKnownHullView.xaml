@@ -32,7 +32,7 @@
             <Border  Style="{StaticResource ElementBorder}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" >
                 <Grid  Margin="7">
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
+                        <RowDefinition SharedSizeGroup="Ship"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid VerticalAlignment="Stretch">
@@ -43,11 +43,12 @@
                         <ContentControl s:View.Model="{Binding BPPackageListViewModel}" Margin="0"  Visibility="{Binding ElementName=PackageToggle, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
                         <GridSplitter Background="{StaticResource ButtonPale}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="5" Visibility="{Binding ElementName=PackageToggle, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
 
-                        <ListView ItemsSource="{Binding KnownShipList}"  VerticalAlignment="Stretch">
+                        <ListView ItemsSource="{Binding DisplayShipList}"  VerticalAlignment="Stretch">
                             <ListView.Style>
                                 <Style TargetType="ListView">
                                     <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
                                     <Setter Property="Grid.Row" Value="1"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsChecked, ElementName=PackageToggle}" Value="false">
                                             <Setter Property="Grid.Row" Value="0" />
@@ -109,10 +110,12 @@
         <ContentControl s:View.Model="{Binding ActiveItem}" Margin="0" Grid.Column="1" />
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1">
             <WrapPanel>
+                <Button Content="Add ship" Command="{s:Action AddShip}" Margin="3"></Button>
             </WrapPanel>
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1">
             <WrapPanel>
+                
             </WrapPanel>
         </Border>
     </Grid>
