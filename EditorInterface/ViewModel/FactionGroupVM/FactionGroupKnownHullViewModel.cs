@@ -43,13 +43,30 @@ namespace EditorInterface.ViewModel
             }
         }
 
+        private bool _ShowBluePrintSeparate;
+        public bool ShowBluePrintSeparate
+        {
+            get => _ShowBluePrintSeparate;
+            set => SetAndNotify(ref _ShowBluePrintSeparate, value, nameof(KnownShipList));
+        }
+
         public List<IShipHull> KnownShipList
         {
             get
             {
                 var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
+                var ShipFromPackage = tags.Select(x => this.BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x))
+                                          .Where(BpPack => BpPack != null)
+                                          .SelectMany(BpPack => BpPack.BluePrints);
+
+
                 var hullIds = HullMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
-                return ShipHullRessourcesVM.ShipHullRessources.MakeShipHullListFromTagAndId(tags, hullIds);
+                var IndividualShip = hullIds.Select(x => this.ShipHullRessourcesVM.ShipHullRessources.IdToRessource(x));
+
+                var allShips = Enumerable.Concat<IShipHull>(ShipFromPackage, IndividualShip).Distinct().ToList();
+
+
+                return allShips;
             }
         }
 

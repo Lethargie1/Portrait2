@@ -53,7 +53,7 @@ namespace SSEditor.Ressources
         }
         public BPPackage TagToRessource(string tag)
         {
-            return AvailableBPPackages.SingleOrDefault(x => x.Value.BluePrintTag == tag).Value;
+            return AvailableBPPackages.Select(x => x.Value).SingleOrDefault(x => x.BluePrintTag == tag); 
         }
     }
 
