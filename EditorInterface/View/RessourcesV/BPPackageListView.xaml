@@ -4,13 +4,55 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EditorInterface.View"
+             xmlns:vm="clr-namespace:EditorInterface.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ListView ItemsSource="{Binding Packages}" Margin="7" SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedPackage}">
+    <UserControl.Resources>
+        <vm:ShipHullToShipHullVMConverter x:Key="HullConverter"/>
+    </UserControl.Resources>
+
+    <ListView ItemsSource="{Binding Packages}"  SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedPackage}" >
         <ListView.ItemContainerStyle>
             <Style TargetType="{x:Type ListViewItem}"   BasedOn="{StaticResource ListViewShipItemStyle}">
                 <!--<Setter Property="Content" Value="{Binding Converter={StaticResource HullConverter}}"/>-->
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="ToolTip">
+                    <Setter.Value>
+                        <StackPanel>
+                            <ListView ItemsSource="{Binding BluePrints}"   >
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListViewItem}"   BasedOn="{StaticResource ListViewShipItemStyle}">
+                                        <!--<Setter Property="Content" Value="{Binding Converter={StaticResource HullConverter}}"/>-->
+                                        <!--<Setter Property="HorizontalContentAlignment" Value="Stretch"/>-->
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.View>
+                                    <GridView ColumnHeaderContainerStyle="{StaticResource GVShipHeaderStyle}">
+                                        <GridViewColumn Header="Icon">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Width="35" Height="30" Margin="5,0,5,0">
+                                                        <Image Source="{Binding SpriteFullPath}" MaxHeight="30" MaxWidth="30" HorizontalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn   Header="Name"  >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" Width="175">
+                                                        <TextBlock Text="{Binding Path=HullName}" Margin="0,0,0,0" Style="{StaticResource GridViewText}"/>
+                                                        <TextBlock Text="{Binding Path=Designation}" Foreground="Gray" Style="{StaticResource GridViewText}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>     
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </StackPanel>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ListView.ItemContainerStyle>
         <ListView.View>

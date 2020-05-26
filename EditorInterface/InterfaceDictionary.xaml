@@ -874,7 +874,7 @@
                         </VisualStateManager.VisualStateGroups>
                         <Border x:Name="HeaderBorder"
                   BorderThickness="0,1,0,1"
-                  Padding="2,0,2,0" BorderBrush="Transparent">
+                  Padding="2,0,2,0" BorderBrush="Transparent" Width="{TemplateBinding Width}">
                             <Border.Background>
 
                                 <LinearGradientBrush StartPoint="0,0"
@@ -892,7 +892,7 @@
                             </Border.Background>
 
                             <ContentPresenter x:Name="HeaderContent"
-                              Margin="0,0,0,1"
+                              Margin="5,0,5,1"
                               RecognizesAccessKey="True"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
