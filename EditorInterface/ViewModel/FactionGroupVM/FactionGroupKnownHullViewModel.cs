@@ -43,7 +43,7 @@ namespace EditorInterface.ViewModel
             }
         }
 
-        private bool _ShowBluePrintSeparate;
+        private bool _ShowBluePrintSeparate = true;
         public bool ShowBluePrintSeparate
         {
             get => _ShowBluePrintSeparate;
@@ -63,7 +63,11 @@ namespace EditorInterface.ViewModel
                 var hullIds = HullMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
                 var IndividualShip = hullIds.Select(x => this.ShipHullRessourcesVM.ShipHullRessources.IdToRessource(x));
 
-                var allShips = Enumerable.Concat<IShipHull>(ShipFromPackage, IndividualShip).Distinct().ToList();
+                List<IShipHull> allShips;
+                if (ShowBluePrintSeparate)
+                    allShips =IndividualShip.Distinct().ToList();
+                else
+                    allShips = Enumerable.Concat<IShipHull>(ShipFromPackage, IndividualShip).Distinct().ToList();
 
 
                 return allShips;
