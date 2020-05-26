@@ -43,7 +43,7 @@
                         <ContentControl s:View.Model="{Binding BPPackageListViewModel}" Margin="0"  Visibility="{Binding ElementName=PackageToggle, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
                         <GridSplitter Background="{StaticResource ButtonPale}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="5" Visibility="{Binding ElementName=PackageToggle, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
 
-                        <ListView ItemsSource="{Binding DisplayShipList}"  VerticalAlignment="Stretch">
+                        <ListView ItemsSource="{Binding DisplayShipList}"  VerticalAlignment="Stretch" SelectedItem="{Binding SelectedShip, Mode=OneWayToSource}">
                             <ListView.Style>
                                 <Style TargetType="ListView">
                                     <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
@@ -116,6 +116,8 @@
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1">
             <WrapPanel>
+                <Button Content="Remove Ship" Command="{s:Action RemoveShip}" Margin="3"></Button>
+                <Button Content="Remove Package" Command="{s:Action RemovePackage}" Margin="3"></Button>
                 <Button Content="Reset" Command="{s:Action Reset}" Margin="3"></Button>
             </WrapPanel>
         </Border>

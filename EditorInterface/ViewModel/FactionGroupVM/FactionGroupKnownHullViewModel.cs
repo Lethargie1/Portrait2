@@ -40,6 +40,7 @@ namespace EditorInterface.ViewModel
 
         private void Tag_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            RefreshBPPackageViewModel();
             NotifyOfPropertyChange(nameof(BPPackageListViewModel));
             NotifyOfPropertyChange(nameof(DisplayShipList));
         }
@@ -52,17 +53,24 @@ namespace EditorInterface.ViewModel
         public MonitoredArray HullMonitor { get; private set; }
         public ObservableCollection<JsonToken> MonitoredArray { get => TagMonitor?.ContentArray; }
 
+        public void RefreshBPPackageViewModel()
+        {
+            var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString()) ?? new List<string>();
+            var PackageList = tags.Select(x => BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x)).Where(x => x != null).ToList();
+            var result = new BPPackageListViewModel();
+            result.Packages = new ObservableCollection<BPPackage>(PackageList);
+            BPPackageListViewModel = result;
+        }
+        private BPPackageListViewModel _BPPackageListViewModel;
         public BPPackageListViewModel BPPackageListViewModel
         {
             get
             {
-                
-                var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString()) ?? new List<string>();
-                var PackageList = tags.Select(x => BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x)).Where(x => x!= null).ToList();
-                var result = new BPPackageListViewModel();
-                result.Packages = new ObservableCollection<BPPackage>(PackageList);
-                return result;
+                if (_BPPackageListViewModel == null)
+                    RefreshBPPackageViewModel();
+                return _BPPackageListViewModel;
             }
+            private set => _BPPackageListViewModel = value;
         }
 
 
@@ -74,8 +82,7 @@ namespace EditorInterface.ViewModel
             get => _ShowBluePrintSeparate;
             set => SetAndNotify(ref _ShowBluePrintSeparate, value, nameof(DisplayShipList));
         }
-
-        public IEnumerable<IShipHull> TotalShipHulls
+        public IEnumerable<IShipHull> ShipHullfromTag
         {
             get
             {
@@ -83,12 +90,15 @@ namespace EditorInterface.ViewModel
                 var ShipFromPackage = tags.Select(x => this.BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x))
                                           .Where(BpPack => BpPack != null)
                                           .SelectMany(BpPack => BpPack.BluePrints);
+                return ShipFromPackage;
+            }
+        }
 
-
-                var hullIds = HullMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
-                var IndividualShip = hullIds.Select(x => this.ShipHullRessourcesVM.ShipHullRessources.IdToRessource(x));
-
-                return Enumerable.Concat<IShipHull>(ShipFromPackage, IndividualShip).Distinct();
+        public IEnumerable<IShipHull> TotalShipHulls
+        {
+            get
+            {
+                return Enumerable.Concat<IShipHull>(ShipHullfromTag, IndividualShipHulls).Distinct();
             }
         }
 
@@ -119,7 +129,7 @@ namespace EditorInterface.ViewModel
             }
         }
 
-
+        public IShipHull SelectedShip { get; set; }
 
         public void AddShip()
         {
@@ -144,6 +154,21 @@ namespace EditorInterface.ViewModel
             TagMonitor.ResetModification();
         }
         
+        public void RemovePackage()
+        {
+            var Selected = BPPackageListViewModel.SelectedPackage;
+            TagMonitor?.Modify(MonitoredArrayModification.GetRemoveModification(new JsonValue(Selected.BluePrintTag)));
+        }
+
+        public void RemoveShip()
+        {
+            var Selected = SelectedShip;
+
+            bool IsIndividual = IndividualShipHulls.Select(x => x.Id).Contains(Selected.Id);
+
+            if (IsIndividual)
+                HullMonitor.Modify(MonitoredArrayModification.GetRemoveModification(new JsonValue(Selected.Id)));
+        }
     }
 
 
