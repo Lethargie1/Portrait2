@@ -111,11 +111,12 @@
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1">
             <WrapPanel>
                 <Button Content="Add ship" Command="{s:Action AddShip}" Margin="3"></Button>
+                <Button Content="Add Package" Command="{s:Action AddPackage}" Margin="3"></Button>
             </WrapPanel>
         </Border>
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1">
             <WrapPanel>
-                
+                <Button Content="Reset" Command="{s:Action Reset}" Margin="3"></Button>
             </WrapPanel>
         </Border>
     </Grid>

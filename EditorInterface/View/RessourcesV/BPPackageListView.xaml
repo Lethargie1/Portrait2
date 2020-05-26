@@ -11,7 +11,7 @@
         <vm:ShipHullToShipHullVMConverter x:Key="HullConverter"/>
     </UserControl.Resources>
 
-    <ListView ItemsSource="{Binding Packages}"  SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedPackage}" >
+    <ListView ItemsSource="{Binding Packages}"  SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedPackage, Mode=OneWayToSource}" >
         <ListView.ItemContainerStyle>
             <Style TargetType="{x:Type ListViewItem}"   BasedOn="{StaticResource ListViewShipItemStyle}">
                 <!--<Setter Property="Content" Value="{Binding Converter={StaticResource HullConverter}}"/>-->

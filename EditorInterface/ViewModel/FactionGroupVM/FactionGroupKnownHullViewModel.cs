@@ -5,9 +5,11 @@ using Stylet;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EditorInterface.ViewModel
 {
@@ -20,6 +22,26 @@ namespace EditorInterface.ViewModel
             ShipHullRessourcesVM = shipHullRessourcesVM;
             BPPackageRessourcesViewModel = bPPackageRessourcesViewModel;
             ActivateItem(ShipHullRessourcesVM);
+            
+            if (HullMonitor!= null)
+            {
+                CollectionChangedEventManager.AddHandler(HullMonitor.ContentArray, Hull_CollectionChanged);
+            }
+            if(TagMonitor!= null)
+            {
+                CollectionChangedEventManager.AddHandler(TagMonitor.ContentArray, Tag_CollectionChanged);
+            }
+        }
+
+        private void Hull_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(nameof(DisplayShipList));
+        }
+
+        private void Tag_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(nameof(BPPackageListViewModel));
+            NotifyOfPropertyChange(nameof(DisplayShipList));
         }
 
 
@@ -105,15 +127,23 @@ namespace EditorInterface.ViewModel
             if (TotalShipHulls.Select(x => x.Id).Contains(Selected.Id))
                 return;
             HullMonitor?.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(Selected.Id), typeof(ShipHullRessources)));
-            NotifyOfPropertyChange(nameof(DisplayShipList));
         }
 
-        protected override void OnClose()
+        public void AddPackage()
         {
-            foreach (IEventBinding b in binding)
-                b.Unbind();
-            base.OnClose();
+            var Selected = ShipHullRessourcesVM.SelectedPackage;
+            var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
+            if (tags.Contains(Selected.BluePrintTag))
+                return;
+            TagMonitor?.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(Selected.BluePrintTag), typeof(BPPackageRessources)));
         }
+
+        public void Reset()
+        {
+            HullMonitor.ResetModification();
+            TagMonitor.ResetModification();
+        }
+        
     }
 
 

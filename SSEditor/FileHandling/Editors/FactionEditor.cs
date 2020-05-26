@@ -15,7 +15,9 @@ namespace SSEditor.FileHandling.Editors
     {
         public SSDirectory Directory { get; set; }
 
+        public ShipHullRessources ShipHullRessources { get; set; }
         public PortraitsRessources PortraitsRessource { get; set; }
+        public BPPackageRessources BPPackageRessources { get; set; }
         public List<SSFactionGroup> Factions { get; set; } = null;
         public List<JsonValue> Portraits { get; set; }
 
@@ -28,6 +30,9 @@ namespace SSEditor.FileHandling.Editors
             this.Directory = directory;
             this.GetFaction();
             this.PortraitsRessource = new PortraitsRessources(Directory);
+            var VariantsRessources = new VariantsRessources(Directory);
+            this.ShipHullRessources = new ShipHullRessources(Directory, VariantsRessources);
+            this.BPPackageRessources = new BPPackageRessources(directory, ShipHullRessources);
         }
 
         /// <summary>Extract faction group from the directory</summary>
@@ -143,15 +148,29 @@ namespace SSEditor.FileHandling.Editors
                 SSFactionGroup match = Factions.Find(f => f.RelativeUrl.Equals(gm.GroupUrl));
                 if (match!= null)
                 {
+
                     if (gm.Modification.RessourceType == typeof(PortraitsRessources))
                     {
                         if (PortraitsRessource.FindBinaryFromDirectory(gm.Modification.GetContentAsValue().ToString()) == null)
+                            continue;
+                    }
+                    else if (gm.Modification.RessourceType == typeof(ShipHullRessources))
+                    {
+                        if (!ShipHullRessources.UsableShipHull.ContainsKey(gm.Modification.GetContentAsValue().ToString()))
+                            continue;
+                    }
+                    else if (gm.Modification.RessourceType == typeof(BPPackageRessources))
+                    {
+                        if (!BPPackageRessources.AvailableBPPackages.Select(x => x.Value.BluePrintTag).Contains(gm.Modification.GetContentAsValue().ToString()))
                             continue;
                     }
                     else if (gm.Modification.RessourceType != null)
                     {
                         throw new ArgumentException("faction modification refer to unknown ressource");
                     }
+
+
+
                     MonitoredField pointed;
                     match.PathedContent.TryGetValue(gm.FieldPath, out pointed);
                     if (pointed == null)

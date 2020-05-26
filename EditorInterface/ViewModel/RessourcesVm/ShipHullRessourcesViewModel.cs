@@ -30,13 +30,20 @@ namespace EditorInterface.ViewModel
             }
         }
 
+        private BPPackageListViewModel _BPPackageListViewModel;
         public BPPackageListViewModel BPPackageListViewModel
         {
             get
             {
-                if (BPPackageRessources?.AvailableBPPackages == null)
-                    return null;
-                return new BPPackageListViewModel() { Packages = new ObservableCollection<BPPackage>(BPPackageRessources.AvailableBPPackages.Select(x => x.Value).Where(x => x.BluePrints.Count>0).ToList()) };
+                if (_BPPackageListViewModel == null)
+                {
+                    if (BPPackageRessources?.AvailableBPPackages == null)
+                        _BPPackageListViewModel = null;
+                    else
+                        _BPPackageListViewModel = new BPPackageListViewModel() { Packages = new ObservableCollection<BPPackage>(BPPackageRessources.AvailableBPPackages.Select(x => x.Value).Where(x => x.BluePrints.Count > 0).ToList()) };
+                }
+                    
+                return _BPPackageListViewModel;
             }
         }
 
@@ -55,6 +62,11 @@ namespace EditorInterface.ViewModel
             {
                 SetAndNotify(ref _SelectedIndex, value);
             }
+        }
+
+        public BPPackage SelectedPackage
+        {
+            get => BPPackageListViewModel.SelectedPackage;
         }
 
     }
