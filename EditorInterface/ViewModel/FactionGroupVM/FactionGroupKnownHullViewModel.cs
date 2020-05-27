@@ -76,7 +76,7 @@ namespace EditorInterface.ViewModel
 
         protected List<IEventBinding> binding = new List<IEventBinding>();
 
-        private bool _ShowBluePrintSeparate = true;
+        private bool _ShowBluePrintSeparate = false;
         public bool ShowBluePrintSeparate
         {
             get => _ShowBluePrintSeparate;
@@ -210,7 +210,8 @@ namespace EditorInterface.ViewModel
         public void RemoveShip()
         {
             var Selected = SelectedShip;
-
+            if (Selected == null)
+                return;
             bool IsIndividual = IndividualShipHulls.Select(x => x.Id).Contains(Selected.Id);
             if (IsIndividual)
                 HullMonitor.Modify(MonitoredArrayModification.GetRemoveModification(new JsonValue(Selected.Id)));
