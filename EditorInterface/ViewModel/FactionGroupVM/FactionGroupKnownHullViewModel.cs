@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 
 namespace EditorInterface.ViewModel
 {
@@ -31,18 +32,25 @@ namespace EditorInterface.ViewModel
             {
                 CollectionChangedEventManager.AddHandler(TagMonitor.ContentArray, Tag_CollectionChanged);
             }
+            Hull_CollectionChanged(null, null);
         }
 
         private void Hull_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            NotifyOfPropertyChange(nameof(DisplayShipList));
+            IEnumerable<IShipHull> allShips;
+            if (ShowBluePrintSeparate)
+                allShips = IndividualShipHulls;
+            else
+                allShips = TotalShipHulls;
+            DisplayShipList.Clear();
+            DisplayShipList.AddRange(allShips);
         }
 
         private void Tag_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             RefreshBPPackageViewModel();
             NotifyOfPropertyChange(nameof(BPPackageListViewModel));
-            NotifyOfPropertyChange(nameof(DisplayShipList));
+            Hull_CollectionChanged(null, null);
         }
 
 
@@ -80,13 +88,17 @@ namespace EditorInterface.ViewModel
         public bool ShowBluePrintSeparate
         {
             get => _ShowBluePrintSeparate;
-            set => SetAndNotify(ref _ShowBluePrintSeparate, value, nameof(DisplayShipList));
+            set
+            {
+                _ShowBluePrintSeparate = value;
+                Hull_CollectionChanged(null, null);
+            }
         }
         public IEnumerable<IShipHull> ShipHullfromTag
         {
             get
             {
-                var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
+                var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString()) ?? new List<string>();
                 var ShipFromPackage = tags.Select(x => this.BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x))
                                           .Where(BpPack => BpPack != null)
                                           .SelectMany(BpPack => BpPack.BluePrints);
@@ -106,28 +118,35 @@ namespace EditorInterface.ViewModel
         {
             get
             {
-                var hullIds = HullMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
+                var hullIds = HullMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString()) ?? new List<string>();
                 var IndividualShip = hullIds.Select(x => this.ShipHullRessourcesVM.ShipHullRessources.IdToRessource(x));
 
                 return IndividualShip.Distinct();
             }
         }
 
-        public List<IShipHull> DisplayShipList
+
+        public BindableCollection<IShipHull> DisplayShipList { get; private set; } = new BindableCollection<IShipHull>();
+
+        CollectionView _DisplayShipView;
+        public CollectionView DisplayShipView
         {
             get
             {
+                if (_DisplayShipView == null)
+                {
 
-                List<IShipHull> allShips;
-                if (ShowBluePrintSeparate)
-                    allShips =IndividualShipHulls.ToList();
-                else
-                    allShips =TotalShipHulls.ToList();
+                    _DisplayShipView = (CollectionView)CollectionViewSource.GetDefaultView(DisplayShipList);
+                    //_FilesToWriteView = new CollectionView(FilesToWrite);
+                    //_FilesToWriteView.Filter = x => ((ISSWritable)x).WillCreateFile;
+                    //PropertyGroupDescription groupDescription = new PropertyGroupDescription("SourceMod", new PortraitModToGroupConverter());
 
-
-                return allShips;
+                }
+                return _DisplayShipView;
             }
         }
+
+
 
         public IShipHull SelectedShip { get; set; }
 
