@@ -5,13 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EditorInterface.View"
              xmlns:vm="clr-namespace:EditorInterface.ViewModel"
+             xmlns:s="https://github.com/canton7/Stylet"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <vm:ShipHullToShipHullVMConverter x:Key="HullConverter"/>
     </UserControl.Resources>
 
-    <ListView ItemsSource="{Binding Packages}"  SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedPackage, Mode=OneWayToSource}" >
+    <ListView ItemsSource="{Binding Packages}"  
+              SelectedIndex="{Binding SelectedIndex}" 
+              SelectedItem="{Binding SelectedPackage, Mode=OneWayToSource}" 
+              PreviewMouseLeftButtonUp="{s:Action HandleListViewClick}"
+              SelectionMode="Single">
         <ListView.ItemContainerStyle>
             <Style TargetType="{x:Type ListViewItem}"   BasedOn="{StaticResource ListViewShipItemStyle}">
                 <!--<Setter Property="Content" Value="{Binding Converter={StaticResource HullConverter}}"/>-->

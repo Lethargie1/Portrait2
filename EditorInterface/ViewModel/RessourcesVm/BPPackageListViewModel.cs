@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace EditorInterface.ViewModel
 {
@@ -16,6 +17,14 @@ namespace EditorInterface.ViewModel
         public BPPackageListViewModel()
         {
 
+        }
+
+        public event EventHandler ItemShiftClicked;
+
+        protected virtual void OnItemShiftClicked()
+        {
+            EventHandler handler = ItemShiftClicked;
+            handler?.Invoke(this, null);
         }
 
         private void Packages_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -36,5 +45,11 @@ namespace EditorInterface.ViewModel
 
         public int SelectedIndex { get; set; }
         public BPPackage SelectedPackage { get; set; }
+
+        public void HandleListViewClick(object sender, EventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+                OnItemShiftClicked();
+        }
     }
 }

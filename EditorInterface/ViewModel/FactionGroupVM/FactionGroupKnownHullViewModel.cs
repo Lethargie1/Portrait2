@@ -35,7 +35,10 @@ namespace EditorInterface.ViewModel
                 CollectionChangedEventManager.AddHandler(TagMonitor.ContentArray, Tag_CollectionChanged);
             }
             Hull_CollectionChanged(null, null);
+            BPPackageListViewModel.ItemShiftClicked += BPPackageListViewModel_ItemShiftClicked;
         }
+
+        
 
         private void Hull_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -68,8 +71,8 @@ namespace EditorInterface.ViewModel
             var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString()) ?? new List<string>();
             var PackageList = tags.Select(x => BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x)).Where(x => x != null).ToList();
             var result = new BPPackageListViewModel();
-            result.Packages = new ObservableCollection<BPPackage>(PackageList);
-            BPPackageListViewModel = result;
+            BPPackageListViewModel.Packages = new ObservableCollection<BPPackage>(PackageList);
+            //BPPackageListViewModel = result;
         }
         private BPPackageListViewModel _BPPackageListViewModel;
         public BPPackageListViewModel BPPackageListViewModel
@@ -77,7 +80,10 @@ namespace EditorInterface.ViewModel
             get
             {
                 if (_BPPackageListViewModel == null)
+                {
+                    _BPPackageListViewModel = new BPPackageListViewModel();
                     RefreshBPPackageViewModel();
+                }
                 return _BPPackageListViewModel;
             }
             private set => _BPPackageListViewModel = value;
@@ -296,6 +302,11 @@ namespace EditorInterface.ViewModel
         {
             if (Keyboard.IsKeyDown(Key.LeftShift))
                 RemoveShip();
+        }
+
+        private void BPPackageListViewModel_ItemShiftClicked(object sender, EventArgs e)
+        {
+            this.RemovePackage();
         }
         #endregion
 
