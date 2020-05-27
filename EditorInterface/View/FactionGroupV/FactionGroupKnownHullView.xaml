@@ -65,7 +65,7 @@
                             </ListView.ItemContainerStyle>
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GVShipHeaderStyle}">
-                                    <GridViewColumn Header="Image">
+                                    <GridViewColumn Header="Sprite">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Grid Width="35" Height="30">
@@ -74,7 +74,8 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn   Header="Name" >
+                                    <GridViewColumn >
+                                        <GridViewColumnHeader Content="Name" Command="{s:Action ChangeSort}" CommandParameter="HullName"/>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -84,14 +85,16 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn  Header="HullSize" >
+                                    <GridViewColumn >
+                                        <GridViewColumnHeader Content="Hull Size" Command="{s:Action ChangeSort}" CommandParameter="HullSize"/>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Path=HullSize}" Style="{StaticResource GridViewText}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn  Header="Design type">
+                                    <GridViewColumn >
+                                        <GridViewColumnHeader Content="Design Type" Command="{s:Action ChangeSort}" CommandParameter="Tech" MinWidth="25"/>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Path=Tech}" HorizontalAlignment="Center" Style="{StaticResource GridViewText}"/>

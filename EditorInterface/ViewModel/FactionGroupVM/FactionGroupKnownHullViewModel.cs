@@ -126,7 +126,7 @@ namespace EditorInterface.ViewModel
             }
         }
 
-
+        #region object to handle the list and its sorting
         public BindableCollection<IShipHull> DisplayShipList { get; private set; } = new BindableCollection<IShipHull>();
 
         CollectionView _DisplayShipView;
@@ -148,6 +148,25 @@ namespace EditorInterface.ViewModel
                 return _DisplayShipView;
             }
         }
+
+        public void ChangeSort(string columnName)
+        {
+            SortDescription newDescription;
+            var oldSort = DisplayShipView.SortDescriptions.FirstOrDefault();
+            string oldColumn = oldSort.PropertyName;
+            ListSortDirection oldDirection = oldSort.Direction;
+            if (oldColumn != columnName)
+                newDescription = new SortDescription(columnName, ListSortDirection.Ascending);
+            else if (oldDirection == ListSortDirection.Ascending)
+                newDescription = new SortDescription(columnName, ListSortDirection.Descending);
+            else
+                newDescription = new SortDescription(columnName, ListSortDirection.Ascending);
+            DisplayShipView.SortDescriptions.Clear();
+            DisplayShipView.SortDescriptions.Add(newDescription);
+        }
+        #endregion
+
+
 
         private int _SelectedIndex;
         public int SelectedIndex { get => _SelectedIndex; set => SetAndNotify(ref _SelectedIndex, value); }
