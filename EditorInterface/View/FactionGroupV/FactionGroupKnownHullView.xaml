@@ -43,7 +43,11 @@
                         <ContentControl x:Name="LocalPackages" s:View.Model="{Binding BPPackageListViewModel}" Margin="0"  Visibility="{Binding ElementName=PackageToggle, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
                         <GridSplitter Background="{StaticResource ButtonPale}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="5" Visibility="{Binding ElementName=PackageToggle, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
 
-                        <ListView ItemsSource="{Binding DisplayShipView}"  VerticalAlignment="Stretch" SelectedItem="{Binding SelectedShip, Mode=OneWayToSource}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+                        <ListView ItemsSource="{Binding DisplayShipView}"  VerticalAlignment="Stretch" 
+                                  SelectedItem="{Binding SelectedShip, Mode=OneWayToSource}" 
+                                  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                                  PreviewMouseLeftButtonUp="{s:Action HandleListViewClick}"
+                                  SelectionMode="Single">
                             <ListView.Style>
                                 <Style TargetType="ListView">
                                     <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>

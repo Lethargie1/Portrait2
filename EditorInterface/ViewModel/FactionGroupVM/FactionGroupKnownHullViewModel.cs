@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace EditorInterface.ViewModel
 {
@@ -289,6 +290,12 @@ namespace EditorInterface.ViewModel
                              }).ToList();
             SelectedIndex = nextIndex;
             
+        }
+
+        public void HandleListViewClick(object sender, EventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+                RemoveShip();
         }
         #endregion
 
