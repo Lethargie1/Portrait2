@@ -169,7 +169,11 @@ namespace EditorInterface.ViewModel
 
 
         private int _SelectedIndex;
-        public int SelectedIndex { get => _SelectedIndex; set => SetAndNotify(ref _SelectedIndex, value); }
+        public int SelectedIndex
+        {
+            get => _SelectedIndex;
+            set => SetAndNotify(ref _SelectedIndex, value);
+        }
         public IShipHull SelectedShip { get; set; }
 
 
@@ -255,12 +259,13 @@ namespace EditorInterface.ViewModel
             var Selected = SelectedShip;
             if (Selected == null)
                 return;
+            int selectedIndex = SelectedIndex;
             int nextIndex;
-            if (SelectedIndex == DisplayShipView.Count - 1 && SelectedIndex > 0)
-                nextIndex = SelectedIndex - 1;
+            if (selectedIndex == DisplayShipView.Count - 1 && selectedIndex > 0)
+                nextIndex = selectedIndex - 1;
             else
-                nextIndex = SelectedIndex + 1;
-            IShipHull NextShip = DisplayShipView.GetItemAt(nextIndex) as IShipHull;
+                nextIndex = selectedIndex;
+
 
 
                 bool IsIndividual = IndividualShipHulls.Select(x => x.Id).Contains(Selected.Id);
@@ -282,7 +287,7 @@ namespace EditorInterface.ViewModel
                                     this.AddShip(ship);
                                  return true;
                              }).ToList();
-            SelectedIndex = DisplayShipView.IndexOf(NextShip);
+            SelectedIndex = nextIndex;
             
         }
         #endregion
