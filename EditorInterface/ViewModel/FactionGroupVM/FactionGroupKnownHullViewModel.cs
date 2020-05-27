@@ -131,17 +131,60 @@ namespace EditorInterface.ViewModel
 
         public IShipHull SelectedShip { get; set; }
 
-        public void AddShip()
+        public void AddShip(IShipHull input = null)
         {
-            var Selected = ShipHullRessourcesVM.SelectedShipHullRessource;
+            IShipHull Selected;
+            if (input == null)
+                Selected = ShipHullRessourcesVM.SelectedShipHullRessource;
+            else
+                Selected = input;
             if (TotalShipHulls.Select(x => x.Id).Contains(Selected.Id))
                 return;
-            HullMonitor?.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(Selected.Id), typeof(ShipHullRessources)));
+            var priorRemoval = HullMonitor.GetModification().Select(groupMod => groupMod.Modification).Where(mod =>
+             {
+                 var typed = (MonitoredArrayModification)mod;
+                 return typed.ModType == MonitoredArrayModification.ModificationType.Remove && typed.GetContentAsValue().ToString() == Selected.Id;
+             }).SingleOrDefault();
+
+            if (priorRemoval == null)
+            {
+                var AddedId = HullMonitor.GetModification().Select(groupMod => groupMod.Modification).Where(mod =>
+                {
+                    var typed = (MonitoredArrayModification)mod;
+                    return typed.ModType == MonitoredArrayModification.ModificationType.Add;
+                })
+                .Select( mod => mod.GetContentAsValue().ToString()).ToList();
+                AddedId.Add(Selected.Id);
+                var usingPackages = Selected.Tags.Select(x => this.BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x))
+                                          .Where(BpPack => BpPack != null);
+                //any package that is fully defined by the added Id and that contains the newly added ship is added instead of the ship
+                var RestoredPackage = usingPackages.Where(package =>
+               {
+                   var PackageIds = package.BluePrints.Select(x => x.Id);
+                   return PackageIds.Contains(Selected.Id) && !PackageIds.Except(AddedId).Any();
+               }).FirstOrDefault();
+                if (RestoredPackage != null)
+                {
+                    this.AddPackage(RestoredPackage);
+                    var PackageIds = RestoredPackage.BluePrints.Select(x => x.Id).Where(x=> x != Selected.Id);
+                    foreach (string shipId in PackageIds)
+                        HullMonitor?.Modify(MonitoredArrayModification.GetRemoveModification(new JsonValue(shipId)));
+                }
+                else
+                    HullMonitor?.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(Selected.Id), typeof(ShipHullRessources)));
+
+            }
+            else
+                HullMonitor?.Modify(MonitoredArrayModification.GetAddModification(new JsonValue(Selected.Id), typeof(ShipHullRessources)));
         }
 
-        public void AddPackage()
+        public void AddPackage(BPPackage input = null)
         {
-            var Selected = ShipHullRessourcesVM.SelectedPackage;
+            BPPackage Selected;
+            if (input == null)
+                Selected = ShipHullRessourcesVM.SelectedPackage;
+            else
+                Selected = input;
             var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
             if (tags.Contains(Selected.BluePrintTag))
                 return;
@@ -154,9 +197,13 @@ namespace EditorInterface.ViewModel
             TagMonitor.ResetModification();
         }
         
-        public void RemovePackage()
+        public void RemovePackage(BPPackage input = null)
         {
-            var Selected = BPPackageListViewModel.SelectedPackage;
+            BPPackage Selected;
+            if (input == null)
+                Selected = BPPackageListViewModel.SelectedPackage;
+            else
+                Selected = input;
             TagMonitor?.Modify(MonitoredArrayModification.GetRemoveModification(new JsonValue(Selected.BluePrintTag)));
         }
 
@@ -165,10 +212,29 @@ namespace EditorInterface.ViewModel
             var Selected = SelectedShip;
 
             bool IsIndividual = IndividualShipHulls.Select(x => x.Id).Contains(Selected.Id);
-
             if (IsIndividual)
                 HullMonitor.Modify(MonitoredArrayModification.GetRemoveModification(new JsonValue(Selected.Id)));
+
+            var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
+            var UsedPackage = tags.Select(x => this.BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x))
+                                          .Where(BpPack => BpPack != null);
+            var ContainingPackage = UsedPackage.Where(Pack => Pack.BluePrints.Select(x => x.Id).Contains(Selected.Id)).ToList();
+            ContainingPackage.SelectMany(pack =>
+                              {
+                                  this.RemovePackage(pack);
+                                  return pack.BluePrints;
+                              })
+                             .Select(ship => 
+                             {
+                                 if (ship.Id != Selected.Id)
+                                    this.AddShip(ship);
+                                 return true;
+                             }).ToList();
+
+            
         }
+
+
     }
 
 

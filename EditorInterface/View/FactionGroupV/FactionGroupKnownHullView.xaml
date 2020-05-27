@@ -107,10 +107,10 @@
                 </Grid>
             </Border>
         </Grid>
-        <ContentControl s:View.Model="{Binding ActiveItem}" Margin="0" Grid.Column="1" />
+        <ContentControl x:Name="ShipHullRessourceVm" s:View.Model="{Binding ActiveItem}" Margin="0" Grid.Column="1" />
         <Border  Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1">
             <WrapPanel>
-                <Button Content="Add ship" Command="{s:Action AddShip}" Margin="3"></Button>
+                <Button Content="Add ship" Command="{s:Action AddShip}"  Margin="3"></Button>
                 <Button Content="Add Package" Command="{s:Action AddPackage}" Margin="3"></Button>
             </WrapPanel>
         </Border>
