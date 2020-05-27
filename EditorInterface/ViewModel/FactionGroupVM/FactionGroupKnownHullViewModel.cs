@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -137,6 +138,8 @@ namespace EditorInterface.ViewModel
                 {
 
                     _DisplayShipView = (CollectionView)CollectionViewSource.GetDefaultView(DisplayShipList);
+                    SortDescription AlphabeticalSorting = new SortDescription("HullName", ListSortDirection.Ascending);
+                    _DisplayShipView.SortDescriptions.Add(AlphabeticalSorting);
                     //_FilesToWriteView = new CollectionView(FilesToWrite);
                     //_FilesToWriteView.Filter = x => ((ISSWritable)x).WillCreateFile;
                     //PropertyGroupDescription groupDescription = new PropertyGroupDescription("SourceMod", new PortraitModToGroupConverter());
@@ -146,10 +149,12 @@ namespace EditorInterface.ViewModel
             }
         }
 
-
-
+        private int _SelectedIndex;
+        public int SelectedIndex { get => _SelectedIndex; set => SetAndNotify(ref _SelectedIndex, value); }
         public IShipHull SelectedShip { get; set; }
 
+
+        #region function called to modify the monitored hulls
         public void AddShip(IShipHull input = null)
         {
             IShipHull Selected;
@@ -231,7 +236,15 @@ namespace EditorInterface.ViewModel
             var Selected = SelectedShip;
             if (Selected == null)
                 return;
-            bool IsIndividual = IndividualShipHulls.Select(x => x.Id).Contains(Selected.Id);
+            int nextIndex;
+            if (SelectedIndex == DisplayShipView.Count - 1 && SelectedIndex > 0)
+                nextIndex = SelectedIndex - 1;
+            else
+                nextIndex = SelectedIndex + 1;
+            IShipHull NextShip = DisplayShipView.GetItemAt(nextIndex) as IShipHull;
+
+
+                bool IsIndividual = IndividualShipHulls.Select(x => x.Id).Contains(Selected.Id);
             if (IsIndividual)
                 HullMonitor.Modify(MonitoredArrayModification.GetRemoveModification(new JsonValue(Selected.Id)));
 
@@ -250,10 +263,10 @@ namespace EditorInterface.ViewModel
                                     this.AddShip(ship);
                                  return true;
                              }).ToList();
-
+            SelectedIndex = DisplayShipView.IndexOf(NextShip);
             
         }
-
+        #endregion
 
     }
 
