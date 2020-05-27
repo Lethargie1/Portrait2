@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace EditorInterface.ViewModel
 {
@@ -69,6 +70,19 @@ namespace EditorInterface.ViewModel
             get => BPPackageListViewModel.SelectedPackage;
         }
 
+        public event EventHandler ItemShiftClicked;
+
+        protected virtual void OnItemShiftClicked()
+        {
+            EventHandler handler = ItemShiftClicked;
+            handler?.Invoke(this, null);
+        }
+
+        public void HandleListViewClick(object sender, EventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+                OnItemShiftClicked();
+        }
     }
 
 

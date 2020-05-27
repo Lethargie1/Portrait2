@@ -42,7 +42,8 @@
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
-                                        <GridViewColumn   Header="Name"  >
+                                        <GridViewColumn    >
+                                            <GridViewColumnHeader Content="Name" MinWidth="100"/>
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal" Width="175">

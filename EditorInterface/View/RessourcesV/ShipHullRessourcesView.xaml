@@ -26,7 +26,12 @@
                 </Grid.RowDefinitions>
                 <ContentControl s:View.Model="{Binding BPPackageListViewModel}" Margin="0" Grid.Row="0"/>
                 <GridSplitter Background="{StaticResource ButtonPale}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="5"/>
-                <ListView ItemsSource="{Binding AvailableShips}"  SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedShipHullRessource}" Grid.Row="1">
+                <ListView ItemsSource="{Binding AvailableShips}"  
+                          SelectedIndex="{Binding SelectedIndex}" 
+                          SelectedItem="{Binding SelectedShipHullRessource}" 
+                          Grid.Row="1"
+                          PreviewMouseLeftButtonUp="{s:Action HandleListViewClick}"
+                          SelectionMode="Single">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}"   BasedOn="{StaticResource ListViewShipItemStyle}">
                             <!--<Setter Property="Content" Value="{Binding Converter={StaticResource HullConverter}}"/>-->

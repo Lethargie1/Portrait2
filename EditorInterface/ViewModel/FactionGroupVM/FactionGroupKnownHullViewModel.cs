@@ -308,8 +308,33 @@ namespace EditorInterface.ViewModel
         {
             this.RemovePackage();
         }
+
+        private void BPPackageRessource_ItemShiftClicked(object sender, EventArgs e)
+        {
+            this.AddPackage();
+        }
+
+        private void ShipHullRessourcesVM_ItemShiftClicked(object sender, EventArgs e)
+        {
+            this.AddShip();
+        }
         #endregion
 
+        protected override void OnActivate()
+        {
+            ShipHullRessourcesVM.ItemShiftClicked += ShipHullRessourcesVM_ItemShiftClicked;
+            ShipHullRessourcesVM.BPPackageListViewModel.ItemShiftClicked += BPPackageRessource_ItemShiftClicked;
+            base.OnActivate();
+        }
+
+
+
+        protected override void OnClose()
+        {
+            ShipHullRessourcesVM.ItemShiftClicked -= ShipHullRessourcesVM_ItemShiftClicked;
+            ShipHullRessourcesVM.BPPackageListViewModel.ItemShiftClicked -= BPPackageRessource_ItemShiftClicked;
+            base.OnClose();
+        }
     }
 
 
