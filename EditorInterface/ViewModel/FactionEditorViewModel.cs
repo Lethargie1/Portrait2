@@ -87,6 +87,8 @@ namespace EditorInterface.ViewModel
             set
             {
                 PriorFactionSelectedTabName = SelectedFactionViewModel?.ActiveItem.DisplayName;
+                var screened = SelectedFactionViewModel as IScreenState;
+                screened.Close();
                 SelectedFactionViewModel = null;
                 this._SelectedFaction = value;
                 NotifyOfPropertyChange(nameof(SelectedFactionViewModel));
