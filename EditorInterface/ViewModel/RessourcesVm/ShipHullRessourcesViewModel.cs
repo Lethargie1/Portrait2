@@ -3,9 +3,11 @@ using Stylet;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace EditorInterface.ViewModel
@@ -22,14 +24,49 @@ namespace EditorInterface.ViewModel
             BPPackageRessources = bPPackageRessources;
         }
 
-        
+        private List<IShipHull> _AvailableShips;
         public List<IShipHull> AvailableShips
         {
             get
             {
-                return ShipHullRessources.UsableShipHull.Select(kv => kv.Value).ToList();
+                if (_AvailableShips == null)
+                    _AvailableShips = ShipHullRessources.UsableShipHull.Select(kv => kv.Value).ToList();
+                return _AvailableShips;
             }
         }
+
+        CollectionView _AvailableShipsView;
+        public CollectionView AvailableShipsView
+        {
+            get
+            {
+                if (_AvailableShipsView == null)
+                {
+
+                    _AvailableShipsView = (CollectionView)CollectionViewSource.GetDefaultView(AvailableShips);
+                    SortDescription AlphabeticalSorting = new SortDescription("HullName", ListSortDirection.Ascending);
+                    _AvailableShipsView.SortDescriptions.Add(AlphabeticalSorting);
+                }
+                
+                return _AvailableShipsView;
+            }
+        }
+        public void ChangeSort(string columnName)
+        {
+            SortDescription newDescription;
+            var oldSort = AvailableShipsView.SortDescriptions.FirstOrDefault();
+            string oldColumn = oldSort.PropertyName;
+            ListSortDirection oldDirection = oldSort.Direction;
+            if (oldColumn != columnName)
+                newDescription = new SortDescription(columnName, ListSortDirection.Ascending);
+            else if (oldDirection == ListSortDirection.Ascending)
+                newDescription = new SortDescription(columnName, ListSortDirection.Descending);
+            else
+                newDescription = new SortDescription(columnName, ListSortDirection.Ascending);
+            AvailableShipsView.SortDescriptions.Clear();
+            AvailableShipsView.SortDescriptions.Add(newDescription);
+        }
+
 
         private BPPackageListViewModel _BPPackageListViewModel;
         public BPPackageListViewModel BPPackageListViewModel

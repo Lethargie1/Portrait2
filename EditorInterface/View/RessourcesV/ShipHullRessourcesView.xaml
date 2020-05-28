@@ -26,7 +26,7 @@
                 </Grid.RowDefinitions>
                 <ContentControl s:View.Model="{Binding BPPackageListViewModel}" Margin="0" Grid.Row="0"/>
                 <GridSplitter Background="{StaticResource ButtonPale}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="5"/>
-                <ListView ItemsSource="{Binding AvailableShips}"  
+                <ListView ItemsSource="{Binding AvailableShipsView}"  
                           SelectedIndex="{Binding SelectedIndex}" 
                           SelectedItem="{Binding SelectedShipHullRessource}" 
                           Grid.Row="1"
@@ -50,7 +50,8 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn   Header="Name" >
+                            <GridViewColumn  >
+                                <GridViewColumnHeader Content="Name" Command="{s:Action ChangeSort}" CommandParameter="HullName"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -60,14 +61,16 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn  Header="HullSize" >
+                            <GridViewColumn  >
+                                <GridViewColumnHeader Content="Hull Size" Command="{s:Action ChangeSort}" CommandParameter="HullSize"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=HullSize}" Style="{StaticResource GridViewText}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn  Header="Design type">
+                            <GridViewColumn >
+                                <GridViewColumnHeader Content="Design Type" Command="{s:Action ChangeSort}" CommandParameter="Tech" MinWidth="25"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Tech}" HorizontalAlignment="Center" Style="{StaticResource GridViewText}"/>

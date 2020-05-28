@@ -20,12 +20,14 @@ namespace EditorInterface.ViewModel
         }
 
 
-
+        private List<Portraits> _AvailablePortrais;
         public List<Portraits> AvailablePortraits
         {
             get
             {
-                return PortraitsRessources.RessourceCorrespondance.Select(kv => kv.Value).ToList();
+                if (_AvailablePortrais==null)
+                    _AvailablePortrais = PortraitsRessources.RessourceCorrespondance.Select(kv => kv.Value).ToList();
+                return _AvailablePortrais;
             }
         }
         CollectionView _AvailablePortraitsView;
