@@ -128,7 +128,6 @@
     <Compile Include="ViewModel\FileVm\ISSWritableViewModel.cs" />
     <Compile Include="ViewModel\FileVm\JsonGroupViewModel.cs" />
     <Compile Include="ViewModel\RessourcesVm\BPPackageListViewModel.cs" />
-    <Compile Include="ViewModel\RessourcesVm\BPPackageRessourcesViewModel.cs" />
     <Compile Include="ViewModel\RessourcesVm\ShipHullRessourcesViewModel.cs" />
     <Compile Include="ViewModel\RessourcesVm\ShipHullViewModel.cs" />
     <Compile Include="View\FactionGroupV\FactionGroupFleetCircleView.xaml.cs">

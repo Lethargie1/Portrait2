@@ -35,7 +35,6 @@ namespace EditorInterface.ViewModel
 
             }
         }
-        public BPPackageRessourcesViewModel BPPackageRessourcesViewModel{get; set;}
 
         private ShipHullRessourcesViewModel _ShipHullRessourcesViewModel;
         public ShipHullRessourcesViewModel ShipHullRessourcesViewModel
@@ -44,7 +43,7 @@ namespace EditorInterface.ViewModel
             set
             {
                 _ShipHullRessourcesViewModel = value;
-                var KnownHullVM = new FactionGroupKnownHullViewModel(FactionGroup?.KnownShipsTag, FactionGroup?.KnownShipsHulls, ShipHullRessourcesViewModel,BPPackageRessourcesViewModel);
+                var KnownHullVM = new FactionGroupKnownHullViewModel(FactionGroup?.KnownShipsTag, FactionGroup?.KnownShipsHulls, ShipHullRessourcesViewModel);
                 KnownHullVM.DisplayName = "Known Hull";
                 KnownHullVM.LongDisplayName = "";
                 ActivateItem(KnownHullVM);               

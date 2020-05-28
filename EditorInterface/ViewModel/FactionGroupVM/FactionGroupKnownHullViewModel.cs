@@ -18,12 +18,11 @@ namespace EditorInterface.ViewModel
 {
     public class FactionGroupKnownHullViewModel : Conductor<ShipHullRessourcesViewModel>
     {
-        public FactionGroupKnownHullViewModel(MonitoredArray tagMonitor, MonitoredArray hullMonitor, ShipHullRessourcesViewModel shipHullRessourcesVM, BPPackageRessourcesViewModel bPPackageRessourcesViewModel)
+        public FactionGroupKnownHullViewModel(MonitoredArray tagMonitor, MonitoredArray hullMonitor, ShipHullRessourcesViewModel shipHullRessourcesVM)
         {
             TagMonitor = tagMonitor;
             HullMonitor = hullMonitor;
             ShipHullRessourcesVM = shipHullRessourcesVM;
-            BPPackageRessourcesViewModel = bPPackageRessourcesViewModel;
             ActivateItem(ShipHullRessourcesVM);
             
             if (HullMonitor!= null)
@@ -61,7 +60,6 @@ namespace EditorInterface.ViewModel
 
         public string LongDisplayName { get; set; }
         public ShipHullRessourcesViewModel ShipHullRessourcesVM { get; private set; }
-        public BPPackageRessourcesViewModel BPPackageRessourcesViewModel { get; private set; }
         public MonitoredArray TagMonitor { get; private set; }
         public MonitoredArray HullMonitor { get; private set; }
         public ObservableCollection<JsonToken> MonitoredArray { get => TagMonitor?.ContentArray; }
@@ -69,7 +67,7 @@ namespace EditorInterface.ViewModel
         public void RefreshBPPackageViewModel()
         {
             var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString()) ?? new List<string>();
-            var PackageList = tags.Select(x => BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x)).Where(x => x != null).ToList();
+            var PackageList = tags.Select(x => ShipHullRessourcesVM.BPPackageRessources.TagToRessource(x)).Where(x => x != null).ToList();
             var result = new BPPackageListViewModel();
             BPPackageListViewModel.Packages = new ObservableCollection<BPPackage>(PackageList);
             //BPPackageListViewModel = result;
@@ -107,7 +105,7 @@ namespace EditorInterface.ViewModel
             get
             {
                 var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString()) ?? new List<string>();
-                var ShipFromPackage = tags.Select(x => this.BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x))
+                var ShipFromPackage = tags.Select(x => ShipHullRessourcesVM.BPPackageRessources.TagToRessource(x))
                                           .Where(BpPack => BpPack != null)
                                           .SelectMany(BpPack => BpPack.BluePrints);
                 return ShipFromPackage;
@@ -209,7 +207,7 @@ namespace EditorInterface.ViewModel
                 })
                 .Select( mod => mod.GetContentAsValue().ToString()).ToList();
                 AddedId.Add(Selected.Id);
-                var usingPackages = Selected.Tags.Select(x => this.BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x))
+                var usingPackages = Selected.Tags.Select(x => ShipHullRessourcesVM.BPPackageRessources.TagToRessource(x))
                                           .Where(BpPack => BpPack != null);
                 //any package that is fully defined by the added Id and that contains the newly added ship is added instead of the ship
                 var RestoredPackage = usingPackages.Where(package =>
@@ -280,7 +278,7 @@ namespace EditorInterface.ViewModel
                 HullMonitor.Modify(MonitoredArrayModification.GetRemoveModification(new JsonValue(Selected.Id)));
 
             var tags = TagMonitor?.ContentArray.Select(x => ((JsonValue)x).Content.ToString());
-            var UsedPackage = tags.Select(x => this.BPPackageRessourcesViewModel.BPPackageRessources.TagToRessource(x))
+            var UsedPackage = tags.Select(x => ShipHullRessourcesVM.BPPackageRessources.TagToRessource(x))
                                           .Where(BpPack => BpPack != null);
             var ContainingPackage = UsedPackage.Where(Pack => Pack.BluePrints.Select(x => x.Id).Contains(Selected.Id)).ToList();
             ContainingPackage.SelectMany(pack =>

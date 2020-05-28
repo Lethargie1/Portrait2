@@ -14,7 +14,7 @@
         <s:BoolToVisibilityConverter x:Key="BoolToVisible" TrueVisibility="Visible" FalseVisibility="Collapsed"/>
     </UserControl.Resources>
 
-    <Grid x:Name="Base" Background="Transparent">
+    <Grid x:Name="Base" Background="Transparent" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -32,12 +32,12 @@
             <Border  Style="{StaticResource ElementBorder}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" >
                 <Grid  Margin="7">
                     <Grid.RowDefinitions>
-                        <RowDefinition SharedSizeGroup="Ship"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition />
+                        <RowDefinition Height="60"/>
                     </Grid.RowDefinitions>
                     <Grid VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <ContentControl x:Name="LocalPackages" s:View.Model="{Binding BPPackageListViewModel}" Margin="0"  Visibility="{Binding ElementName=PackageToggle, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
