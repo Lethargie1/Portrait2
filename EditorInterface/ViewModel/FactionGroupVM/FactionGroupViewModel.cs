@@ -11,76 +11,67 @@ namespace EditorInterface.ViewModel
 {
     public class FactionGroupViewModel : Conductor<Screen>.Collection.OneActive
     {
+        ShipHullRessourcesViewModel LocalShipRessources { get; set; }
 
         //public PortraitsRessources PortraitsRessource { get; private set; }
-        public FactionGroupViewModel()
+        public FactionGroupViewModel( ShipHullRessourcesViewModel localShipRessources)
         {
+            LocalShipRessources = localShipRessources;
         }
 
-        private SSFactionGroup _FactionGroup;
-        public SSFactionGroup FactionGroup
+        public void BuildEditableTab()
         {
-            get => _FactionGroup;
-            set
-            {
-                _FactionGroup = value;
+            this.ActivateGenericTab();
+            this.ActivateHullBasedTab();
+            this.ActivatePortraitBasedTab();
+        }
+        public SSFactionGroup FactionGroup { get; set; }
+        public ShipHullRessourcesViewModel ShipHullRessourcesViewModel { get; set; }
+        public PortraitsRessourcesViewModel PortraitsRessourcesViewModel { get; set; }
 
-                string DisplayNameArticled = FactionGroup?.DisplayNameWithArticle?.Content?.ToString();
-                ActivateItem(new FactionGroupValueViewModel(FactionGroup) { DisplayName = "Values" });
-
-                //tabs for portraits
-
-                //tabs for hulls
-                //ActivateItem(new FactionGroupKnownHullViewModel(FactionGroup?.KnownShipsTag, FactionGroup?.KnownShipsHulls, ShipHullRessourcesViewModelFactory.getVM()) { DisplayName = "Known Hull", LongDisplayName = "" });
-
-            }
+        private void ActivateGenericTab()
+        {
+            string DisplayNameArticled = FactionGroup?.DisplayNameWithArticle?.Content?.ToString();
+            ActivateItem(new FactionGroupValueViewModel(FactionGroup) { DisplayName = "Values" });
         }
 
-        private ShipHullRessourcesViewModel _ShipHullRessourcesViewModel;
-        public ShipHullRessourcesViewModel ShipHullRessourcesViewModel
+        private void ActivateHullBasedTab()
         {
-            get => _ShipHullRessourcesViewModel;
-            set
-            {
-                _ShipHullRessourcesViewModel = value;
-                var KnownHullVM = new FactionGroupKnownHullViewModel(FactionGroup?.KnownShipsTag, FactionGroup?.KnownShipsHulls, ShipHullRessourcesViewModel);
-                KnownHullVM.DisplayName = "Known Hull";
-                KnownHullVM.LongDisplayName = "";
-                ActivateItem(KnownHullVM);               
-            }
+            var KnownHullVM = new FactionGroupKnownHullViewModel(FactionGroup?.KnownShipsTag, FactionGroup?.KnownShipsHulls, ShipHullRessourcesViewModel);
+            KnownHullVM.DisplayName = "Known Ships";
+            KnownHullVM.LongDisplayName = "";
+            ActivateItem(KnownHullVM);
 
+            var PriorityHullVM = new FactionGroupKnownHullViewModel(FactionGroup?.PriorityShipsTag, FactionGroup?.PriorityShipsHulls, LocalShipRessources);
+            PriorityHullVM.DisplayName = "Priority Ships";
+            PriorityHullVM.LongDisplayName = "";
+            ActivateItem(PriorityHullVM);
+
+            var ShipsWhenImportingHullVM = new FactionGroupKnownHullViewModel(FactionGroup?.ShipsWhenImportingTag, FactionGroup?.ShipsWhenImportingHulls, ShipHullRessourcesViewModel);
+            ShipsWhenImportingHullVM.DisplayName = "Importing Ships";
+            ShipsWhenImportingHullVM.LongDisplayName = "";
+            ActivateItem(ShipsWhenImportingHullVM);
         }
 
-        private PortraitsRessourcesViewModel _PortraitsRessourcesViewModel;
-        public PortraitsRessourcesViewModel PortraitsRessourcesViewModel
+        private void ActivatePortraitBasedTab()
         {
-            get => _PortraitsRessourcesViewModel;
-            set
-            {
-                _PortraitsRessourcesViewModel = value;
+            string DisplayNameArticled = FactionGroup?.DisplayNameWithArticle?.Content?.ToString();
 
-                string DisplayNameArticled = FactionGroup?.DisplayNameWithArticle?.Content?.ToString();
+            string FemaleDisplayPortrait = DisplayNameArticled != null ? "Female Portraits from " + DisplayNameArticled : "Female portraits";
+            var PortraitsFVM = new FactionGroupPortraitViewModel(FactionGroup?.FemalePortraits, PortraitsRessourcesViewModel);
+            PortraitsFVM.DisplayName = "Portraits (f)";
+            PortraitsFVM.LongDisplayName = FemaleDisplayPortrait;
+            ActivateItem(PortraitsFVM);
 
-                string FemaleDisplayPortrait = DisplayNameArticled != null ? "Female Portraits from " + DisplayNameArticled : "Female portraits";
-                var PortraitsFVM = new FactionGroupPortraitViewModel(FactionGroup?.FemalePortraits, PortraitsRessourcesViewModel);
-                PortraitsFVM.DisplayName = "Portraits (f)";
-                PortraitsFVM.LongDisplayName = FemaleDisplayPortrait;
-                ActivateItem( PortraitsFVM );
-
-                string maleDisplayPortrait = DisplayNameArticled != null ? "Male Portraits from " + DisplayNameArticled : "Male portraits";
-                var PortraitsMVM = new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessourcesViewModel);
-                PortraitsMVM.DisplayName = "Portraits (m)";
-                PortraitsMVM.LongDisplayName = maleDisplayPortrait;
-                ActivateItem(PortraitsMVM);
-
-            }
+            string maleDisplayPortrait = DisplayNameArticled != null ? "Male Portraits from " + DisplayNameArticled : "Male portraits";
+            var PortraitsMVM = new FactionGroupPortraitViewModel(FactionGroup?.MalePortraits, PortraitsRessourcesViewModel);
+            PortraitsMVM.DisplayName = "Portraits (m)";
+            PortraitsMVM.LongDisplayName = maleDisplayPortrait;
+            ActivateItem(PortraitsMVM);
         }
         
 
-        protected override void ChangeActiveItem(Screen newItem, bool closePrevious)
-        {
-            base.ChangeActiveItem(newItem, true);
-        }
+        
         public string SelectedTabName
         {
             get => this.ActiveItem.DisplayName;
@@ -90,6 +81,13 @@ namespace EditorInterface.ViewModel
                 if (tabMatching != null)
                     this.ActivateItem(tabMatching);
             }
+        }
+
+
+
+        protected override void ChangeActiveItem(Screen newItem, bool closePrevious)
+        {
+            base.ChangeActiveItem(newItem, true);
         }
     }
 }

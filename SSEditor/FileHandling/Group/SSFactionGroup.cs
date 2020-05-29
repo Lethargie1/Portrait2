@@ -27,6 +27,10 @@ namespace SSEditor.FileHandling
         public MonitoredValue SecondarySegments { get; private set; } = null;
         public MonitoredArray KnownShipsTag { get; private set; } = null;
         public MonitoredArray KnownShipsHulls { get; private set; } = null;
+        public MonitoredArray PriorityShipsTag { get; private set; } = null;
+        public MonitoredArray PriorityShipsHulls { get; private set; } = null;
+        public MonitoredArray ShipsWhenImportingTag { get; private set; } = null;
+        public MonitoredArray ShipsWhenImportingHulls { get; private set; } = null;
 
         protected override void AttachDefinedAttribute()
         {
@@ -53,6 +57,10 @@ namespace SSEditor.FileHandling
 
             KnownShipsTag = AttachOneAttribute<MonitoredArray>(".knownShips.tags");
             KnownShipsHulls = AttachOneAttribute<MonitoredArray>(".knownShips.hulls");
+            PriorityShipsTag = AttachOneAttribute<MonitoredArray>(".priorityShips.tags");
+            PriorityShipsHulls = AttachOneAttribute<MonitoredArray>(".priorityShips.hulls");
+            ShipsWhenImportingTag = AttachOneAttribute<MonitoredArray>(".shipsWhenImporting.tags");
+            ShipsWhenImportingHulls = AttachOneAttribute<MonitoredArray>(".shipsWhenImporting.hulls");
         }
         
 

@@ -16,7 +16,7 @@ namespace EditorInterface.ViewModel
 {
     public class FactionEditorViewModel : Screen
     {
-        Func<Func<FactionGroupViewModel>> FactionGroupVMFactoryFactory { get; set; }
+        //Func<Func<FactionGroupViewModel>> FactionGroupVMFactoryFactory { get; set; }
         private Func<FactionGroupViewModel> FactionGroupVMFactory { get; set; }
         private FactionEditorFactory FactionEditorFactory { get; set; }
         public FactionEditor FactionEditor { get; private set; }
@@ -62,6 +62,7 @@ namespace EditorInterface.ViewModel
                     _SelectedFactionViewModel.FactionGroup = SelectedFaction;
                     _SelectedFactionViewModel.ShipHullRessourcesViewModel = ShipHullRessourcesViewModel;
                     _SelectedFactionViewModel.PortraitsRessourcesViewModel = PortraitsRessourcesViewModel;
+                    _SelectedFactionViewModel.BuildEditableTab();
                     _SelectedFactionViewModel.SelectedTabName = PriorFactionSelectedTabName;
                     return _SelectedFactionViewModel;
                 }
