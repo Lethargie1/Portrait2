@@ -11,12 +11,10 @@ namespace EditorInterface.ViewModel
 {
     public class FactionGroupViewModel : Conductor<Screen>.Collection.OneActive
     {
-        ShipHullRessourcesViewModel LocalShipRessources { get; set; }
 
-        //public PortraitsRessources PortraitsRessource { get; private set; }
-        public FactionGroupViewModel( ShipHullRessourcesViewModel localShipRessources)
+
+        public FactionGroupViewModel()
         {
-            LocalShipRessources = localShipRessources;
         }
 
         public void BuildEditableTab()
@@ -42,7 +40,7 @@ namespace EditorInterface.ViewModel
             KnownHullVM.LongDisplayName = "";
             ActivateItem(KnownHullVM);
 
-            var PriorityHullVM = new FactionGroupKnownHullViewModel(FactionGroup?.PriorityShipsTag, FactionGroup?.PriorityShipsHulls, LocalShipRessources);
+            var PriorityHullVM = new FactionGroupKnownHullViewModel(FactionGroup?.PriorityShipsTag, FactionGroup?.PriorityShipsHulls, ShipHullRessourcesViewModel);
             PriorityHullVM.DisplayName = "Priority Ships";
             PriorityHullVM.LongDisplayName = "";
             ActivateItem(PriorityHullVM);
@@ -89,5 +87,7 @@ namespace EditorInterface.ViewModel
         {
             base.ChangeActiveItem(newItem, true);
         }
+
+
     }
 }
